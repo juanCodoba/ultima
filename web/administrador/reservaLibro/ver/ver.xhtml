@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Ver El Prestamo</ui:define>
+
+        <ui:define name="body">
+
+            <h:form id="form">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p:button icon="fa fa-arrow-left"
+                                  value="Volver pagina principal" 
+                                  style="font-size: 1em !important; padding: 5px; left: 75%"
+                                  outcome="/administrador/reservaLibro/listar/listarRe"/>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-6 form-group">
+                            <h:outputLabel class=" help-block" value="Titulo Del Libro N°1:"/>
+                            <div class="form-control-static">
+                                <h:outputLabel value=" #{reservaLibrosController.reservaLibActual.idLib1.tituloLibro.toUpperCase()}" style="font-weight: bold" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <h:outputLabel class=" help-block" value="Autor Del Libro N°1:"/>
+                            <div class="form-control-static">
+                                <h:outputLabel value="#{reservaLibrosController.reservaLibActual.idLib1.autor.toUpperCase()}" style="font-weight: bold" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <h:outputLabel class=" help-block" value="Genero Del Libro N°1: "/>
+                            <div class="form-control-static">
+                                <h:outputLabel value="#{reservaLibrosController.reservaLibActual.idLib1.idGenero.nombre.toUpperCase()}" style="font-weight: bold" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group" jsf:rendered="#{reservaLibrosController.estudiante || (reservaLibrosController.trabajador) || (reservaLibrosController.autonoma) || (reservaLibrosController.tecnico) }">
+                            <h:outputLabel class=" help-block" value="Usuario Prestamo: "/>
+                            <div class="form-control-static">
+                                <h:outputLabel value="#{reservaLibrosController.reservaLibActual.idUsuarioPrestamo.toString().toUpperCase()}" style="font-weight: bold" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group" jsf:rendered="#{reservaLibrosController.egresado}">
+                            <h:outputLabel class=" help-block" value="Usuario Prestamo: "/>
+                            <div class="form-control-static">
+                                <h:outputLabel value="#{reservaLibrosController.reservaLibActual.nombreEgresado.toString().toUpperCase()}" style="font-weight: bold" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group" jsf:rendered="#{reservaLibrosController.estudiante}">
+                            <h:outputLabel class=" help-block" value="Grado Estudiante: "/>
+                            <div class="form-control-static">
+                                <h:outputLabel value="#{reservaLibrosController.reservaLibActual.gradoEstudiante}" style="font-weight: bold" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group" jsf:rendered="#{reservaLibrosController.egresado}">
+                            <h:outputLabel class=" help-block" value="email del egresado: "/>
+                            <div class="form-control-static">
+                                <h:outputLabel value="#{reservaLibrosController.reservaLibActual.apellidoEgresado.toString().toUpperCase()}" style="font-weight: bold" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group" jsf:rendered="#{reservaLibrosController.egresado}">
+                            <h:outputLabel class=" help-block" value="Año Egresado: "/>
+                            <div class="form-control-static">
+                                <h:outputLabel value="#{reservaLibrosController.reservaLibActual.añoEgresado.toString().toUpperCase()}" style="font-weight: bold" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group" jsf:rendered="#{reservaLibrosController.reservaLibActual.idLib2 != null}">
+                            <h:outputLabel class=" help-block" value="Titulo Del Libro N°2:"/>
+                            <div class="form-control-static">
+                                <h:outputLabel value=" #{reservaLibrosController.reservaLibActual.idLib2.tituloLibro.toUpperCase()}" style="font-weight: bold" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group" jsf:rendered="#{reservaLibrosController.reservaLibActual.idLib2 != null}">
+                            <h:outputLabel class=" help-block" value="Autor Del Libro N°2:"/>
+                            <div class="form-control-static">
+                                <h:outputLabel value=" #{reservaLibrosController.reservaLibActual.idLib2.autor.toUpperCase()}" style="font-weight: bold" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group" jsf:rendered="#{reservaLibrosController.reservaLibActual.idLib2 != null}">
+                            <h:outputLabel class=" help-block" value="Genero Del Libro N°2:"/>
+                            <div class="form-control-static">
+                                <h:outputLabel value=" #{reservaLibrosController.reservaLibActual.idLib2.idGenero.nombre.toUpperCase()}" style="font-weight: bold" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

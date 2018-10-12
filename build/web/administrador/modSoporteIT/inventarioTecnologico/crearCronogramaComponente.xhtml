@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Formulario para programación de componentes de equipos tecnólogicos</ui:define>
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modSoporteIT/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{usuarioController.prepareList}">
+                                <i class="fa fa-users"></i> 
+                                <span>Usuarios del sistema</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="active">
+                            <h:commandLink action="#{computadorController.prepareList}">
+                                <i class="fa fa-desktop"></i>
+                                <span>Inventario tecnológico</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
+                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario mantenimientos</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                     <span>Preventivos</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                     <span>Correctivos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{reporteSiesaController.prepareListReportes}">
+                                <i class="fa fa-bug "></i>
+                                <span>Fallos del ERP</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/configuracionMaestros/verConfiguraciones">
+                                <i class="fa fa-file"></i>
+                                <span>Configuración de maestros</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="body">
+            <h:form>
+                <div class="form-group">  
+                    <h:outputLabel value="Item componente:" class="label-form"  />
+                    <p:selectOneMenu class="form-group col-md-12" id="idItemComponente" filterMatchMode="contains"
+                                     style="width: 100%; border: none; " filter="true" value="#{computadorController.cronogramaComponenteActual.idItemComponente}" converter="itemComponenteConverter">
+                            <f:selectItem itemLabel="Seleccionar uno.." />
+                            <f:selectItems  value="#{itemComponenteController.listaItemComponente}" var="item" itemValue="#{item}"/>  
+                    </p:selectOneMenu>
+                </div>   
+                <div class="form-group">   
+                    <h:outputLabel value="Descripción:"  />
+                    <textarea class="form-control" jsf:id="descriInputText" jsf:value="#{computadorController.cronogramaComponenteActual.descripcion}" 
+                              type="text" required="true" style="resize: none"
+                                 jsf:requiredMessage="Por favor ingrese la razón por la cual se cromprara el componente"> 
+                                 <f:ajax execute="@this" render="descriMessage"/>
+                    </textarea>
+                    <h:message id="descriMessage" for="descriInputText" styleClass="error"/>
+                </div>
+                <div class="form-group">  
+                    <h:outputLabel value="Fecha que se compro:"  />
+                    <p:calendar id="fechaCompra" 
+                                requiredMessage="Ingresa Fecha de Entrega" 
+                                value="#{computadorController.cronogramaComponenteActual.fechaCompra}"
+                                pattern="MM/dd/yyyy">
+                        <f:ajax execute="fechaCompra" render="msgFechaCompra"/>
+                    </p:calendar>
+                    <h:message id="msgFechaCompra" for="fechaCompra"  styleClass="error"/>
+                </div> 
+                <div class="form-group">  
+                    <h:outputLabel value="Fecha de cambio:"  />
+                    <p:calendar id="fechaCambio" 
+                                requiredMessage="Ingresa Fecha de cambio" 
+                                value="#{computadorController.cronogramaComponenteActual.fechaCambio}"
+                                pattern="MM/dd/yyyy">
+                        <f:ajax execute="fechaCambio" render="msgFechaCambio"/>
+                    </p:calendar>
+                    <h:message id="msgFechaCambio" for="fechaCambio"  styleClass="error"/>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Costo:"  />
+                    <p:inputNumber id="costo" 
+                                requiredMessage="Ingresar el costo del componente"
+                                value="#{computadorController.cronogramaComponenteActual.costo}"
+                                style="width: 100%" 
+                                decimalPlaces="0"
+                                symbol="$"
+                                minValue="0"/>  
+                    <p:message id="costoMessage" styleClass="error" for="costo"/>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <p:commandButton class="btn btn-primary btn-block"
+                                         ajax="false"
+                                         value="Guardar"
+                                         action="#{computadorController.addCronogramaComponente}"
+                                         onclick="onSubmitButton();"/>
+                    </div>
+                    <div class="col-sm-6 form-group">    
+                        <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="listaInventario"/>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

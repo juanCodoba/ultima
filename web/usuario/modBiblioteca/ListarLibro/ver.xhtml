@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.bibliotecario}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modBiblioteca/ListarLibro/lista">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+
+                        <li>
+                            <h:commandLink action="#{LibroController.prepareCreate()}">
+                                <i class="fa fa-book"></i>
+                                <span>Crear nuevo Libro</span> 
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview" jsf:rendered="#{loginController.bibliotecario}" >
+                            <a href="#"><i class="fa fa-calendar"></i> <span>Caledarios</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+                                        <i class="fa fa-calendar"></i> 
+                                        <span>Calendario de Prestamos</span>
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+                                        <i class="fa fa-calendar"></i> 
+                                        <span>Calendario mantenimientos</span>
+                                    </h:commandLink>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="treeview" jsf:rendered="#{loginController.bibliotecario}">
+                            <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <h:commandLink action="#{LibroController.prepareListPreven()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Preventivos</span>
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{LibroController.prepareListCorrect()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Correctivos</span>
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{LibroController.prepareListDeBaja()}" rendered="#{loginController.bibliotecario}">
+                                        <span>de baja</span>
+                                    </h:commandLink>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-shopping-cart"></i> <span>Prestamos</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <h:commandLink action="#{reservaLibrosController.prepareCreate()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Generar Prestamos</span>
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reservaLibrosController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{reservaLibrosController.prepareList()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Listar Prestamos</span>
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reservaLibrosController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                    </h:commandLink>
+                                </li>
+
+                                <li>
+                                    <h:commandLink action="#{reservaLibrosController.prepareEditP()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Libros Prestados  </span>
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                    </h:commandLink>
+                                </li>
+
+                                <li>
+                                    <h:commandLink action="#{reservaLibrosController.prepareEditP()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Historial de Prestamos  </span>
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                    </h:commandLink>
+                                </li>
+
+
+                            </ul>
+                        </li>
+
+                        <li>
+                            <h:commandLink  action="/administrador/modBiblioteca/indicadoresGestion/crearIndGestion" rendered="#{loginController.bibliotecario}">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Ver Caracteristicas del Libro</ui:define>
+
+        <ui:define name="body">
+            <div class="cuerpoContenedor1">
+                <p class="parrafo-contenedor">
+
+
+                    <h:outputLabel value=" #{LibroController.libroActual.tituloLibro}" style="font-size: 27px ;font-family: cursive !important; text-align: center !important;position: relative;  " /> 
+
+                    <br></br>
+                    <br></br>
+                    <p:outputPanel>
+                        <h:outputLabel class="labelInfo" style="font-family: cursive !important;">Codigo: </h:outputLabel>
+                        <br></br>
+                        <br></br>
+                        <h:outputText style="font-family: cursive !important;" value="#{LibroController.libroActual.codigo}"/>
+                        <br></br>
+                        <br></br>
+                        <h:outputLabel style="font-family: cursive !important;" class="labelInfo">Editorial: </h:outputLabel>
+                        <br></br>
+                        <br></br>
+                        <h:outputText  style="font-family: cursive !important;" value="#{LibroController.libroActual.editorial}"/>
+                        <br></br>
+                        <br></br>
+                        <h:outputLabel style="font-family: cursive !important;" class="labelInfo">Genero: </h:outputLabel>
+                        <br></br>
+                        <br></br>
+                        <h:outputText  style="font-family: cursive !important;" value="#{LibroController.libroActual.idGenero.nombre}"/>
+                        <br></br>
+                        <br></br>
+                        <h:outputLabel style="font-family: cursive !important;" class="labelInfo">Rotulo: </h:outputLabel>
+                        <br></br>
+                        <br></br>
+                        <h:outputText style="font-family: cursive !important;" value="#{LibroController.libroActual.idRotulo.color}"/>
+                        <br></br>
+                        <br></br>
+                        <h:outputLabel style="font-family: cursive !important;" class="labelInfo">Costo del Libro: </h:outputLabel>
+                        <br></br>
+                        <br></br>
+                        <h:outputText style="font-family: cursive !important;" value="#{LibroController.libroActual.costoLibro}">
+                            <f:convertNumber type="currency" currencySymbol="$" locale="en_US" />
+                        </h:outputText> 
+                        <br></br>
+                        <br></br>
+                        <h:outputLabel style="font-family: cursive !important;" class="labelInfo">Resumen del Libro: </h:outputLabel>
+                        <br></br>
+                        <br></br>
+                        <h:outputText style="font-family: cursive !important;" value="#{LibroController.libroActual.descripcionNormal}">
+
+                        </h:outputText> 
+                    </p:outputPanel>
+
+
+
+
+                </p>
+            </div>
+
+        </ui:define>
+
+
+    </ui:composition>
+
+
+</html>

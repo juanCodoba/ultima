@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            100
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>faces/index.xhtml</welcome-file>
+    </welcome-file-list>
+    <security-constraint>
+        <display-name>Admin-area</display-name>
+        <web-resource-collection>
+            <web-resource-name>Admin-area</web-resource-name>
+            <description>area de administradores</description>
+            <url-pattern>/faces/administrador/*</url-pattern>
+        </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>Admin-areaSiesa</web-resource-name>
+            <description/>
+            <url-pattern>/faces/Siesa/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>A los administradores se les debe permitir acceder a este recurso</description>
+            <role-name>ADMIN</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>User-area</display-name>
+        <web-resource-collection>
+            <web-resource-name>User-area</web-resource-name>
+            <description>area de usuarios comunes</description>
+            <url-pattern>/faces/usuario/*</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>A los usuarios se les debe permitir acceder a este recurso</description>
+            <role-name>USER</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Docente-area</display-name>
+        <web-resource-collection>
+            <web-resource-name>Docente-area</web-resource-name>
+            <description>area de docentes</description>
+            <url-pattern>/faces/usuario*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>A los docentes se les debe permitir acceder a este recurso</description>
+            <role-name>DOCENTE</role-name>
+            <role-name>USER</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Admin-calidoso</display-name>
+        <web-resource-collection>
+            <web-resource-name>Admin-areaCalidoso</web-resource-name>
+            <description/>
+            <url-pattern>/faces/Calidoso/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>A los administradores del calidoso se les debe permitir acceder a este recurso</description>
+            <role-name>ADMINCDOSO</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Admin-calidad</display-name>
+        <web-resource-collection>
+            <web-resource-name>Admin-areaCalidad</web-resource-name>
+            <description/>
+            <url-pattern>/faces/Calidad/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>A los administradores de calidad se les debe permitir acceder a este recurso</description>
+            <role-name>ADMINCDAD</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Admin-confecciones</display-name>
+        <web-resource-collection>
+            <web-resource-name>admin-areaConfecciones</web-resource-name>
+            <description>Solo administrador de soporte de confecciones</description>
+            <url-pattern>/faces/MaquinasConfecciones/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>A los administradores de confecciones se les debe permitir acceder a este recurso</description>
+            <role-name>CONFE</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Admin-mantenimiento</display-name>
+        <web-resource-collection>
+            <web-resource-name>admin-areaMantenimiento</web-resource-name>
+            <description/>
+            <url-pattern>/faces/Edificios/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>A los administradores de mantenimientos se les debe permitir acceder a este recurso</description>
+            <role-name>MANTE</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Admin-SaludOcupacional</display-name>
+        <web-resource-collection>
+            <web-resource-name>admin-areaSaludOcupacional</web-resource-name>
+            <description/>
+            <url-pattern>/faces/User/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>A los administradores de salud ocupacional se les debe permitir acceder a este recurso</description>
+            <role-name>OCU</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>User- calidad</display-name>
+        <web-resource-collection>
+            <web-resource-name>CALIDAD</web-resource-name>
+            <description/>
+            <url-pattern>/faces/usuario/modCalidad/documentos/</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>permitir ver documentos de calidad</description>
+            <role-name>CALIDAD</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>FICHA TECNICA</display-name>
+        <web-resource-collection>
+            <web-resource-name>FT</web-resource-name>
+            <description>FT</description>
+            <url-pattern>/faces/administrador/modFichaTecnica/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>Permitir ingresar al modulo</description>
+            <role-name>FT</role-name>
+            <role-name>FTDESA</role-name>
+            <role-name>FTPRINT</role-name>
+            <role-name>FTSCAM</role-name>
+            <role-name>FTVALI1</role-name>
+            <role-name>FTVALI2</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>BIBLIOTEC</display-name>
+        <web-resource-collection>
+            <web-resource-name>BIBLIOTEC</web-resource-name>
+            <description>BIBLIOTEC</description>
+            <url-pattern>/faces/administrador/modBiblioteca/*</url-pattern>
+        </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>RESERVA</web-resource-name>
+            <description>RESERVA </description>
+            <url-pattern>/faces/administrador/reservaLibro/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>Permitir Ingresar al modulo</description>
+            <role-name>BIBLIOTEC</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>area-auditor</display-name>
+        <web-resource-collection>
+            <web-resource-name>auditor</web-resource-name>
+            <description>auditor</description>
+            <url-pattern>/faces/administrador/modAuditoria/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>permitir ingresar </description>
+            <role-name>AUD</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>proyectoCFIP-realm</realm-name>
+        <form-login-config>
+            <form-login-page>/index.xhtml</form-login-page>
+            <form-error-page>/faces/AccessDenied.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+    <security-role>
+        <description>solo sistemas</description>
+        <role-name>ADMIN</role-name>
+    </security-role>
+    <security-role>
+        <description>usuario estandar</description>
+        <role-name>USER</role-name>
+    </security-role>
+    <context-param>
+        <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/faces/AccessDenied.xhtml</location>
+    </error-page>
+    <filter>
+        <filter-name>PrimeFaces FileUpload Filter</filter-name>
+        <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>PrimeFaces FileUpload Filter</filter-name>
+        <servlet-name>Faces Servlet</servlet-name>
+    </filter-mapping>
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>omega</param-value>
+    </context-param>
+    <security-role>
+        <description>usuario docente</description>
+        <role-name>DOCENTE</role-name>
+    </security-role>
+    <security-role>
+        <description>Usuario administrador calidad</description>
+        <role-name>ADMINCDAD</role-name>
+    </security-role>
+    <security-role>
+        <description>Usuario administrador calidoso</description>
+        <role-name>ADMINCDOSO</role-name>
+    </security-role>
+    <security-role>
+        <description>Usuario Confecciones</description>
+        <role-name>CONFE</role-name>
+    </security-role>
+    <security-role>
+        <description>Usuario Mantenimiento</description>
+        <role-name>MANTE</role-name>
+    </security-role>
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/faces/index.xhtml</location>
+    </error-page>
+    <security-role>
+        <description>Usuario adminitrador del modulo de salud ocupacional</description>
+        <role-name>OCU</role-name>
+    </security-role>
+    <security-role>
+        <description>ver documentos de calidad</description>
+        <role-name>CALIDAD</role-name>
+    </security-role>
+    <security-role>
+        <description>Usuario FT</description>
+        <role-name>FT</role-name>
+    </security-role>
+    <security-role>
+        <description>Usuario FT desarrollador</description>
+        <role-name>FTDESA</role-name>
+    </security-role>
+    <security-role>
+        <description>Usuario FT imprimir</description>
+        <role-name>FTPRINT</role-name>
+    </security-role>
+    <security-role>
+        <description>Usuario FT solicitud cambio</description>
+        <role-name>FTSCAM</role-name>
+    </security-role>
+    <security-role>
+        <description>Usuario FT validar 1</description>
+        <role-name>FTVALI1</role-name>
+    </security-role>
+    <security-role>
+        <description>Usuario FT validar 2</description>
+        <role-name>FTVALI2</role-name>
+    </security-role>
+    <security-role>
+        <description>Auditor</description>
+        <role-name>AUD</role-name>
+    </security-role>
+    <security-role>
+        <description>Usuario Bibliotecario</description>
+        <role-name>BIBLIOTEC</role-name>
+    </security-role>
+</web-app>

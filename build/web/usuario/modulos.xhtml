@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">
+            HOLA #{loginController.userLogueado.nombreUsuario.toUpperCase()}      
+        </ui:define>
+        <ui:define name="title2">
+            Bienvenido a SaINT, por favor elige el modulo que deseas trabajar.
+        </ui:define>
+        <ui:define name="body">
+            <div class="row">
+                <h:form>
+                    <div class="col-md-4 col-lg-3" jsf:rendered="#{loginController.noCambiarContra}">
+                        <div class="itemZoom img-bordered">
+                            <h:commandLink action="#{cronogramaController.preparePaginaPrincipal}">
+                                <img class="img-responsive" src="#{request.contextPath}/resources/images/modulos/moduloSoporteIT.png"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaControllerDis.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaControllerDisConec.usuarioActual}"/>
+                            </h:commandLink> 
+                            <div class="item-overlay top"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-3" jsf:rendered="#{loginController.noCambiarContra}">
+                        <div class="itemZoom img-bordered">
+                            <h:commandLink action="#{loginController.preparePaginaPrincipalCalidad}">
+                                <img class="img-responsive" src="#{request.contextPath}/resources/images/modulos/moduloCalidad.png"/>
+                            </h:commandLink>
+                            <div class="item-overlay top"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-3" jsf:rendered="#{loginController.noCambiarContra}">
+                        <div class="itemZoom img-bordered">
+                            <h:commandLink action="#{loginController.preparePaginaReporteSiesa}"> 
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{loginController.usuarioActual}"/>
+                                <img class="img-responsive" src="#{request.contextPath}/resources/images/modulos/moduloSoporteITERP.png"/>
+                            </h:commandLink>  
+                            <div class="item-overlay top"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-3" jsf:rendered="#{loginController.noCambiarContra}">
+                        <div class="itemZoom img-bordered">
+                            <h:commandLink action="#{loginController.preparePaginaPrincipalSiesa}">
+                                <img class="img-responsive" src="#{request.contextPath}/resources/images/modulos/moduloDocumentosSiesa.png"/>
+                            </h:commandLink>   
+                            <div class="item-overlay top"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-3" jsf:rendered="#{loginController.noCambiarContra}">
+                        <div class="itemZoom img-bordered">
+                            <h:commandLink action="#{loginController.preparePaginaEdificios}">                               
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
+                                <img class="img-responsive" src="#{request.contextPath}/resources/images/modulos/moduloMantenimiento.png"/>
+                            </h:commandLink>
+                            <div class="item-overlay top"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-lg-3" jsf:rendered="#{loginController.noCambiarContra}">
+                        <div class="itemZoom img-bordered">
+                            <h:commandLink action="#{ideaController.preparePaginaPMO}">
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{ideaController.usuarioActual}"/>
+                                <img class="img-responsive" src="#{request.contextPath}/resources/images/modulos/moduloPMO.png"/>
+                            </h:commandLink>
+                            <div class="item-overlay top"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-3" jsf:rendered="#{loginController.noCambiarContra}">
+                        <div class="itemZoom img-bordered">
+                            <h:commandLink action="#{loginController.preparePaginaSaludOcupacional}">
+                                <img class="img-responsive" src="#{request.contextPath}/resources/images/modulos/moduloSaludOcupacional.png"/>
+                            </h:commandLink>
+                            <div class="item-overlay top"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4 col-lg-3" >
+                        <div class="itemZoom img-bordered" jsf:rendered="#{loginController.noCambiarContra }">
+                            <h:commandLink action="#{loginController.preparePaginaFT}">                               
+                                <img class="img-responsive" src="#{request.contextPath}/resources/images/modulos/moduloFichas.png"/>
+                            </h:commandLink>
+                            <div class="item-overlay top"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-3" jsf:rendered="#{loginController.noCambiarContra}">
+                        <div class="itemZoom img-bordered">
+                            <h:commandLink action="#{loginController.preparePaginaAuditoria}">                               
+                                <img class="img-responsive" src="#{request.contextPath}/resources/images/modulos/auditoria.png"/>
+                            </h:commandLink>
+                            <div class="item-overlay top"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-3" jsf:rendered="#{loginController.noCambiarContra}">
+                        <div class="itemZoom img-bordered" >
+                            <h:commandLink action="#{loginController.preparePaginaBiblioteca}">                               
+                                <img class="img-responsive" src="#{request.contextPath}/resources/images/modulos/Bibliotecas22.png"/>
+
+                            </h:commandLink>
+                            <div class="item-overlay top"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-3" jsf:rendered="#{loginController.cambiarContra}">
+                        <div class="itemZoom img-bordered">
+                            <h:commandLink action="#{loginController.prepareEditContra}">
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{loginController.usuarioActual}"/>
+                                <img class="img-responsive" src="#{request.contextPath}/resources/images/modulos/claveAcceso.png"/>
+                            </h:commandLink>
+                            <div class="item-overlay top"></div>
+                        </div>
+                    </div>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>
+

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Reportar fallo del sistema ERP Siesa</ui:define> 
+        <ui:define name="title2">Aquí puedes reportar el problema o fallo que posee el software ERP</ui:define>        
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" globalOnly="true" life="2000"/>
+            <h:form id="form">
+                <div class="row">
+                     <div class="col-md-12 form-group"> 
+                        <h:outputLabel value="Tipo de error:"/>
+                        <p:selectOneMenu id="idTipoError" value="#{reporteSiesaController.reporteSiesaActual.idTipoError}"
+                                         required="true" converter="tipoErrorConverter" style="width: 100%; border: none;" filter="true" filterMatchMode="contains"
+                                         requiredMessage="Por favor ingrese el tipo de error que presenta el Software ERP">
+                                <f:selectItem/>
+                                <f:selectItems value="#{tipoErrorController.tipoErrorList}" var="tipoError" itemValue="#{tipoError}"/>  
+                        </p:selectOneMenu>
+                        <p:message id="idTipoErrorMessage" for="idTipoError" styleClass="error"/>
+                    </div> 
+                    <div class="col-md-12 form-group">       
+                        <h:outputLabel value="Descripción del error:"  />
+                        <textarea placeholder="Escribe una breve descripción del fallo para que alguno de nuestros técnicos se haga cargo" class="form-control" jsf:id="descriIncidenteInputText" jsf:value="#{reporteSiesaController.reporteSiesaActual.descripcionReporte}" 
+                                  type="text" required="true" style="resize: none"
+                                  jsf:requiredMessage="Por favor ingrese la descripción del incidente">
+                        </textarea>
+                        <p:message id="descriIncidenteMessage" for="descriIncidenteInputText" styleClass="error"/>
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <h:outputLabel value="Adjuntar imagen del problema (Opcional):"  />
+                        <h:outputText class="help-block" value="Para documentar el problema puedes adjuntar una captura de pantalla (Sólo imagen JPG y máximo 500KB)"/>
+                        <p:fileUpload cancelLabel="Cancelar" uploadLabel="Cargar imagen" label="Examinar" mode="advanced" allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" sizeLimit="500000" auto="true"  fileLimit="1" fileUploadListener="#{reporteSiesaController.guardarImagen}" id="imagenUpload"
+                                      invalidSizeMessage="La imagen que deseas cargar sobrepasa los 500KB" converterMessage="proceso terminado" invalidFileMessage="Solo se aceptan imagenes jpg">
+                        </p:fileUpload>
+                       <p:messages id="messages"  showDetail="true" autoUpdate="true" closable="true" />
+                    </div>
+                    <div class="col-md-12 row">
+                        <div class="col-sm-6 form-group">
+                            <p:commandButton class="btn btn-primary btn-block"
+                                             ajax="false"
+                                             value="Enviar Reporte"
+                                             action="#{reporteSiesaController.add}"
+                                             onclick="onSubmitButton();"/>
+                        </div>
+                        <div class="col-sm-6 form-group">    
+                            <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="/usuario/modSoporteSiesa/paginaPrincipal"/>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

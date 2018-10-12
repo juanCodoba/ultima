@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Reportar fallo del equipo</ui:define> 
+        <ui:define name="title2">Aquí puedes reportar el problema o fallo que posee el equipo tecnológico a tu cargo</ui:define>        
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" globalOnly="true" life="2000"/>
+            <h:form id="form">
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <h:outputLabel value="Escriba su nombre:" rendered="#{loginController.docente}"  />
+                        <input class="form-control"  jsf:rendered="#{loginController.docente}" jsf:id="nomUsuarioInputText" jsf:value="#{cronogramaController.cronogramaMantenimientosActual.nombreUsuarioReporte}" 
+                               type="text" required="true" placeholder="Nombres"
+                                     jsf:requiredMessage="Por favor ingrese su nombre"
+                                     jsf:validatorMessage="Use solo letras, ej: Luis Carlos"> 
+                                     <f:validateRegex pattern="[a-zA-Z áéíóúÁÉÍÓÚÑñ]*"/>
+                                     <f:ajax execute="@this" render="nomUsuarioMessage"/>
+                        </input>
+                        <p:message id="nomUsuarioMessage" for="nomUsuarioInputText"/>
+                    </div>
+                    <div class="col-md-4 form-group" >
+                        <h:outputLabel rendered="#{loginController.docente}" value="Email:"/>
+                        <input jsf:rendered="#{loginController.docente}" class="form-control" type="text" jsf:id="correoInputText" 
+                               jsf:value="#{cronogramaController.cronogramaMantenimientosActual.correoUsuarioReporte}" maxlength="100" 
+                                     jsf:validatorMessage="Dirección de correo electronico no valido"
+                                     placeholder="Por favor ingresa tu direccion de correo electronico">
+                            <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]*"/>
+                            <f:ajax execute="@this" render="correoMessage"/>
+                        </input>
+                        <p:message id="correoMessage" for="correoInputText"/>
+                    </div>
+                    <div jsf:rendered="#{loginController.docente}" class="col-md-4  form-group"> 
+                        <h:outputLabel value="Tipo de jornada:"/>
+                        <p:selectOneMenu id="idJornada" value="#{cronogramaController.cronogramaMantenimientosActual.idTipoJornada}"
+                                          converter="tipoJornadaConverter" style="width: 100%; border: none;" filter="true" filterMatchMode="contains"
+                                         requiredMessage="Por favor ingrese la jornada">
+                                <f:selectItem/>
+                                <f:selectItems value="#{tipoJornadaController.tipoJornadaList}" var="jornada" itemValue="#{jornada}"/>  
+                        </p:selectOneMenu>
+                        <p:message id="idJornadaMessage" for="idJornada" styleClass="error"/>
+                    </div> 
+                </div>
+                <p:separator rendered="#{loginController.docente}"/>
+                
+                <div jsf:rendered="#{loginController.docente}" class="form-group">    
+                    <h:outputLabel value="Tipo de equipo:" />
+                    <p:selectOneMenu id="idTipoDocente"
+                                     required="true"
+                                     style="width: 100%; border: none;"
+                                     requiredMessage="Selecciona el tipo de equipo"
+                                     value="#{cronogramaController.tipoActual}">
+                        <p:ajax listener="#{cronogramaController.llenarListaTipoDocente}" update="idComputadorSeccionDocente"/>  
+                                <f:ajax execute="@this" render="procesoMessage"/>
+                            <f:selectItem/>
+                            <f:selectItems value="#{tipoController.listaTipo}" var="tipo" itemValue="#{tipo}" />  
+                        <f:ajax execute="@this" render="idTipoMessage computador"/>
+                    </p:selectOneMenu>
+                    <p:message id="idTipoDocenteMessage" for="idTipoDocente" styleClass="error"/>
+                </div>
+                <div jsf:rendered="#{!loginController.docente}" class="form-group">    
+                    <h:outputLabel value="Tipo de equipo:" />
+                    <p:selectOneMenu id="idTipoUsuario"
+                                     required="true"
+                                     style="width: 100%; border: none;"
+                                     requiredMessage="Selecciona el tipo de equipo"
+                                     value="#{cronogramaController.tipoActual}">
+                        <p:ajax listener="#{cronogramaController.llenarListaTipoUsuario}" update="idComputadorSeccion"/>  
+                                <f:ajax execute="@this" render="procesoMessage"/>
+                            <f:selectItem/>
+                            <f:selectItems value="#{tipoController.listaTipo}" var="tipo" itemValue="#{tipo}" />  
+                        <f:ajax execute="@this" render="idTipoMessage computador"/>
+                    </p:selectOneMenu>
+                    <p:message id="idTipoUsuarioMessage" for="idTipoUsuario" styleClass="error"/>
+                </div>
+                <h:panelGroup id="computador">
+                     <div  jsf:rendered="#{loginController.docente}" class="form-group"> 
+                        <h:outputLabel value="Equipo que presenta fallo:"/>
+                        <p:selectOneMenu id="idComputadorSeccionDocente" value="#{cronogramaController.cronogramaMantenimientosActual.idComputador}"
+                                         required="true" converter="computadorConverter" style="width: 100%; border: none;" filter="true" filterMatchMode="contains"
+                                         requiredMessage="Por favor ingrese el service tag o (S/N) del equipo que presenta el fallo">
+                                <f:selectItem/>
+                                <f:selectItems value="#{cronogramaController.listaComputadorTipoDocente}" var="computador" itemValue="#{computador}"/>  
+                        </p:selectOneMenu>
+                        <p:message id="idComputadorMessageDocente" for="idComputadorSeccionDocente" styleClass="error"/>
+                    </div> 
+                     <div  jsf:rendered="#{!loginController.docente}" class="form-group"> 
+                        <h:outputLabel value="Equipo que presenta fallo:"/>
+                        <p:selectOneMenu id="idComputadorSeccion" value="#{cronogramaController.cronogramaMantenimientosActual.idComputador}"
+                                         required="true" converter="computadorConverter" style="width: 100%; border: none;" filter="true" filterMatchMode="contains"
+                                         requiredMessage="Por favor ingrese el service tag o (S/N) del equipo que presenta el fallo">
+                                <f:selectItem/>
+                                <f:selectItems value="#{cronogramaController.listaComputadorTipoUsuario}" var="computador" itemValue="#{computador}"/>  
+                        </p:selectOneMenu>
+                        <p:message id="idComputadorMessage" for="idComputadorSeccion" styleClass="error"/>
+                    </div> 
+                </h:panelGroup>
+                <div class="form-group">       
+                    <h:outputLabel value="Descripción incidente:"  />
+                    <textarea placeholder="Escribe una breve descripción del fallo para que alguno de nuestros técnicos se haga cargo" class="form-control" jsf:id="descriIncidenteInputText" jsf:value="#{cronogramaController.cronogramaMantenimientosActual.descripcionProblema}" 
+                              type="text" required="true" style="resize: none"
+                              jsf:requiredMessage="Por favor ingrese la descripción del incidente">
+                    </textarea>
+                    <p:message id="descriIncidenteMessage" for="descriIncidenteInputText" styleClass="error"/>
+                </div>
+                <div class="form-group"> 
+                    <h:outputLabel value="Celular de contacto (opcional):"/>
+                    <input class="form-control" jsf:id="celular" jsf:value="#{cronogramaController.cronogramaMantenimientosActual.telefono}" 
+                            type="text" required="true" placeholder="Numero celular">
+                                  <f:ajax execute="@this" render="celularMessage"/>
+                     </input>
+                    <p:message id="celularMessage" for="celular" styleClass="error"/>
+                </div> 
+                <div class="form-group">
+                    <h:outputLabel value="Adjuntar imagen del problema (Opcional):"  />
+                    <h:outputText class="help-block" value="Para documentar el problema puedes adjuntar una captura de pantalla (Sólo imagen JPG y máximo 500KB)"/>
+                    <p:fileUpload cancelLabel="Cancelar" uploadLabel="Cargar imagen" label="Examinar" mode="advanced" allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" sizeLimit="500000" auto="true"  fileLimit="1" fileUploadListener="#{cronogramaController.guardarImagen}" id="imagenUpload"
+                                  invalidSizeMessage="La imagen que deseas cargar sobrepasa los 500KB" converterMessage="proceso terminado" invalidFileMessage="Solo se aceptan imagenes jpg">
+                    </p:fileUpload>
+                   <p:messages id="messages"  showDetail="true" autoUpdate="true" closable="true" />
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <p:commandButton class="btn btn-primary btn-block"
+                                         ajax="false"
+                                         value="Enviar Reporte"
+                                         action="#{cronogramaController.addCronogramaMantenimientoFallo}"
+                                         onclick="onSubmitButton();"/>
+                    </div>
+                    <div class="col-sm-6 form-group">    
+                        <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="/usuario/modSoporteIT/paginaPrincipal"/>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

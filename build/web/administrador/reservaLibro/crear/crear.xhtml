@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <ui:define name="menu">
+                <h:form id="menu-principal">
+                    <ul class="sidebar-menu">
+                        <h:panelGroup rendered="#{loginController.bibliotecario}">
+                            <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                            <!-- Optionally, you can add icons to the links -->
+                            <li>
+                                <h:commandLink action="/usuario/modBiblioteca/ListarLibro/lista">
+                                    <i class="fa fa-dashboard"></i> 
+                                    <span>Principal</span>
+                                </h:commandLink>
+                            </li>
+
+                            <li>
+                                <h:commandLink action="#{LibroController.prepareCreate()}">
+                                    <i class="fa fa-book"></i>
+                                    <span>Crear nuevo Libro</span> 
+                                    <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                </h:commandLink>
+                            </li>
+                            <li class="treeview" jsf:rendered="#{loginController.bibliotecario}" >
+                                <a href="#"><i class="fa fa-calendar"></i> <span>Caledarios</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li>
+                                        <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
+                                            <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+                                            <i class="fa fa-calendar"></i> 
+                                            <span>Calendario de Prestamos</span>
+                                        </h:commandLink>
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
+                                            <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+                                            <i class="fa fa-calendar"></i> 
+                                            <span>Calendario mantenimientos</span>
+                                        </h:commandLink>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="treeview" jsf:rendered="#{loginController.bibliotecario}">
+                                <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li>
+                                        <h:commandLink action="#{LibroController.prepareListPreven()}" rendered="#{loginController.bibliotecario}">
+                                            <span>Preventivos</span>
+                                        </h:commandLink>
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="#{LibroController.prepareListCorrect()}" rendered="#{loginController.bibliotecario}">
+                                            <span>Correctivos</span>
+                                        </h:commandLink>
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="#{LibroController.prepareListDeBaja()}" rendered="#{loginController.bibliotecario}">
+                                            <span>de baja</span>
+                                        </h:commandLink>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="treeview">
+                                <a href="#"><i class="fa fa-shopping-cart"></i> <span>Prestamos</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li>
+                                        <h:commandLink action="#{reservaLibrosController.prepareCreate()}" rendered="#{loginController.bibliotecario}">
+                                            <span>Generar Prestamos</span>
+                                            <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reservaLibrosController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                        </h:commandLink>
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="#{reservaLibrosController.prepareList()}" rendered="#{loginController.bibliotecario}">
+                                            <span>Listar Prestamos</span>
+                                            <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reservaLibrosController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                        </h:commandLink>
+                                    </li>
+
+                                    <li>
+                                        <h:commandLink action="#{reservaLibrosController.prepareEditP()}" rendered="#{loginController.bibliotecario}">
+                                            <span>Libros Prestados  </span>
+                                            <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                        </h:commandLink>
+                                    </li>
+
+                                    <li>
+                                        <h:commandLink action="#{reservaLibrosController.prepareHisotrial()}" rendered="#{loginController.bibliotecario}">
+                                            <span>Historial de Prestamos  </span>
+                                            <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                        </h:commandLink>
+                                        
+
+                                    </li>
+
+
+                                </ul>
+                            </li>
+
+                            <li>
+                                <h:commandLink  action="/administrador/modBiblioteca/indicadoresGestion/crearIndGestion" rendered="#{loginController.bibliotecario}">
+                                    <i class="fa fa-bar-chart"></i>
+                                    <span>Indicadores de gestión</span>
+                                </h:commandLink>
+                            </li>
+                        </h:panelGroup>   
+                        <li>
+                            <h:commandLink action="/usuario/modulos">
+                                <i class="fa fa-th"></i>
+                                <span>Modulos del sistema</span>
+                            </h:commandLink>
+                        </li>
+                    </ul>
+                </h:form>
+            </ui:define>
+        </ui:define>
+        <ui:define name="title">Crear una Reserva</ui:define>        
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="5000"/>
+            <h:form  id="formulario-crearFicha">
+                <div>
+                    <div class="col-md-12 form-group">
+
+                        <div class="col-md-12 form-group">
+                            <h:outputLabel style="font-family: cursive !important; font-size: 14px !important;" value="Tipo De Persona" />
+                            <p:selectOneMenu id="tipoEstudent"
+                                             style="width: 100% ;font-family: cursive !important; font-size: 14px"
+                                             value="#{reservaLibrosController.reservaLibActual.idTipoEstudiante}"
+                                             >
+                                <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
+                                <f:selectItems value="#{TipoEstudianteController.listaTipoEstudiante}" var="usuario"/> 
+                                <f:ajax execute="@this" render="tipoEstudentMessage prueba1 prueba2 prueba3 prueba4 prueba5 pruebaTrabajador
+                                        pruebaAutonoma pruebaDoc prueba6 usuarioReporte"/>
+
+                            </p:selectOneMenu>
+                            <p:message id="auditado2Message" for="auditado" styleClass="error"/>  
+                        </div>
+                        <div class="col-md-12">
+                            <p:outputPanel id="prueba1">
+                                <div class="col-md-4 form-group">
+                                    <h:outputLabel value="Escriba su nombre:" rendered="#{reservaLibrosController.egresado}"  />
+                                    <input class="form-control"  jsf:rendered="#{reservaLibrosController.egresado}" jsf:id="nomUsuarioInputText" 
+                                           jsf:value="#{reservaLibrosController.reservaLibActual.nombreEgresado}" 
+                                           type="text" required="true" placeholder="Nombres"
+                                           jsf:requiredMessage="Por favor ingrese su nombre"
+                                           jsf:validatorMessage="Use solo letras, ej: Luis Carlos">
+                                        <f:validateRegex pattern="[a-zA-Z áéíóúÁÉÍÓÚÑñ]*"/>
+                                        <f:ajax execute="@this" render="nomUsuarioMessage"/>
+                                    </input>
+                                    <p:message id="nomUsuarioMessage" for="nomUsuarioInputText"/>
+                                </div>
+                            </p:outputPanel >
+
+                            <p:outputPanel id="prueba2">
+
+                                <div class="col-md-4 form-group" >
+                                    <h:outputLabel rendered="#{reservaLibrosController.egresado}" value="Email:"/>
+                                    <input jsf:rendered="#{reservaLibrosController.egresado}" class="form-control" type="text" jsf:id="correoInputText" 
+                                           jsf:value="#{reservaLibrosController.reservaLibActual.apellidoEgresado}" maxlength="100" 
+                                           jsf:validatorMessage="Dirección de correo electronico no valido"
+                                           placeholder="Por favor ingresa tu direccion de correo electronico">
+                                        <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]*"/>
+                                        <f:ajax execute="@this" render="correoMessage"/>
+                                    </input>
+                                    <p:message id="correoMessage" for="correoInputText"/>
+                                </div>
+                            </p:outputPanel >
+
+                            <p:outputPanel id="prueba3">
+                                <div class="col-md-4 form-group">
+                                    <h:outputLabel value="año:" rendered="#{reservaLibrosController.egresado}"  />
+                                    <input class="form-control"  jsf:rendered="#{reservaLibrosController.egresado}" jsf:id="nomUsuarioInputText244" 
+                                           jsf:value="#{reservaLibrosController.reservaLibActual.añoEgresado}" 
+                                           type="text" required="true" placeholder="año"
+                                           jsf:requiredMessage="Por favor ingrese el grado"
+                                           > 
+                                        <f:ajax execute="@this" render="nomUsuario244Message"/>
+                                    </input>
+                                    <p:message id="nomUsuario244Message" for="nomUsuarioInputText244"/>
+                                </div>
+                            </p:outputPanel>
+                        </div>
+
+
+
+
+                        <p:outputPanel id="prueba4">
+
+                            <div class="col-md-12 form-group">
+                                <h:outputLabel style="font-family: cursive !important; font-size: 14px !important;" value="Usuario que Reserva" rendered="#{reservaLibrosController.estudiante}" />
+                                <p:selectOneMenu id="auditado"
+                                                 converter="usuarioConverter"
+                                                 style="width: 100% ;font-family: cursive !important; font-size: 14px"
+                                                 filter="true"
+                                                 filterMatchMode="contains"
+                                                 value="#{reservaLibrosController.reservaLibActual.idUsuarioPrestamo}"
+                                                 rendered="#{reservaLibrosController.estudiante}"
+
+                                                 >
+                                    <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
+                                    <f:selectItems value="#{usuarioController.listaUsuarioCargoEs}" var="usuario"/>  
+                                    <f:ajax execute="@this" render="tipoEstudentMessage reporte  "/>
+                                </p:selectOneMenu>
+                                <p:message id="auditadoMessage" for="auditado" styleClass="error"/>  
+                            </div>
+                        </p:outputPanel >
+                        <p:outputPanel id="pruebaTrabajador">
+
+                            <div class="col-md-12 form-group">
+                                <h:outputLabel style="font-family: cursive !important; font-size: 14px !important;" value="Usuario que Reserva" rendered="#{reservaLibrosController.trabajador}" />
+                                <p:selectOneMenu id="auditado5"
+                                                 converter="usuarioConverter"
+                                                 style="width: 100% ;font-family: cursive !important; font-size: 14px"
+                                                 filter="true"
+                                                 filterMatchMode="contains"
+                                                 value="#{reservaLibrosController.reservaLibActual.idUsuarioPrestamo}"
+                                                 rendered="#{reservaLibrosController.trabajador}"
+
+                                                 >
+                                    <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
+                                    <f:selectItems value="#{usuarioController.listaUsuarioCargo}" var="usuario"/> 
+                                    <f:ajax execute="@this" render="tipoEstudentMessage reporte  "/>
+
+                                </p:selectOneMenu>
+                                <p:message id="auditado5Message" for="auditado" styleClass="error"/>  
+                            </div>
+                        </p:outputPanel >
+
+                        <p:outputPanel id="pruebaAutonoma">
+
+                            <div class="col-md-12 form-group">
+                                <h:outputLabel style="font-family: cursive !important; font-size: 14px !important;" value="Usuario que Reserva" rendered="#{reservaLibrosController.autonoma}" />
+                                <p:selectOneMenu id="auditado6"
+                                                 converter="usuarioConverter"
+                                                 style="width: 100% ;font-family: cursive !important; font-size: 14px"
+                                                 filter="true"
+                                                 filterMatchMode="contains"
+                                                 value="#{reservaLibrosController.reservaLibActual.idUsuarioPrestamo}"
+                                                 rendered="#{reservaLibrosController.autonoma}"
+
+                                                 >
+                                    <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
+                                    <f:selectItems value="#{usuarioController.listaUsuarioCargoAu}" var="usuario"/> 
+                                    <f:ajax execute="@this" render="tipoEstudentMessage reporte  "/>
+
+                                </p:selectOneMenu>
+                                <p:message id="auditado6Message" for="auditado" styleClass="error"/>  
+                            </div>
+                        </p:outputPanel >
+
+                        <p:outputPanel id="pruebaDoc">
+
+                            <div class="col-md-12 form-group">
+                                <h:outputLabel style="font-family: cursive !important; font-size: 14px !important;" value="Usuario que Reserva" rendered="#{reservaLibrosController.doce }" />
+                                <p:selectOneMenu id="auditado7"
+                                                 converter="usuarioConverter"
+                                                 style="width: 100% ;font-family: cursive !important; font-size: 14px"
+                                                 filter="true"
+                                                 filterMatchMode="contains"
+                                                 value="#{reservaLibrosController.reservaLibActual.idUsuarioPrestamo}"
+                                                 rendered="#{reservaLibrosController.doce}"
+
+                                                 >
+                                    <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
+                                    <f:selectItems value="#{usuarioController.listaUsuarioCargoDo}" var="usuario"/> 
+                                    <f:ajax execute="@this" render="tipoEstudentMessage reporte "/>
+
+                                </p:selectOneMenu>
+                                <p:message id="auditado7Message" for="auditado" styleClass="error"/>  
+                            </div>
+                        </p:outputPanel >
+
+                        <p:outputPanel id="prueba5">
+                            <div class="col-md-12 form-group">
+                                <h:outputLabel value="Grado" rendered="#{reservaLibrosController.estudiante}"  />
+                                <input class="form-control"  jsf:rendered="#{reservaLibrosController.estudiante}" jsf:id="nomUsuarioInputText2" 
+                                       jsf:value="#{reservaLibrosController.reservaLibActual.gradoEstudiante}" 
+                                       type="text" required="true" placeholder="Grado"
+                                       jsf:requiredMessage="Por favor ingrese su grado"
+                                       > 
+                                    <f:ajax execute="@this" render="nomUsuario2Message"/>
+                                </input>
+                                <p:message id="nomUsuario2Message" for="nomUsuarioInputText2"/>
+                            </div>
+                        </p:outputPanel>
+
+                        <p:outputPanel id="prueba6">
+                            <div class="col-md-12 form-group">
+                                <h:outputLabel value="Area de trabajo" rendered="#{reservaLibrosController.trabajador}"  />
+                                <input class="form-control"  jsf:rendered="#{reservaLibrosController.trabajador}" jsf:id="nomUsuarioInputText22" 
+                                       jsf:value="#{reservaLibrosController.reservaLibActual.area}" 
+                                       type="text" required="true" placeholder="Area. Ejemp:diseño"
+                                       jsf:requiredMessage="Por favor ingrese su grado"
+                                       > 
+                                    <f:ajax execute="@this" render="nomUsuario22Message"/>
+                                </input>
+                                <p:message id="nomUsuario22Message" for="nomUsuarioInputText22"/>
+                            </div>
+                        </p:outputPanel>
+                        <h:panelGroup>
+                            <h:outputLabel value="Reportes del usuario:"  />
+                            <h:outputText id ="reporte" style="font-family: cursive !important; font-size: 17px !important;" value="#{reservaLibrosController.reservaLibActual.idReporteUsuario}"  />
+
+                        </h:panelGroup>
+
+
+                        <div class="col-md-12 form-group">
+                            <h:outputLabel style="width: 100%; font-family: cursive !important; font-size: 14px"  value="Libro N°1 a Reservar:" />
+                            <p:selectOneMenu id="libro1"
+                                             converter="libroConverter"
+                                             style="width: 100%; font-family: cursive !important; font-size: 14px"
+                                             filter="true"
+                                             filterMatchMode="contains"
+                                             value="#{reservaLibrosController.reservaLibActual.idLib1}"
+                                             required="false">
+                                <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}" itemDisabled="true"/>
+                                <f:selectItems value="#{LibroController.consultaReservas}" var="libro2"/>  
+                                <f:ajax render="opcionActual opcionActual2 opcionActual3 opcionActual4 opcionActual5 idTipoUsuario " />
+                            </p:selectOneMenu>
+                            <p:message id="lib1Message" for="libro1" styleClass="error"/>
+                        </div>
+                        <div class="col-md-12" style="position: relative;left: 1%;border-radius: 0%;width: 98% ">
+                            <h4 style="font-family: cursive !important; font-size: 27px !important;">Titulo Del Libro: </h4><h:outputText id="opcionActual" style="font-family: cursive !important; font-size: 17px !important;" value="#{reservaLibrosController.reservaLibActual.idLib1.tituloLibro}" />
+                            <br></br>
+                            <br></br>
+                            <h4 style="font-family: cursive !important; font-size: 27px !important;">Resumen del Libro: </h4><h:outputText id="opcionActual2" style="font-family: cursive !important; font-size: 17px !important;" value="#{reservaLibrosController.reservaLibActual.idLib1.descripcionNormal}" />
+                            <br></br>
+                            <br></br>
+                            <h4 style="font-family: cursive !important; font-size: 27px !important;">Genero del Libro: </h4><h:outputText id="opcionActual3" style="font-family: cursive !important; font-size: 17px !important;" value="#{reservaLibrosController.reservaLibActual.idLib1.idGenero.nombre.toUpperCase()}" />
+                            <br></br>
+                            <br></br>
+                            <br></br> 
+
+
+                        </div>
+
+
+                        <div class="col-md-12 form-group">
+                            <h:outputLabel value="Libro N°2 a Reservar:" style="width: 100%; font-family: cursive !important; font-size: 14px" />
+                            <p:selectOneMenu id="libro2"
+                                             converter="libroConverter"
+                                             style="width: 100%; font-family: cursive !important; font-size: 14px"
+                                             filter="true"
+                                             filterMatchMode="contains"
+                                             value="#{reservaLibrosController.reservaLibActual.idLib2}"
+                                             required="false">
+                                <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}" itemDisabled="true"/>
+                                <f:selectItems value="#{LibroController.consultaReservas}" var="libro2"/>  
+                                <f:ajax render="opcionActual11 opcionActual22 opcionActual33 opcionActual44 idTipoUsuario opcionActual56  " />
+                            </p:selectOneMenu>
+                            <p:message id="lib2Message" for="libro2" styleClass="error"/>
+                        </div>
+                        <div class="col-md-12" style="position: relative;left: 1%;border-radius: 0%;width: 98% " >
+
+                            <h4 style="font-family: cursive !important; font-size: 27px !important;">Titulo Del Libro: </h4> <h:outputText id="opcionActual11" style="font-family: cursive !important; font-size: 17px !important;" value="#{reservaLibrosController.reservaLibActual.idLib2.tituloLibro}" />
+                            <br></br>
+                            <br></br>
+                            <h4 style="font-family: cursive !important; font-size: 27px !important;">Resumen del Libro: </h4><h:outputText id="opcionActual22" style="font-family: cursive !important; font-size: 17px !important;" value="#{reservaLibrosController.reservaLibActual.idLib2.descripcionNormal}" />
+                            <br></br>
+                            <br></br>
+                            <h4 style="font-family: cursive !important; font-size: 27px !important;">Genero del Libro: </h4><h:outputText id="opcionActual33" style="font-family: cursive !important; font-size: 17px !important;" value="#{reservaLibrosController.reservaLibActual.idLib2.idGenero.nombre.toUpperCase()}" />
+                            <br></br>
+                            <br></br>  
+
+
+
+
+                        </div>
+
+
+
+                        <div class="col-md-4 form-group" style="    position: relative;   left: 10%;">
+                            <h:outputLabel value="Fecha Inicio:"  />
+                            <p:calendar id="fechaIAuditoria" locale="es"
+                                        value="#{reservaLibrosController.reservaLibActual.fechaInicioPrestamo}"
+                                        pattern="MMMM dd, yyyy"/>
+                            <p:message id="fechaIAuditoriaMessage" for="fechaIAuditoria" styleClass="error"/>
+                        </div>
+                        <div class="col-md-4 form-group" style="    position: relative;    left: 15%;">
+                            <h:outputLabel value="Fecha Fin"  />
+                            <p:calendar id="fechaFAuditoria" locale="es"
+                                        value="#{reservaLibrosController.reservaLibActual.fechaFinPrestamo }"
+                                        pattern="MMMM dd, yyyy"/>
+                            <p:message id="fechaFAuditoriaMessage" for="fechaFAuditoria" styleClass="error"/>
+                        </div>
+
+
+
+                    </div>
+
+
+
+                    <div class="row" >
+                        <div class="col-md-6 form-group">
+                            <p:commandButton class="btn btn-primary btn-block"
+                                             value="Crear"
+                                             ajax="false"
+                                             action="#{reservaLibrosController.add}"
+                                             onclick="onSubmitButton();"/>
+                        </div>
+                        <div class="col-md-6 form-group">    
+                            <h:button class="btn btn-cancelar btn-block" value="Volver" outcome="/usuario/modBiblioteca/ListarLibro/lista"/>
+                        </div>
+                    </div>
+
+                </div>
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+
+
+</html>
+

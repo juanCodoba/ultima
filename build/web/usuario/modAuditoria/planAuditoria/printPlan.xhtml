@@ -1,0 +1,285 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <head>
+        <title>Facelet Title</title>
+        <link href="https://fonts.googleapis.com/css?family=Asap:700" rel="stylesheet"/>
+        <style>
+        @import url('https://fonts.googleapis.com/css?family=Asap:700');
+        </style>
+        <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+        <style>
+            th{
+                border-bottom: 1px solid black;
+            }
+            .tamanoDes{
+                width: 330px !important;
+            }
+            .direccion{
+               margin-left: 5px;
+            }
+            .direccion2{
+                float:right !important;
+            }
+            body{
+                font-family: 'Asap', sans-serif;
+                font-size: 1em;
+                margin: 0px !important;
+            }
+            .head{
+                margin: 0px !important;
+                border: -10px !important;
+                width: 697px;
+                background: black;
+                vertical-align: top;
+            }
+            .head2{
+                margin: 0px !important;
+                border: -10px !important;
+                width: 800px;
+                height: 70px;
+                background: black;
+            }
+            .titulo{
+                padding: 10px; 
+            } 
+            .titulo1{
+                margin-bottom: 1px;
+                margin-left: 10px;
+                color: #0cf554; 
+            }     
+            .titulo2{
+                margin: 0px;
+                margin: 0px 10px;
+                color: #d7d7d7;
+            }
+            .titulo3{
+                margin-top: 10px;
+                margin: 0px 10px;
+                color: black;
+                text-align: center;
+            }
+            .contenedor1{
+                margin-top: 10px;
+                border: 3px solid #828282;
+                text-align: left;
+            }
+            .contenedor2{
+                margin-top: 10px;
+            }
+            .contenedor3{
+                margin-top: 10px;
+                border: 3px solid #828282;
+            }
+            .contenedor4{
+                margin-top: 10px;
+                width: 350px; 
+                display: inline-block;
+                vertical-align: top;
+            }
+            .contenedor5{
+                margin-top: 5px;
+            }
+            .tituloContenedor1{
+                margin: 0px;
+                background-color: #828282;
+                color: white;
+                font-weight: bold;
+                padding: 5px;
+            }
+            .cuerpoContenedor1{
+                color: black;
+            }
+            label{
+                font-weight: bold;
+            }
+            .parrafo-contenedor{
+                font-size: .7em;
+                margin-left: 5px;
+                margin-top: 5px;
+            }
+            .parrafo-contenedorElaborado{
+                font-size: .8em;
+                margin-top: 8px;
+            }
+            .parrafo-contenedorAprobado{
+                font-size: .8em;
+                margin-top: 8px;
+                color: white;
+            }
+            .cuerpoContenedor3{
+                width: 330px;
+                display: inline-block;
+            }
+            .footer-contenedor{
+                background: black;
+                margin-bottom: 0px;
+            }
+            .footer-parrafo1{
+                display: inline-block;
+                width: 200px
+            }
+            .footer-img1{
+                margin: 10px;
+            }
+            .footer-parrafo2{
+                vertical-align: top;
+                color: white;
+                margin-left: 20px;
+                margin-top: 20px;
+                font-size: .7em;
+                display: inline-block;
+                width: 300px
+            }
+            .footer-parrafo3{
+                text-align: center;
+                vertical-align: top;
+                color: white;
+                margin-left: 20px;
+                margin-top: 30px;
+                font-size: .7em;
+                color: white;
+                border-left: 2px solid white;
+                display: inline-block;
+                width: 100px
+            }
+            .body-contenedor{
+                min-height: 920px;
+            }
+            .body-contenedor2{
+                height: 910px; 
+            }
+            .cuerpoContenedorImg{
+                border-top: 3px solid #828282;
+                text-align: center;
+            }
+            .contenedor-img{
+                margin-top: 5px;
+                margin-bottom: 20px;
+                display: inline-block;
+            }
+            .contenedor-imgCa{
+                margin: 5px;
+                width: 200px;
+                height: 100px;
+                display: inline-block;
+            }
+            .imagenesTop{
+                
+            }
+            
+            .tituloContenedorElaborado{
+                text-align: center;
+                margin: 0px;
+                background-color: #828282;
+                color: white;
+                font-weight: bold;
+                padding: 5px;
+            }
+            .contenedorElaborado{
+                display: inline-block;
+                border: 3px solid #828282;
+                text-align: center;
+                width: 223px;
+                height: 80px;
+            }
+            .cuerpo-elaborado{
+                margin-top: 10px;
+            }
+            
+            .parrafo-elaborado{
+                font-size: .8em;
+                margin-left: 5px;
+                margin-top: 5px;
+                font-weight: bold; 
+            }
+            .label-info{
+                font-size: 1.2em;
+            }
+        </style>
+        
+    </head>
+    <body>
+        <div class="body-contenedor">
+            <div class="head">
+                <h3 class="titulo1">CENTRO DE FORMACIÓN INTEGRAL PROVIDENCIA</h3>
+                <h3 class="titulo2">PLAN DE AUDITORÍA</h3>       
+            </div>
+            <div class="contenedor1 contenedor2">
+                
+                <div class="cuerpoContenedor1">
+                    <p class="parrafo-contenedor">
+                        <label class="label-info">Objetivo:</label>
+                        <br></br>
+                        <h:outputText value="#{auPlanAuditoriaController.planAuditoriaActual.objetivo}"/>
+                        <br></br>
+                        <label class="label-info">Alcance:</label>
+                        <br></br>
+                        <h:outputText value="#{auPlanAuditoriaController.planAuditoriaActual.alcance}"/>
+                        <br></br>
+                        <label class="label-info">Criterios:</label>
+                        <br></br>
+                        <h:outputText value="#{auPlanAuditoriaController.planAuditoriaActual.criterios}"/>
+                    </p>
+                </div> 
+            </div>
+            <h:dataTable class="tabla" style="width: 800px;margin-top: 3px;font-size: 0.7em;"
+                   value="#{auPlanAuditoriaController.listaProcesoEvaluadoConsulta}" 
+                     var="item">
+                <h:column>
+                    <f:facet name="header">Fecha</f:facet> 
+                    <h:outputText value="#{item.fecha}">
+                        <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Hora</f:facet> 
+                    <h:outputText value="#{item.hora}">
+                        <f:convertDateTime pattern="HH:mm"/>
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Procesos auditados</f:facet> 
+                    <h:outputText value="#{item.idSubproceso.nombreSubproceso}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Requisito(s)</f:facet> 
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Auditado</f:facet> 
+                    <h:outputText value="#{item.idAuditado.toString()}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Auditores</f:facet> 
+                </h:column>
+           </h:dataTable>
+            <div>
+                Fecha de elaboración: 
+                <h:outputText value="#{auPlanAuditoriaController.planAuditoriaActual.fecha}"/>
+            </div>
+            <div>
+                Elaborado por: 
+                <h:outputText value="#{auPlanAuditoriaController.planAuditoriaActual.idUsuario.toString()}"/>
+            </div>
+            <div>
+                Autorizado por: 
+                <h:outputText value="DORA LUCIA DÍAZ CHACÓN"/>
+            </div>
+            <div class="footer-parrafo2">
+                Km 34 vía central Cali - El Cerrito, corregimiento el Placer<br></br>
+                PBX: (57) (2) 255 52 21 FAX: (57) (2) 255 5140<br></br>
+                www.cfiprovidencia.com<br></br>
+                ventasconfeccion@cfiprovidencia.com<br></br>
+                exportaciones@cfiprovidencia.com<br></br>
+            </div>
+            <div class="footer-parrafo3">
+                <h:outputLabel value="CO-FT-04"/><br></br>
+                Versión: 2
+            </div>
+        </div>
+    </body>
+</html>
+
+

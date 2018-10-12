@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+   <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">
+        Ver maestros del sistema    
+        </ui:define>
+       <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modSoporteIT/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{usuarioController.prepareList}">
+                                <i class="fa fa-users"></i> 
+                                <span>Usuarios del sistema</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{computadorController.prepareList}">
+                                <i class="fa fa-desktop"></i>
+                                <span>Inventario tecnológico</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
+                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario mantenimientos</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                     <span>Preventivos</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                     <span>Correctivos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{reporteSiesaController.prepareListReportes}">
+                                <i class="fa fa-bug "></i>
+                                <span>Fallos del ERP</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="active">
+                            <h:commandLink action="/administrador/modSoporteIT/configuracionMaestros/verConfiguraciones">
+                                <i class="fa fa-file"></i>
+                                <span>Configuración de maestros</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form id="indicador">
+                <!--INDICADORES-->
+                <div class="col-md-6">
+                    <h:form>
+                        <h:commandButton class="btn btn-primary btn-block form-group" value="Lista de modelos equipos tecnologicos" action="#{modeloController.prepareList}"/>
+                        <h:commandButton class="btn btn-primary btn-block form-group" value="Lista de marcas equipos tecnologicos" action="#{marcaController.prepareList}"/>
+                        <h:commandButton class="btn btn-primary btn-block form-group" value="Lista de secciones (infrestructura)" action="#{seccionController.prepareList}"/>
+                    </h:form>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

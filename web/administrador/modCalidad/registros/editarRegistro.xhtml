@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+         <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminCalidoso}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li class="active">
+                            <h:commandLink action="#{formatosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-excel-o"></i> 
+                                <span>Administrar Registros</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span>Administrar Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListPermiso}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-user"></i>
+                                <span>Permisos Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                          <li>
+                              <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-spinner" aria-hidden="true"></i>
+                                <span>Administrar Acciones</span>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{calidadPlanAccionController.usuarioActual}"/>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{calidadGestionConocimientoController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                                <span>Administrar Conocimiento</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+                    <p:separator rendered="#{loginController.adminCalidoso}"/>
+                    <li style="margin-top: 20px">
+                            <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                    <li>
+                        <h:commandLink action="#{formatosController.prepareListUser}">
+                            <i class="fa fa-file"></i>
+                            <span>Lista de registros</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{documentosController.prepareListUser}" rendered="#{loginController.userCaliadad}">
+                            <i class="fa fa-book"></i>
+                            <span>Lista de documentos</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/compromisosComite">
+                            <i class="fa fa-users"></i>
+                            <span>Compromisos del comité</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadPlanAccionController.list}">
+                            <i class="fa fa-cogs"></i>
+                            <span>Acciones de mejora</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/informacionCalidad">
+                            <i class="fa fa-question"></i>
+                            <span>¿Que es calidad?</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/horizonteInstitucional">
+                            <i class="fa fa fa-eye"></i>
+                            <span>Horizonte institucional</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Editar registro</ui:define>        
+        <ui:define name="body">
+            <h:form id="formulario-crearFormato">
+                <h:outputText class="help-block" value="Ingresa los datos del formato:"/>
+                <div class="form-group">
+                    <h:outputLabel value="Codigo del formato:"  />
+                    <h:outputLabel class="form-control" value="#{formatosController.formatosActual.codigoFormato}" />
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Proceso:"  />
+                    <h:outputLabel class="form-control" value="#{formatosController.formatosActual.idProceso.nombreProceso}" />
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Subproceso:" />
+                    <h:outputLabel class="form-control" value="#{formatosController.formatosActual.idSubproceso.nombreSubproceso}" />
+                </div>
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <h:outputLabel value="Nombre del formato"  />
+                            <input placeholder="Nombre" class="form-control" jsf:id="formatoInputText" jsf:value="#{formatosController.formatosActual.nombreFormato}" 
+                                         type="text" required="true"
+                                         jsf:validatorMessage="El nombre del formato no puede tener ningún tipo de símbolo ni acento"
+                                         jsf:requiredMessage="Por favor ingrese el nombre del formato">
+                                         <f:ajax execute="@this" render="formatoMessage"/>
+                                         <f:validateRegex pattern="[a-zA-Z 1234567890]*"/>
+                            </input>
+                            <p:message id="formatoMessage" for="formatoInputText" styleClass="error"/>
+                        </div> 
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <h:outputLabel value="Quien diligencia:"  />
+                            <input placeholder="Quienes diligencian el formato" class="form-control" jsf:id="diligenciaInputText" jsf:value="#{formatosController.formatosActual.diligenciado}" 
+                                         type="text" required="true"
+                                         jsf:requiredMessage="Por favor ingrece quien diligencia el formato">
+                                         <f:ajax execute="@this" render="diligenciaMessage"/>
+                            </input>
+                            <p:message id="diligenciaMessage" for="diligenciaInputText" styleClass="error"/>
+                        </div>
+                    </div>
+                </div>
+                 <div class="row">
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <h:outputLabel value="Almacenamiento:"  />
+                            <input placeholder="Quienes diligencian el formato" class="form-control" jsf:id="almacenamientoInputText" jsf:value="#{formatosController.formatosActual.almacenamiento}" 
+                                         type="text" required="true"
+                                         jsf:requiredMessage="Por favor ingrece quien diligencia el formato">
+                                         <f:ajax execute="@this" render="almacenamientoMessage"/>
+                            </input>
+                            <p:message id="almacenamientoMessage" for="almacenamientoInputText" styleClass="error"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <h:outputLabel value="Recuperación:"  />
+                            <input placeholder="Cargo de la persona que puede recuperar el formato" class="form-control" jsf:id="recuperacionInputText" jsf:value="#{formatosController.formatosActual.recuperacion}" 
+                                         type="text" required="true"
+                                         jsf:requiredMessage="Por favor ingrece el cargo">
+                                         <f:ajax execute="@this" render="recuperacionMessage"/>
+                            </input>
+                            <p:message id="recuperacionMessage" for="recuperacionInputText" styleClass="error"/>
+                        </div>
+                    </div>
+                </div>
+                 <div class="row">
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <h:outputLabel value="Tiempo de retención:"  />
+                            <input placeholder="Tiempo de retención del formato" class="form-control" jsf:id="retencionInputText" jsf:value="#{formatosController.formatosActual.tiempoRetencion}" 
+                                         type="text" required="true"
+                                         jsf:requiredMessage="Por favor ingrece el tiempo de retencion del formato">
+                                         <f:ajax execute="@this" render="retencionMessage"/>
+                            </input>
+                            <p:message id="retencionMessage" for="retencionInputText" styleClass="error"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <h:outputLabel value="Disposición final:"  />
+                            <input placeholder="Disposición final del formato" class="form-control" jsf:id="disposicionInputText" jsf:value="#{formatosController.formatosActual.metodo}" 
+                                         type="text" required="true"
+                                         jsf:requiredMessage="Por favor ingrece la disposición final del formato">
+                                         <f:ajax execute="@this" render="disposicionMessage"/>
+                            </input>
+                            <p:message id="disposicionMessage" for="disposicionInputText" styleClass="error"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <h:outputLabel value="Procedimiento o instructivo" />
+                            <h:selectOneMenu class="form-control" id="idSelectProcedimiento" value="#{formatosController.formatosActual.idDocumentoInstructivo}">
+                                    <f:selectItem itemLabel="Seleccionar uno.." />
+                                    <f:selectItems value="#{documentosController.listaDocumentos}" var="documentos" itemValue="#{documentos}"/>  
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <h:outputLabel value="Fecha actualización del Formato:"/>
+                            <p:calendar id="fechaActualizacion" 
+                                        required="true" 
+                                    requiredMessage="Ingresa la fecha de actualizacion del formato" 
+                                    value="#{formatosController.formatosActual.fechaActualizacion}" pattern="MM/dd/yyyy">
+                            <f:ajax execute="fechaActualizacion" 
+                                    render="msgFechaActualizacion"/>
+                            </p:calendar>
+                            <p:message id="msgFechaActualizacion" for="fechaActualizacion"  styleClass="error"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Link de acceso al registro:"  />
+                    <input placeholder="Acceso del registro" class="form-control" 
+                           jsf:id="linkInputText" 
+                           jsf:value="#{formatosController.formatosActual.linkFormato}" 
+                        type="text" required="true"
+                        jsf:requiredMessage="Ingresa el link de acceso del registro">
+                        <f:ajax execute="@this" render="linkMessage"/>
+                    </input>
+                    <p:message id="linkMessage" for="linkInputText" styleClass="error"/>
+                </div> 
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <p:commandButton class="btn btn-primary btn-block"
+                                         ajax="false"
+                                         value="Editar"
+                                         action="#{formatosController.updateFormato}"
+                                         onclick="onSubmitButton();"/>
+                    </div>
+                    <div class="col-sm-6 form-group">    
+                        <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="listaRegistro"/>
+                    </div>
+                </div>                
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

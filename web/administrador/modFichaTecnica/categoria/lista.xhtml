@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Listado de fichas técnicas revisadas</ui:define>   
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup >
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="#{ftFichaTecnica.prepareListPrincipal}">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftFichaTecnica.prepareCreate}">
+                                <i class="fa fa-file"></i>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{ftFichaTecnica.usuarioActual}"/>
+                                <span>Crear ficha técnica</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftFichaTecnica.prepareListDesarrollo}">
+                                <i class="fa fa-camera-retro"></i> 
+                                <span>Fichas en desarrollo</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftFichaTecnica.prepareListPrimeraValidacion}">
+                                <i class="fa fa-check"></i> 
+                                <span>Primera Validación</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaSCAM}" action="#{ftFichaTecnica.prepareListSolicitudesModificacionTodas}">
+                                <i class="fa fa-cogs"></i> 
+                                <span>Lista de solicitudes</span>
+                            </h:commandLink>
+                        </li>
+                        <li  class="active">
+                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftClienteController.prepareList}">
+                                <i class="fa fa-user"></i>
+                                <span>Cliente</span>
+                            </h:commandLink>
+                        </li>
+                        <li  class="active">
+                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftClienteController.prepareList}">
+                                <i class="fa fa-user"></i>
+                                <span>Cliente</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form id="formList">
+                <p:outputPanel id="documentosTablePanel">
+                    <p:dataTable value="#{ftCategoriaController.listaCategoria}" var="item"
+                                 rows="50" id="documentosTable" 
+                                 paginator="true" widgetVar="filtroTable"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="50,100,150">
+                        <f:facet name="header">
+                            <div class="container-fluid">
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <h3 style="font-weight: bold; color: #00a65a" >
+                                            Total clientes: #{fn:length(ftCategoriaController.listaCategoria)}
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h:commandLink id="exportExcel">
+                                            <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                            <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                                            target="documentosTable" fileName="inventario" />
+                                        </h:commandLink>
+                                        <p:tooltip id="descripcion-botonExcel" for="exportExcel" value="Exportar en excel" trackMouse="true" />
+                                    </div>
+                                </div>
+                            </div>
+                        </f:facet>
+                        <p:column filterBy="#{item.idFtCategoria}" width="110" filterMatchMode="contains">
+                            <f:facet name="header">Nit</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{item.descripcion}"/>
+                        </p:column>
+
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

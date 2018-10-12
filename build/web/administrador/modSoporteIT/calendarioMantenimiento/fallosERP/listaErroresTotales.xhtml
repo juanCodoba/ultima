@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modSoporteIT/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{usuarioController.prepareList}">
+                                <i class="fa fa-users"></i> 
+                                <span>Usuarios del sistema</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{computadorController.prepareList}">
+                                <i class="fa fa-desktop"></i>
+                                <span>Inventario tecnológico</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
+                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario mantenimientos</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                     <span>Preventivos</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                     <span>Correctivos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li class="active">
+                            <h:commandLink action="#{reporteSiesaController.prepareListReportes}">
+                                <i class="fa fa-bug "></i>
+                                <span>Fallos del ERP</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/configuracionMaestros/verConfiguraciones">
+                                <i class="fa fa-file"></i>
+                                <span>Configuración de maestros</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/equiposUsuarios/lista">
+                                <i class="fa fa-folder" ></i>
+                                <span>Declaraciónes de uso</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Listado de mantenimientos correctivos</ui:define>  
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <div class="row">
+                <div class="col-sm-12">
+                   <h:form id="MantenimientosFormList">
+                        <p:outputPanel id="MantenimientosTablePanel">
+                            <p:dataTable value="#{reporteSiesaController.reporteSiesaList}" var="reporte"
+                                         rows="100" id="incidenteTable"  emptyMessage="No se encontraron registros" sortMode="multiple"
+                                         paginator="true" rowStyleClass="#{reporte.estado eq 'Cerrado' ? 'color1': reporte.estado eq 'Sin Cerrar' ? 'color2': reporte.estado eq 'Sin Valoración' ? 'color3': null}"
+                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="100,150,200">
+                                <f:facet name="header">
+                                    <h4 class="colorLetra" style="font-weight: bold" >
+                                        Total errores Siesa: #{fn:length(reporteSiesaController.reporteSiesaList)}
+                                    </h4>
+                                </f:facet>
+                                <p:column filterBy="#{reporte.fechaAñoString}" sortBy="#{reporte.fechaAñoString}" width="70">
+                                    <f:facet name="header">Filtrar por año</f:facet>
+                                    <h:outputText value="#{reporte.fechaAñoString}">
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Filtrar por mes" filterBy="#{reporte.fechaMesString}" sortBy="#{reporte.fechaMesString}" width="70">
+                                    #{reporte.fechaMesString}
+                                </p:column>
+                                <p:column filterBy="#{reporte.idReporteSiesa}" width="100">
+                                    <f:facet name="header"># Ticket:</f:facet>
+                                    <h:outputText value="#{reporte.idReporteSiesa}CFIPERP" style="font-weight: bold"/>
+                                </p:column>
+                                <p:column filterBy="#{reporte.idUsuario.toString()}" >
+                                    <f:facet name="header">Usuario que realizo el reporte</f:facet>
+                                    <h:outputText value="#{reporte.idUsuario.toString()}"/>
+                                </p:column>
+
+                                <p:column width="120">
+                                    <f:facet name="header">Fecha del reporte</f:facet>
+                                    <h:outputText value="#{reporte.fechaReporte}">
+                                       <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column filterBy="#{reporte.estado}" sortBy="#{reporte.estado}">
+                                    <f:facet name="header">Estado del ticket</f:facet>
+                                    <h:outputText value="#{reporte.estado}"/>
+                                </p:column>
+                                <p:column filterBy="#{reporte.descripcionReporte}" sortBy="#{reporte.descripcionReporte}">
+                                    <f:facet name="header">Descripción del reporte</f:facet>
+                                    <h:outputText value="#{reporte.descripcionReporte}"/>
+                                </p:column>
+                                 <p:column filterBy="#{reporte.valoracion}" sortBy="#{reporte.valoracion}">
+                                    <f:facet name="header">Valoracion</f:facet>
+                                    <h:outputText value="#{reporte.valoracion} estrellas"/>
+                                </p:column>
+                                <p:column width="50">
+                                    <p:commandButton process="@this" ajax="false" id="historial" icon="ui-icon-search" actionListener="#{reporteSiesaController.prepareViewDiagnostico}" action="#{reporteSiesaController.prepareViewReportes}">
+                                        <f:attribute name="reporte" value="#{reporte}"/>
+                                        <f:setPropertyActionListener value="#{reporte}" target="#{reporteSiesaController.reporteSiesaActual}"/>
+                                    </p:commandButton>
+                                    <p:tooltip id="descripcion-botonHistorial" for="historial" value="Ver diagnostico" trackMouse="true" />
+                                </p:column>
+                            </p:dataTable>
+                        </p:outputPanel>
+                     </h:form>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

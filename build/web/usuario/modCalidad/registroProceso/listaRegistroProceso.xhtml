@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminCalidoso}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="#{formatosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-excel-o"></i> 
+                                <span>Administrar Registros</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span>Administrar Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListPermiso}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-user"></i>
+                                <span>Permisos Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                          <li>
+                              <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-spinner" aria-hidden="true"></i>
+                                <span>Administrar Acciones</span>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{calidadPlanAccionController.usuarioActual}"/>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{calidadGestionConocimientoController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                                <span>Administrar Conocimiento</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+                    <p:separator rendered="#{loginController.adminCalidoso}"/>
+                    <li style="margin-top: 20px">
+                            <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                    <li>
+                        <h:commandLink action="#{formatosController.prepareListUser}">
+                            <i class="fa fa-file"></i>
+                            <span>Lista de registros</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{documentosController.prepareListUser}" rendered="#{loginController.userCaliadad}">
+                            <i class="fa fa-book"></i>
+                            <span>Lista de documentos</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadGestionConocimientoController.prepareList}">
+                            <i class="fa fa-lightbulb-o"></i>
+                            <span>Gestión del conocimiento</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/compromisosComite">
+                            <i class="fa fa-users"></i>
+                            <span>Compromisos del comité</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadPlanAccionController.list}">
+                            <i class="fa fa-cogs"></i>
+                            <span>Acciones de mejora</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/informacionCalidad">
+                            <i class="fa fa-question"></i>
+                            <span>¿Que es calidad?</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/horizonteInstitucional">
+                            <i class="fa fa fa-eye"></i>
+                            <span>Horizonte institucional</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Listado de registros y documentos de #{formatosController.subProcesosActual.nombreSubproceso.toUpperCase()}</ui:define>   
+        <ui:define name="title2">Aquí descarga todos los registros del Sistema de Gestión de la Calidad</ui:define> 
+        <ui:define name="body">
+            <div class="row">
+                <div class="col-md-12">
+                    <p:tabView dynamic="true" cache="true">
+                        <p:tab title="Registros de #{formatosController.subProcesosActual.nombreSubproceso.toUpperCase()}">
+                           <h:form id="registrosFormList">
+                                <p:outputPanel id="registrosTablePanel">
+                                    <p:dataTable value="#{formatosController.listaFormatosProceso}" var="formatos"
+                                                 rows="50" paginator="true"  id="documentosTable"
+                                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="50,100,150" emptyMessage="No se encontraron formatos con el criterio dado">
+
+                                        <p:column filterBy="#{formatos.codigoFormato}" filterMatchMode="contains" style=" text-align: center" >
+                                            <f:facet name="header">Código del Formato</f:facet>
+                                            <h:outputText  style="font-weight: bold; text-align: center" value="#{formatos.codigoFormato.toUpperCase()}"/>
+                                        </p:column>
+                                        <p:column filterBy="#{formatos.nombreFormato}" filterMatchMode="contains">
+                                            <f:facet name="header">Nombre del formato</f:facet>
+                                            <h:outputText value="#{formatos.nombreFormato.toUpperCase()}"/>
+                                        </p:column>
+                                        <p:column filterBy="#{formatos.diligenciado}" filterMatchMode="contains">
+                                            <f:facet name="header">Quien diligencia el formato</f:facet>
+                                            <h:outputText value="#{formatos.diligenciado.toUpperCase()}"/>
+                                        </p:column>
+                                        <p:column filterBy="#{formatos.idSubproceso.nombreSubproceso}" filterMatchMode="contains">
+                                            <f:facet name="header">Subproceso</f:facet>
+                                            <h:outputText value="#{formatos.idSubproceso.nombreSubproceso.toUpperCase()}"/>
+                                        </p:column>
+                                        <p:column width="150">
+                                            <h:commandLink class="btn btn-sm btn-primary" id="boton-descargar" target="_blank" style="margin: 5px; color: white" actionListener="#{formatosController.prepareFormato}" action="#{formatosController.obtenerFormato}">
+                                                <span class="fa fa-download"/> Descargar
+                                                <f:attribute name="formatos" value="#{formatos}" />
+                                                <f:setPropertyActionListener value="#{formatos}" target="#{formatosController.formatosActual}"/>
+                                            </h:commandLink>
+                                            <p:tooltip id="descripcion-descargar" for="boton-descargar" value="Descargar formato" trackMouse="true"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:outputPanel>
+                            </h:form>
+                        </p:tab>
+                        <p:tab title="Documentos de #{formatosController.procesosActual.toString()}" rendered="#{loginController.userCaliadad}">
+                           <h:form id="documentosFormList">
+                                <p:outputPanel id="documentosTablePanel">
+                                    <p:dataTable value="#{formatosController.listaDocumentosProceso}" var="documento"
+                                         rows="100" paginator="true" id="registrosTable" 
+                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="100, 150" emptyMessage="No se encontraron formatos con el criterio dado">
+                                            <f:facet name="header">
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <h4 class="colorLetra" style="font-weight: bold" >
+                                                                Total documentos: #{fn:length(formatosController.listaDocumentosProceso)}
+                                                            </h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </f:facet>
+                                            <p:column filterBy="#{documento.codigoDocumento}" filterMatchMode="contains" style=" text-align: center" >
+                                                <f:facet name="header">Código del documento</f:facet>
+                                                <h:outputText  style="font-weight: bold; text-align: center" value="#{documento.codigoDocumento.toUpperCase()}"/>
+                                            </p:column>
+                                            <p:column filterBy="#{documento.nombreDocumento}" filterMatchMode="contains">
+                                                <f:facet name="header">Nombre del documento</f:facet>
+                                                <h:outputText value="#{documento.nombreDocumento.toUpperCase()}"/>
+                                            </p:column>
+
+                                            <p:column filterBy="#{documento.idProceso.nombreProceso}" filterMatchMode="contains">
+                                                <f:facet name="header">Proceso</f:facet>
+                                                <h:outputText value="#{documento.idProceso.nombreProceso.toUpperCase()}"/>
+                                            </p:column>
+                                            <p:column width="150">
+                                                <h:commandLink id="verDocumento" class="btn btn-sm btn-primary" target="_blank" style="margin: 5px; color: white" actionListener="#{documentosController.prepareDocumento}" action="#{documentosController.obtenerDocumento}">
+                                                    <span class="fa fa-download"/>Ver documento
+                                                    <f:attribute name="documentos" value="#{documento}" />
+                                                    <f:setPropertyActionListener value="#{documento}" target="#{documentosController.documentosActual}"/>
+                                                 </h:commandLink>
+                                                <p:tooltip id="ver-descripcion" for="verDocumento" value="Ver documento" trackMouse="true"/>
+                                                
+                                            </p:column>
+                                        </p:dataTable>
+                                </p:outputPanel>
+                            </h:form>
+                        </p:tab>
+                    </p:tabView>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

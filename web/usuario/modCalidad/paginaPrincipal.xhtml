@@ -1,0 +1,359 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminCalidoso}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="#{formatosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-excel-o"></i> 
+                                <span>Administrar Registros</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span>Administrar Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListPermiso}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-user"></i>
+                                <span>Permisos Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                              <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-spinner" aria-hidden="true"></i>
+                                <span>Administrar Acciones</span>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{calidadPlanAccionController.usuarioActual}"/>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{calidadGestionConocimientoController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                                <span>Administrar Conocimiento</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+                    <p:separator rendered="#{loginController.adminCalidoso}"/>
+                    <li style="margin-top: 20px" class="active">
+                            <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                    <li>
+                        <h:commandLink action="#{formatosController.prepareListUser}">
+                            <i class="fa fa-file"></i>
+                            <span>Lista de registros</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{documentosController.prepareListUser}" rendered="#{loginController.userCaliadad}">
+                            <i class="fa fa-book"></i>
+                            <span>Lista de documentos</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadGestionConocimientoController.prepareList}">
+                            <i class="fa fa-lightbulb-o"></i>
+                            <span>Gestión del conocimiento</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="compromisosComite">
+                            <i class="fa fa-users"></i>
+                            <span>Compromisos del comité</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadPlanAccionController.list}">
+                            <i class="fa fa-cogs"></i>
+                            <span>Acciones de mejora</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/informacionCalidad">
+                            <i class="fa fa-question"></i>
+                            <span>¿Que es calidad?</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/horizonteInstitucional">
+                            <i class="fa fa fa-eye"></i>
+                            <span>Horizonte institucional</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Modulo del Sistema de Gestión de la Calidad</ui:define> 
+        <ui:define name="title2">Aquí descarga formatos y procedimientos por procesos</ui:define> 
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form>
+                <div class="container-fluid">
+                    <div class="col-md-12">
+                        <div class="panel-procesosEstrategicos row">
+                            <h4>Procesos Estratégicos</h4>
+                            <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subDireccion}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/direccion.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">                          
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subMejoraContinua}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/mejoraContinua.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel-procesosMisionales row">
+                            <h4>Proceso Misional - Educación</h4>
+                            <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subAdmisiones}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/registrosAdmisiones.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                 <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subGesAdemica}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/gestionAcademica.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subGescomunitaria}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/gestionComunitaria.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subCursos}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/tecnicosComplementarios.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subExtAcademica}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/extensionAcademica.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="col-md-12">
+                        <div class="panel-procesosMisionales row">
+                            <h4>Proceso Misional - Producción</h4>
+                            <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subMercadeo}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/mercadeoVentas.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subPlaneacion}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/planeacion.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subIngenieria}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/ingenieriaProducto.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subProduccionConfecciones}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/produccion.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subTallerSatelite}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/tallerSatelite.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subFacturacion}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/factura.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="col-md-12">
+                        <div class="panel-procesosApoyo row">
+                            <h4>Proceso de Apoyo - Logística y Suministros</h4>
+                            <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subCompras}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/compras.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subAlmacen}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/almacen.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subContratacion}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/contratacion.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel-procesosApoyo row">
+                            <h4>Proceso de Apoyo - Mantenimiento</h4>
+                            <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subSistemas}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/tecnologia.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subEdificios}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/edificios.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subIndustrial}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/talleresIndustriales.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subProduccion}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/equiposProduccion.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="col-md-12">
+                        <div class="panel-procesosApoyo row">
+                            <h4>Proceso de Apoyo - Talento humano</h4>
+                            <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subTalento}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/talentoHumano.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>                             
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel-procesosApoyo row">
+                            <h4>Proceso de Apoyo - Financiero</h4>
+                             <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subCostos}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/costos.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>       
+                             <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subFinanciero}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/financiero.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>                              
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel-procesosMisionales row">
+                            <h4>Otros procesos</h4>
+                            <div class="col-md-2">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{formatosController.subBigbag}">
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/bigbagIcono.png"/>
+                                    </h:commandLink>   
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                   
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

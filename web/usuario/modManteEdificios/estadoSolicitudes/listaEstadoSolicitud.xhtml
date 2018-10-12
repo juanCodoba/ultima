@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Estado de reservaciones</ui:define> 
+        <ui:define name="body">
+            <h:form id="estadoFormList">
+                <p:outputPanel >
+                    <p:dataTable value="#{solicitudEdificioController.solicitudEdificioUserlist}" var="solicitud" 
+                                 rows="10" id="computadorTable" rowStyleClass="#{solicitud.estado eq 'Reservado' ? 'color1': solicitud.estado eq 'Solicitado' ? 'color2': solicitud.estado eq 'Rechazado' ? 'color3':null}" 
+                                paginator="true"
+                                paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                rowsPerPageTemplate="5,10,15">
+                                <f:facet name="header">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <p:button icon="fa fa-arrow-left"
+                                                        value="Volver pagina principal" 
+                                                        style="font-size: 1.2em !important; padding: 5px; left: 0"
+                                                        outcome="/usuario/modManteEdificios/paginaPrincipal"/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                 <h4 class="colorLetra" style="font-weight: bold" >
+                                                Total reservas: #{fn:length(solicitudEdificioController.solicitudEdificioUserlist)}
+                                            </h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </f:facet>   
+                                <p:column filterBy="#{solicitud.idSeccion.nombreSeccion}"  filterMatchMode="contains">
+                                    <f:facet name="header">Nombre sección:</f:facet>
+                                    <h:outputText value="#{solicitud.idSeccion.nombreSeccion}" style="font-weight: bold"/>
+                                </p:column>
+                                <p:column filterBy="#{solicitud.idUsuario.toString}" filterMatchMode="contains">
+                                    <f:facet name="header">Usuario que solicita:</f:facet>
+                                    <h:outputText value="#{solicitud.idUsuario.toString().toUpperCase()}"/>
+                                </p:column>
+                                <p:column filterMatchMode="contains" styleClass="wrap">
+                                    <f:facet name="header">Descripcion de la reserva</f:facet>
+                                    <h:outputText value="#{solicitud.descripcion}"/>
+                                </p:column>
+                                <p:column filterMatchMode="contains" styleClass="wrap">
+                                    <f:facet name="header">Descripcion del refrigerio</f:facet>
+                                    <h:outputText value="#{solicitud.descRefrigerio}"/>
+                                </p:column>
+                                 <p:column>
+                                    <f:facet name="header">Estado solicitud de refrigerio:</f:facet>
+                                    <h:outputText value="#{solicitud.idEstadoSolicitudRefrigerio.nombre}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">Estado de la reserva:</f:facet>
+                                    <h:outputText value="#{solicitud.idEstadoSolicitudEdificio.nombre}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">Fecha de reserva</f:facet>
+                                    <h:outputText value="#{solicitud.fechaAlquiler}">
+                                       <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">Horario:</f:facet>
+                                    <h:outputText value="Hora incio: "/>
+                                    <h:outputText value="#{solicitud.horaInicioAlquiler}">
+                                       <f:convertDateTime pattern="hh:mm a"/>
+                                    </h:outputText>
+                                    <br></br>
+                                    <h:outputText value="Hora fin: "/>
+                                    <h:outputText value="#{solicitud.horaFinAlquiler}">
+                                       <f:convertDateTime pattern="hh:mm a"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column width="50">
+                                    <p:commandButton icon="ui-icon-circle-close" id="eliminar" action="#{solicitudEdificioController.prepareCancelar}">
+                                        <f:setPropertyActionListener value="#{solicitud}" target="#{solicitudEdificioController.solicitudEdificioActual}"/>
+                                        <p:confirm header="Confirmación" message="¿Deseas cancelar la reservacion de la sala?" icon="ui-icon-alert" />
+                                    </p:commandButton>
+                                    <p:tooltip id="descripcion-botonEliminar" for="eliminar" value="Cancelar Reserva" trackMouse="true" />
+                                </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

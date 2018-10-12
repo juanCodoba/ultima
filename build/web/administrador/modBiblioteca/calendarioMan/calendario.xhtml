@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.bibliotecario}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modBiblioteca/ListarLibro/lista">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+
+                        <li>
+                            <h:commandLink action="#{LibroController.prepareCreate()}">
+                                <i class="fa fa-book"></i>
+                                <span>Crear nuevo Libro</span> 
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview" jsf:rendered="#{loginController.bibliotecario}" >
+                            <a href="#"><i class="fa fa-calendar"></i> <span>Caledarios</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+                                        <i class="fa fa-calendar"></i> 
+                                        <span>Calendario de Prestamos</span>
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+                                        <i class="fa fa-calendar"></i> 
+                                        <span>Calendario mantenimientos</span>
+                                    </h:commandLink>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="treeview" jsf:rendered="#{loginController.bibliotecario}">
+                            <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <h:commandLink action="#{LibroController.prepareListPreven()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Preventivos</span>
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{LibroController.prepareListCorrect()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Correctivos</span>
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{LibroController.prepareListDeBaja()}" rendered="#{loginController.bibliotecario}">
+                                        <span>de baja</span>
+                                    </h:commandLink>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-shopping-cart"></i> <span>Prestamos</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <h:commandLink action="#{reservaLibrosController.prepareCreate()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Generar Prestamos</span>
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reservaLibrosController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{reservaLibrosController.prepareList()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Listar Prestamos</span>
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reservaLibrosController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                    </h:commandLink>
+                                </li>
+
+                                <li>
+                                    <h:commandLink action="#{reservaLibrosController.prepareEditP()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Libros Prestados  </span>
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                    </h:commandLink>
+                                </li>
+
+                                <li>
+                                    <h:commandLink action="#{reservaLibrosController.prepareHisotrial()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Historial de Prestamos  </span>
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                    </h:commandLink>
+
+
+                                </li>
+
+
+                            </ul>
+                        </li>
+
+                        <li>
+                            <h:commandLink  action="/administrador/modBiblioteca/indicadoresGestion/crearIndGestion" rendered="#{loginController.bibliotecario}">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Calendario de Mantenimientos</ui:define>  
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form>
+                <nav class="navbar navbar-inverse" role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target=".navbar-ex1-collapse">
+                            <span class="sr-only">Desplegar navegación</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="active">
+                                <p:commandLink ajax="false" action="#{LibroController.prepareViewCalendar()}">
+                                    <i class="fa fa-calendar"></i>
+                                    <span>Cronograma de mantenimientos</span>
+                                </p:commandLink>
+                            </li>
+                            <li class="active">
+                                <p:commandLink ajax="false" action="#{LibroController.prepareListPreven()}">
+                                    <i class="fa fa-calendar"></i>
+                                    <span>Mantenimientos Preventivos</span>
+                                </p:commandLink>
+                            </li>
+                            <li class="active">
+                                <p:commandLink ajax="false" action="#{LibroController.prepareListCorrect()}">
+                                    <i class="fa fa-calendar"></i>
+                                    <span>Mantenimientos Correctivos</span>
+                                </p:commandLink>
+                            </li>
+                            <li class="active">
+                                <p:commandLink ajax="false" action="#{LibroController.prepareListDeBaja()}">
+                                    <i class="fa fa-calendar"></i>
+                                    <span>Libros Dados De Baja</span>
+                                </p:commandLink>
+                            </li>
+
+
+
+                        </ul>
+                    </div>
+                </nav>
+            </h:form>
+            <div class="container-fluid">
+                <div class="col-md-12">
+                    <h:form id="cronograma-form">
+                        <p:schedule id="schedule" rightHeaderTemplate="" value="#{LibroController.eventModel}" style="border-bottom: 1px solid lightslategray" locale="tr" >
+                            <p:ajax event="eventSelect" listener="#{LibroController.onEventSelect}"  oncomplete="PF('eventDialog').show();" />
+                        </p:schedule>
+                    </h:form>
+                </div>
+            </div>
+            <script type="text/javascript">
+                PrimeFaces.locales['tr'] = {
+                    closeText: 'Cerrar',
+                    prevText: 'Atras',
+                    nextText: 'Adelante',
+                    currentText: 'Hoy',
+                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    monthNamesShort: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+                    dayNamesShort: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+                    dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+                    weekHeader: 'Semanas',
+                    firstDay: 1,
+                    isRTL: false,
+                    showMonthAfterYear: false,
+                    yearSuffix: '',
+                    month: 'Mes',
+                    week: 'Semana',
+                    day: 'Dia',
+                    allDayText: 'Todo el dia'
+                };
+            </script>
+            <style type="text/css">
+                .value {
+                    width: 900px;
+                }
+            </style>
+        </ui:define>
+
+
+
+    </ui:composition>
+
+
+</html>

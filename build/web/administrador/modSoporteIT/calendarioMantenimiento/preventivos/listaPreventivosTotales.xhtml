@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modSoporteIT/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{usuarioController.prepareList}">
+                                <i class="fa fa-users"></i> 
+                                <span>Usuarios del sistema</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{computadorController.prepareList}">
+                                <i class="fa fa-desktop"></i>
+                                <span>Inventario tecnológico</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
+                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario mantenimientos</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview active">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                     <span>Preventivos</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                     <span>Correctivos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{reporteSiesaController.prepareListReportes}">
+                                <i class="fa fa-bug "></i>
+                                <span>Fallos del ERP</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/configuracionMaestros/verConfiguraciones">
+                                <i class="fa fa-file"></i>
+                                <span>Configuración de maestros</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/equiposUsuarios/lista">
+                                <i class="fa fa-folder" ></i>
+                                <span>Declaraciónes de uso</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Listado de mantenimientos preventivos</ui:define>  
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <div class="row">
+                <div class="col-sm-12">
+                    <h:form id="MantenimientosFormList">
+                       <p:outputPanel id="MantenimientosTablePanel">
+                           <p:dataTable value="#{cronogramaController.listaMantenimientosTotalTipo}" var="mantenimiento"
+                                        rows="100" id="incidenteTable"  emptyMessage="No se encontraron registros" sortMode="multiple"
+                                        paginator="true" rowStyleClass="#{mantenimiento.estado eq 'Cerrado' ? 'color1': mantenimiento.estado eq 'Sin Cerrar' ? 'color2': mantenimiento.estado eq 'Sin Valoración' ? 'color3': null}"
+                                        paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                        rowsPerPageTemplate="100,150,200">
+                                <f:facet name="header">
+                                    <h4 class="colorLetra" style="font-weight: bold" >
+                                        Total mantenimientos preventivos: #{fn:length(cronogramaController.listaMantenimientosTotalTipo)}
+                                    </h4>
+                                </f:facet>
+                               <p:column filterMatchMode="contains" filterBy="#{mantenimiento.fechaAñoString}" sortBy="#{mantenimiento.fechaAñoString}" width="70">
+                                   <f:facet name="header">Filtrar por año</f:facet>
+                                   <h:outputText value="#{mantenimiento.fechaAñoString}">
+                                   </h:outputText>
+                               </p:column>
+                               <p:column filterMatchMode="contains" headerText="Filtrar por mes" filterBy="#{mantenimiento.fechaMesString}" sortBy="#{mantenimiento.fechaMesString}" width="70">
+
+                                   #{mantenimiento.fechaMesString}
+                               </p:column>
+                               <p:column filterBy="#{mantenimiento.idCronogramaMantenimientos}" width="100" filterMatchMode="contains">
+                                   <f:facet name="header"># Ticket:</f:facet>
+                                   <h:outputText value="#{mantenimiento.idCronogramaMantenimientos}CFIPMP" style="font-weight: bold"/>
+                               </p:column>
+                               <p:column filterBy="#{mantenimiento.idComputador.codigoComputador}" width="150" filterMatchMode="contains">
+                                   <f:facet name="header">Service tag o (S/N)</f:facet>
+                                   <h:outputText value="#{mantenimiento.idComputador.codigoComputador.toUpperCase()}" />
+                               </p:column>
+                               <p:column filterBy="#{mantenimiento.idComputador.idUsuario}" filterMatchMode="contains">
+                                   <f:facet name="header">Responsable del equipo</f:facet>
+                                   <h:outputText value="#{mantenimiento.idComputador.idUsuario.toString()}"/>
+                               </p:column>
+
+                               <p:column>
+                                   <f:facet name="header">Fecha de Inicio del mantenimiento</f:facet>
+                                   <h:outputText value="#{mantenimiento.fechaInicioMantenimiento}">
+                                      <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                   </h:outputText>
+                               </p:column>
+                               <p:column width="100">
+                                   <f:facet name="header">Hora de Inicio del mantenimiento</f:facet>
+                                   <h:outputText value="#{mantenimiento.horaMantenimiento}">
+                                      <f:convertDateTime pattern="HH:mm a"/>
+                                   </h:outputText>
+                               </p:column>
+                               <p:column filterBy="#{mantenimiento.idComputador.idSeccion.nombreSeccion}" sortBy="#{mantenimiento.idComputador.idSeccion.nombreSeccion}" filterMatchMode="contains">
+                                   <f:facet name="header">Sección</f:facet>
+                                   <h:outputText value="#{mantenimiento.idComputador.idSeccion.nombreSeccion.toUpperCase()}">
+                                   </h:outputText>
+                               </p:column>
+                               <p:column filterBy="#{mantenimiento.idTipoMantenimiento.nombreTipoMantenimiento}" sortBy="#{mantenimiento.idTipoMantenimiento.nombreTipoMantenimiento}" filterMatchMode="contains">
+                                   <f:facet name="header">Tipo de mantenimiento</f:facet>
+                                   <h:outputText value="#{mantenimiento.idTipoMantenimiento.nombreTipoMantenimiento.toUpperCase()}"/>
+                               </p:column>
+                               <p:column filterBy="#{mantenimiento.estado}" sortBy="#{mantenimiento.estado}" filterMatchMode="contains">
+                                   <f:facet name="header">Estado del ticket</f:facet>
+                                   <h:outputText value="#{mantenimiento.estado}"/>
+                               </p:column>
+                               <p:column width="50">
+                                   <p:commandButton process="@this" id="historial" ajax="false" icon="ui-icon-search" actionListener="#{cronogramaController.prepareViewDiagnostico}" action="#{cronogramaController.viewDiagnosticoPrev}">
+                                       <f:attribute name="mantenimiento" value="#{mantenimiento}"/>
+                                       <f:setPropertyActionListener value="#{mantenimiento}" target="#{cronogramaController.cronogramaMantenimientosActual}"/>
+                                   </p:commandButton>
+                                   <p:tooltip id="descripcion-botonHistorial" for="historial" value="Ver diagnostico" trackMouse="true" />
+                               </p:column>
+                           </p:dataTable>
+                       </p:outputPanel>
+                    </h:form>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

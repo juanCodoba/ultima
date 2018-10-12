@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.saludOcupacional}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li class="active">
+                            <h:commandLink action="/usuario/modSaludOcupacional/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{formatoSaludOcupacionalController.prepareCreate}">
+                                <i class="fa fa-file-pdf-o"></i> 
+                                <span>Crear documento</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{indicadorSaludOcupacionalController.prepareCreate}">
+                                <i class="fa fa-desktop"></i>
+                                <span>Crear Indicador</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{indicadorSaludOcupacionalController.prepareList}">
+                                <i class="fa fa-line-chart"></i> 
+                                <span>Lista de indicadores</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{tipSaludOcupacionalController.prepareCreate}">
+                                <i class="fa fa-check"></i> 
+                                <span>Crear Tip</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{sstReporteController.prepareList}">
+                                <i class="fa fa-tasks"></i> 
+                                <span>Lista de reportes</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Editar documento(procedimiento/instructivo)</ui:define>        
+        <ui:define name="body">
+            <h:form enctype="multipart/form-data" id="formulario-crearDocu">
+                <h:outputText class="help-block" value="Ingresa los datos del documento:"/>
+                <div class="form-group">
+                    <h:outputLabel value="Codigo del documento:"  />
+                    <input  placeholder="Codigo unico del Documento" class="form-control" jsf:id="codInputText" jsf:value="#{formatoSaludOcupacionalController.formatoSaludOcupacionalActual.codigo}" 
+                            type="text" required="true" 
+                            jsf:requiredMessage="Por favor ingrese el codigo del documento"> 
+                            <f:ajax execute="@this" render="codMessage"/>
+                    </input>
+                    <p:message id="codMessage" for="codInputText" styleClass="error"/>
+                </div>
+               
+                <div class="form-group">
+                    <h:outputLabel value="Nombre del documento"  />
+                    <input placeholder="Nombre" class="form-control" jsf:id="documentoInputText" jsf:value="#{formatoSaludOcupacionalController.formatoSaludOcupacionalActual.nombre}" 
+                            type="text" required="true"
+                            jsf:validatorMessage="El nombre del documento no puede tener ningún tipo de símbolo ni acento"
+                            jsf:requiredMessage="Por favor ingrese el nombre del documento">
+                            <f:ajax execute="@this" render="documentoMessage"/>
+                            <f:validateRegex pattern="[a-zA-Z 1234567890]*"/>
+                    </input>
+                    <p:message id="documentoMessage" for="documentoInputText" styleClass="error"/>
+                </div>  
+               
+                
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <h:outputLabel value="Versión:  "/>
+                        <div class="form-group">  
+                            <p:spinner requiredMessage="Ingresa la versión del documento" required="true" 
+                                       id="versionSpinner" class="form-group" 
+                                       value="#{formatoSaludOcupacionalController.formatoSaludOcupacionalActual.version}" 
+                                       style="width: 21em" min="0" max="20"/>
+                            <p:message id="versionMessage" for="versionSpinner" styleClass="error"/>
+                        </div> 
+                    </div>
+                    <div class="col-md-8">
+                        <h:outputLabel value="Fecha actualización del documento:"/>
+                        <p:calendar id="fechaActualizacion" 
+                                    required="true" 
+                                requiredMessage="Ingresa la fecha de actualizacion del documento" 
+                                value="#{formatoSaludOcupacionalController.formatoSaludOcupacionalActual.fecha}"
+                                navigator="true" pattern="MM/dd/yyyy">
+                        <f:ajax execute="fechaActualizacion" 
+                                render="msgFechaActualizacion"/>
+                        </p:calendar>
+                        <p:message id="msgFechaActualizacion" for="fechaActualizacion"  styleClass="error"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <p:fileUpload cancelLabel="Cancelar" uploadLabel="Cargar documento" label="Examinar" mode="advanced" auto="true" fileLimit="1"  allowTypes="/(\.|\/)(pdf)$/"
+                                  fileUploadListener="#{formatoSaludOcupacionalController.guardarDocumento}" converterMessage="proceso terminado" invalidFileMessage="Solo se aceptan formatos pdf"/>
+                </div>
+                <div class="row">
+                    <div class="container-fluid col-sm-4 form-group">
+                        <p:commandButton class="btn btn-primary btn-block" value="Guardar" action="#{formatoSaludOcupacionalController.update}">
+                             <f:ajax execute="@this formulario-crearDocu" render="formulario-crearDocu"/>
+                        </p:commandButton>
+                    </div>
+                    <div class="container-fluid col-sm-4 form-group">
+                        <h:button class="btn btn-block" style="background: darkorange; color: white" value="Cancelar" outcome="/User/saludOcupacional/userListFormato"/>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

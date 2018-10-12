@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Listado de formatos y documentos del SGSST</ui:define>   
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.saludOcupacional}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li class="active">
+                            <h:commandLink action="/usuario/modSaludOcupacional/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{formatoSaludOcupacionalController.prepareCreate}">
+                                <i class="fa fa-file-pdf-o"></i> 
+                                <span>Crear documento</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{indicadorSaludOcupacionalController.prepareCreate}">
+                                <i class="fa fa-desktop"></i>
+                                <span>Crear Indicador</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{indicadorSaludOcupacionalController.prepareList}">
+                                <i class="fa fa-line-chart"></i> 
+                                <span>Lista de indicadores</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{tipSaludOcupacionalController.prepareCreate}">
+                                <i class="fa fa-check"></i> 
+                                <span>Crear Tip</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{sstReporteController.prepareList}">
+                                <i class="fa fa-tasks"></i> 
+                                <span>Lista de reportes</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form id="documentosFormList">
+                <p:outputPanel id="documentosTablePanel">
+                    <p:dataTable value="#{formatoSaludOcupacionalController.listFormatoSaludOcupacional}" var="documentos"
+                                 rows="50" id="documentosTable" 
+                                 paginator="true" widgetVar="filtroTable"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="50,100,150">
+                        <f:facet name="header">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p:button icon="fa fa-arrow-left"
+                                                  value="Volver pagina principal" 
+                                                  style="font-size: 1.2em !important; padding: 5px; left: 0"
+                                                  outcome="/usuario/modSaludOcupacional/paginaPrincipal"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h4 class="colorLetra" style="font-weight: bold" >
+                                            Total documentos: #{fn:length(formatoSaludOcupacionalController.listFormatoSaludOcupacional)}
+                                        </h4>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h:commandLink id="exportExcel">
+                                            <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                            <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                                            target="documentosTable" fileName="inventario" />
+                                        </h:commandLink>
+                                        <p:tooltip id="descripcion-botonExcel" for="exportExcel" value="Exportar en excel" trackMouse="true" />
+                                    </div>
+                                </div>
+                            </div>
+                        </f:facet>
+                        <p:column filterBy="#{documentos.codigo}" filterMatchMode="contains" width="110" >
+                            <f:facet name="header">Código</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{documentos.codigo.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{documentos.nombre}" filterMatchMode="contains" width="400">
+                            <f:facet name="header">Nombre del documento</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1.5em;" value="#{documentos.nombre.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{documentos.version}" width="100" filterMatchMode="contains" priority="6">
+                            <f:facet name="header">Versión</f:facet>
+                            <h:outputText value="#{documentos.version}"/>
+                        </p:column>
+                        <p:column width="200" priority="7">
+                            <f:facet name="header">Fecha de actualización</f:facet>
+                            <h:outputText value="#{documentos.fecha}">
+                                <f:convertDateTime pattern="MMMM dd, YYYY"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column width="100">
+                            <p:commandButton ajax="false" id="descargar" icon="ui-icon-arrowthick-1-s">
+                                <f:setPropertyActionListener value="#{documentos}" target="#{formatoSaludOcupacionalController.formatoSaludOcupacionalActual}"/>
+                                <p:fileDownload value="#{formatoSaludOcupacionalController.formatoSaludOcupacionalActual.formato}" />
+                            </p:commandButton>
+                            
+                            <p:tooltip id="descripcion-botonDescargar" for="descargar" value="Descargar indicador" trackMouse="true" />
+                            <p:commandButton ajax="false" process="@this" icon="ui-icon-pencil" id="actualizar" action="#{formatoSaludOcupacionalController.prepareEdit}" rendered="#{loginController.saludOcupacional}">
+                                <f:setPropertyActionListener value="#{documentos}" target="#{formatoSaludOcupacionalController.formatoSaludOcupacionalActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-botonActualizacion" for="actualizar" value="Actualizar documento" trackMouse="true" />
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

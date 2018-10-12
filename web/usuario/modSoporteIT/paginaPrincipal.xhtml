@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li class="active">
+                            <h:commandLink action="/usuario/modSoporteIT/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{usuarioController.prepareList}">
+                                <i class="fa fa-users"></i> 
+                                <span>Usuarios del sistema</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{computadorController.prepareList}">
+                                <i class="fa fa-desktop"></i>
+                                <span>Inventario tecnológico</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
+                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario mantenimientos</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                     <span>Preventivos</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                     <span>Correctivos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{reporteSiesaController.prepareListReportes}">
+                                <i class="fa fa-bug "></i>
+                                <span>Fallos del ERP</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/configuracionMaestros/verConfiguraciones">
+                                <i class="fa fa-file"></i>
+                                <span>Configuración de maestros</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/equiposUsuarios/lista">
+                                <i class="fa fa-folder" ></i>
+                                <span>Declaraciónes de uso</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Modulo de Soporte IT</ui:define>  
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-7">
+                    <h:form>
+                        <div class="col-md-5">
+                            <div class="itemZoom img-bordered">
+                                <h:commandLink action="#{cronogramaController.prepareCreateReportarFallo}">
+                                    <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                    <img class="img-responsive" src="#{request.contextPath}/resources/images/iconosSoporteIT/reportarFallo.png"/>
+                                </h:commandLink>
+                                <div class="item-overlay top"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="itemZoom img-bordered">
+                                <h:commandLink action="#{cronogramaController.prepareViewEstadoTickets}">
+                                    <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                    <img class="img-responsive" src="#{request.contextPath}/resources/images/iconosSoporteIT/ticketsValoraciones.png"/>
+                                </h:commandLink>
+                                <div class="item-overlay top"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="itemZoom img-bordered">
+                                <h:commandLink action="#{computadorController.prepateViewComputadorUser}">
+                                    <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{computadorController.usuarioActual}"/>
+                                    <img class="img-responsive" src="#{request.contextPath}/resources/images/iconosSoporteIT/equiposCargo.png"/>
+                                </h:commandLink>
+                                <div class="item-overlay top"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="itemZoom img-bordered">
+                                <h:commandLink action="#{usuarioController.prepareViewValoracion}">
+                                    <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{usuarioController.usuarioActual}"/>
+                                    <img class="img-responsive" src="#{request.contextPath}/resources/images/iconosSoporteIT/valoracionesGenerales.png"/>
+                                </h:commandLink>
+                                <div class="item-overlay top"></div>
+                            </div>
+                        </div>             
+                    </h:form>
+                </div>
+                <div class="col-sm-12 col-md-4">
+                    <p:graphicImage id="photo" name="images/robot.png" class="img-responsive"/>               
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

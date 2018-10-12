@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Valoraciones generales del servicio de Soporte IT </ui:define> 
+        <ui:define name="title2">Aquí puedes valorar y describir de forma general el servicio prestado.</ui:define> 
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form id="valoracionForm">
+                <div class="row form-group">
+                    <div class="container-fluid col-sm-4 form-group"> 
+                        <p:commandButton   class="btn btn-primary btn-block" value="Crear valoración" onclick="PF('botonCrearValoracionDlg').show();" />
+                    </div>  
+                    <div class="container-fluid col-sm-4 form-group">
+                        <h:button class="btn btn-cancelar btn-block" value="Volver pagina pricipal" outcome="/usuario/modSoporteIT/paginaPrincipal"/>
+                    </div>  
+                </div>
+                <p:dialog widgetVar="botonCrearValoracionDlg" modal="true" resizable="false" width="400">
+                    <h:form id="valorarEditForm">
+                        <h:outputText class="help-block" value="Valora y comenta nuestro servició de soporte IT:"/>
+                        <div class="form-group">
+                            <h:outputLabel value="Titulo:"  />
+                            <input class="form-control" id="tituloInputText" jsf:value="#{usuarioController.valoracionActual.titulo}" 
+                                   type="text" placeholder="Titulo de la valoración">
+                            </input>
+
+                        </div>
+                        <div class="form-group">       
+                            <h:outputLabel value="Descripción de la valoración:"  />
+                            <textarea placeholder="Escribe una breve descripción de la valoración" class="form-control" jsf:id="descriInputText" jsf:value="#{usuarioController.valoracionActual.descripcion}" 
+                                      type="text" required="true" style="resize: none"
+                                      jsf:requiredMessage="Por favor ingrese la descripción de la valoracion">
+                            </textarea>
+                            <p:message id="descriMessage" for="descriInputText" styleClass="error"/>
+                        </div>
+                        <div class="form-group" style=" background: gray; border-radius: .5em; border: 1px solid lightgrey ">
+                            <div class="input-group" style="padding: 1em">
+                                <h:outputLabel style="color: white" value="Valoracion:" />
+                                <p:rating value="#{usuarioController.valoracionActual.valoracion}" stars="5" cancel="false"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <h:commandButton class="btn btn-primary btn-block" value="Valorar" action="#{usuarioController.addValoracion}"/>
+                        </div>
+                        <div class="form-group">
+                            <h:button class="btn btn-warning btn-block" value="Cancelar" outcome="listaValoraciones"/>
+                        </div>
+                    </h:form>
+                </p:dialog>
+                <p:dataScroller id="valoracionTable" value="#{usuarioController.listaValoracion}" var="valoracion" >
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                              <h3 class="panel-title">#{valoracion.titulo}</h3>
+                        </div>
+                        <div class="panel-body">
+                          <h:outputLabel value="#{valoracion.descripcion}" />
+                          <p:rating value="#{valoracion.valoracion}" readonly="true"/>
+                        </div>
+                        <div class="panel-footer" style="padding-bottom: 2em">
+                            <div class="col-lg-9">
+                                #{valoracion.idUsuario.toString()}
+                            </div>
+                            <div class="col-lg-3">
+                                <h:outputText value="#{valoracion.fechaValoracion}">
+                                    <f:convertDateTime pattern="MMMM dd, YYYY HH:mm"/>
+                                </h:outputText>
+                            </div>
+                        </div>
+                    </div>
+                </p:dataScroller>  
+            </h:form>  
+        </ui:define>
+    </ui:composition>
+</html>
+
+

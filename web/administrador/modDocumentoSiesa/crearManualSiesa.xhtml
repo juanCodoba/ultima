@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modDocumentoSiesa/listaDocumentoSiesa">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{manualSiesaController.prepareCreate}">
+                                <i class="fa fa-users"></i> 
+                                <span>Crear manual</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Crear nuevo manual</ui:define>        
+        <ui:define name="body">
+            <h:form id="formulario-crearManual" enctype="multipart/form-data">
+                <h:outputText class="help-block" value="Ingresa los datos del formato:"/>
+                <div class="form-group">
+                    <h:outputLabel value="Codigo del Manual:"  />
+                    <input  placeholder="Codigo unico del manual" class="form-control" jsf:id="codInputText" jsf:value="#{manualSiesaController.manualSiesaActual.codigo}" 
+                                 type="text" required="true"
+                                 jsf:requiredMessage="Por favor ingrese el codigo del manual"
+                                 jsf:validator="#{manualSiesaController.validarCodManual}"> 
+                                 <f:ajax execute="@this" render="codMessage"/>
+                    </input>
+                    <p:message id="codMessage" for="codInputText" styleClass="error"/>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Suit:"  />
+                    <h:selectOneMenu class="form-control" id="idSelectSuit" required="true"
+                                     value="#{manualSiesaController.manualSiesaActual.idSuit}"
+                                     requiredMessage="Por favor ingrese la suit a la que pertenece el manual">
+                            <f:selectItem itemLabel="Seleccionar uno.." />
+                            <f:selectItems value="#{suitController.listaSuit}" var="suit" itemValue="#{suit}"/>  
+                            <p:ajax listener="#{manualSiesaController.llenarLista}" update="divPanel"/>  
+                            <f:ajax execute="@this" render="suitMessage"/>
+                    </h:selectOneMenu>                   
+                    <p:message id="suitMessage" for="idSelectSuit" styleClass="error"/>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Proceso:" />
+                    <h:selectOneMenu id="divPanel" class="form-control"  value="#{manualSiesaController.manualSiesaActual.idSubprocesoSuit}">
+                        <f:selectItems value="#{manualSiesaController.listaPorSuit}" var="subprocesos" itemValue="#{subprocesos}"/>  
+                    </h:selectOneMenu>
+                </div>
+                
+                <div class="form-group">
+                    <h:outputLabel value="Nombre del manual:"  />
+                    <input placeholder="Nombre" class="form-control" jsf:id="manualInputText" jsf:value="#{manualSiesaController.manualSiesaActual.nombre}" 
+                                 type="text" required="true"
+                                 jsf:validatorMessage="El nombre del manual no puede tener ningún tipo de símbolo ni acento"
+                                 jsf:requiredMessage="Por favor ingrese el nombre del formato">
+                                 <f:ajax execute="@this" render="manualMessage"/>
+                                 <f:validateRegex pattern="[a-zA-Z 1234567890]*"/>
+                    </input>
+                    <p:message id="manualMessage" for="manualInputText" styleClass="error"/>
+                </div>  
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <h:outputLabel value="Responsable:"  />
+                        <div class="form-group">  
+                            <p:selectOneMenu class="form-group" id="idSelectResponsable" style="width: 100%; border: none;" filter="true" filterMatchMode="contains" required="false"
+                                             value="#{manualSiesaController.manualSiesaActual.idUsuario}" converter="usuarioConverter">
+                                    <f:selectItem/>
+                                    <f:selectItems  value="#{usuarioController.listaUsuarios}" var="usuario" itemValue="#{usuario}"/>  
+                            </p:selectOneMenu>
+                        </div> 
+                    </div>
+                    <div class="col-md-4">
+                        <h:outputLabel value="Versión: "/>
+                        <div class="input-group form-group"> 
+                            <p:inputNumber style="width: 100%" id="version" decimalPlaces="0" value="#{manualSiesaController.manualSiesaActual.version}"/> 
+                        </div> 
+                    </div>
+                    <div class="col-md-4">
+                        <h:outputLabel value="Fecha actualización del Formato:"/>
+                        <p:calendar id="fechaActualizacion" 
+                                    required="true" 
+                                requiredMessage="Ingresa la fecha de actualizacion del Manual" 
+                                value="#{manualSiesaController.manualSiesaActual.fechaActualizacion}"
+                                navigator="true" pattern="MM/dd/yyyy">
+                        <f:ajax execute="fechaActualizacion" 
+                                render="msgFechaActualizacion"/>
+                        </p:calendar>
+                        <p:message id="msgFechaActualizacion" for="fechaActualizacion"  styleClass="error"/>
+                    </div>
+                </div>
+                
+               <div class="form-group" >
+                    <h:outputLabel value="Cargar manual:"/>
+                    <p:fileUpload  cancelLabel="Cancelar" uploadLabel="Cargar manual" label="Examinar" mode="advanced" auto="true"  fileLimit="1" invalidFileMessage="Solo se aceptan archivos con formato pdf"
+                                   fileLimitMessage="Solo se puede cargar un documento" allowTypes="/(\.|\/)(pdf)$/" fileUploadListener="#{manualSiesaController.guardarManual}"/>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <p:commandButton class="btn btn-primary btn-block"
+                                ajax="false"
+                                value="Guardar"
+                                action="#{manualSiesaController.addManual}"
+                                onclick="onSubmitButton();"/>
+                    </div>
+                    <div class="col-sm-6 form-group">    
+                        <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="/usuario/modDocumentoSiesa/listaDocumentoSiesa"/>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

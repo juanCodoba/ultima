@@ -1,0 +1,262 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup >
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                         <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftFichaTecnica.prepareCreate}">
+                                <i class="fa fa-file"></i>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{ftFichaTecnica.usuarioActual}"/>
+                                <span>Crear ficha técnica</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftFichaTecnica.prepareListDesarrollo}">
+                                <i class="fa fa-camera-retro"></i> 
+                                <span>Fichas en desarrollo</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaVALI1}" action="#{ftFichaTecnica.prepareListPrimeraValidacion}">
+                                <i class="fa fa-check"></i> 
+                                <span>Primera Validación</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="active">
+                            <h:commandLink rendered="#{loginController.fichaTecnicaVALI2}" action="#{ftFichaTecnica.prepareListSegundaValidacion}">
+                                <i class="fa fa-check-circle"></i> 
+                                <span>Segunda Validación</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaSCAM}" action="#{ftFichaTecnica.prepareListSolicitudesModificacionTodas}">
+                                <i class="fa fa-cogs"></i> 
+                                <span>Lista de solicitudes</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftClienteController.prepareList}">
+                                <i class="fa fa-user"></i>
+                                <span>Clientes</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Editar estado de la ficha técnica</ui:define>        
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="5000"/>
+            <h:form id="formulario-crearFicha">
+                 <p:overlayPanel style="width: 50% !important" id="imgPanel1" onShow="true" modal="true" for="f" my="left top" at="left bottom" showEffect="blind" hideEffect="explode"  hideEvent="mousedown"
+                    dismissable="true" showCloseIcon="true">
+                    <p:graphicImage  value="#{ftFichaTecnica.imgF}" width="100%" />
+                </p:overlayPanel>
+                <p:overlayPanel style="width: 50% !important" id="imgPanel2" onShow="true" modal="true" for="p" my="left top" at="left bottom"  showEffect="blind" hideEffect="explode"  hideEvent="mousedown"
+                    dismissable="true" showCloseIcon="true">
+                    <p:graphicImage  value="#{ftFichaTecnica.imgP}" width="100%" />
+                </p:overlayPanel>
+                <p:overlayPanel style="width: 50% !important" id="imgPanel3" onShow="true" modal="true" for="c1" my="left top" at="left bottom" showEffect="blind" hideEffect="explode"  hideEvent="mousedown"
+                    dismissable="true" showCloseIcon="true">
+                    <p:graphicImage  value="#{ftFichaTecnica.imgC1}" width="100%" />
+                </p:overlayPanel>
+                <p:overlayPanel style="width: 50% !important" id="imgPanel4" onShow="true" modal="true" for="c2" my="left top" at="left bottom" showEffect="blind" hideEffect="explode"  hideEvent="mousedown"
+                    dismissable="true" showCloseIcon="true">
+                    <p:graphicImage  value="#{ftFichaTecnica.imgC2}" width="100%" />
+                </p:overlayPanel>
+                <p:overlayPanel style="width: 50% !important" id="imgPanel5" onShow="true" modal="true" for="c3" my="left top" at="left bottom" showEffect="blind" hideEffect="explode"  hideEvent="mousedown"
+                    dismissable="true" showCloseIcon="true">
+                    <p:graphicImage  value="#{ftFichaTecnica.imgC3}" width="100%" />
+                </p:overlayPanel>
+                <p:overlayPanel style="width: 50% !important" id="imgPanel6" onShow="true" modal="true" for="c4" my="left top" at="left bottom" showEffect="blind" hideEffect="explode"  hideEvent="mousedown"
+                    dismissable="true" showCloseIcon="true">
+                    <p:graphicImage  value="#{ftFichaTecnica.imgC4}" width="100%" />
+                </p:overlayPanel>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <div class="head">
+                            <h2 class="titulo1">#{ftFichaTecnica.fichaTecnicaActual.descripcionCorta}</h2>
+                            <h3 class="titulo2">COD. ITEM: #{ftFichaTecnica.fichaTecnicaActual.idItem}</h3>       
+                        </div>
+                        <div style="color: darkorange" class="titulo3">
+                            <h2>FICHA TÉCNICA EN ESTADO DE REVISIÓN</h2>
+                        </div>
+                        <div class="body-contenedor">
+                            <div class="contenedor1 contenedor2">
+                                <div class="tituloContenedor1">
+                                    ESPECIFICACIONES
+                                </div>
+                                <div class="cuerpoContenedor1">
+                                    <p class="parrafo-contenedor">
+                                        <h:outputLabel class="labelInfo">Cliente:</h:outputLabel>
+                                        <br></br>
+                                        <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.idFtCliente.nombre}"/>
+                                        <br></br>
+                                        <h:outputLabel class="labelInfo">Descripción completa:</h:outputLabel>
+                                        <br></br>
+                                        <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.descripcionLarga}"/>
+                                        <br></br>
+                                        <h:outputLabel class="labelInfo">Logo:</h:outputLabel>
+                                        <br></br>
+                                        <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.descripcionLogo}"/>
+                                        <br></br>
+                                        <h:outputLabel class="labelInfo">Tela principal:</h:outputLabel>
+                                        <br></br>
+                                        <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.telaPrincipal}"/>
+                                        <br></br>
+                                        <h:outputLabel class="labelInfo">Tela contraste:</h:outputLabel>
+                                        <br></br>
+                                        <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.telaContraste}"/>
+                                        <br></br>
+                                        <h:outputLabel class="labelInfo">Composición:</h:outputLabel>
+
+                                    </p>
+                                </div> 
+                            </div>
+                            <div class="contenedor1">
+                                <div class="cuerpoContenedor1">
+                                    <span>
+                                        <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.medidas}" escape="false"  />
+                                    </span>
+                                </div> 
+                            </div>
+                            <div class="contenedor1 contenedor2">
+                                <div class="tituloContenedor1">
+                                    CRITERIOS DE ACEPTACIÓN O RECHAZO
+                                </div>
+                                <div class="cuerpoContenedor4">
+                                    <p class="parrafo-contenedor">
+                                        SE DEFINE COMO CRITERIOS DE TOLERANCIA, PARA LOS CONTORNOS TOTALES Y LARGOS +/-2 CM.
+                                    </p>
+                                    <p class="parrafo-contenedor">
+                                        SE DEFINE COMO CRITERIOS DE TOLERANCIA, PARA LOS TIROS +/- 1CM.
+                                    </p>
+                                </div> 
+                                <div class="cuerpoContenedor3">
+                                    <img width="100%" src="#{request.contextPath}/resources/file/logos.png"/>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="col-md-6">
+                            <h:outputLabel value="Frontal:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em"/>
+                                <div class="img-bordered"  style="text-align: center !important;">
+                                    <p:graphicImage style="cursor:pointer" cache="false" class="img-responsive" id="f" title="mi foto buhoos" value="#{ftFichaTecnica.imgF}">
+                                    </p:graphicImage>
+                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h:outputLabel value="Posterior:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em"/>
+                            <div class="img-bordered"  style="text-align: center !important;">
+                                <h:outputLink value="#{request.contextPath}/resources/file/p.jpg" target="_blank">
+                                    <p:graphicImage style="cursor:pointer" cache="false" class="img-responsive" id="p" title="mi foto buhoos" value="#{ftFichaTecnica.imgP}">
+                                    </p:graphicImage>
+                                </h:outputLink> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-3">
+                            <h:outputLabel value="Caracteristica 1:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em"/>
+                            <h:outputLink value="#{request.contextPath}/resources/file/c1.jpg" target="_blank">
+                                <div class="img-bordered"  style="text-align: center !important;">
+                                    <p:graphicImage style="cursor:pointer" cache="false" class="img-responsive" id="c1" title="mi foto buhoos" value="#{ftFichaTecnica.imgC1}">
+                                    </p:graphicImage>
+                                </div>
+                            </h:outputLink> 
+                        </div>
+                        <div class="col-md-3">
+                            <h:outputLabel value="Caracteristica 2:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em"/>
+                            <h:outputLink value="#{request.contextPath}/resources/file/c2.jpg" target="_blank">
+                                <div class="img-bordered"  style="text-align: center !important;">
+                                    <p:graphicImage style="cursor:pointer" cache="false" class="img-responsive" id="c2" title="mi foto buhoos" value="#{ftFichaTecnica.imgC2}">
+                                    </p:graphicImage>
+                                </div>
+                            </h:outputLink> 
+                        </div>
+                        <div class="col-md-3">
+                            <h:outputLabel value="Caracteristica 3:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em"/>
+                            <h:outputLink value="#{request.contextPath}/resources/file/c3.jpg" target="_blank">
+                                <div class="img-bordered"  style="text-align: center !important;">
+                                    <p:graphicImage style="cursor:pointer" cache="false" class="img-responsive" id="c3" title="mi foto buhoos" value="#{ftFichaTecnica.imgC3}">
+                                    </p:graphicImage>
+                                </div>
+                            </h:outputLink> 
+                        </div>
+                        <div class="form-group col-md-3">
+                            <h:outputLabel value="Caracteristica 4:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em"/>
+                            <h:outputLink value="#{request.contextPath}/resources/file/c4.jpg" target="_blank">
+                                <div class="img-bordered"  style="text-align: center !important;">
+                                    <p:graphicImage style="cursor:pointer" cache="false" class="img-responsive" id="c4" value="#{ftFichaTecnica.imgC4}">
+                                    </p:graphicImage>
+                                </div>
+                            </h:outputLink> 
+                        </div>
+                </div>
+                <div class="col-md-6" style="margin-top: 1em">
+                        <div class="form-group">
+                            <h:outputLabel value="Estado de la ficha:" />
+                            <p:selectOneMenu style="width: 100%" 
+                                             id="estado" 
+                                             value="#{ftFichaTecnica.fichaTecnicaActual.estado}"
+                                            filter="true" filterMatchMode="contains">
+                                            <f:selectItem itemLabel="Seleccionar.."/>
+                                            <f:selectItem itemLabel="PRIMERA VALIDACIÓN" itemValue="PRIMERA VALIDACION"/>
+                                            <f:selectItem itemLabel="TERMINADO" itemValue="TERMINADO"/> 
+                                    <f:ajax execute="@this" render="estadoMessage"/>
+                            </p:selectOneMenu>
+                            <p:message id="estadoMessage" for="estado" styleClass="error"/>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel value="Observaciones:"  />
+                            <textarea placeholder="observaciones" 
+                                   class="form-control"
+                                   jsf:id="observaciones"
+                                   jsf:value="#{ftFichaTecnica.fichaTecnicaActual.observaciones}" 
+                                   type="text" style="height: 150px">
+                            </textarea>
+                            <p:message id="observacionesMessage" for="observaciones" styleClass="error"/>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4 form-group">
+                                <p:commandButton class="btn btn-primary btn-block"
+                                                 ajax="false"
+                                                 value="Editar"
+                                                 action="#{ftFichaTecnica.updateSegundaValidacion}"
+                                                 onclick="onSubmitButton();"/>
+                            </div>
+                            <div class="col-sm-4 form-group">    
+                                <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="lista"/>
+                            </div>
+                            <div class="col-sm-4 form-group">
+                                <p:commandButton id="boton-print" style="width: 100%;height: 40px" value="Descargar" icon="fa fa-file-photo-o"
+                                                 action="#{ftFichaTecnica.createFichaPDFRevisar}"
+                                            onclick="target='_blank';PF('descarga').hide();"
+                                            ajax="false">
+                                </p:commandButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

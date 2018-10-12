@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="#{manualSiesaController.prepareCreate}">
+                                <i class="fa fa-toggle-on"></i> 
+                                <span>Estado de proyectos</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup> 
+                    <li class="active">
+                        <h:commandLink action="/usuario/modProyectos/paginaPrincipal">
+                            <i class="fa fa-dashboard"></i> 
+                            <span>Principal</span>
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{ideaController.prepareListIdeasBuenas}">
+                            <i class="fa fa-lightbulb-o"></i> 
+                            <span>Banco de ideas</span>
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Gestión de proyectos (PMO)</ui:define>  
+        <ui:define name="body">
+           <p:growl id="growl" showDetail="true" life="2000"/>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-8">
+                        <p style="text-align: justify;">
+                           Nuestra PMO trabaja en estandarizar y economizar recursos mediante la repetición de aspectos en la ejecución de diferentes proyectos. La PMO es la fuente de la documentación, dirección y métrica en la práctica de la gestión y de la ejecución de proyectos.
+                        </p>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-4">
+                        <div style="text-align: center; margin-top: 1em;">
+                            <a id="icono" style="border-radius: 0px; font-size: 1.6em" class="btn btn-md btn-primary" href="https://sites.google.com/a/cfiprovidencia.com/gestion-de-proyectos-cfip/" target="_blank">
+                                <span class="fa fa-bookmark"></span>   Ver portafolio de proyectos
+                            </a>   
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div style="margin-top:2em;">
+                        <h3 class="">
+                            Estado de los Proyectos
+                        </h3>
+                        <h:dataTable value="#{proyectoEstadoProyecto.listaProyecto}"
+                                    styleClass="fondo-dataScroller table table-striped"
+                                    var="proyecto" >
+                            <h:column>
+                                <f:facet name="header">
+                                    Nombre del Proyecto
+                                </f:facet>
+                                <h:outputText style=" font-size: 1.0em;"  value="#{proyecto.nombreProyecto}"/> 
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Líder
+                                </f:facet>
+                                <h:outputText style=" font-size: 1.0em;"  value="#{proyecto.liderProyecto}"/> 
+                            </h:column>
+                            <h:column>
+                                   <f:facet name="header">
+                                       % Inicio
+                                   </f:facet>
+                                <p:progressBar value="#{proyecto.porcentajeFase1}" labelTemplate="{value}%" displayOnly="true"/>
+                                    
+                               </h:column>
+                                <h:column>
+                                   <f:facet name="header">
+                                       % Planeación
+                                   </f:facet>
+                                    <p:progressBar value="#{proyecto.porcentajeFase2}" labelTemplate="{value}%" displayOnly="true"/>
+                                    
+                               </h:column>
+                                <h:column>
+                                   <f:facet name="header">
+                                       % Ejecución
+                                   </f:facet>
+                                    <p:progressBar value="#{proyecto.porcentajeFase3}" labelTemplate="{value}%" displayOnly="true"/>
+                               
+                               </h:column>
+                                <h:column>
+                                   <f:facet name="header">
+                                       % Control
+                                   </f:facet>
+                                    <p:progressBar value="#{proyecto.porcentajeFase4}" labelTemplate="{value}%" displayOnly="true"/>
+                                   
+                               </h:column>
+                                <h:column>
+                                   <f:facet name="header">
+                                       % Cierre
+                                   </f:facet>
+                                    <p:progressBar value="#{proyecto.porcentajeFase5}" labelTemplate="{value}%" displayOnly="true"/>
+                                    
+                               </h:column>
+                               
+                        </h:dataTable>
+                    </div>
+                </div>
+                <div class="row">
+                    <div style="margin-top:2em;">
+                        <h3 class="">
+                            Convierte tus ideas en proyectos
+                        </h3>
+                        <div class="col-sm-12 col-md-12 col-lg-8">
+                            <h:form id="form-idea">
+                               <div class="form-group" style="margin-top: 1em"> 
+                                    <h:outputLabel value="Escribenos tu idea:"  />
+                                    <textarea class="form-control" jsf:id="descriIncidenteInputText" jsf:value="#{ideaController.ideaActual.descripcion}" 
+                                              type="text" required="true" style="resize: none; height: 100px" maxlength="500"
+                                              jsf:requiredMessage="Por favor ingrese la descripción del incidente">
+                                    </textarea>
+                                    <p:message id="descriIncidenteMessage" for="descriIncidenteInputText" styleClass="error"/>
+                                </div>
+                                <p:commandButton class="btn btn-primary btn-block"
+                                            ajax="false"
+                                            value="Enviar idea"
+                                            action="#{ideaController.add}"
+                                            onclick="onSubmitButton();"/>
+                            </h:form> 
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-4"  style="margin-top: 3em; margin-bottom: 5em">
+                            <p class="idea-message container-idea">
+                                    Nos interesa conocer tus ideas acerca de la mejora continua de nuestra empresa, si tienes una, por favor envíala por este medio, a través de la oficina de proyectos podemos ayudar a que se haga realidad.
+                           </p>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </ui:define>
+    </ui:composition>
+</html>

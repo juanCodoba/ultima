@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modDocumentoSiesa/listaDocumentoSiesa">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{manualSiesaController.prepareCreate}">
+                                <i class="fa fa-users"></i> 
+                                <span>Crear manual</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Manuales y Procedimientos de Siesa</ui:define> 
+        <ui:define name="title">Aquí puedes descargar los manuales y procedimientos del software ERP</ui:define>  
+         <ui:define name="body">
+            <h:form id="documentosFormList">
+                <p:outputPanel id="documentosTablePanel">
+                    <p:dataTable value="#{manualSiesaController.manualSiesaList}" var="manualesSiesa"
+                                 rows="100" id="manualesTable" rowIndexVar="rowIndex"  resizableColumns="true" 
+                                    draggableColumns="true" 
+                                 paginator="true" widgetVar="manualesSiesaTable" 
+                                 emptyMessage="No se encontraron manuales con el criterio dado"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="100,200,300">
+                       
+                       
+                       <p:column filterBy="#{manualesSiesa.codigo}" width="140" filterMatchMode="contains" style=" text-align: center" >
+                            <f:facet name="header">Código del Manual</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1.3em" value="#{manualesSiesa.codigo}"/>
+                        </p:column>
+                        <p:column width="350" styleClass="wrap" filterBy="#{manualesSiesa.nombre}" filterMatchMode="contains">
+                            <f:facet name="header">Nombre del manual</f:facet>
+                            <h:outputText value="#{manualesSiesa.nombre.toUpperCase()}" style="font-weight: bold; text-decoration: underline"/>
+                        </p:column>
+                        <p:column styleClass="wrap" filterBy="#{manualesSiesa.idSuit.nombreSuit}" filterMatchMode="contains">
+                            <f:facet name="header">Suit</f:facet>
+                            <h:outputText value="#{manualesSiesa.idSuit.nombreSuit.toUpperCase()}"/>
+                        </p:column>
+                        <p:column styleClass="wrap" filterBy="#{manualesSiesa.idSubprocesoSuit.nombreSubprocesoSuit.toUpperCase()}" filterMatchMode="contains">
+                            <f:facet name="header">Proceso</f:facet>
+                            <h:outputText value="#{manualesSiesa.idSubprocesoSuit.nombreSubprocesoSuit.toUpperCase()}"/>
+                        </p:column>
+
+                        <p:column filterBy="#{manualesSiesa.version}"  width="60" filterMatchMode="contains">
+                            <f:facet name="header">Versión</f:facet>
+                            <h:outputText value="#{manualesSiesa.version}"/>
+                        </p:column>
+                        <p:column width="140">
+                            <f:facet name="header">Fecha de actualización</f:facet>
+                            <h:outputText value="#{manualesSiesa.fechaActualizacion}">
+                                <f:convertDateTime pattern="MMMM/dd/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column width="120">
+                            <h:commandLink id="boton-descargarUser" class="btn btn-primary" style="color: white" rendered="#{!loginController.admin}">
+                                    <li class="fa fa-download "></li> Descargar
+                                <f:setPropertyActionListener value="#{manualesSiesa}" target="#{manualSiesaController.manualSiesaActual}"/>
+                                <p:fileDownload value="#{manualSiesaController.manualSiesaActual.manual}" />
+                            </h:commandLink>
+                            <p:commandButton ajax="false" id="boton-descargar"  icon="ui-icon-arrowthick-1-s" rendered="#{loginController.admin}">
+                                <f:setPropertyActionListener value="#{manualesSiesa}" target="#{manualSiesaController.manualSiesaActual}"/>
+                                <p:fileDownload value="#{manualSiesaController.manualSiesaActual.manual}" />
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-descargar" for="boton-descargar" value="Descargar Manual" trackMouse="true"/>
+                            <p:commandButton rendered="#{loginController.admin}" ajax="false" id="boton-edit"  icon="ui-icon-pencil" action="#{manualSiesaController.prepareEdit}">
+                                <f:setPropertyActionListener value="#{manualesSiesa}" target="#{manualSiesaController.manualSiesaActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-edit" for="boton-edit" value="Editar formato" trackMouse="true"/>
+                            <p:commandButton  id="boton-delete" rendered="#{loginController.admin}" icon="ui-icon-trash" action="#{manualSiesaController.deleteManual}"
+                                             process="@this" update="documentosFormList">
+                                <p:confirm header="Confirmación" message="¿Esta seguro que desea eliminar el formato?" icon="ui-icon-alert" />
+                                <f:setPropertyActionListener value="#{manualesSiesa}" target="#{manualSiesaController.manualSiesaActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-delete" for="boton-delete" value="eliminar formato" trackMouse="true"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+            <h:form>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                     <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                 </p:confirmDialog>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

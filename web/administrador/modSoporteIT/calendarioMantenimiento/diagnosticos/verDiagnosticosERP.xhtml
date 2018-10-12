@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modSoporteIT/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{usuarioController.prepareList}">
+                                <i class="fa fa-users"></i> 
+                                <span>Usuarios del sistema</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{computadorController.prepareList}">
+                                <i class="fa fa-desktop"></i>
+                                <span>Inventario tecnológico</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
+                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario mantenimientos</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview active">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                     <span>Preventivos</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                     <span>Correctivos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{reporteSiesaController.prepareListReportes}">
+                                <i class="fa fa-bug "></i>
+                                <span>Fallos del ERP</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/configuracionMaestros/verConfiguraciones">
+                                <i class="fa fa-file"></i>
+                                <span>Configuración de maestros</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/equiposUsuarios/lista">
+                                <i class="fa fa-folder" ></i>
+                                <span>Declaraciónes de uso</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Diagnostico del ticket # #{reporteSiesaController.reporteSiesaActual.idReporteSiesa}CFIPERP</ui:define>  
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <div>
+                <p:overlayPanel widgetVar="pantallazo" showEffect="fade" hideEffect="fade" dismissable="true"  >
+                    <p:outputPanel id="carDetail" style="text-align:center;">
+                        <p:graphicImage style=" width: 100%; height: 100%" id="pantallazo" value="#{reporteSiesaController.reporteSiesaActual.imagen}" />                                  
+                    </p:outputPanel>
+                </p:overlayPanel>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-7">
+                    <h:form id="form">
+                        <div class="form-group">
+                            <h:outputLabel class="col-md-5 help-block" value="Tipo de fallo"/>
+                            <div class="form-control-static">
+                                <h:outputLabel value="#{reporteSiesaController.reporteSiesaActual.idTipoError.nombreError.toUpperCase()}" style="font-weight: bold" />
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <h:outputLabel class="col-md-5 help-block" value="Usuario que reporto el problema:"/>
+                            <div class="form-control-static">
+                                <h:outputLabel value="#{reporteSiesaController.reporteSiesaActual.idUsuario.toString()}" style="font-weight: bold" />
+                            </div>
+                        </div>
+                       <div class="form-group">
+                            <h:outputLabel class="col-md-5 help-block" value="Valoración del usuario:"/>
+                            <div class="form-control-static">
+                                <h:outputLabel value="#{reporteSiesaController.reporteSiesaActual.valoracion} Estrellas" style="font-weight: bold" />
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <h:outputLabel class="col-md-5 help-block" value="Opinión del servicio prestado:"/>
+                            <div class="form-control-static">
+                                <h:outputLabel value="#{reporteSiesaController.reporteSiesaActual.descripcionValoracion}" style="font-weight: bold" />
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+                <div class="col-sm-12">
+                     <h:form id="form-info">
+                        <p:dataTable id="tbl" class="form-group" value="#{reporteSiesaController.listaDiagnosticoTicket}" var="diagnostico" emptyMessage="No se ha diagnosticado el reporte">
+                            <p:column headerText="Datos del diagnostico que realiso el tecnico">
+                                <div class="row">
+                                    <div class="col-md-7" style="margin-top: 3em">
+                                        <div class="form-group row">
+                                            <div class="col-md-5">
+                                                <h:outputLabel class="help-block" value="Codigo del diagnostico:"/>
+                                            </div>
+                                            <div class="col-md-7 form-control-static">
+                                                <h:outputLabel value="#{diagnostico.idDiagnosticoReporteSiesa}CFIPDIAG-E" style="font-weight: bold" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-5">
+                                                <h:outputLabel class="help-block" value="Fallo reportado:" />
+                                            </div>
+                                            <div class="col-md-7 form-control-static"> 
+                                                <h:outputText value="#{diagnostico.idReporteSiesa.descripcionReporte}" style="font-weight: bold"/>         
+                                            </div>
+                                        </div> 
+
+                                        <div class="form-group row">
+                                            <div class="col-md-5">
+                                                <h:outputLabel class="help-block" value="Fecha de Revisión:" />
+                                            </div>
+                                            <div class="col-md-7 form-control-static">   
+                                                <h:outputText value="#{diagnostico.fechaRevision}" style="font-weight: bold">
+                                                    <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                                </h:outputText>
+                                            </div> 
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-md-5">
+                                                <h:outputLabel class="help-block" value="Revisión:" />
+                                            </div>
+                                            <div class="col-md-7 form-control-static"> 
+                                                <h:outputText value="#{diagnostico.revision}" style="font-weight: bold"/>         
+                                            </div>
+                                        </div> 
+                                        <div class="form-group row">
+                                            <div class="col-md-5">
+                                                <h:outputLabel class="help-block" value="Fecha del Entrega del equipo:" />
+                                            </div>
+                                            <div class="col-md-7 form-control-static"> 
+                                                <h:outputText value="#{diagnostico.fechaDiagnostico}" style="font-weight: bold">
+                                                    <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                                </h:outputText>
+                                            </div> 
+                                        </div> 
+                                        <div class="form-group row">
+                                            <div class="col-md-5">
+                                                <h:outputLabel class="help-block" value="Diagnostico:"/>
+                                            </div>
+                                            <div class="col-md-7 form-control-static"> 
+                                                <h:outputText value="#{diagnostico.diagnostico}" style="font-weight: bold"/>
+                                            </div> 
+                                        </div> 
+                                         <div class="form-group row">
+                                            <div class="col-md-5">
+                                                <h:outputLabel class="help-block" value="Captura de pantalla:"/>
+                                            </div>
+                                            <div class="col-md-7"> 
+                                                <p:commandButton  update="carDetail" onclick="PF('pantallazo').show()" icon="ui-icon-image" value="Ver imagen">
+                                                    <f:setPropertyActionListener value="#{diagnostico}" target="#{reporteSiesaController.reporteSiesaActual}" />
+                                                </p:commandButton>
+                                            </div> 
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-md-5">
+                                                <h:outputLabel class="help-block" value="Técnico que atendió el caso:"/>
+                                            </div>
+                                            <div class="col-md-7 form-control-static"> 
+                                                <h:outputText value="#{diagnostico.idUsuario.toString()}" style="font-weight: bold"/>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                     <div class="col-md-3">
+                                         <p:graphicImage id="photo" name="images/robot.jpg" class="img-responsive" style="margin-top: 1em"/>    
+                                    </div>
+                                </div>
+                            </p:column>
+                        </p:dataTable>
+                        <div class="container-fluid col-sm-4 form-group">
+                            <p:commandButton ajax="false" class="btn btn-primary btn-block" icon="fa fa-arrow-left" value="Volver" action="#{reporteSiesaController.prepareListReportes}"/>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

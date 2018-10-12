@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminMante}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li class="active">
+                            <h:commandLink action="/usuario/modManteEdificios/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaActividadesEdificiosController.prepareViewCalendario}">
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario de Actividades</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaAnualController.prepareList}">
+                                <i class="fa fa-calendar-check-o"></i>
+                                <span>Cronograma Anual</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Historial de Actividades</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaActividadesEdificiosController.prepareListAnualDaños}">
+                                     <span>Daños de Infraestructura</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaActividadesEdificiosController.prepareListAnualInconsistenciaAseo}">
+                                     <span>Inconsistencia de Aseos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modManteEdificios/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Módulo de Mantenimiento de la Infraestructura Física</ui:define>  
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <div class="row">
+                 <div class="col-sm-12 col-md-12 col-lg-10">    
+                    <h:form>         
+                        <div class="col-md-4">
+                            <div class="itemZoom img-bordered">
+                                <h:commandLink action="#{cronogramaActividadesEdificiosController.prepareCreate}">
+                                    <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaActividadesEdificiosController.usuarioActual}"/>
+                                    <img class="img-responsive" src="#{request.contextPath}/resources/images/iconosEdificios/reporteDaño.png"/>
+                                </h:commandLink>
+                                <div class="item-overlay top"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="itemZoom img-bordered">
+                                <h:commandLink action="#{solicitudEdificioController.prepareViewCalendario}" >
+                                    <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{solicitudEdificioController.usuarioActual}"/>
+                                    <img class="img-responsive" src="#{request.contextPath}/resources/images/iconosEdificios/reservaSala.png"/>
+                                </h:commandLink>
+                                <div class="item-overlay top"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="itemZoom img-bordered">
+                                <h:commandLink  action="#{cronogramaActividadesEdificiosController.prepareCreateIncidenteAseo}">
+                                    <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaActividadesEdificiosController.usuarioActual}"/>
+                                    <img class="img-responsive" src="#{request.contextPath}/resources/images/iconosEdificios/aseos.png"/>
+                                </h:commandLink>
+                                <div class="item-overlay top"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="itemZoom img-bordered">
+                                <h:commandLink action="#{cronogramaActividadesEdificiosController.prepareListEstadoTicketsDaños}">
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaActividadesEdificiosController.usuarioActual}"/>
+                                    <img class="img-responsive" src="#{request.contextPath}/resources/images/iconosEdificios/ticketsValoraciones.png"/>
+                                </h:commandLink>
+                                <div class="item-overlay top"></div>
+                            </div>
+                        </div> 
+                        <div class="col-md-4">
+                            <div class="itemZoom img-bordered">
+                                <h:commandLink action="#{solicitudEdificioController.prepareListSolicitudesUser}">
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{solicitudEdificioController.usuarioActual}"/>
+                                    <img class="img-responsive" src="#{request.contextPath}/resources/images/iconosEdificios/estadoSolicitud.png"/>
+                                </h:commandLink>
+                                <div class="item-overlay top"></div>
+                            </div>
+                        </div> 
+                        <div class="col-md-4">
+                            <div class="itemZoom img-bordered">
+                                <h:commandLink action="#{cronogramaActividadesEdificiosController.prepareListEstadoTicketsAseos}">
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaActividadesEdificiosController.usuarioActual}"/>
+                                    <img class="img-responsive" src="#{request.contextPath}/resources/images/iconosEdificios/estadoIncidente.png"/>
+                                </h:commandLink>
+                                <div class="item-overlay top"></div>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

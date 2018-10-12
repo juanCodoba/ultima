@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+   <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">
+         Lista de declaraciones de uso     
+        </ui:define>
+       <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modSoporteIT/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{usuarioController.prepareList}">
+                                <i class="fa fa-users"></i> 
+                                <span>Usuarios del sistema</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{computadorController.prepareList}">
+                                <i class="fa fa-desktop"></i>
+                                <span>Inventario tecnológico</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
+                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario mantenimientos</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                     <span>Preventivos</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                     <span>Correctivos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{reporteSiesaController.prepareListReportes}">
+                                <i class="fa fa-bug "></i>
+                                <span>Fallos del ERP</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/configuracionMaestros/verConfiguraciones">
+                                <i class="fa fa-file"></i>
+                                <span>Configuración de maestros</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="active">
+                            <h:commandLink action="/administrador/modSoporteIT/equiposUsuarios/list">
+                                <i class="fa fa-folder" ></i>
+                                <span>Declaraciónes de uso</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form id="usuariosFormList">
+                <p:outputPanel id="usuariosTablePanel">
+                    <p:dataTable value="#{equiposUsuariosController.listaSistemasEquiposUsuarios}" var="item" rows="100"
+                                 paginator="true"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="100,150">
+                        <f:facet name="header">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p:button icon="fa fa-arrow-left"
+                                                value="Volver pagina principal" 
+                                                style="font-size: 1.2em !important; padding: 5px; left: 0"
+                                                outcome="/usuario/modSoporteIT/paginaPrincipal"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h4 class="colorLetra" style="font-weight: bold" >
+                                            Total registros: #{fn:length(equiposUsuariosController.listaSistemasEquiposUsuarios)}
+                                        </h4>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p:commandButton icon="fa fa-save"
+                                                         ajax="false"
+                                                        value="Registrar equipo"
+                                                        style="font-size: 1.2em !important;padding: 5px; right: 0"
+                                                        action="#{equiposUsuariosController.prepareCreate}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </f:facet>
+                        <p:column filterBy="#{item.idsistemasequiposUsuarios}" width="100" filterMatchMode="contains">
+                            <f:facet name="header">Codigo</f:facet>
+                            <h:outputText style="font-size: 1.4em; font-weight: bold" value="#{item.idsistemasequiposUsuarios}D-US"/>
+                        </p:column>
+                        <p:column filterBy="#{item.cedula}" filterMatchMode="contains">
+                            <f:facet name="header">C.C</f:facet>
+                            <h:outputText style="font-size: 1.4em; font-weight: bold" value="#{item.cedula}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.toString}" filterMatchMode="contains">
+                            <f:facet name="header">Nombres y apellidos</f:facet>
+                            <h:outputText value="#{item.toString().toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.ciudad}" filterMatchMode="contains">
+                            <f:facet name="header">Ciudad de expedición</f:facet>
+                            <h:outputText value="#{item.ciudad.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.idMarca.nombreMarca}" filterMatchMode="contains">
+                            <f:facet name="header">Marca del equipo</f:facet>
+                            <h:outputText value="#{item.idMarca.nombreMarca.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.modelo}" filterMatchMode="contains">
+                            <f:facet name="header">Modelo del equipo</f:facet>
+                            <h:outputText value="#{item.modelo.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.serie}" filterMatchMode="contains">
+                            <f:facet name="header">N° de serie</f:facet>
+                            <h:outputText value="#{item.serie.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.serie}" filterMatchMode="contains">
+                            <f:facet name="header">Mac</f:facet>
+                            <h:outputText value="#{item.mac.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.fechaPermiso}" filterMatchMode="contains">
+                            <f:facet name="header">Fecha inicio permiso</f:facet>
+                            <h:outputText value="#{item.fechaPermiso}">
+                                <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column filterBy="#{item.fechaVencimiento}" filterMatchMode="contains">
+                            <f:facet name="header">Fecha fin permiso</f:facet>
+                            <h:outputText value="#{item.fechaVencimiento}">
+                                <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column width="100">
+                            <p:commandButton icon="ui-icon-pencil" id="Editar" ajax="false" action="#{equiposUsuariosController.prepareEdit}" >
+                                <f:setPropertyActionListener value="#{item}" target="#{equiposUsuariosController.sistemasEquiposUsuariosActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-botonActualizacion" for="Editar" value="Editar datos de usuario" trackMouse="true" />
+                            
+                            <h:commandLink id="verDocumento" class="btn btn-sm btn-primary" target="_blank" style="margin: 5px; color: white" actionListener="#{equiposUsuariosController.prepareEscaneo}" action="#{equiposUsuariosController.obtenerEscaneo}">
+                                <span class="fa fa-download"/>
+                                <f:attribute name="item" value="#{item}" />
+                                <f:setPropertyActionListener value="#{item}" target="#{equiposUsuariosController.sistemasEquiposUsuariosActual}"/>
+                             </h:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

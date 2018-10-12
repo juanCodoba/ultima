@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminMante}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modManteEdificios/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaActividadesEdificiosController.prepareViewCalendario}">
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario de Actividades</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaAnualController.prepareList}">
+                                <i class="fa fa-calendar-check-o"></i>
+                                <span>Cronograma Anual</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview active">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Historial de Actividades</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaActividadesEdificiosController.prepareListAnualDaños}">
+                                     <span>Daños de Infraestructura</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaActividadesEdificiosController.prepareListAnualInconsistenciaAseo}">
+                                     <span>Inconsistencia de Aseos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Listado de Inconsistencia de aseos</ui:define>  
+        <ui:define name="body">  
+            <h:form> 
+                <p:outputPanel id="MantenimientosTablePanel">
+                    <p:dataTable value="#{cronogramaActividadesEdificiosController.listInconsistenciaAseos}" var="reporte"
+                                 rows="10" id="incidenteTable"  emptyMessage="No se encontraron registros" sortMode="multiple"
+                                 paginator="true" rowStyleClass="#{reporte.estadoActividad eq 'Cerrado' ? 'color1': reporte.estadoActividad eq 'Abierto' ? 'color2': reporte.estadoActividad eq 'Sin Valoracion' ? 'color3': null}"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+                        <p:column filterMatchMode="contains" filterBy="#{reporte.fechaAñoString}" sortBy="#{reporte.fechaAñoString}" width="70">
+                            <f:facet name="header">Filtrar por año</f:facet>
+                            <h:outputText value="#{reporte.fechaAñoString}">
+                            </h:outputText>
+                        </p:column>
+                        <p:column filterMatchMode="contains" headerText="Filtrar por mes" filterBy="#{reporte.fechaMesString}" sortBy="#{reporte.fechaMesString}" width="70">
+
+                            #{reporte.fechaMesString}
+                        </p:column>
+                        <p:column filterBy="#{reporte.idCronogramaActividadesEdificios}" width="150"  filterMatchMode="contains">
+                            <f:facet name="header"># Ticket:</f:facet>
+                            <h:outputText value="#{reporte.idCronogramaActividadesEdificios}CFIPIA-I" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column filterBy="#{reporte.idSeccion.nombreSeccion}" filterMatchMode="contains">
+                            <f:facet name="header">Sección</f:facet>
+                            <h:outputText value="#{reporte.idSeccion.nombreSeccion.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{reporte.idSeccion.idBloque.nombreBloque}" filterMatchMode="contains">
+                            <f:facet name="header">Bloque</f:facet>
+                            <h:outputText value="#{reporte.idSeccion.idBloque.nombreBloque.toUpperCase()}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Fecha que se realizo el reporte</f:facet>
+                            <h:outputText value="#{reporte.fechaReporte}">
+                               <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column width="100">
+                            <f:facet name="header">Hora de Inicio del mantenimiento</f:facet>
+                            <h:outputText value="#{reporte.horaReporte}">
+                               <f:convertDateTime pattern="HH:mm a"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column filterBy="#{reporte.idUsuario}" styleClass="wrap" width="200"  filterMatchMode="contains">
+                             <f:facet name="header">Usuario que realizo el reporte</f:facet>
+                             <h:outputText value="#{reporte.idUsuario.toString()}" style="font-weight: bold; font-size: 1.1em"/>
+                        </p:column>
+                        <p:column width="300" >
+                            <f:facet name="header">Descripción del fallo reportado</f:facet>
+                            <h:outputText value="#{reporte.descripcion.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{reporte.estadoActividad}" sortBy="#{reporte.estadoActividad}" filterMatchMode="contains">
+                            <f:facet name="header">Estado del ticket</f:facet>
+                            <h:outputText value="#{reporte.estadoActividad}"/>
+                        </p:column>
+                        <p:column width="50">
+                            <p:commandButton process="@this" ajax="false" update="@this growl" id="historial" icon="ui-icon-search" actionListener="#{cronogramaActividadesEdificiosController.prepareViewDiagnostico}" action="#{cronogramaActividadesEdificiosController.viewValoracion}" >
+                                    <f:attribute name="cronograma" value="#{reporte}"/>
+                                    <f:setPropertyActionListener value="#{reporte}" target="#{cronogramaActividadesEdificiosController.cronogramaActividadesActual}"/>
+                                </p:commandButton>
+                                <p:tooltip id="descripcion-botonHistorial" for="historial" value="Ver Valoración y Diagnostico" trackMouse="true" />
+                                <p:growl id="growl" showDetail="true" life="7000"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

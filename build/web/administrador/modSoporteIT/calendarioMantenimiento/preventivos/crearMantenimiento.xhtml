@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Mantenimientos preventivos sin Diagnosticar</ui:define>
+        <ui:define name="title">Programa el mantenimiento del equipo, llenando el siguiente formulario</ui:define>
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modSoporteIT/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{usuarioController.prepareList}">
+                                <i class="fa fa-users"></i> 
+                                <span>Usuarios del sistema</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{computadorController.prepareList}">
+                                <i class="fa fa-desktop"></i>
+                                <span>Inventario tecnológico</span> 
+                            </h:commandLink>
+                        </li>
+                        <li class="active">
+                            <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
+                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario mantenimientos</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                     <span>Preventivos</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                     <span>Correctivos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{reporteSiesaController.prepareListReportes}">
+                                <i class="fa fa-bug "></i>
+                                <span>Fallos del ERP</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/configuracionMaestros/verConfiguraciones">
+                                <i class="fa fa-file"></i>
+                                <span>Configuración de maestros</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/equiposUsuarios/lista">
+                                <i class="fa fa-folder" ></i>
+                                <span>Declaraciónes de uso</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form>
+                <nav class="navbar navbar-inverse" role="navigation">
+                     <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target=".navbar-ex1-collapse">
+                          <span class="sr-only">Desplegar navegación</span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <p:commandLink ajax="false" action="#{cronogramaController.prepareViewCalendario}">
+                                    <i class="fa fa-calendar"></i>
+                                    <span>Cronograma de mantenimientos</span>
+                                </p:commandLink>
+                             </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                  <i class="fa fa-wrench"></i>
+                                  Mantenimientos sin diagnostico<b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaController.prepareViewMantenimientosP}">
+                                            <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                            <i class="fa fa-check "/>
+                                            <span>Mantenimientos preventivos</span>
+                                        </p:commandLink>  
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaController.prepareViewMantenimientosC}">
+                                            <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                            <i class="fa fa-exclamation-triangle"/>
+                                            <span>Mantenimientos correctivos</span>
+                                        </p:commandLink>  
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{reporteSiesaController.prepareListErroresSinDiag}">
+                                            <i class="fa fa-bug"/>
+                                            <span>Errores de ERP</span>
+                                        </p:commandLink>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="active">
+                                <p:commandLink ajax="false" action="#{computadorController.prepareViewProgramar}">
+                                <i class="fa fa-edit"/>
+                                    <span>Programar mantenimiento tecnológico</span>
+                                </p:commandLink>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                  <i class="fa fa-wrench"></i>
+                                  Historial de Diagnósticos<b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaController.prepareViewCronogramaSolucionados}">
+                                            <i class="fa fa-desktop"/>
+                                            <span>Equipos tecnológicos</span>
+                                        </p:commandLink>  
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{diagnosticoReporteSiesaController.prepareList}">
+                                            <i class="fa fa-bug"/>
+                                            <span>Errores de ERP</span>
+                                        </p:commandLink>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </h:form>
+            <form jsf:id="form-createCronograma">
+                <h:panelGroup id="crear-group" class="thumbnail">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                               <h:outputLabel class="letra-form" value="Service Tag ó (S/N):"/>
+                               <h:outputLabel style="font-weight: bold; color: green; font-size: 1.2em; margin-left: 0.3em" value="#{cronogramaController.computadorActual.codigoComputador.toUpperCase()}"/>
+                           </div>
+                            <div class="col-md-6">
+                               <h:outputLabel class="letra-form" value="Tipo de equipo:"/>
+                               <h:outputLabel style="font-weight: bold; color: green; font-size: 1.2em; margin-left: 0.3em" value="#{cronogramaController.computadorActual.idTipo.nombreTipo.toUpperCase()}"/>
+                           </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" style="margin-top: 1em">
+                            <div class="form-group col-md-6">
+                                <h:outputLabel class="letra-form" value="Responsable:"/>
+                                <h:outputLabel  value="#{cronogramaController.computadorActual.idUsuario.toString().toUpperCase()}"
+                                                class="form-control">
+                                </h:outputLabel>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <h:outputLabel class="letra-form" value="Sección:"/>
+                                <h:outputLabel value="#{cronogramaController.computadorActual.idSeccion.toString()}"
+                                               class="form-control">
+                                </h:outputLabel>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <h:outputLabel class="letra-form" value="Modelo:"/>
+                                <h:outputLabel value="#{cronogramaController.computadorActual.idModelo.nombreModelo}"
+                                               class="form-control">
+                                </h:outputLabel>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <h:outputLabel class="letra-form" value="Marca:"/>
+                                <h:outputLabel value="#{cronogramaController.computadorActual.idModelo.idMarca.nombreMarca.toUpperCase()}"
+                                               class="form-control">
+                                </h:outputLabel>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <h:outputLabel class="letra-form" value="Procesador:"/>
+                                <h:outputLabel value="#{cronogramaController.computadorActual.procesador.toUpperCase()}"
+                                               class="form-control">
+                                </h:outputLabel>
+                            </div>
+                        </div>
+                    </div>
+                </h:panelGroup>
+                
+                <div class="form-group">
+                    <h:outputLabel value="Fecha de inicio del mantenimiento:"/>
+                    <p:calendar id="fechaMantenimiento" style="color: black"
+                                required="true" 
+                            requiredMessage="Ingresa la fecha de inicio del mantenimiento" 
+                            value="#{cronogramaController.cronogramaMantenimientosActual.fechaInicioMantenimiento}"
+                            navigator="true" pattern="MM/dd/yyyy">
+                    <f:ajax execute="fechaMantenimiento" 
+                            render="msgFechaMantenimiento"/>
+                    </p:calendar>
+                    <h:message id="msgFechaMantenimiento" for="fechaMantenimiento"  styleClass="error"/>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Hora de inicio del mantenimiento:"/>
+                    <p:calendar id="horaMantenimiento" 
+                                value="#{cronogramaController.cronogramaMantenimientosActual.horaMantenimiento}"
+                                pattern="HH:mm a" timeOnly="true" required="true" 
+                                requiredMessage="Ingresa Hora de inicio del mantenimiento">
+                         <f:ajax execute="horaMantenimiento" 
+                            render="msgHoraMantenimiento"/>
+                    </p:calendar>
+                    <h:message id="msgHoraMantenimiento" for="horaMantenimiento"  styleClass="error"/>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <p:commandButton class="btn btn-primary btn-block"
+                                         ajax="false"
+                                         value="Programar Mantenimiento"
+                                         action="#{cronogramaController.addCronogramaMantenimiento}"
+                                         onclick="onSubmitButton();"/>
+                    </div>
+                    <div class="col-sm-6 form-group">    
+                        <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="listaProgramarMantenimiento"/>
+                    </div>
+                </div>
+            </form>
+        </ui:define>
+    </ui:composition>
+</html>
+

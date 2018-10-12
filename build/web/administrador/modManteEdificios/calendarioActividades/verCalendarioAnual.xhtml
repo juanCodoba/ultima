@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminMante}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modManteEdificios/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaActividadesEdificiosController.prepareViewCalendario}">
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario de Actividades</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="active">
+                            <h:commandLink action="#{cronogramaAnualController.prepareList}">
+                                <i class="fa fa-calendar-check-o"></i>
+                                <span>Cronograma Anual</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Historial de Actividades</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaActividadesEdificiosController.prepareListAnualDaños}">
+                                     <span>Daños de Infraestructura</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaActividadesEdificiosController.prepareListAnualInconsistenciaAseo}">
+                                     <span>Inconsistencia de Aseos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Calendario anual de actividades</ui:define>  
+        <ui:define name="body">
+            <h:form id="cronograma-form">   
+                <div class="col-md-12">
+                   <p:outputPanel id="panelCronograma">
+                       <p:dataTable value="#{cronogramaAnualController.cronogramaAnualList}" var="cronograma" 
+                                    rows="30" id="cronogramaTable" rowStyleClass="#{cronograma.estado eq false ? 'color2': cronograma.estado eq true ? 'color1':null}" >
+                               <f:facet name="header">
+                                   <h4 class="colorLetra" style="font-weight: bold" >
+                                       Total actividades: #{fn:length(cronogramaAnualController.cronogramaAnualList)}
+                                   </h4>
+                               </f:facet>
+                           <p:column  style="text-align: left" width="250" filterBy="#{cronograma.nombreActividad}" styleClass="wrap">
+                                <f:facet name="header">Nombre Actividad</f:facet>
+                                <h:outputText style="font-weight: bold" value="#{cronograma.nombreActividad}"/>
+                           </p:column>
+                           <p:column filterBy="#{cronograma.enero}">
+                               <f:facet name="header">Enero</f:facet>
+                               <h:outputText value="#{cronograma.enero}"/>
+                           </p:column>
+                               <p:column filterBy="#{cronograma.febrero}">
+                               <f:facet name="header">Febrero</f:facet>
+                               <h:outputText value="#{cronograma.febrero}"/>
+                           </p:column>
+                           <p:column filterBy="#{cronograma.marzo}">
+                               <f:facet name="header">Marzo</f:facet>
+                               <h:outputText value="#{cronograma.marzo}"/>
+                           </p:column>
+                           <p:column filterBy="#{cronograma.abril}">
+                               <f:facet name="header">Abril</f:facet>
+                               <h:outputText value="#{cronograma.abril}"/>
+                           </p:column>
+                           <p:column filterBy="#{cronograma.mayo}">
+                               <f:facet name="header">Mayo</f:facet>
+                               <h:outputText value="#{cronograma.mayo}"/>
+                           </p:column>
+                           <p:column filterBy="#{cronograma.junio}">
+                               <f:facet name="header">Junio</f:facet>
+                               <h:outputText value="#{cronograma.junio}"/>
+                           </p:column>
+                           <p:column filterBy="#{cronograma.julio}">
+                               <f:facet name="header">Julio</f:facet>
+                               <h:outputText value="#{cronograma.julio}"/>
+                           </p:column>
+                           <p:column filterBy="#{cronograma.agosto}">
+                               <f:facet name="header">Agosto</f:facet>
+                               <h:outputText value="#{cronograma.agosto}"/>
+                           </p:column>   
+                           <p:column filterBy="#{cronograma.septiembre}">
+                               <f:facet name="header">Septiembre</f:facet>
+                               <h:outputText value="#{cronograma.septiembre}"/>
+                           </p:column>  
+                           <p:column filterBy="#{cronograma.octubre}">
+                               <f:facet name="header">Octuble</f:facet>
+                               <h:outputText value="#{cronograma.octubre}"/>
+                           </p:column>  
+                           <p:column filterBy="#{cronograma.noviembre}">
+                               <f:facet name="header">Noviembre</f:facet>
+                               <h:outputText value="#{cronograma.noviembre}"/>
+                           </p:column>    
+                           <p:column filterBy="#{cronograma.diciembre}">
+                               <f:facet name="header">Diciembre</f:facet>
+                               <h:outputText value="#{cronograma.diciembre}"/>
+                           </p:column>  
+                           <p:column width="100" filterBy="#{cronograma.estadoString}">
+                               <f:facet name="header">Estado</f:facet>
+                               <h:outputText value="#{cronograma.estadoString}"/>
+                           </p:column>  
+
+                           <p:column width="50">
+                               <p:commandButton process="@this"  update="cronograma-form:form-actividadEdit" oncomplete="PF('editarActividad').show();" id="editar" icon="ui-icon-pencil">
+                                   <f:attribute name="cronograma" value="#{cronograma}"/>
+                                   <f:setPropertyActionListener value="#{cronograma}" target="#{cronogramaAnualController.cronogramaAnualActual}"/>
+                               </p:commandButton>
+                               <p:tooltip id="descripcion-botonEdit" for="editar" value="Editar Actividad Anual" trackMouse="true" />
+                               <p:growl id="growl" showDetail="true" life="7000"/>
+                           </p:column>
+                       </p:dataTable>
+                   </p:outputPanel>
+               </div>
+               <p:dialog id="crear" widgetVar="crearActividad" header="Crear actividad diaria" showEffect="clip" hideEffect="clip"  resizable="false" width="420">
+                   <p:outputPanel id="form-actividadCreate">
+                            <div class="form-group">       
+                                <h:outputLabel value="Nombre de la actividad:"  />
+                                <input placeholder="Escribir el nombre de la actividad que va a realizar" class="form-control" jsf:id="nombreEditInputText" jsf:value="#{cronogramaAnualController.cronogramaAnualActual.nombreActividad}" 
+                                          type="text" required="true" style="resize: none"
+                                          jsf:requiredMessage="Por favor ingrese el nombre de la actividad">
+                                </input>
+                                <p:message id="nombreEditMessage" for="nombreEditInputText" styleClass="error"/>
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel value="Mes en que se realiza la actividad:"  />
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p:panelGrid columns="2"   style="margin-bottom:10px" >
+                                        <h:outputText value="Enero: " />
+                                        <p:selectBooleanButton  value="#{cronogramaAnualController.cronogramaAnualActual.ene}" onLabel="Si"  offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                        <h:outputText value="Febrero: " />
+                                        <p:selectBooleanButton  value="#{cronogramaAnualController.cronogramaAnualActual.feb}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                        <h:outputText value="Marzo: " />
+                                        <p:selectBooleanButton  value="#{cronogramaAnualController.cronogramaAnualActual.mar}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                        <h:outputText value="Abril: " />
+                                        <p:selectBooleanButton  value="#{cronogramaAnualController.cronogramaAnualActual.abr}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                        <h:outputText value="Mayo: " />
+                                        <p:selectBooleanButton  value="#{cronogramaAnualController.cronogramaAnualActual.may}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                        <h:outputText value="Junio: " />
+                                        <p:selectBooleanButton value="#{cronogramaAnualController.cronogramaAnualActual.jun}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                    </p:panelGrid>
+                                </div>
+                                <div class="col-md-6">
+                                    <p:panelGrid columns="2"   style="margin-bottom:10px" >
+                                        <h:outputText value="Julio: " />
+                                        <p:selectBooleanButton  value="#{cronogramaAnualController.cronogramaAnualActual.jul}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                        <h:outputText value="Agosto:" />
+                                        <p:selectBooleanButton  value="#{cronogramaAnualController.cronogramaAnualActual.ago}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                        <h:outputText value="Septiembre: " />
+                                        <p:selectBooleanButton  value="#{cronogramaAnualController.cronogramaAnualActual.sep}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                        <h:outputText value="Octubre: " />
+                                        <p:selectBooleanButton  value="#{cronogramaAnualController.cronogramaAnualActual.oct}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                        <h:outputText value="Noviembre: " />
+                                        <p:selectBooleanButton  value="#{cronogramaAnualController.cronogramaAnualActual.nov}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                        <h:outputText value="Diciembre: " />
+                                        <p:selectBooleanButton  value="#{cronogramaAnualController.cronogramaAnualActual.dic}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                    </p:panelGrid>
+                                </div>
+                            </div>
+                           <p:commandButton class="btn btn-actividad btn-block col-md-6" update=":cronograma-form:panelCronograma" process="form-actividadCreate" oncomplete="handleSubmit(args,'crearActividad')" value="Crear actividad" action="#{cronogramaAnualController.add}">
+                                 <f:ajax execute="@this cronograma-form:panelCronograma" render="cronograma-form:panelCronograma"/>
+                            </p:commandButton>
+                            <h:button class="btn btn-block col-md-6" style="background: orange; color: white" value="Cancelar" outcome="adminViewCronogramaActividades"/>                                 
+                   </p:outputPanel>
+               </p:dialog>
+                <p:dialog id="editar" widgetVar="editarActividad" header="Editar actividad diaria" resizable="false" width="420">
+                   <p:outputPanel id="form-actividadEdit">
+                        <div class="form-group">       
+                            <h:outputLabel value="Nombre de la actividad:"  />
+                            <input placeholder="Escribir el nombre de la actividad que va a realizar" class="form-control" jsf:id="nombreInputText" jsf:value="#{cronogramaAnualController.cronogramaAnualActual.nombreActividad}" 
+                                      type="text" required="true" style="resize: none"
+                                      jsf:requiredMessage="Por favor ingrese el nombre de la actividad">
+                            </input>
+                            <p:message id="nombreMessage" for="nombreInputText" styleClass="error"/>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel value="Mes en que se realiza la actividad:"  />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p:panelGrid columns="2"   style="margin-bottom:10px" >
+                                    <h:outputText value="Enero: " />
+                                    <p:selectBooleanButton id="value1" value="#{cronogramaAnualController.cronogramaAnualActual.ene}" onLabel="Si"  offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                    <h:outputText value="Febrero: " />
+                                    <p:selectBooleanButton id="value2" value="#{cronogramaAnualController.cronogramaAnualActual.feb}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                    <h:outputText value="Marzo: " />
+                                    <p:selectBooleanButton id="value3" value="#{cronogramaAnualController.cronogramaAnualActual.mar}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                    <h:outputText value="Abril: " />
+                                    <p:selectBooleanButton id="value4" value="#{cronogramaAnualController.cronogramaAnualActual.abr}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                    <h:outputText value="Mayo: " />
+                                    <p:selectBooleanButton id="value5" value="#{cronogramaAnualController.cronogramaAnualActual.may}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                    <h:outputText value="Junio: " />
+                                    <p:selectBooleanButton id="value6" value="#{cronogramaAnualController.cronogramaAnualActual.jun}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                </p:panelGrid>
+                            </div>
+                            <div class="col-md-6">
+                                <p:panelGrid columns="2"   style="margin-bottom:10px" >
+                                    <h:outputText value="Julio: " />
+                                    <p:selectBooleanButton id="value7" value="#{cronogramaAnualController.cronogramaAnualActual.jul}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                    <h:outputText value="Agosto:" />
+                                    <p:selectBooleanButton id="value8" value="#{cronogramaAnualController.cronogramaAnualActual.ago}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                    <h:outputText value="Septiembre: " />
+                                    <p:selectBooleanButton id="value9" value="#{cronogramaAnualController.cronogramaAnualActual.sep}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                    <h:outputText value="Octubre: " />
+                                    <p:selectBooleanButton id="value10" value="#{cronogramaAnualController.cronogramaAnualActual.oct}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                    <h:outputText value="Noviembre: " />
+                                    <p:selectBooleanButton id="value11" value="#{cronogramaAnualController.cronogramaAnualActual.nov}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                    <h:outputText value="Diciembre: " />
+                                    <p:selectBooleanButton  id="value12" value="#{cronogramaAnualController.cronogramaAnualActual.dic}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+                                </p:panelGrid>
+                            </div>
+                         
+                        </div>
+                        
+                        <div class="form-group">
+                            <h:outputLabel value="Estado de la actividad:"  />
+                            <p:selectBooleanButton value="#{cronogramaAnualController.cronogramaAnualActual.estado}" onLabel="Terminado" offLabel="Sin terminar" onIcon="ui-icon-check" offIcon="ui-icon-close" />
+                        </div>  
+                       <p:commandButton class="btn btn-actividad btn-block col-md-6" update=":cronograma-form:panelCronograma" value="Editar actividad" action="#{cronogramaAnualController.update}">
+                             <f:ajax execute="@this cronograma-form" render="panelCronograma" onevent="editarActividad.hide()"/>
+                        </p:commandButton>
+                        <h:button class="btn btn-block col-md-6" style="background: orange; color: white" value="Cancelar" outcome="verCalendarioAnual"/>                                  
+                    </p:outputPanel>
+               </p:dialog>
+            </h:form>
+            <script type="text/javascript">
+                PrimeFaces.locales['tr'] = {
+                    closeText: 'Cerrar',
+                    prevText: 'Atras',
+                    nextText: 'Adelante',
+                    currentText: 'Hoy',
+                    monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+                        'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+                    monthNamesShort: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+                        'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+                    dayNames: ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'],
+                    dayNamesShort: ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'],
+                    dayNamesMin: ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'],
+                    weekHeader: 'Semanas',
+                    firstDay: 1,
+                    isRTL: false,
+                    showMonthAfterYear: false,
+                    yearSuffix: '',
+                    month: 'Mes',
+                    week: 'Semana',
+                    day: 'Dia',
+                    allDayText : 'Todo el dia'
+                };
+            </script>
+            <style type="text/css">
+                .value {
+                    width: 900px;
+                }
+            </style>
+        </ui:define>
+    </ui:composition>
+</html>

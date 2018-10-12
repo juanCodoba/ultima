@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li style="margin-top: 20px">
+                            <h:commandLink action="/usuario/modAuditoria/planAuditoria/lista">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{auPlanAuditoriaController.prepareCreateAuInterna}"
+                                           rendered="#{loginController.auditor}">
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{auPlanAuditoriaController.usuarioActual}"/>
+                                <i class="fa fa-file-excel-o"></i> 
+                                <span>Crear Nueva Auditoría</span>
+                            </h:commandLink>  
+                        </li>
+
+                        <li style="margin-top: 20px">
+                            <h:commandLink action="/usuario/modulos">
+                                <i class="fa fa-th"></i>
+                                <span>Modulos del sistema</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Periodo de Auditoria:</ui:define>   
+        <ui:define name="title2">Aquí puedes ver el a detalle los periodos de auditoria</ui:define> 
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form id="documentosFormList">
+                <div class="col-sm-12 form-group">
+                    <h:outputLabel value="Año:"  />
+                    <input placeholder="año" class="form-control" 
+                           jsf:id="añoInputText" 
+                           jsf:value="#{auPeriodoPlanAuditoriaController.periodoPlanAuditoriaActual.anio}" 
+                           type="text">
+                        <f:ajax execute="@this" render="linkMessage"/>
+                    </input>
+                    <p:message id="añoMessage" for="añoInputText" styleClass="error"/>
+                </div>
+                <div class="col-sm-12 form-group">
+                    <h:outputLabel value="Link de acceso al acta de socialización:"  />
+                    <input placeholder="Acceso del documento" class="form-control" 
+                           jsf:id="link1InputText" 
+                           jsf:value="#{auPeriodoPlanAuditoriaController.periodoPlanAuditoriaActual.linkPresentacion}" 
+                           type="text">
+                        <f:ajax execute="@this" render="linkMessage"/>
+                    </input>
+                    <p:message id="link1Message" for="link1InputText" styleClass="error"/>
+                </div>
+                <div class=" col-sm-12 form-group">
+                    <h:outputLabel value="Link de acceso al informe final:"  />
+                    <input placeholder="Acceso del documento" class="form-control" 
+                           jsf:id="link2InputText" 
+                           jsf:value="#{auPeriodoPlanAuditoriaController.periodoPlanAuditoriaActual.linkAnexo}" 
+                           type="text">
+                        <f:ajax execute="@this" render="linkMessage"/>
+                    </input>
+                    <p:message id="link2Message" for="link2InputText" styleClass="error"/>
+                </div>
+                <div class="col-sm-12 form-group">
+                    <p:commandButton class="btn btn-primary btn-block"
+                                     value="Guardar"
+                                     ajax="false"
+                                     icon="fa fa-save"
+                                     process="@this crear-Form"
+                                     action="#{auPeriodoPlanAuditoriaController.update()}"
+                                     onclick="onSubmitButton();"/>
+                </div>
+                <div class="col-sm-12 form-group">    
+                    <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="lista"/>
+                </div>
+            </h:form>
+            <p:dialog header="Periodo" widgetVar="dlg1" modal="true"  resizable="false" width="400">
+                <h:form id="crearPeriodo">
+                    <div class="form-group">
+                        <h:outputText class="help-block container-fluid" value="Selecciona el año del plan"/>
+                        <p:selectOneMenu id="periodo" style="width: 100%" filter="true" filterMatchMode="contains" value="#{auPlanAuditoriaController.periodoPlanAuditoriaActual}">
+                            <f:selectItems value="#{auPeriodoPlanAuditoriaController.listaPeriodoPlanAuditoria}" var="periodo" itemValue="#{periodo}"/> 
+                        </p:selectOneMenu>
+                        <p:message id="periodoMessage" for="periodo" styleClass="error"/>
+                    </div>
+                    <h:commandButton class="btn btn-danger btn-block form-group" value="Aceptar" action="#{auPlanAuditoriaController.preparePlanAuditoriaAnual}"/>
+                </h:form>
+            </p:dialog>
+        </ui:define>
+
+    </ui:composition>
+</html>

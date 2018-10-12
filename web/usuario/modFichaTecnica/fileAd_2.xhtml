@@ -1,0 +1,377 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <head>
+        <title>Facelet Title</title>
+        <link href="https://fonts.googleapis.com/css?family=Asap:700" rel="stylesheet"/>
+        <style>
+        @import url('https://fonts.googleapis.com/css?family=Asap:700');
+        </style>
+        <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+        <style>
+            th{
+                border-bottom: 1px solid black;
+            }
+            .tamanoDes{
+                width: 330px !important;
+            }
+            .direccion{
+               margin-left: 5px;
+            }
+            .direccion2{
+                float:right !important;
+            }
+            body{
+                font-family: 'Asap', sans-serif;
+                font-size: 1em;
+                margin: 0px !important;
+            }
+            .head{
+                margin: 0px !important;
+                border: -10px !important;
+                width: 697px;
+                background: black;
+                vertical-align: top;
+            }
+            .head2{
+                margin: 0px !important;
+                border: -10px !important;
+                width: 800px;
+                height: 70px;
+                background: black;
+            }
+            .titulo{
+                padding: 10px; 
+            } 
+            .titulo1{
+                margin-bottom: 1px;
+                margin-left: 10px;
+                color: #0cf554; 
+            }     
+            .titulo2{
+                margin: 0px;
+                margin: 0px 10px;
+                color: #d7d7d7;
+            }
+            .titulo3{
+                margin-top: 10px;
+                margin: 0px 10px;
+                color: black;
+                text-align: center;
+            }
+            .contenedor1{
+                margin-top: 10px;
+                border: 3px solid #828282;
+                text-align: left;
+            }
+            .contenedor2{
+                margin-top: 10px;
+            }
+            .contenedor3{
+                margin-top: 10px;
+                border: 3px solid #828282;
+            }
+            .contenedor4{
+                margin-top: 10px;
+                width: 350px; 
+                display: inline-block;
+                vertical-align: top;
+            }
+            .contenedor5{
+                margin-top: 5px;
+            }
+            .tituloContenedor1{
+                margin: 0px;
+                background-color: #828282;
+                color: white;
+                font-weight: bold;
+                padding: 5px;
+            }
+            .cuerpoContenedor1{
+                color: black;
+            }
+            label{
+                font-weight: bold;
+            }
+            .parrafo-contenedor{
+                font-size: .7em;
+                margin-left: 5px;
+                margin-top: 5px;
+            }
+            .parrafo-contenedorElaborado{
+                font-size: .8em;
+                margin-top: 8px;
+            }
+            .parrafo-contenedorAprobado{
+                font-size: .8em;
+                margin-top: 8px;
+                color: white;
+            }
+            .cuerpoContenedor3{
+                width: 330px;
+                display: inline-block;
+            }
+            .footer-contenedor{
+                background: black;
+                margin-bottom: 0px;
+            }
+            .footer-parrafo1{
+                display: inline-block;
+                width: 200px
+            }
+            .footer-img1{
+                margin: 10px;
+            }
+            .footer-parrafo2{
+                vertical-align: top;
+                color: white;
+                margin-left: 20px;
+                margin-top: 20px;
+                font-size: .7em;
+                display: inline-block;
+                width: 300px
+            }
+            .footer-parrafo3{
+                text-align: center;
+                vertical-align: top;
+                color: white;
+                margin-left: 20px;
+                margin-top: 30px;
+                font-size: .7em;
+                color: white;
+                border-left: 2px solid white;
+                display: inline-block;
+                width: 100px
+            }
+            .body-contenedor{
+                min-height: 920px;
+            }
+            .body-contenedor2{
+                height: 910px; 
+            }
+            .cuerpoContenedorImg{
+                border-top: 3px solid #828282;
+                text-align: center;
+            }
+            .contenedor-img{
+                margin-top: 5px;
+                margin-bottom: 20px;
+                display: inline-block;
+            }
+            .contenedor-imgCa{
+                margin: 5px;
+                width: 200px;
+                height: 100px;
+                display: inline-block;
+            }
+            .imagenesTop{
+                
+            }
+            
+            .tituloContenedorElaborado{
+                text-align: center;
+                margin: 0px;
+                background-color: #828282;
+                color: white;
+                font-weight: bold;
+                padding: 5px;
+            }
+            .contenedorElaborado{
+                display: inline-block;
+                border: 3px solid #828282;
+                text-align: center;
+                width: 223px;
+                height: 80px;
+            }
+            .cuerpo-elaborado{
+                margin-top: 10px;
+            }
+            
+            .parrafo-elaborado{
+                font-size: .8em;
+                margin-left: 5px;
+                margin-top: 5px;
+                font-weight: bold; 
+            }
+            .label-info{
+                font-size: 1.2em;
+            }
+        </style>
+        
+    </head>
+    <body>
+        <div class="body-contenedor">
+            <div class="head">
+                <h3 class="titulo1">#{ftFichaTecnica.fichaTecnicaActual.descripcionCorta}</h3>
+                <h3 class="titulo2">COD. ITEM: #{ftFichaTecnica.fichaTecnicaActual.idItem}</h3>       
+            </div>
+            <div class="titulo3">
+                <h2>FICHA TÉCNICA DE PRODUCTO</h2>
+            </div>
+            <div class="contenedor1 contenedor2">
+                <div class="tituloContenedor1">
+                    ESPECIFICACIONES
+                </div>
+                <div class="cuerpoContenedor1">
+                    <p class="parrafo-contenedor">
+                        <label class="label-info">Cliente:</label>
+                        <br></br>
+                        <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.idFtCliente.nombre}"/>
+                        <br></br>
+                        <label class="label-info">Descripción completa:</label>
+                        <br></br>
+                        <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.descripcionLarga}"/>
+                        <br></br>
+                        <label class="label-info">Logo:</label>
+                        <br></br>
+                        <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.descripcionLogo}"/>
+                        <br></br>
+                        <label class="label-info">Tela principal:</label>
+                        <br></br>
+                        <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.telaPrincipal}"/>
+                        <br></br>
+                        <label class="label-info">Tela contraste:</label>
+                        <br></br>
+                        <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.telaContraste}"/>
+                        <br></br>
+                        <label class="label-info">Composición:</label>
+                    </p>
+                </div> 
+            </div>
+            <div class="contenedor1">
+                <div class="cuerpoContenedor1">
+                     <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.medidas}" escape="false"  />
+                </div> 
+            </div>
+            <div class="contenedor1 contenedor4">
+                <div class="tituloContenedor1">
+                    CRITERIOS DE ACEPTACIÓN O RECHAZO
+                </div>
+                <div class="cuerpoContenedor3">
+                    <p class="parrafo-contenedor">
+                        SE DEFINE COMO CRITERIOS DE TOLERANCIA, PARA LOS CONTORNOS TOTALES Y LARGOS +/-2 CM.
+                    </p>
+                    <p class="parrafo-contenedor">
+                        SE DEFINE COMO CRITERIOS DE TOLERANCIA, PARA LOS TIROS +/- 1CM.
+                    </p>
+                </div> 
+            </div>
+            <div class="cuerpoContenedor3 contenedor5">
+                <img width="100%" src="#{request.contextPath}/resources/file/logos.png"/>
+            </div> 
+        </div>
+        <div class="footer-contenedor">
+            <div class="footer-parrafo1">
+                <img width="100%" class="footer-img1" src="#{request.contextPath}/resources/file/logoblanco.png">
+
+                </img>
+            </div>
+            <div class="footer-parrafo2">
+                Km 34 vía central Cali - El Cerrito, corregimiento el Placer<br></br>
+                PBX: (57) (2) 255 52 21 FAX: (57) (2) 255 5140<br></br>
+                www.cfiprovidencia.com<br></br>
+                ventasconfeccion@cfiprovidencia.com<br></br>
+                exportaciones@cfiprovidencia.com<br></br>
+            </div>
+            <div class="footer-parrafo3">
+                <h:outputLabel value="CO-FT-04"/><br></br>
+                Versión ficha: <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.version}"/><br></br>
+                <h:outputText value="#{ftFichaTecnica.fechaActual}">
+                     <f:convertDateTime pattern="MMMM dd, YYYY HH:mm:ss"/>
+                </h:outputText>  
+            </div>
+        </div>
+        <div class="body-contenedor2">
+            <div class="contenedor3" style="margin-top: 10px">
+                <div class="tituloContenedor1" >
+                    GRÁFICA DE LA PRENDA
+                </div>
+                <div class="cuerpoContenedorImg">
+                    <div class="contenedor-img">
+                        <img class="imagenesTop" width="290" height="340" style="vertical-align: top;" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgFrontal}"/>
+                    </div>
+                    <div class="contenedor-img">
+                        <img class="imagenesTop" width="290" height="340" style="vertical-align: top;" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgPosterior}"/>
+                    </div>
+                </div>
+                <div class="cuerpoContenedorImg">
+                    <div class="contenedor-imgCa">
+                        <img class="imagenesBot" width="200" height="180" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica1}"/>
+                    </div>
+                    <div class="contenedor-imgCa">
+                        <img class="imagenesBot" width="200" height="180" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica2}"/>
+                    </div>
+                    <div class="contenedor-imgCa">
+                        <img class="imagenesBot" width="200" height="180" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica3}"/>
+                    </div>
+                    <div class="contenedor-imgCa">
+                        <img class="imagenesBot" width="200" height="180" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica4}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="cuerpo-elaborado">
+                <div class="contenedorElaborado">
+                    <div class="tituloContenedorElaborado">
+                        ELABORADO
+                    </div>
+                    <div class="cuerpoContenedor3">
+                        <p class="parrafo-contenedorElaborado">
+                            <h:outputLabel value="#{ftFichaTecnica.fichaTecnicaActual.elaborado.toString()}"/>
+                            <br></br>
+                            <h:outputLabel value="#{ftFichaTecnica.fichaTecnicaActual.elaborado.idCargo.nombreCargo}"/>
+                        </p>
+                    </div> 
+                </div>
+                <div class="contenedorElaborado">
+                    <div class="tituloContenedorElaborado">
+                        REVISADO
+                    </div>
+                    <div class="cuerpoContenedor3">
+                        <p class="parrafo-contenedorElaborado">
+                            <h:outputLabel value="#{ftFichaTecnica.fichaTecnicaActual.aprobo.toString()}"/>
+                            <br></br>
+                            <h:outputLabel value="#{ftFichaTecnica.fichaTecnicaActual.aprobo.idCargo.nombreCargo}"/>
+                        </p>
+                    </div> 
+                </div>
+                <div class="contenedorElaborado">
+                    <div class="tituloContenedorElaborado">
+                        APROBADO
+                    </div>
+                    <div class="cuerpoContenedor3">
+                        <p class="parrafo-contenedorElaborado">
+                            <h:outputLabel style="color: white" value="#{ftFichaTecnica.fichaTecnicaActual.aprobo.toString()}"/>
+                            <br></br>
+                            <h:outputLabel style="color: white" value="#{ftFichaTecnica.fichaTecnicaActual.aprobo.idCargo.nombreCargo}"/>
+                        </p>
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <div class="footer-contenedor">
+            <div class="footer-parrafo1">
+                <img width="100%" class="footer-img1" src="#{request.contextPath}/resources/file/logoblanco.png">
+
+                </img>
+            </div>
+            <div class="footer-parrafo2">
+                Km 34 vía central Cali - El Cerrito, corregimiento el Placer<br></br>
+                PBX: (57) (2) 255 52 21 FAX: (57) (2) 255 5140<br></br>
+                www.cfiprovidencia.com<br></br>
+                ventasconfeccion@cfiprovidencia.com<br></br>
+                exportaciones@cfiprovidencia.com<br></br>
+            </div>
+            <div class="footer-parrafo3">
+                <h:outputLabel value="CO-FT-04"/><br></br>
+                Versión ficha: <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.version}"/><br></br>
+                <h:outputText value="#{ftFichaTecnica.fechaActual}">
+                     <f:convertDateTime pattern="MMMM dd, YYYY HH:mm:ss"/>
+                </h:outputText>  
+            </div>
+        </div>
+    </body>
+</html>
+
+

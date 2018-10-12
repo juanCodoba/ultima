@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            
+        </ui:define>
+        <ui:define name="title">Modulo del Sistema de Gestión de Seguridad y Salud en el Trabajo</ui:define>  
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form id="documentosFormList">
+                <p:outputPanel id="documentosTablePanel">
+                    <p:dataTable value="#{sstReporteController.listaSstReporteUsuario}" var="item"
+                                 rows="50" id="documentosTable" rowStyleClass="#{item.estado eq 'SOLUCIONADO' ? 'color1': item.estado eq 'OBSERVACION' ? 'color3': null}"
+                                 paginator="true" widgetVar="filtroTable"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="50,100,150">
+                        <f:facet name="header">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p:button icon="fa fa-arrow-left"
+                                                value="Volver pagina principal" 
+                                                style="font-size: 1.2em !important; padding: 5px; left: 0"
+                                                outcome="/usuario/modSaludOcupacional/paginaPrincipal"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                         <h4 class="colorLetra" style="font-weight: bold" >
+                                         Total reportes: #{fn:length(sstReporteController.listaSstReporteUsuario)}
+                                    </h4>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h:commandLink id="exportExcel">
+                                            <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                            <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                                    target="documentosTable" fileName="inventario" />
+                                        </h:commandLink>
+                                        <p:tooltip id="descripcion-botonExcel" for="exportExcel" value="Exportar en excel" trackMouse="true" />
+                                    </div>
+                                </div>
+                            </div>
+                        </f:facet>
+                        <p:column filterBy="#{item.idSstIncidente}" filterMatchMode="contains" width="110" >
+                            <f:facet name="header">Código</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{item.idSstIncidente}SST-R"/>
+                        </p:column>
+                        <p:column filterBy="#{item.idSeccion}" filterMatchMode="contains" width="400">
+                            <f:facet name="header">Sección</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1.5em;" value="#{item.idSeccion.toString().toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.tipo}" filterMatchMode="contains" priority="6">
+                            <f:facet name="header">Tipo</f:facet>
+                            <h:outputText value="#{item.tipo.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.descripcion}"  filterMatchMode="contains" priority="6">
+                            <f:facet name="header">Descripción</f:facet>
+                            <h:outputText value="#{item.descripcion.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.recomendacion}"  filterMatchMode="contains" priority="6">
+                            <f:facet name="header">Recomendación</f:facet>
+                            <h:outputText value="#{item.recomendacion.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.observaciones}"  filterMatchMode="contains" priority="6">
+                            <f:facet name="header">Observaciones</f:facet>
+                            <h:outputText value="#{item.observaciones.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.idUsuario}"  filterMatchMode="contains" priority="6">
+                            <f:facet name="header">Usuario</f:facet>
+                            <h:outputText value="#{item.idUsuario.toString().toUpperCase()}"/>
+                        </p:column>
+                        
+                        <p:column priority="7">
+                             <f:facet name="header">Fecha del reporte</f:facet>
+                             <h:outputText value="#{item.fecha}">
+                                 <f:convertDateTime pattern="MMMM dd, YYYY"/>
+                             </h:outputText>
+                        </p:column>
+                        <p:column filterBy="#{item.estado}" filterMatchMode="contains" priority="6">
+                            <f:facet name="header">Estado</f:facet>
+                            <h:outputText value="#{item.estado}"/>
+                        </p:column>
+                       
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

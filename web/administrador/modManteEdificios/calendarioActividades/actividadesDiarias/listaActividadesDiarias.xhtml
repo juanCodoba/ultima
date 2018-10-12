@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminMante}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modManteEdificios/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaActividadesEdificiosController.prepareViewCalendario}">
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario de Actividades</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaAnualController.prepareList}">
+                                <i class="fa fa-calendar-check-o"></i>
+                                <span>Cronograma Anual</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Historial de Actividades</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaActividadesEdificiosController.prepareListAnualDaños}">
+                                     <span>Daños de Infraestructura</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaActividadesEdificiosController.prepareListAnualInconsistenciaAseo}">
+                                     <span>Inconsistencia de Aseos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Lista de actividades diarias</ui:define>  
+        <ui:define name="body">
+            <h:form>
+                <nav class="navbar navbar-inverse" role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target=".navbar-ex1-collapse">
+                          <span class="sr-only">Desplegar navegación</span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <p:commandLink ajax="false" action="#{cronogramaActividadesEdificiosController.prepareViewCalendario}">
+                                  <i class="fa fa-calendar"></i>
+                                 <span>Cronograma de mantenimientos</span>
+                              </p:commandLink>
+                             </li>
+                            <li class="dropdown active">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                  <i class="fa fa-wrench"></i>
+                                  Actividades diarias<b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <p:commandLink action="#{cronogramaActividadesEdificiosController.prepareCreateActividad}" update="reserva" oncomplete="PF('reservarSala').show();">
+                                            <i class="fa fa-check "/>
+                                            <span>Programar actividades diarias</span>
+                                        </p:commandLink>  
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaActividadesEdificiosController.prepareListActividad}">
+                                            <i class="fa fa-th-list"/>
+                                            <span>Ver lista de actividades diarias</span>
+                                        </p:commandLink>  
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                  <i class="fa fa-wrench"></i>
+                                  Reportes sin diagnostico<b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaActividadesEdificiosController.prepareListDaños}" >
+                                            <i class="fa fa-home"/>
+                                            <span>Daños en la infraestructura</span>
+                                        </p:commandLink>  
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaActividadesEdificiosController.prepareListInconsistenciaAseo}">
+                                            <i class="fa fa-tint"/>
+                                            <span>Inconsistencias en los aseos</span>
+                                        </p:commandLink>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                  <i class="fa fa-wrench"></i>
+                                  Historial de Diagnósticos<b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaActividadesEdificiosController.prepareListDiagnosticosDaños}">
+                                            <i class="fa fa-home"/>
+                                            <span>Daños en la infraestructura</span>
+                                        </p:commandLink>  
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaActividadesEdificiosController.prepareListDiagnosticosAseos}">
+                                            <i class="fa fa-tint"/>
+                                            <span>Inconsistencias en los aseos</span>
+                                        </p:commandLink>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaActividadesEdificiosController.prepareListDiagnosticosActividades}">
+                                            <i class="fa fa-th-list"/>
+                                            <span>Actividades diarias</span>
+                                        </p:commandLink>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </h:form>
+            <h:form id="MantenimientosFormList">
+                <p:outputPanel id="MantenimientosTablePanel">
+                    <p:dataTable value="#{cronogramaActividadesEdificiosController.actividadesProgramadasList}" var="mantenimiento"
+                                 rows="50" id="incidenteTable" 
+                                 paginator="true"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="50,100,200">
+
+                        <p:column filterBy="#{mantenimiento.idCronogramaActividadesEdificios}" width="120" filterMatchMode="contains">
+                            <f:facet name="header"># Ticket:</f:facet>
+                            <h:outputText value="#{mantenimiento.idCronogramaActividadesEdificios}CFIPAD-I" style="font-weight: bold; font-size: 1.1em"/>
+                        </p:column>
+                        <p:column filterBy="#{mantenimiento.idSeccion.nombreSeccion}" styleClass="wrap" filterMatchMode="contains">
+                            <f:facet name="header">Sección</f:facet>
+                            <h:outputText value="#{mantenimiento.idSeccion.nombreSeccion.toUpperCase()}" style="font-weight: bold; font-size: 1.1em"/>
+                        </p:column>
+                        <p:column filterBy="#{mantenimiento.idSeccion.idBloque}" width="100" styleClass="wrap" filterMatchMode="contains">
+                            <f:facet name="header">Bloque</f:facet>
+                            <h:outputText value="#{mantenimiento.idSeccion.idBloque}" style="font-weight: bold; font-size: 1.1em"/>
+                        </p:column>
+                        <p:column filterBy="#{mantenimiento.descripcion}" styleClass="wrap"   filterMatchMode="contains">
+                            <f:facet name="header">Descripcion actividad</f:facet>
+                            <h:outputText value="#{mantenimiento.descripcion.toUpperCase()}" style="font-weight: bold; font-size: 1.1em"/>
+                        </p:column>
+
+                        <p:column filterBy="#{mantenimiento.idUsuario.toString()}" styleClass="wrap"  filterMatchMode="contains">
+                            <f:facet name="header">Responsable</f:facet>
+                            <h:outputText value="#{mantenimiento.idUsuario.toString()}" style="font-weight: bold; font-size: 1.1em"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Fecha y hora de Inicio de la actividad</f:facet>
+                            <h:outputText style="display: block !important" value="#{mantenimiento.fechaReporte}">
+                               <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                            </h:outputText>
+                            <h:outputText style="display: block !important" value="#{mantenimiento.horaReporte}">
+                               <f:convertDateTime pattern="hh:mm a"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column width="50">
+                            <p:commandButton process="@this" actionListener="#{cronogramaActividadesEdificiosController.prepareCreateDiagnostico}"  update="MantenimientosFormList:form-crearDiagnostico" oncomplete="PF('crearDiagnostico').show();" id="diagnosticoActividad" icon="ui-icon-check">
+                                <f:attribute name="mantenimiento" value="#{mantenimiento}"/>
+                                <f:setPropertyActionListener value="#{mantenimiento}" target="#{cronogramaActividadesEdificiosController.cronogramaActividadesActual}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+                <p:dialog id="crear" widgetVar="crearDiagnostico" header="Diagnosticar daño de infraestructura" showEffect="clip" hideEffect="clip"  resizable="false" width="600">
+                    <p:outputPanel id="form-crearDiagnostico">
+                            <h:outputText class="help-block" value="Diagnostica el daño de la infraestructura, llenando el siguiente formulario"/>
+                            <div class="row form-group">
+                                <div class="col-md-3">
+                                    <h:outputLabel value="#Ticket:"  />
+                                    <h:outputLabel value="#{cronogramaActividadesEdificiosController.cronogramaActividadesActual.idCronogramaActividadesEdificios}CFIP-A-P" class="form-control"  />  
+                                </div>
+                                <div class="col-md-5">
+                                    <h:outputLabel value="Seccion:"  />
+                                    <h:outputLabel value="#{cronogramaActividadesEdificiosController.cronogramaActividadesActual.idSeccion.nombreSeccion.toUpperCase()}" class="form-control"  />
+                                </div>
+                                 <div class="col-md-4">
+                                    <h:outputLabel value="Area:"  />
+                                    <h:outputLabel value="#{cronogramaActividadesEdificiosController.cronogramaActividadesActual.idSeccion.idArea.nombreArea.toUpperCase()}" class="form-control"  />
+                                </div>
+                                <div class="col-md-12">
+                                    <h:outputLabel value="Usuario que realizo la actividad:"  />
+                                    <h:outputLabel value="#{cronogramaActividadesEdificiosController.cronogramaActividadesActual.idUsuario.toString()}" class="form-control"  />  
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <h:outputLabel value="Fecha que se cumplio la actividad:"  />
+                                <p:calendar id="fechaEntrega" 
+                                            required="true" 
+                                            requiredMessage="Ingresa Fecha de cumplimiento" 
+                                            value="#{cronogramaActividadesEdificiosController.diagnosticoActividadActual.fechaDiagnostico}"
+                                            pattern="MM/dd/yyyy">
+                                    <f:ajax execute="fechaEntrega" render="msgFechaEntraga"/>
+                                </p:calendar>
+                                 <h:message id="msgFechaEntrega" for="fechaEntrega"  styleClass="error"/>
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel value="Observaciones de la actividad:"  />
+                                <textarea class="form-control" type="text" jsf:id="diagnosticoInputText" 
+                                          jsf:value="#{cronogramaActividadesEdificiosController.diagnosticoActividadActual.descripcionDiagnostico}" >
+                                <f:ajax execute="@this" render="diagnosticoMessage"/>
+                                </textarea>
+                                <h:message id="diagnosticoMessage" for="diagnosticoInputText" styleClass="error"/>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-sm-6 form-group" >
+                                    <p:commandButton styleClass="btn btn-primary btn-block" 
+                                                     value="Guardar" update=":MantenimientosFormList:MantenimientosTablePanel"
+                                                     action="#{cronogramaActividadesEdificiosController.addDiagnosticoActividad}">
+                                           <f:ajax onevent="crearDiagnostico.hide()" execute="@this" render="MantenimientosFormList"/>
+                                    </p:commandButton>
+                                </div>
+                                <div class="col-sm-6 form-group">    
+                                    <h:button class="btn btn-orange btn-block" value="Cancelar" outcome="adminListDañosInfraestructura"/>
+                                </div>
+                            </div>
+                    </p:outputPanel>
+                </p:dialog>
+            </h:form>
+            <p:dialog id="reserva" widgetVar="reservarSala" header="Crear actividad diaria" showEffect="clip" hideEffect="clip"  resizable="false" width="420">
+                <h:form id="form-createCronograma">
+                    <div class="form-group"> 
+                        <h:outputLabel value="Sala en donde se realizara la actividad:"/>
+                        <p:selectOneMenu id="idSeccionDaño" value="#{cronogramaActividadesEdificiosController.cronogramaActividadesActual.idSeccion}"
+                                         required="true" converter="seccionConverter" style="width: 100%; border: none;" filter="true" filterMatchMode="contains"
+                                         requiredMessage="Por favor ingrese la sección que presenta el daño">
+                                <f:selectItem/>
+                                <f:selectItems value="#{seccionController.listaSeccion}" var="seccion" itemValue="#{seccion}"/>  
+                        </p:selectOneMenu>
+                        <p:message id="idDañoMessage" for="idSeccionDaño" styleClass="error"/>
+                    </div> 
+                    <div class="form-group">       
+                        <h:outputLabel value="Descripción de la actividad:"  />
+                        <input class="form-control" jsf:id="descripcionInputText" jsf:value="#{cronogramaActividadesEdificiosController.cronogramaActividadesActual.descripcion}" 
+                               type="text" required="true"
+                               jsf:requiredMessage="Por favor escribir la actividad a realizar">
+                        </input>
+                        <p:message id="descripcionMessage" for="descripcionInputText" styleClass="error"/>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Fecha de la actividad:"/>
+                        <p:calendar id="fechaSala" style="color: black"
+                                    required="true"  mindate="#{cronogramaActividadesEdificiosController.fechaActual}"
+                                requiredMessage="Ingresa la fecha" validatorMessage="Dirección de correo electronico no valido"
+                                value="#{cronogramaActividadesEdificiosController.cronogramaActividadesActual.fechaReporte}"
+                                navigator="true" pattern="MM/dd/yyyy"> 
+                        <f:ajax execute="@this fechaSala" 
+                                render="msgFecha form-createCronograma"/>
+                        </p:calendar>
+                        <h:message id="msgFecha" for="fechaSala"  styleClass="error"/>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Hora de inicio de la actividad:"/>
+                        <p:calendar id="horaInicio"
+                                    value="#{cronogramaActividadesEdificiosController.cronogramaActividadesActual.horaReporte}"
+                                    pattern="hh:mm a" timeOnly="true"  required="true"   
+                                    requiredMessage="Ingresa la hora">
+                             <f:ajax execute="horaInicio" render="msgHoraInicio"/>
+                        </p:calendar>
+                        <h:message id="msgHoraInicio" for="horaInicio"  styleClass="error"/>
+                    </div>
+                    <div class="form-group"> 
+                        <h:outputLabel value="Responsable de la actividad:"/>
+                        <p:selectOneMenu id="idResponsable" value="#{cronogramaActividadesEdificiosController.cronogramaActividadesActual.idUsuario}"
+                                         required="true" converter="usuarioConverter" style="width: 100%; border: none;" filter="true" filterMatchMode="contains"
+                                         requiredMessage="Por favor ingrese la sección que presenta el daño">
+                                <f:selectItem/>
+                                <f:selectItems value="#{usuarioController.listaUsuarios}" var="usuario" itemValue="#{usuario}"/>  
+                        </p:selectOneMenu>
+                        <p:message id="idUsuarioMessage" for="idResponsable" styleClass="error"/>
+                    </div> 
+                    <p:commandButton class="btn btn-actividad btn-block" update="MantenimientosFormList" value="Crear actividad" action="#{cronogramaActividadesEdificiosController.addActividad}">
+                        <f:ajax execute="@this MantenimientosFormList" render="MantenimientosFormList" onevent="reservarSala.hide()"/>
+                    </p:commandButton>
+                    <h:button class="btn btn-block" style="background: orange; color: white" value="Cancelar" outcome="listaActividadesDiarias"/>  
+                </h:form>
+            </p:dialog>
+        </ui:define>
+    </ui:composition>
+</html>

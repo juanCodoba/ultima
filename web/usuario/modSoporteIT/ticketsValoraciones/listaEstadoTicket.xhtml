@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+      <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Estado de tickets </ui:define> 
+        <ui:define name="title2">Aquí puedes cerrar todos los tickets que tengas sin valorar.</ui:define>        
+        <ui:define name="body">
+            <h:form id="inventarioFormList">
+                <p:outputPanel >
+                    <p:dataTable value="#{cronogramaController.listaMantenimientosEstadoUserDocente}" var="cronograma" 
+                                 rows="50" id="computadorTable" rowStyleClass="#{cronograma.estado eq 'Cerrado' ? 'color1': cronograma.estado eq 'Sin Cerrar' ? 'color2': cronograma.estado eq 'Sin Valoración' ? 'color3':null}" 
+                             paginator="true"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="50,100,150">
+                        <f:facet name="header">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p:button icon="fa fa-arrow-left"
+                                                value="Volver pagina principal" 
+                                                style="font-size: 1.2em !important; padding: 5px; left: 0"
+                                                outcome="/usuario/modSoporteIT/paginaPrincipal"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                         <h4 class="colorLetra" style="font-weight: bold" >
+                                        Total de tickets generados: #{fn:length(cronogramaController.listaMantenimientosEstadoUserDocente)}
+                                    </h4>
+                                    </div>
+                                    <div class="col-md-4">
+                                    </div>
+                                </div>
+                            </div>
+                        </f:facet>
+                        <p:column filterBy="#{cronograma.idTicket}" >
+                            <f:facet name="header">#Ticket</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{cronograma.idTicket}"/>
+                        </p:column>
+                            <p:column filterBy="#{cronograma.idTipoMantenimiento.nombreTipoMantenimiento}">
+                            <f:facet name="header">Tipo mantenimiento</f:facet>
+                            <h:outputText value="#{cronograma.idTipoMantenimiento.nombreTipoMantenimiento.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{cronograma.fechaInicioMantenimiento}">
+                            <f:facet name="header">Fecha del reporte</f:facet>
+                            <h:outputText value="#{cronograma.fechaInicioMantenimiento}">
+                               <f:convertDateTime pattern="MMMM dd, yyyy HH:mm a"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column filterBy="#{cronograma.descripcionProblema}">
+                            <f:facet name="header">Descripción del problema encontrado</f:facet>
+                            <h:outputText value="#{cronograma.descripcionProblema}"/>
+                        </p:column>
+                        <p:column filterBy="#{cronograma.idTipoJornada.nombre}">
+                            <f:facet name="header">Jornada</f:facet>
+                            <h:outputText value="#{cronograma.idTipoJornada.nombre.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{cronograma.idComputador.codigoComputador}">
+                            <f:facet name="header">Service tag o (S/N) del computador</f:facet>
+                            <h:outputText value="#{cronograma.idComputador.codigoComputador.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{cronograma.estado}">
+                            <f:facet name="header">Estado del ticket</f:facet>
+                            <h:outputText value="#{cronograma.estado}"/>
+                        </p:column>
+                        <p:column width="60">
+                            <h:commandLink id="historial" actionListener="#{cronogramaController.prepareViewDiagnostico}" action="#{cronogramaController.viewValoracionCorre}" >
+                                 <i class="fa fa-star btn btn-primary"></i> 
+                                <f:attribute name="cronograma" value="#{cronograma}"/>
+                                <f:setPropertyActionListener value="#{cronograma}" target="#{cronogramaController.cronogramaMantenimientosActual}"/>
+                            </h:commandLink>
+                            <p:tooltip id="descripcion-botonHistorial" for="historial" value="Ver Valoración" trackMouse="true" />
+                            <p:growl id="growl" showDetail="true" life="7000"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

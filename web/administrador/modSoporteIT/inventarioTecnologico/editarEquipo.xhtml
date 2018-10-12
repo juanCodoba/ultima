@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Formulario de actualización de equipo</ui:define>
+        <ui:define name="title2">Llena el siguiente formulario para actualizar el equipo en el inventario, recuerda que toda actualización también se guardara en el historial del equipo</ui:define>
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modSoporteIT/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{usuarioController.prepareList}">
+                                <i class="fa fa-users"></i> 
+                                <span>Usuarios del sistema</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="active">
+                            <h:commandLink action="#{computadorController.prepareList}">
+                                <i class="fa fa-desktop"></i>
+                                <span>Inventario tecnológico</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
+                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario mantenimientos</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                     <span>Preventivos</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                     <span>Correctivos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{reporteSiesaController.prepareListReportes}">
+                                <i class="fa fa-bug "></i>
+                                <span>Fallos del ERP</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/configuracionMaestros/verConfiguraciones">
+                                <i class="fa fa-file"></i>
+                                <span>Configuración de maestros</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="body">  
+            <h:form id="createEditForm">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="form-group col-md-4">
+                            <h:outputLabel class="letra-form" value="Service Tag ó (S/N):"/>
+                            <h:inputText class="form-control" value="#{computadorController.computadorActual.codigoComputador.toUpperCase()}" disabled="true"/>
+                        </div>
+                        <div class="form-group col-md-4">
+                           <h:outputLabel class="letra-form" value="Numero de Activo:"/>
+                           <h:inputText class="form-control" value="#{computadorController.computadorActual.activoFijo.toUpperCase()}" disabled="true"/>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <h:outputLabel class="letra-form" value="Tipo de equipo:"/>
+                            <h:inputText class="form-control" value="#{computadorController.computadorActual.idModelo.idTipo.toString()}" disabled="true"/>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <h:outputLabel class="letra-form" value="Procesador:"/>
+                            <h:inputText class="form-control" value="#{computadorController.computadorActual.procesador}" disabled="true"/>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <h:outputLabel class="letra-form" value="Marca:"/>
+                            <h:inputText class="form-control" value="#{computadorController.computadorActual.idModelo.idMarca.nombreMarca.toUpperCase()}" disabled="true"/>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <h:outputLabel class="letra-form" value="Modelo:"/>
+                            <h:inputText class="form-control" value="#{computadorController.computadorActual.idModelo.nombreModelo.toUpperCase()}" disabled="true"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Criticidad de la información:"  />
+                    <h:selectOneMenu class="form-control" 
+                                      id="equipoCritico" 
+                                      value="#{computadorController.computadorActual.computadorCritico}">
+                        <f:selectItem itemLabel="N/A" itemValue="N/A"/>
+                        <f:selectItem itemLabel="ALTO" itemValue="ALTO"/>
+                        <f:selectItem itemLabel="MEDIO" itemValue="MEDIO"/>
+                        <f:selectItem itemLabel="BAJO" itemValue="BAJO"/>
+                        <f:ajax execute="@this"/>
+                    </h:selectOneMenu>
+                    <h:message id="equipoCriticoMessage" for="equipoCritico" styleClass="error"/>
+                </div> 
+                <p:separator />
+                <div class="form-group">
+                    <h:outputLabel value="Tipo de actualización:"/>
+                    <h:selectOneMenu class="form-control" id="actualizacionInputText" 
+                                     value="#{computadorController.historialComputadorActual.idTipoActualizacion}">
+                        <f:selectItems value="#{tipoActualizacionController.listaTipoActualizacionSelectOne}"/>
+                        <f:ajax execute="@this" render="actualizacionMessage divPanel divPanel2"/>
+                    </h:selectOneMenu>
+                    <h:message id="actualizacionMessage" for="actualizacionInputText" styleClass="error"/>
+                </div>
+                <p:outputPanel id="divPanel">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h:outputLabel rendered="#{!computadorController.actualizacionComponente}" value="ID LAM:" class="label-form"/>
+                            <input class="form-control"  type="text" jsf:id="idLanInputText" rendered="#{!computadorController.actualizacionComponente}"
+                                   jsf:value="#{computadorController.computadorActual.idLam}" style="font-family: inherit;">
+                                <f:ajax execute="@this" render="idLanMessage"/>
+                            </input>
+                            <h:message id="idLanMessage" for="idLanInputText" styleClass="error"/>
+                        </div>
+                        <div class="col-md-4">  
+                            <h:outputLabel rendered="#{!computadorController.actualizacionComponente}" value="Responsable del computador:" class="label-form"  />
+                            <p:selectOneMenu class="form-group col-md-12" rendered="#{!computadorController.actualizacionComponente}" id="idSelectResponsable" filterMatchMode="contains"
+                                             style="width: 100%; border: none; " filter="true" value="#{computadorController.computadorActual.idUsuario}" converter="usuarioConverter">
+                                    <f:selectItem itemLabel="Seleccionar uno.." />
+                                    <f:selectItems  value="#{computadorController.listaUsuarioSelectOne}" var="usuario" itemValue="#{usuario}"/>  
+                            </p:selectOneMenu>
+                        </div>   
+                        <div class="col-md-4">    
+                            <h:outputLabel rendered="#{!computadorController.actualizacionComponente}" value="Seccion donde se encuentra:" class="label-form" />
+                            <p:selectOneMenu class="form-group col-md-12" rendered="#{!computadorController.actualizacionComponente}" id="idSelectSeccion" filterMatchMode="contains"
+                                             style="width: 100%; border: none; " filter="true" value="#{computadorController.computadorActual.idSeccion}" converter="seccionConverter">
+                                   <f:selectItem itemLabel="Seleccionar uno.." />
+                                   <f:selectItems  value="#{computadorController.listaSeccionSelectOne}" var="seccion" itemValue="#{seccion}"/>  
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                </p:outputPanel>
+                <p:outputPanel id="divPanel2">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h:outputLabel value="Disco duro:  " rendered="#{!computadorController.actualizacionLugar}" class="label-form"/>
+                            <div class="form-group"> 
+                                <p:spinner  id="discoDuro" rendered="#{!computadorController.actualizacionLugar}" value="#{computadorController.computadorActual.discoDuro}" style="width: 100%" stepFactor="0.25" suffix="Gb" min="0"/> 
+                            </div> 
+                        </div>
+                        <div class="col-md-4">
+                            <h:outputLabel value="Memoria Ram:  " rendered="#{!computadorController.actualizacionLugar}" class="label-form"/>
+                            <div class="form-group">
+                                <p:spinner id="ram"  rendered="#{!computadorController.actualizacionLugar}" value="#{computadorController.computadorActual.memoriaRam}" style="width: 100%" stepFactor="0.25"  suffix="Gb" min="0"/>  
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h:outputLabel rendered="#{!computadorController.actualizacionLugar}" value="Monitor:" class="label-form"/>
+                            <h:selectOneMenu class="form-control" id="idSelectMonitor" rendered="#{!computadorController.actualizacionLugar}" value="#{computadorController.computadorActual.idMonitor}" style="font: none">
+                                    <f:selectItem itemLabel="Seleccionar uno.." />
+                                    <f:selectItems value="#{computadorController.listaMonitorSelectOne}" var="monitor" itemValue="#{monitor}"/>  
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Descripción de la actualización:"  class="label-form"/>
+                        <p:inputTextarea class="form-control" required="true" id="descripcionText" style="resize: none" 
+                                         requiredMessage="Por favor ingrese la descripción de la actualizacion del equipo"   
+                                         value="#{computadorController.historialComputadorActual.descripcion}">
+                        <f:ajax execute="@this" render="descripcionMessage"/>
+                        </p:inputTextarea>
+                        <p:message id="descripcionMessage" for="descripcionText" styleClass="error"/>
+                    </div>
+                </p:outputPanel>
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <p:commandButton class="btn btn-primary btn-block"
+                                         ajax="false"
+                                         value="Actualizar equipo"
+                                         action="#{computadorController.createHistorial}"
+                                         onclick="onSubmitButton();"/>
+                    </div>
+                    <div class="col-sm-6 form-group">    
+                        <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="listaInventario"/>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+
+

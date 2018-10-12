@@ -1,0 +1,343 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminCalidoso}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="#{formatosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-excel-o"></i> 
+                                <span>Administrar Registros</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span>Administrar Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListPermiso}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-user"></i>
+                                <span>Permisos Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                          <li>
+                              <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-spinner" aria-hidden="true"></i>
+                                <span>Administrar Acciones</span>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{calidadPlanAccionController.usuarioActual}"/>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{calidadGestionConocimientoController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                                <span>Administrar Conocimiento</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+                    <p:separator rendered="#{loginController.adminCalidoso}"/>
+                    <li style="margin-top: 20px">
+                            <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                    <li>
+                        <h:commandLink action="#{formatosController.prepareListUser}">
+                            <i class="fa fa-file"></i>
+                            <span>Lista de registros</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{documentosController.prepareListUser}" rendered="#{loginController.userCaliadad}">
+                            <i class="fa fa-book"></i>
+                            <span>Lista de documentos</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadGestionConocimientoController.prepareList}">
+                            <i class="fa fa-lightbulb-o"></i>
+                            <span>Gestión del conocimiento</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="compromisosComite">
+                            <i class="fa fa-users"></i>
+                            <span>Compromisos del comité</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadPlanAccionController.list}">
+                            <i class="fa fa-cogs"></i>
+                            <span>Acciones de mejora</span> 
+                        </h:commandLink>
+                    </li>
+                    <li class="active">
+                        <h:commandLink action="informacionCalidad">
+                            <i class="fa fa-question"></i>
+                            <span>¿Que es calidad?</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="horizonteInstitucional">
+                            <i class="fa fa fa-eye"></i>
+                            <span>Horizonte institucional</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Conozca lo Básico del Sistema de Gestion de Calidad</ui:define>
+        <ui:define name="body">
+            <div>
+                <div class="col-md-8">
+                    <h3 >Certificación ISO 9001:2008</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="queEsIso" class="row cuadros-texto form-group">
+                        <div style="padding: 0 2em">
+                            <div class="col-md-7">
+                                <h3 class="titulo-cuadroTexto">¿Qué es ISO?</h3>
+                                <p class="texto-cuadroTexto">
+                                    Es la <span style="font-weight: bold">Organización Internacional para Estandarización</span>, 
+                                    con sede en Suiza. Esta entidad no gubernamental crea 
+                                    normas para que los procedimientos y productos cumplan 
+                                    con unas especificaciones de tal manera que algo sea 
+                                    exactamente lo mismo en cualquier parte del mundo.
+                                </p>
+                            </div>
+                            <div class="col-md-5 form-group">
+                                <figure>
+                                    <img class="img-responsive" src="#{request.contextPath}/resources/images/imagenesCalidad/iso-icon.png" alt="iso"/>
+                                </figure>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="queEsIcontec" class="row cuadros-texto form-group">
+                        <div style="padding: 0 2em">
+                            <div class="col-md-7">
+                                <h3 class="titulo-cuadroTexto">¿Qué es ICONTEC?</h3>
+                                <p class="texto-cuadroTexto">
+                                    Es el <span style="font-weight: bold">Instituto Colombiano de Normas Técnicas</span>.
+                                    Es un organismo de carácter privado, sin ánimo
+                                    de lucro, ICONTEC - ha sido acreditado por la 
+                                    Superintendencia de Industria y Comercio como 
+                                    organismo de certificación de productos industriales, 
+                                    de sistemas de calidad en el sector industrial y de 
+                                    sistemas de administración ambiental. Además es quien 
+                                    representa a Colombia ante la ISO.
+                                </p>
+                            </div>
+                            <div class="col-md-5 form-group">
+                                <figure>
+                                    <img class="img-responsive" src="#{request.contextPath}/resources/images/imagenesCalidad/icontec.png" alt="iso"/>
+                                </figure>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div id="queEsNorma" class="col-md-12">
+                    <div class="row cuadros-texto form-group">
+                        <div style="padding: 0 2em">
+                            <div class="col-md-7">
+                                <h3 class="titulo-cuadroTexto">¿Qué es una Norma?</h3>
+                                <p class="texto-cuadroTexto">
+                                    Documento aprobado por un organismo reconocido, 
+                                    que suministra, <span style="font-weight: bold">reglas, directrices</span> o <span style="font-weight: bold">características</span>
+                                    para las actividades o sus resultados, para alcanzar
+                                    el <span style="font-weight: bold">logro del grado optimo</span>.
+                                </p>
+                            </div>
+                            <div class="col-md-5 form-group">
+                                <figure>
+                                    <img class="img-responsive" src="#{request.contextPath}/resources/images/imagenesCalidad/norma.png" alt="iso"/>
+                                </figure>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div id="queEsCertificacion" class="col-md-12">
+                    <div class="row cuadros-texto form-group">
+                        <div style="padding: 0 2em">
+                            <h3 class="titulo-cuadroTexto">¿Qué es la Certificación?</h3>
+                            <div class="col-md-10">
+                                <p class="texto-cuadroTexto">
+                                    Una entidad  diferente al productor y al comprador, 
+                                    asegura por escrito, que un producto, un proceso o 
+                                    un servicio, cumple los requisitos especificados.
+                                    Por esta razón, constituye una herramienta valiosa 
+                                    en las transacciones comerciales nacionales e internacionales.
+                                    Es un elemento para generar confianza en las relaciones 
+                                    cliente-proveedor.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div id="queEsIso" class="col-md-12">
+                    <div class="row cuadros-texto form-group">
+                        <div style="padding: 0 2em">
+                            <h3 class="titulo-cuadroTexto">¿Qué es Calidad?</h3>
+                            <div class="col-md-10">
+                                <p class="texto-cuadroTexto">
+                                    Grado en el cual un conjunto de características de mi producto satisfacen los requisitos del cliente.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div id="queEsSGC" class="col-md-12">
+                    <div class="row cuadros-texto form-group">
+                        <div style="padding: 0 2em">
+                            <h3 class="titulo-cuadroTexto">¿Qué es el Sistema de Gestión de la Calidad o SGC?</h3>
+                            <div class="col-md-10">
+                                <p class="texto-cuadroTexto">
+                                    Es la forma que hago mi trabajo para satisfacer a mis clientes.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="comoSeImplementa" class="row">
+                <div class="col-md-12">
+                    <div class="row cuadros-texto2 form-group">
+                        <div style="padding: 0 2em">
+                            <h3 class="titulo-cuadroTexto2">¿Cómo se implementa el Sistema de Gestión de la Calidad?</h3>
+                            <div class="col-md-8">
+                                <figure>
+                                    <img class="img-responsive" src="#{request.contextPath}/resources/images/imagenesCalidad/phva.png" alt="iso"/>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="politica" class="row">
+                <div class="col-md-12">
+                    <div class="row cuadros-texto3 form-group">
+                        <div style="padding: 0 2em">
+                            <div class="col-md-12">
+                                <h3 class="titulo-cuadroTexto3">¿Qué es la Política y Qué son los Objetivos?</h3>
+                                <p class="texto-cuadroTexto">
+                                    <span style="font-weight: bold">POLITICA DE CALIDAD:</span> El norte de la organización. Nuestra orientación e intenciones frente a la calidad
+                                </p>
+                                <br></br>
+                                <p class="texto-cuadroTexto">
+                                    <span style="font-weight: bold">OBJETIVOS DE CALIDAD:</span> Algo ambicionado o pretendido, relacionado con la calidad. Se basan en la Política de calidad.
+                                </p>
+                            </div>
+                            <div>
+                                <div class="col-md-12 form-group">
+                                    <h3 class="titulo-cuadroTexto3">¿Cuál es la Política de Calidad?</h3>
+                                    <p class="texto-cuadroTexto">
+                                       Comprometidos con el desarrollo social de la región 
+                                       y la satisfacción del cliente, suministramos soluciones
+                                       integrales en la producción y comercialización de dotación
+                                       para el trabajo, aplicando innovación y altos estándares 
+                                       de calidad en los procesos, considerando la prevención y 
+                                       control en la seguridad del trabajador y los recursos naturales.  
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="col-md-12 form-group">
+                                    <h3 class="titulo-cuadroTexto3">¿Cuáles son los Objetivos?</h3>
+                                    <p class="texto-cuadroTexto">
+                                        -   Aumentar el aporte económico y social para la región
+                                        <br></br>
+                                        -   Potenciar la percepción de Satisfacción del Cliente
+                                        <br></br>
+                                        -   Lograr el mejoramiento continuo en la gestión de los procesos.
+                                        <br></br>
+                                        -   Implementar controles que contribuyan a la seguridad en el trabajo y cuidado del   medio ambiente.  
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <div id="relacionPolitica" class="col-md-12 form-group">
+                                    <h3 class="titulo-cuadroTexto3">¿Qué relación hay entre Política y Objetivos?</h3>
+                                    <p class="texto-cuadroTexto">
+                                        <table  width="100" cellspacing="5" class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>DIRECTRIZ DE LA POLÍTICA</th>
+                                                    <th>OBJETIVO RELACIONADO</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="success">
+                                                    <td>Comprometidos con el desarrollo social de la región,</td>
+                                                    <td>-Aumentar el aporte económico, social y cultural de la región.</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>La división de confecciones del Centro de Formación Integral Providencia mediante procesos de mejora continua,</td>
+                                                    <td>-Mantener la certificación del sistema de gestión de la calidad ISO 9001:2008</td>
+                                                </tr>
+                                                <tr class="success">
+                                                    <td>personal calificado y,</td>
+                                                    <td>-Desarrollar competencia al personal, contribuyendo al logro de los objetivos de calidad.</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>proveedores adecuados,</td>
+                                                    <td>
+                                                        -Medir la capacidad de los proveedores para cumplir con los acuerdos.<br></br>
+                                                        -Disminuir el incumplimiento en la entrega.
+                                                    </td>
+                                                </tr>
+                                                <tr class="success">
+                                                    <td>busca satisfacer las necesidades y expectativas de los clientes.</td>
+                                                    <td>
+                                                       -Aumentar la satisfacción del cliente
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+                           
+                        
+        </ui:define>
+    </ui:composition>
+</html>

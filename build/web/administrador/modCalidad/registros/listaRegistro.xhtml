@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminCalidoso}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li class="active">
+                            <h:commandLink action="#{formatosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-excel-o"></i> 
+                                <span>Administrar Registros</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span>Administrar Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListPermiso}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-user"></i>
+                                <span>Permisos Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                          <li>
+                              <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-spinner" aria-hidden="true"></i>
+                                <span>Administrar Acciones</span>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{calidadPlanAccionController.usuarioActual}"/>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{calidadGestionConocimientoController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                                <span>Administrar Conocimiento</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+                    <p:separator rendered="#{loginController.adminCalidoso}"/>
+                    <li style="margin-top: 20px">
+                            <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                    <li>
+                        <h:commandLink action="#{formatosController.prepareListUser}">
+                            <i class="fa fa-file"></i>
+                            <span>Lista de registros</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{documentosController.prepareListUser}" rendered="#{loginController.userCaliadad}">
+                            <i class="fa fa-book"></i>
+                            <span>Lista de documentos</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/compromisosComite">
+                            <i class="fa fa-users"></i>
+                            <span>Compromisos del comité</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadPlanAccionController.list}">
+                            <i class="fa fa-cogs"></i>
+                            <span>Acciones de mejora</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/informacionCalidad">
+                            <i class="fa fa-question"></i>
+                            <span>¿Que es calidad?</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/horizonteInstitucional">
+                            <i class="fa fa fa-eye"></i>
+                            <span>Horizonte institucional</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Listado de registros</ui:define>   
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form id="documentosFormList">
+                <p:outputPanel id="documentosTablePanel">
+                    <p:dataTable value="#{formatosController.listaFormatos}" var="formatos"
+                                 rows="50" id="documentosTable" paginator="true"
+                                 selectionMode="single" selection="#{formatosController.formatosActual}" rowKey="#{formatos.idFormato}"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="50, 100,200">
+                        <f:facet name="header">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p:button icon="fa fa-arrow-left"
+                                                value="Volver pagina principal" 
+                                                style="font-size: 1.2em !important; padding: 5px; left: 0"
+                                                outcome="/usuario/modCalidad/paginaPrincipal"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h4 class="colorLetra" style="font-weight: bold" >
+                                            Total registros: #{fn:length(formatosController.listaFormatos)}
+                                        </h4>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p:commandButton icon="fa fa-save"
+                                                         ajax="false"
+                                                        value="Crear registro"
+                                                        style="font-size: 1.2em !important;padding: 5px; right: 0"
+                                                        action="#{formatosController.prepareCreateFormato}"/>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <h:commandLink id="exportExcel">
+                                            <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                            <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                                    target="documentosTable" fileName="inventario" />
+                                        </h:commandLink>
+                                    </div>
+                                </div>
+                            </div>
+                        </f:facet>
+                        <p:ajax event="rowSelect" oncomplete="PF('itemDialog').show()" update=":documentosFormList:detalle" />
+                        <p:column filterBy="#{formatos.codigoFormato}" filterMatchMode="contains" width="100" >
+                            <f:facet name="header">Código del Formato</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{formatos.codigoFormato.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{formatos.nombreFormato}" filterMatchMode="contains" width="400">
+                            <f:facet name="header">Nombre del documento</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{formatos.nombreFormato.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{formatos.idProceso.nombreProceso}" filterMatchMode="contains" priority="3">
+                            <f:facet name="header">Proceso</f:facet>
+                            <h:outputText value="#{formatos.idProceso.nombreProceso.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{formatos.subprocesoNombre}" filterMatchMode="contains" priority="4">
+                            <f:facet name="header">Subproceso</f:facet>
+                            <h:outputText value="#{formatos.subprocesoNombre.toUpperCase()}"/>
+                        </p:column>
+                       
+                        <p:column priority="13">
+                             <f:facet name="header">Fecha de actualización del formato</f:facet>
+                             <h:outputText value="#{formatos.fechaActualizacion}">
+                                 <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                             </h:outputText>
+                        </p:column>
+                        <p:column filterBy="#{formatos.linkFormato}" filterMatchMode="contains" priority="6">
+                            <f:facet name="header">Link de acceso</f:facet>
+                            <h:outputText value="#{formatos.linkFormato}"/>
+                        </p:column>
+                        <p:column width="130">
+                            <h:commandLink class="btn btn-sm btn-primary" id="boton-descargar" target="_blank" style="margin: 5px; color: white" actionListener="#{formatosController.prepareFormato}" action="#{formatosController.obtenerFormato}">
+                                <span class="fa fa-download"/>
+                                <f:attribute name="formatos" value="#{formatos}" />
+                                <f:setPropertyActionListener value="#{formatos}" target="#{formatosController.formatosActual}"/>
+                            </h:commandLink>
+                            <p:tooltip id="descripcion-descargar" for="boton-descargar" value="Descargar formato" trackMouse="true"/>
+                            <p:commandButton ajax="false" id="boton-edit"  icon="ui-icon-pencil" action="#{formatosController.prepareEdit}">
+                                <f:setPropertyActionListener value="#{formatos}" target="#{formatosController.formatosActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-edit" for="boton-edit" value="Editar formato" trackMouse="true"/>
+                            <p:commandButton  id="boton-delete"  icon="ui-icon-trash" action="#{formatosController.deleteFormato}"
+                                             process="@this" update="documentosFormList">
+                                <p:confirm header="Confirmación" message="¿Esta seguro que desea eliminar el formato?" icon="ui-icon-alert" />
+                                <f:setPropertyActionListener value="#{formatos}" target="#{formatosController.formatosActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-delete" for="boton-delete" value="eliminar formato" trackMouse="true"/>
+                        </p:column>
+                    </p:dataTable>
+                    <p:dialog header="Información del registro" widgetVar="itemDialog" closeOnEscape="true" resizable="true" width="800">
+                        <h:panelGroup id="detalle">
+                            <div class="container-fluid">
+                                <div class="form-group col-md-3">
+                                    <h:outputText style="font-weight: bold; color: red; font-size: 1.4em" value=" #{formatosController.formatosActual.codigoFormato.toUpperCase()}" />
+                                </div>
+                                <div class="form-group col-md-9">
+                                    <h:outputText style="font-weight: bold;font-size: 1.4em"  value=" #{formatosController.formatosActual.nombreFormato.toUpperCase()}" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <h:outputText value="Quien diligencia:" style="font-weight: bold; font-size: 1.3em" />
+                                    <h:outputText class="form-control" value="#{formatosController.formatosActual.diligenciado.toUpperCase()}">
+                                    </h:outputText>
+                                </div>   
+                                <div class="form-group col-md-12">
+                                    <h:outputText value="Donde se almacena" style="font-weight: bold; font-size: 1.3em"/>
+                                    <h:outputText class="form-control" value="#{formatosController.formatosActual.almacenamiento.toUpperCase()}">
+                                    </h:outputText>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <h:outputText value="Recuperación:" style="font-weight: bold; font-size: 1.3em" />
+                                    <h:outputText  class="form-control" value="#{formatosController.formatosActual.recuperacion.toUpperCase()}" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <h:outputText value="Tiempo de retención:" style="font-weight: bold; font-size: 1.3em" />
+                                    <h:outputText class="form-control" value="#{formatosController.formatosActual.tiempoRetencion.toUpperCase()}" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <h:outputText value="Disposición final (metodo):" style="font-weight: bold; font-size: 1.3em" />
+                                    <h:outputText class="form-control" value="#{formatosController.formatosActual.metodo.toUpperCase()}" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <h:outputText value="Procedimiento/Instructivo (Código):" style="font-weight: bold; font-size: 1.3em" />
+                                    <h:outputText class="form-control" value="#{formatosController.formatosActual.idDocumentoInstructivo.codigoDocumento.toUpperCase()}" />
+                                </div>
+                            </div>                           
+                        </h:panelGroup>
+                    </p:dialog>
+                </p:outputPanel>
+                 <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

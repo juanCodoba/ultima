@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:composition template="/template/plantilla.xhtml">
+         <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminCalidoso}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="#{formatosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-excel-o"></i> 
+                                <span>Administrar Registros</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span>Administrar Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListPermiso}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-user"></i>
+                                <span>Permisos Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li class="active">
+                              <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-spinner" aria-hidden="true"></i>
+                                <span>Administrar Acciones</span>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{calidadPlanAccionController.usuarioActual}"/>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{calidadGestionConocimientoController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                                <span>Administrar Conocimiento</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+                    <p:separator rendered="#{loginController.adminCalidoso}"/>
+                    <li style="margin-top: 20px">
+                            <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                    <li>
+                        <h:commandLink action="#{formatosController.prepareListUser}">
+                            <i class="fa fa-file"></i>
+                            <span>Lista de registros</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{documentosController.prepareListUser}" rendered="#{loginController.userCaliadad}">
+                            <i class="fa fa-book"></i>
+                            <span>Lista de documentos</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadGestionConocimientoController.prepareList}">
+                            <i class="fa fa-lightbulb-o"></i>
+                            <span>Gestión del conocimiento</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/compromisosComite">
+                            <i class="fa fa-users"></i>
+                            <span>Compromisos del comité</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadPlanAccionController.list}">
+                            <i class="fa fa-cogs"></i>
+                            <span>Acciones de mejora</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/informacionCalidad">
+                            <i class="fa fa-question"></i>
+                            <span>¿Que es calidad?</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/horizonteInstitucional">
+                            <i class="fa fa fa-eye"></i>
+                            <span>Horizonte institucional</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Administrar acciones de mejora</ui:define>  
+        <ui:define name="title2">Aquí pueder administrar las acciones de mejora</ui:define> 
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form id="documentosFormList">
+                <p:outputPanel id="documentosTablePanel">
+                    <p:dataTable value="#{calidadPlanAccionController.listaPlanAccionActualAdmin}" var="item"
+                                     rows="20" paginator="true" id="acciones"
+                                     rowStyleClass="#{item.estadoPlan eq 'abierto' ? 'color3': item.estadoPlan eq 'cerrado' ? 'color1':null}"
+                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="20, 100, 150" emptyMessage="No se encontraron formatos con el criterio dado">
+                            <f:facet name="header">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <p:button icon="fa fa-arrow-left"
+                                                    value="Volver" 
+                                                    style="font-size: 1.2em !important; padding: 5px; left: 0"
+                                                    outcome="/usuario/modCalidad/paginaPrincipal"/>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h4 class="colorLetra" style="font-weight: bold" >
+                                                Total acciones de mejora: #{fn:length(calidadPlanAccionController.listaPlanAccionActual)}
+                                            </h4>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p:commandButton icon="fa fa-file"
+                                                             ajax="false"
+                                                    value="Seguimientos sin cerrar" 
+                                                    style="font-size: 1.2em !important; padding: 5px; left: 0"
+                                                    action="#{calidadPlanAccionController.prepareListaSeguimientoSinCerrar}"/>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p:commandButton icon="fa fa-file"
+                                                             ajax="false"
+                                                    value="Acciones a implementar" 
+                                                    style="font-size: 1.2em !important; padding: 5px; left: 0"
+                                                    action="#{calidadPlanAccionController.prepareListaAccionesImplemetar}"/>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <h:commandLink id="exportExcel">
+                                                <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                                <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                                        target="acciones" fileName="inventario" />
+                                            </h:commandLink>
+                                        </div>
+                                    </div>
+                                </div>
+                            </f:facet>
+                        <p:column filterMatchMode="contains" filterBy="#{item.fechaAñoString}" sortBy="#{item.fechaAñoString}" width="70">
+                            <f:facet name="header">Filtrar por año</f:facet>
+                            <h:outputText value="#{item.fechaAñoString}">
+                            </h:outputText>
+                        </p:column>
+                        <p:column filterMatchMode="contains" headerText="Filtrar por mes" filterBy="#{item.fechaMesString}" sortBy="#{item.fechaMesString}" width="100">
+                            #{item.fechaMesString}
+                        </p:column>
+                        <p:column width="60" filterBy="#{item.idPlanAccion}" filterMatchMode="contains" style=" text-align: center" >
+                            <f:facet name="header">Cód</f:facet>
+                            <h:outputText  style="font-weight: bold; text-align: center" value="#{item.idPlanAccion}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.idSubproceso.nombreSubproceso}" filterMatchMode="contains">
+                            <f:facet name="header">Subproceso</f:facet>
+                            <h:outputText value="#{item.idSubproceso.nombreSubproceso.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.tituloPlan}" filterMatchMode="contains">
+                            <f:facet name="header">Nombre del plan</f:facet>
+                            <h:outputText value="#{item.tituloPlan.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.responsable.toString()}" filterMatchMode="contains">
+                            <f:facet name="header">Responsable</f:facet>
+                            <h:outputText value="#{item.responsable.toString().toUpperCase()}"/>
+                        </p:column>
+                        
+                        <p:column filterBy="#{item.tipoPlan}" filterMatchMode="contains">
+                            <f:facet name="header">Tipo de acción</f:facet>
+                            <h:outputText value="#{item.tipoPlan.toUpperCase()}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Fecha de creación</f:facet>
+                            <h:outputText value="#{item.fechaAnalisis}">
+                                <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Ultima modificación</f:facet>
+                            <h:outputText value="#{item.fechaCierre}">
+                                <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column filterBy="#{item.revisor}" filterMatchMode="contains">
+                            <f:facet name="header">Revisor</f:facet>
+                            <h:outputText value="#{item.revisor.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.estadoPlan}" filterMatchMode="contains" width="100">
+                            <f:facet name="header">Estado</f:facet>
+                            <h:outputText value="#{item.estadoPlan.toUpperCase()}"/>
+                        </p:column>
+                        <p:column width="140">
+                            <p:commandButton icon="fa fa-pencil" id="edit" ajax="false" action="#{calidadPlanAccionController.prepareEdit}" rendered="#{loginController.adminCalidoso}">
+                                <f:attribute name="item" value="#{item}"/>
+                                <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.planAccionActual}"/>
+                            </p:commandButton>
+                            <p:tooltip for="edit" value="Editar"/>
+                            <p:commandButton id="ver" icon="ui-icon-search" action="#{calidadPlanAccionController.prepareViewAdmin}" ajax="false">
+                                <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.planAccionActual}"/>
+                            </p:commandButton>
+                            <p:tooltip for="ver" value="Ver"/> 
+                            <h:commandLink id="admin"
+                                           action="#{calidadPlanAccionController.prepareAdminEdit}"
+                                           rendered="#{loginController.adminCalidoso}"
+                                           class="btn btn-primary" style="color: white; margin-left: 3px">
+                                 <i class="fa fa-wrench" aria-hidden="true"></i>
+                                <f:attribute name="item" value="#{item}"/>
+                                <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.planAccionActual}"/>
+                            </h:commandLink>
+                            <p:tooltip for="admin" value="Administrar"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

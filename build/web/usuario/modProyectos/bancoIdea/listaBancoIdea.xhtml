@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="#{manualSiesaController.prepareCreate}">
+                                <i class="fa fa-toggle-on"></i> 
+                                <span>Estado de proyectos</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup> 
+                    <li>
+                        <h:commandLink action="/usuario/modProyectos/paginaPrincipal">
+                            <i class="fa fa-dashboard"></i> 
+                            <span>Principal</span>
+                        </h:commandLink>
+                    </li>
+                    <li class="active">
+                        <h:commandLink action="#{ideaController.prepareListIdeasBuenas}">
+                            <i class="fa fa-lightbulb-o"></i> 
+                            <span>Banco de ideas</span>
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Banco de buenas ideas</ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <div class="container-fluid">
+                <h:form id="valoracionForm">
+                    <p:dataScroller id="valoracionTable" value="#{ideaController.listaIdea}" var="valoracion" chunkSize="10">
+                        <div class="col-md-6">    
+                            <div class="col-md-1" style="z-index: 40">
+                                <img jsf:library="images"   class="logo-headImage" jsf:name="ideaIcon.png" 
+                                     heigth="60" width="60" alt="Logo Compañia"/>  
+                            </div>
+                            <div class="col-md-10 container-idea idea-banco" style="margin-bottom: 2em; margin-top: 3em; z-index: 1">
+                                <h:outputLabel style="color: white; font-size: 1.3em" value="#{valoracion.descripcion}" />
+                            </div>
+                        </div>
+                    </p:dataScroller>  
+                </h:form>
+            </div>   
+        </ui:define>
+    </ui:composition>
+</html>
+

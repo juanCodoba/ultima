@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Equipos tecnológicos a tu cargo </ui:define> 
+        <ui:define name="title2">Estos son los equipos tecnológicos que se encuentran a tu cargo.</ui:define> 
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form id="inventarioFormList">
+                <p:outputPanel id="computadorTablePanel">
+                    <p:dataTable value="#{computadorController.listaComputadorUser}" var="computador"
+                             rows="10" id="computadorTable" rowStyleClass="jsfcrud_odd_row,jsfcrud_even_row" 
+                             paginator="true" emptyMessage="No posees computadores a cargo"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15">
+                        <f:facet name="header">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p:button icon="fa fa-arrow-left"
+                                                value="Volver pagina principal" 
+                                                style="font-size: 1.2em !important; padding: 5px; left: 0"
+                                                outcome="/usuario/modSoporteIT/paginaPrincipal"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h4 class="colorLetra" style="font-weight: bold" >
+                                            Total equipos a tu cargo: #{fn:length(computadorController.listaComputadorUser)}
+                                        </h4>
+                                    </div>
+                                    <div class="col-md-4">
+                                    </div>
+                                </div>
+                            </div>
+                        </f:facet>
+                        <p:column filterBy="#{computador.codigoComputador}" >
+                            <f:facet name="header">Service tag o (S/N)</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{computador.codigoComputador.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{computador.idSeccion}">
+                            <f:facet name="header">Sección</f:facet>
+                            <h:outputText value="Sección: #{computador.idSeccion.toString()}"/>
+                        </p:column>
+                        <p:column filterBy="#{computador.idUsuario}">
+                            <f:facet name="header">Responsable</f:facet>
+                            <h:outputText value="#{computador.idUsuario.toString()}"/>
+                        </p:column>
+                        <p:column filterBy="#{computador.idModelo.idTipo}">
+                            <f:facet name="header">Tipo</f:facet>
+                            <h:outputText value="#{computador.idModelo.idTipo.toString()}"/>
+                        </p:column>
+                        <p:column filterBy="#{computador.idModelo}">
+                            <f:facet name="header">Modelo</f:facet>
+                            <h:outputText value="#{computador.idModelo.toString()}"/>
+                        </p:column>
+                        <p:column filterBy="#{computador.costo}">
+                            <f:facet name="header">Precio</f:facet>
+                            <h:outputText value="$ #{computador.costo}"/>
+                        </p:column>
+                        <p:column filterBy="#{computador.idSistemaOperativo}" >
+                            <f:facet name="header">SO</f:facet>
+                            <h:outputText value="#{computador.idSistemaOperativo.toString()}"/>
+                        </p:column>
+                        <p:column width="60">
+                            <p:commandButton process="@this" ajax="false" id="historial" icon="ui-icon-search" actionListener="#{computadorController.prepareViewHistorial}" action="#{computadorController.viewHistorialComputadores}">
+                                <f:attribute name="computador" value="#{computador}"/>
+                                <f:setPropertyActionListener value="#{computador}" target="#{cronogramaController.computadorActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-botonHistorial" for="historial" value="Historial Computador" trackMouse="true" />
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

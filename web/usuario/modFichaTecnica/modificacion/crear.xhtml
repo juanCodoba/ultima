@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup >
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="#{ftFichaTecnica.prepareListPrincipal}">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                         <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftFichaTecnica.prepareCreate}">
+                                <i class="fa fa-file"></i>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{ftFichaTecnica.usuarioActual}"/>
+                                <span>Crear ficha técnica</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftFichaTecnica.prepareListDesarrollo}">
+                                <i class="fa fa-camera-retro"></i> 
+                                <span>Fichas en desarrollo</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftFichaTecnica.prepareListPrimeraValidacion}">
+                                <i class="fa fa-check"></i> 
+                                <span>Primera Validación</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="active">
+                            <h:commandLink rendered="#{loginController.fichaTecnicaSCAM}" action="#{ftFichaTecnica.prepareListSolicitudesModificacionTodas}">
+                                <i class="fa fa-cogs"></i> 
+                                <span>Lista de solicitudes</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Formaulario de modificación de ficha técnica</ui:define>    
+        <ui:define name="title2">
+            Llena el siguiente formulario para enviar la solicitud de modificación de ficha técnica.
+        </ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="5000"/>
+            <h:form id="formulario-crearFicha">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <h:outputLabel value="Codigo del PQS:"  />
+                            <p:inputText placeholder="pqs" 
+                                   class="form-control"
+                                   id="pqs" required="true"
+                                   requiredMessage="Ingresa el numero de PQS"
+                                   value="#{ftFichaTecnica.modificacionesActual.pqs}" 
+                                   type="text">
+                            </p:inputText>
+                            <p:message id="pqsMessage" for="pqs" styleClass="error"/>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel value="Descripción:"  />
+                            <p:inputTextarea class="form-control"
+                                      id="froala-editor"
+                                      value="#{ftFichaTecnica.modificacionesActual.descripcion}">
+                            </p:inputTextarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <p:commandButton class="btn btn-primary btn-block"
+                                         ajax="false"
+                                         value="Enviar"
+                                         action="#{ftFichaTecnica.addModificaciones}"
+                                         onclick="onSubmitButton();"/>
+                    </div>
+                    <div class="col-md-6 form-group">    
+                        <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="/usuario/modFichaTecnica/lista"/>
+                    </div>
+                </div>
+            <p:separator></p:separator>
+            </h:form>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <div class="head">
+                        <h2 class="titulo1">#{ftFichaTecnica.fichaTecnicaActual.descripcionCorta}</h2>
+                        <h3 class="titulo2">COD. ITEM: #{ftFichaTecnica.fichaTecnicaActual.idItem}</h3>       
+                    </div>
+                    <div style="color: black" class="titulo3">
+                        <h2>FICHA TÉCNICA DEL PRODUCTO</h2>
+                    </div>
+                    <div class="body-contenedor">
+                        <div class="contenedor1 contenedor2">
+                            <div class="tituloContenedor1">
+                                ESPECIFICACIONES
+                            </div>
+                            <div class="cuerpoContenedor1">
+                                <p class="parrafo-contenedor">
+                                    <h:outputLabel class="labelInfo">Cliente:</h:outputLabel>
+                                    <br></br>
+                                    <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.idFtCliente.nombre}"/>
+                                    <br></br>
+                                    <h:outputLabel class="labelInfo">Descripción completa:</h:outputLabel>
+                                    <br></br>
+                                    <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.descripcionLarga}"/>
+                                    <br></br>
+                                    <h:outputLabel class="labelInfo">Logo:</h:outputLabel>
+                                    <br></br>
+                                    <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.descripcionLogo}"/>
+                                    <br></br>
+                                    <h:outputLabel class="labelInfo">Tela principal:</h:outputLabel>
+                                    <br></br>
+                                    <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.telaPrincipal}"/>
+                                    <br></br>
+                                    <h:outputLabel class="labelInfo">Tela contraste:</h:outputLabel>
+                                    <br></br>
+                                    <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.telaContraste}"/>
+                                    <br></br>
+                                    <h:outputLabel class="labelInfo">Composición:</h:outputLabel>
+
+                                </p>
+                            </div> 
+                        </div>
+                        <div class="contenedor1">
+                            <div class="cuerpoContenedor1">
+                                <span>
+                                    <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.medidas}" escape="false"  />
+                                </span>
+                            </div> 
+                        </div>
+                        <div class="contenedor1 contenedor2">
+                            <div class="tituloContenedor1">
+                                CRITERIOS DE ACEPTACIÓN O RECHAZO
+                            </div>
+                            <div class="cuerpoContenedor4">
+                                <p class="parrafo-contenedor">
+                                    SE DEFINE COMO CRITERIOS DE TOLERANCIA, PARA LOS CONTORNOS TOTALES Y LARGOS +/-2 CM.
+                                </p>
+                                <p class="parrafo-contenedor">
+                                    SE DEFINE COMO CRITERIOS DE TOLERANCIA, PARA LOS TIROS +/- 1CM.
+                                </p>
+                            </div> 
+                            <div class="cuerpoContenedor3">
+                                <img width="100%" src="#{request.contextPath}/resources/file/logos.png"/>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="col-md-6">
+                        <h:outputLabel value="Frontal:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em"/>
+                        <h:outputLink value="#{request.contextPath}/resources/file/f.jpg" target="_blank">
+                            <div class="img-bordered"  style="text-align: center !important;">
+                                <p:graphicImage cache="false" class="img-responsive" id="f" title="mi foto buhoos" value="#{ftFichaTecnica.imgF}">
+                                </p:graphicImage>
+                            </div>
+                        </h:outputLink> 
+                    </div>
+                    <div class="col-md-6">
+                        <h:outputLabel value="Posterior:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em"/>
+                        <div class="img-bordered"  style="text-align: center !important;">
+                            <h:outputLink value="#{request.contextPath}/resources/file/p.jpg" target="_blank">
+                                <p:graphicImage cache="false" class="img-responsive" id="p" title="mi foto buhoos" value="#{ftFichaTecnica.imgP}">
+                                </p:graphicImage>
+                            </h:outputLink> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-3">
+                        <h:outputLabel value="Caracteristica 1:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em"/>
+                        <h:outputLink value="#{request.contextPath}/resources/file/c1.jpg" target="_blank">
+                            <div class="img-bordered"  style="text-align: center !important;">
+                                <p:graphicImage cache="false" class="img-responsive" id="c1" title="mi foto buhoos" value="#{ftFichaTecnica.imgC1}">
+                                </p:graphicImage>
+                            </div>
+                        </h:outputLink> 
+                    </div>
+                    <div class="col-md-3">
+                        <h:outputLabel value="Caracteristica 2:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em"/>
+                        <h:outputLink value="#{request.contextPath}/resources/file/c2.jpg" target="_blank">
+                            <div class="img-bordered"  style="text-align: center !important;">
+                                <p:graphicImage cache="false" class="img-responsive" id="c2" title="mi foto buhoos" value="#{ftFichaTecnica.imgC2}">
+                                </p:graphicImage>
+                            </div>
+                        </h:outputLink> 
+                    </div>
+                    <div class="col-md-3">
+                        <h:outputLabel value="Caracteristica 3:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em"/>
+                        <h:outputLink value="#{request.contextPath}/resources/file/c3.jpg" target="_blank">
+                            <div class="img-bordered"  style="text-align: center !important;">
+                                <p:graphicImage  cache="false" class="img-responsive" id="c3" title="mi foto buhoos" value="#{ftFichaTecnica.imgC3}">
+                                </p:graphicImage>
+                            </div>
+                        </h:outputLink> 
+                    </div>
+                    <div class="form-group col-md-3">
+                        <h:outputLabel value="Caracteristica 4:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em"/>
+                        <h:outputLink value="#{request.contextPath}/resources/file/c4.jpg">
+                            <div class="img-bordered"  style="text-align: center !important;">
+                                <p:graphicImage cache="false" class="img-responsive" id="c4" value="#{ftFichaTecnica.imgC4}">
+                                </p:graphicImage>
+                            </div>
+                        </h:outputLink> 
+                    </div>
+                </div>
+                <div class="col-md-6" style="margin-top: 1em">
+                    <div class="row form-group" style="text-align: center">
+                        <div class="cuerpo-elaborado">
+                            <div class="contenedorElaborado form-group">
+                                <div class="tituloContenedorElaborado">
+                                    ELABORADO
+                                </div>
+                                <div class="cuerpoContenedor3">
+                                    <p class="parrafo-contenedorElaborado">
+                                        <h:outputLabel value="#{ftFichaTecnica.fichaTecnicaActual.elaborado.toString()}"/>
+                                        <br></br>
+                                        <h:outputLabel value="#{ftFichaTecnica.fichaTecnicaActual.elaborado.idCargo.nombreCargo}"/>
+                                    </p>
+                                </div> 
+                            </div>
+                            <div class="contenedorElaborado form-group">
+                                <div class="tituloContenedorElaborado">
+                                    REVISADO
+                                </div>
+                                <div class="cuerpoContenedor3">
+                                    <p class="parrafo-contenedorElaborado">
+                                        <h:outputLabel value="#{ftFichaTecnica.fichaTecnicaActual.aprobo.toString()}"/>
+                                        <br></br>
+                                        <h:outputLabel value="#{ftFichaTecnica.fichaTecnicaActual.aprobo.idCargo.nombreCargo}"/>
+                                    </p>
+                                </div> 
+                            </div>
+                            <div class="contenedorElaborado form-group">
+                                <div class="tituloContenedorElaborado">
+                                    APROBADO
+                                </div>
+                                <div class="cuerpoContenedor3">
+                                    <p class="parrafo-contenedorElaborado">
+                                        <h:outputLabel value="#{ftFichaTecnica.fichaTecnicaActual.validacion.toString()}"/>
+                                        <br></br>
+                                        <h:outputLabel value="#{ftFichaTecnica.fichaTecnicaActual.validacion.idCargo.nombreCargo}"/>
+                                    </p>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

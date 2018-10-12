@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminCalidoso}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="#{formatosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-excel-o"></i> 
+                                <span>Administrar Registros</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span>Administrar Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListPermiso}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-user"></i>
+                                <span>Permisos Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                          <li>
+                              <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-spinner" aria-hidden="true"></i>
+                                <span>Administrar Acciones</span>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{calidadPlanAccionController.usuarioActual}"/>
+                            </h:commandLink>
+                        </li>
+                        <li class="active">
+                            <h:commandLink action="#{calidadGestionConocimientoController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                                <span>Administrar Conocimiento</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+                    <p:separator rendered="#{loginController.adminCalidoso}"/>
+                    <li style="margin-top: 20px">
+                            <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                    <li>
+                        <h:commandLink action="#{formatosController.prepareListUser}">
+                            <i class="fa fa-file"></i>
+                            <span>Lista de registros</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{documentosController.prepareListUser}" rendered="#{loginController.userCaliadad}">
+                            <i class="fa fa-book"></i>
+                            <span>Lista de documentos</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/compromisosComite">
+                            <i class="fa fa-users"></i>
+                            <span>Compromisos del comité</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadPlanAccionController.list}">
+                            <i class="fa fa-cogs"></i>
+                            <span>Acciones de mejora</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/informacionCalidad">
+                            <i class="fa fa-question"></i>
+                            <span>¿Que es calidad?</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/horizonteInstitucional">
+                            <i class="fa fa fa-eye"></i>
+                            <span>Horizonte institucional</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Listado de conocimientos</ui:define>   
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form id="valorarEditForm">
+                        <h:outputText class="help-block" value="Valora y comenta nuestro servició de soporte IT:"/>
+                        <div class="form-group">       
+                            <h:outputLabel value="Titulo:"  />
+                            <input placeholder="Titulo" class="form-control" jsf:id="tituloInputText" jsf:value="#{calidadGestionConocimientoController.gestionConocimientoActual.titulo}" 
+                                      type="text" required="true" style="resize: none"
+                                      jsf:requiredMessage="Por favor ingrese la leccion">
+                            </input>
+                            <p:message id="tituloMessage" for="tituloInputText" styleClass="error"/>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel value="Subproceso:" />
+                            <p:selectOneMenu id="idSubproceso" style="width: 100%" filter="true" filterMatchMode="contains" value="#{calidadGestionConocimientoController.gestionConocimientoActual.idSubproceso}">
+                                <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
+                                <f:selectItems value="#{subprocesosController.listaSubprocesosSelectOne}" var="subprocesos" itemValue="#{subprocesos}"/>  
+                            </p:selectOneMenu>
+                            <p:message id="idSuprocesoMessage" for="idSubproceso" styleClass="error"/>
+                        </div>
+                        <div class="form-group">       
+                            <h:outputLabel value="Situación presentada:"  />
+                            <textarea placeholder="Situación presentada" class="form-control" jsf:id="situacionInputText" jsf:value="#{calidadGestionConocimientoController.gestionConocimientoActual.situacionPresentada}" 
+                                      type="text" required="true" style="resize: none"
+                                      jsf:requiredMessage="Por favor ingrese la situación">
+                            </textarea>
+                            <p:message id="situacionMessage" for="situacionInputText" styleClass="error"/>
+                        </div>
+                        <div class="form-group">       
+                            <h:outputLabel value="Lección aprendida:"  />
+                            <textarea placeholder="Lección aprendida" class="form-control" jsf:id="leccionInputText" jsf:value="#{calidadGestionConocimientoController.gestionConocimientoActual.leccionAprendida}" 
+                                      type="text" required="true" style="resize: none"
+                                      jsf:requiredMessage="Por favor ingrese la leccion">
+                            </textarea>
+                            <p:message id="leccionMessage" for="leccionInputText" styleClass="error"/>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel value="Fecha:"  />
+                            <p:calendar id="fecha" 
+                                        required="true" 
+                                        requiredMessage="Ingresa Fecha" 
+                                        value="#{calidadGestionConocimientoController.gestionConocimientoActual.fecha}"
+                                        pattern="MM/dd/yyyy">
+                            </p:calendar>
+                             <h:message id="fechaMesaage" for="fecha"  styleClass="error"/>
+                        </div>
+                        <div class="form-group">
+                            <h:commandButton class="btn btn-primary btn-block" value="Editar" action="#{calidadGestionConocimientoController.update}"/>
+                        </div>
+                        <div class="form-group">
+                            <h:button class="btn btn-warning btn-block" value="Cancelar" outcome="lista"/>
+                        </div>
+                    </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

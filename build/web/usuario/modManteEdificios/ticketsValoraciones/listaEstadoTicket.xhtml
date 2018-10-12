@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Estado de tickets generados #{cronogramaActividadesEdificiosController.stringTipoActividad}</ui:define> 
+        <ui:define name="body">
+            <h:form id="estadoFormList">
+                <p:outputPanel >
+                    <p:dataTable value="#{cronogramaActividadesEdificiosController.cronogramaActividadesListDaños}" var="reporte" 
+                                 rows="10" id="computadorTable" rowStyleClass="#{reporte.estadoActividad eq 'Cerrado' ? 'color1': reporte.estadoActividad eq 'Abierto' ? 'color2': reporte.estadoActividad eq 'Sin valoracion' ? 'color3':null}" 
+                             paginator="true"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15">
+                        <f:facet name="header">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p:button icon="fa fa-arrow-left"
+                                                value="Volver pagina principal" 
+                                                style="font-size: 1.2em !important; padding: 5px; left: 0"
+                                                outcome="/usuario/modManteEdificios/paginaPrincipal"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                         <h4 class="colorLetra" style="font-weight: bold" >
+                                        Total de tickets generados: #{fn:length(cronogramaActividadesEdificiosController.cronogramaActividadesListDaños)}
+                                    </h4>
+                                    </div>
+                                    <div class="col-md-4">
+                                    </div>
+                                </div>
+                            </div>
+                        </f:facet>   
+                        <p:column filterBy="#{reporte.idCronogramaActividadesEdificios}" >
+                            <f:facet name="header">#Ticket</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{reporte.idCronogramaActividadesEdificios}#{cronogramaActividadesEdificiosController.ticket}"/>
+                        </p:column>
+                        <p:column filterBy="#{reporte.idSeccion.nombreSeccion}">
+                            <f:facet name="header">Sección donde se realizó el reporte</f:facet>
+                            <h:outputText value="#{reporte.idSeccion.nombreSeccion}"/>
+                        </p:column>
+                        <p:column filterBy="#{reporte.idSeccion.idBloque.nombreBloque}" width="80">
+                            <f:facet name="header">Bloque</f:facet>
+                            <h:outputText value="#{reporte.idSeccion.idBloque.nombreBloque}"/>
+                        </p:column>
+                       <p:column filterBy="#{reporte.fechaReporte}">
+                            <f:facet name="header">Fecha del reporte</f:facet>
+                            <h:outputText value="#{reporte.fechaReporte}">
+                               <f:convertDateTime pattern="MMMM dd, yyyy HH:mm a"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column filterBy="#{reporte.descripcion}" width="300">
+                            <f:facet name="header">Descripción del problema encontrado</f:facet>
+                            <h:outputText value="#{reporte.descripcion}"/>
+                        </p:column>
+                        <p:column filterBy="#{reporte.idEstadoActividad}">
+                            <f:facet name="header">Estado del ticket</f:facet>
+                            <h:outputText value="#{reporte.idEstadoActividad}"/>
+                        </p:column>
+                        <p:column width="50">
+                            <p:commandButton process="@this" 
+                                             update="@this growl" 
+                                             id="historial" 
+                                             icon="ui-icon-search" 
+                                             actionListener="#{cronogramaActividadesEdificiosController.prepareViewDiagnostico}" 
+                                             action="#{cronogramaActividadesEdificiosController.viewValoracionDaño}" 
+                                             ajax="false">
+                                   <f:attribute name="cronograma" value="#{reporte}"/>
+                                   <f:setPropertyActionListener value="#{reporte}" target="#{cronogramaActividadesEdificiosController.cronogramaActividadesActual}"/>
+                               </p:commandButton>
+                               <p:tooltip id="descripcion-botonHistorial" for="historial" value="Ver Valoración y Diagnostico" trackMouse="true" />
+                               <p:growl id="growl" showDetail="true" life="7000"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

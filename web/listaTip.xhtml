@@ -1,0 +1,109 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+       <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.saludOcupacional}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li class="active">
+                            <h:commandLink action="/usuario/modSaludOcupacional/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{formatoSaludOcupacionalController.prepareCreate}">
+                                <i class="fa fa-file-pdf-o"></i> 
+                                <span>Crear documento</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{indicadorSaludOcupacionalController.prepareCreate}">
+                                <i class="fa fa-desktop"></i>
+                                <span>Crear Indicador</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{indicadorSaludOcupacionalController.prepareList}">
+                                <i class="fa fa-line-chart"></i> 
+                                <span>Lista de indicadores</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{tipSaludOcupacionalController.prepareCreate}">
+                                <i class="fa fa-check"></i> 
+                                <span>Crear Tip</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{sstReporteController.prepareList}">
+                                <i class="fa fa-tasks"></i> 
+                                <span>Lista de reportes</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Sistema de Gestión de Seguridad y Salud en el Trabajo</ui:define>  
+        <ui:define name="body">
+            <section class="container-paginas">
+                <div class="container container-titulos">
+                    <h:form>
+                        <h:commandLink rendered="#{loginController.authenticated}" action="/usuario/modSaludOcupacional/paginaPrincipal" class="btn-link" style="display: inline-block">
+                            Volver >
+                        </h:commandLink>
+                         <h:commandLink rendered="#{!loginController.authenticated}" action="index" class="btn-link" style="display: inline-block">
+                            Volver >
+                        </h:commandLink>
+                        <span class="letra-navegacion">Tips</span>
+                    </h:form>
+                    <div class="col-md-12" style="text-align: center">
+                         <img src="#{request.contextPath}/resources/images/iconoSST/tituloTip.png" class="wow bounceIn" width="80%" alt="Imagen principal reseña historica del Centro de Formación Integral Providencia"/>
+                    </div>
+                </div>
+                <div class="container container-cuerpo">
+                    <div class="col-md-12">
+                        <p class="letra-parrafosPagina">
+                            <f:view>
+                                <h:form id="valoracionForm">
+                                    <p:dataScroller id="valoracionTable" value="#{tipSaludOcupacionalController.listaTipSaludOcupacional}" var="valoracion" chunkSize="10">
+                                        <div class="col-md-6 wow bounceIn">
+                                            <div style="margin-bottom: 0em; background: #1da0f2; color: white; padding: .5em; font-size: 1.3em; font-weight: bold; border-radius: 0px ">
+                                                <h:outputLabel style="width: 100%" value="#{valoracion.titulo}" escape="false" />
+                                            </div>
+                                            <div style="background: white;padding: 1em;margin-bottom: 2em; border-radius: 0 0 10px 10px !important; border: 2px solid #1da0f2">
+                                                <h:outputLabel style="width: 100%" value="#{valoracion.descripcion}" escape="false" />
+                                            </div>
+                                        </div>
+                                    </p:dataScroller>  
+                                </h:form>
+                            </f:view>   
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </ui:define>
+    </ui:composition>
+</html>
+

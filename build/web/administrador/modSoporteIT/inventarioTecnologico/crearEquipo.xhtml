@@ -1,0 +1,316 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Formulario de creación de equipo</ui:define>
+        <ui:define name="title2">Ingresa un nuevo equipo tecnológico al inventario llenando el siguiente formulario</ui:define>
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modSoporteIT/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{usuarioController.prepareList}">
+                                <i class="fa fa-users"></i> 
+                                <span>Usuarios del sistema</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="active">
+                            <h:commandLink action="#{computadorController.prepareList}">
+                                <i class="fa fa-desktop"></i>
+                                <span>Inventario tecnológico</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
+                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario mantenimientos</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                     <span>Preventivos</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                     <span>Correctivos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{reporteSiesaController.prepareListReportes}">
+                                <i class="fa fa-bug "></i>
+                                <span>Fallos del ERP</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/configuracionMaestros/verConfiguraciones">
+                                <i class="fa fa-file"></i>
+                                <span>Configuración de maestros</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>     
+        <ui:define name="body">
+            <h:form id="formulario-crearCompu">
+                <div class="form-group">
+                    <h:outputLabel value="Codigo del equipo:"  />
+                    <input  placeholder="Service tag o (S/N)" class="form-control" jsf:id="codComputadorInputText" jsf:value="#{computadorController.computadorActual.codigoComputador}" 
+                                 type="text" required="true"
+                                 jsf:requiredMessage="Por favor ingrese el Service tag o (S/N) del equipo"
+                                 jsf:validator="#{computadorController.validarComputador}"> 
+                                 <f:validateRegex pattern="[a-zA-Z áéíóúÁÉÍÓÚÑñ 0-9]*"/>
+                                 <f:ajax execute="@this" render="codComputadorMessage"/>
+                    </input>
+                    <p:message id="codComputadorMessage" for="codComputadorInputText" styleClass="error"/>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Responsable del equipo:"  /> 
+                    <p:selectOneMenu id="idSelectResponsable" 
+                                     style="width: 100%; border: none;"
+                                     filter="true"
+                                     filterMatchMode="contains"
+                                     value="#{computadorController.computadorActual.idUsuario}" converter="usuarioConverter">
+                            <f:selectItem/>
+                            <f:selectItems  value="#{computadorController.listaUsuarioSelectOne}" var="usuario" itemValue="#{usuario}"/>  
+                    </p:selectOneMenu>
+                </div>
+                <div class="form-group">    
+                    <h:outputLabel value="Sección donde se encuentra:" />
+                    <p:selectOneMenu id="idSelectSeccion"
+                                     style="width: 100%; border: none;"
+                                     converter="seccionConverter"
+                                     filter="true"
+                                     filterMatchMode="contains"
+                                     value="#{computadorController.computadorActual.idSeccion}">
+                        <f:selectItem/>
+                        <f:selectItems value="#{computadorController.listaSeccionSelectOne}" var="seccion" itemValue="#{seccion}" />  
+                    </p:selectOneMenu>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-9">
+                        <h:outputLabel value="Activo fijo:"/>
+                        <div class="form-group">
+                           <input class="form-control" 
+                                  type="text"
+                                  jsf:id="idActivoText" 
+                                  jsf:value="#{computadorController.computadorActual.activoFijo}">
+                               <f:ajax execute="@this" render="idActivoMessage"/>
+                           </input>
+                           <h:message id="idActivoMessage" for="idActivoText" styleClass="error"/>
+                       </div>
+                    </div>
+                    <div class="form- col-md-3">
+                        <h:outputLabel value="Costo del equipo (pesos):"/>
+                        <div class="input-group"> 
+                            <p:spinner id="costo"  
+                                       value="#{computadorController.computadorActual.costo}"
+                                       style="width: 100% !important"
+                                       min="0"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">    
+                    <h:outputLabel value="Tipo:" />
+                    <p:selectOneMenu id="idTipo"
+                                     required="true"
+                                     style="width: 100%; border: none;"
+                                     requiredMessage="Selecciona el tipo de equipo"
+                                     value="#{computadorController.computadorActual.idTipo}">
+                                <p:ajax listener="#{computadorController.llenarListaTipo}" update="idSelectModelo"/>  
+                                <f:ajax execute="@this" render="procesoMessage"/>
+                            <f:selectItem/>
+                            <f:selectItems value="#{tipoController.listaTipo}" var="tipo" itemValue="#{tipo}" />  
+                        <f:ajax execute="@this" render="idTipoMessage componentesComputador"/>
+                    </p:selectOneMenu>
+                    <p:message id="idTipoMessage" for="idTipo" styleClass="error"/>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Modelo del equipo:" />
+                    <p:selectOneMenu id="idSelectModelo"
+                                     value="#{computadorController.computadorActual.idModelo}"
+                                     required="true"
+                                     style="width: 100%; border: none;"
+                                     requiredMessage="Por favor ingrese el modelo del equipo"
+                                     filter="true"
+                                     filterMatchMode="contains">
+                            <f:ajax execute="@this" render="idSelectMessage"/>
+                            <f:selectItem/>
+                            <f:selectItems value="#{computadorController.listaModeloPorProceso}" var="modelo" itemValue="#{modelo}"/>
+                    </p:selectOneMenu>
+                    <p:message id="idSelectMessage" for="idSelectModelo" styleClass="error"/>
+                </div>
+                <h:panelGroup id="componentesComputador">
+                    <div class="form-group">
+                        <h:outputLabel value="Criticidad de la información:" rendered="#{computadorController.computador}" />
+                        <h:selectOneMenu class="form-control" 
+                                          id="equipoCritico" 
+                                          value="#{computadorController.computadorActual.computadorCritico}"
+                                          rendered="#{computadorController.computador}">
+                            <f:selectItem itemLabel="N/A" itemValue="N/A"/>
+                            <f:selectItem itemLabel="ALTO" itemValue="ALTO"/>
+                            <f:selectItem itemLabel="MEDIO" itemValue="MEDIO"/>
+                            <f:selectItem itemLabel="BAJO" itemValue="BAJO"/>
+                            <f:ajax execute="@this"/>
+                        </h:selectOneMenu>
+                        <h:message id="equipoCriticoMessage" for="equipoCritico" styleClass="error"/>
+                    </div> 
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <h:outputLabel value="Pantalla:" rendered="#{computadorController.computador}"/> 
+                            <p:selectOneMenu id="idSelectMonitor"
+                                             rendered="#{computadorController.computador}"
+                                             value="#{computadorController.computadorActual.idMonitor}"
+                                             style="width: 100%; border: none;"
+                                             filter="true"
+                                             filterMatchMode="contains">
+                                    <f:selectItem/>
+                                    <f:selectItems value="#{computadorController.listaMonitorSelectOne}" var="monitor" itemValue="#{monitor}"/>  
+                            </p:selectOneMenu>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <h:outputLabel value="Disco duro (GB):" rendered="#{computadorController.computador}"/>
+                            <p:spinner  id="discoDuro"
+                                        value="#{computadorController.computadorActual.discoDuro}"
+                                        style="width: 100%"
+                                        stepFactor="0.25"
+                                        min="0"
+                                        rendered="#{computadorController.computador}"/> 
+                        </div>
+                         <div class=" form-group col-md-4">
+                            <h:outputLabel value="Memoria Ram (GB):" rendered="#{computadorController.computador}"/>
+                            <p:spinner id="ram"
+                                       value="#{computadorController.computadorActual.memoriaRam}"
+                                       style="width: 100%"
+                                       stepFactor="0.25" 
+                                       min="0"
+                                       rendered="#{computadorController.computador}"/> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="ID LAN:" rendered="#{computadorController.computador}"/>
+                        <div class="form-group">
+                           <input placeholder="Nombre del equipo"
+                                  rendered="#{computadorController.computador}"
+                                  class="form-control" 
+                                  type="text"
+                                  jsf:id="idLanInputText" 
+                                  jsf:value="#{computadorController.computadorActual.idLam}">
+                               <f:ajax execute="@this" render="idLamMessage"/>
+                           </input>
+                           <h:message id="idLamMessage" for="idLamInputText" styleClass="error"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Procesador:" rendered="#{computadorController.computador}"/>
+                        <div class="form-group">
+                           <input rendered="#{computadorController.computador}"
+                                  class="form-control" 
+                                  type="text"
+                                  jsf:id="idProcesadorText" 
+                                  jsf:value="#{computadorController.computadorActual.procesador}">
+                               <f:ajax execute="@this" render="idLamMessage"/>
+                           </input>
+                           <h:message id="idProcesadorMessage" for="idProcesadorText" styleClass="error"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <h:outputLabel value="Sistema operativo del computador:" rendered="#{computadorController.computador}"/>
+                            <h:selectOneMenu class="form-control"
+                                             rendered="#{computadorController.computador}"
+                                             id="idSelectSO"
+                                             value="#{computadorController.computadorActual.idSistemaOperativo}">
+                                    <f:selectItem/>
+                                    <f:selectItems value="#{computadorController.listaSistemaOperativoSelectOne}" var="so" itemValue="#{so}"/>  
+                                    <p:ajax listener="#{computadorController.llenarLista}" update="divPanel"/>   
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-md-8">
+                            <h:outputLabel value="Licencia del sistema operativo:" rendered="#{computadorController.computador}"/>
+                            <h:selectOneMenu id="divPanel"
+                                             rendered="#{computadorController.computador}"
+                                             class="form-control"
+                                             value="#{computadorController.computadorActual.idLicencia}">
+                                    <f:selectItem/>
+                                    <f:selectItems value="#{computadorController.listaPorSOSelectOne}" var="licencia" itemValue="#{licencia}"/>  
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <h:outputLabel value="Paquete Office:" rendered="#{computadorController.computador}"/>
+                            <h:selectOneMenu class="form-control"
+                                             id="idSelectPaquete"
+                                             rendered="#{computadorController.computador}"
+                                             value="#{computadorController.computadorActual.idPaqueteOffice}">
+                                    <f:selectItem/>
+                                    <f:selectItems value="#{paqueteOfficeController.listaPaqueteOfficeSelectOne}" var="paquete" itemValue="#{paquete}"/>  
+                                    <p:ajax listener="#{computadorController.llenarListaLicenciaPaquete}" update="divPanel2"/>   
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-md-8">
+                            <h:outputLabel value="Licencia de paquete office:" rendered="#{computadorController.computador}"/>
+                            <h:selectOneMenu id="divPanel2"
+                                             rendered="#{computadorController.computador}"
+                                             class="form-control" 
+                                             value="#{computadorController.computadorActual.idLicenciaPaqueteOffice}">
+                                    <f:selectItem/>
+                                    <f:selectItems value="#{computadorController.listaPorPaqueteSelectOne}" var="licenciaPaquete" itemValue="#{licenciaPaquete}"/>  
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                </h:panelGroup>
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <p:commandButton class="btn btn-primary btn-block"
+                                         ajax="false"
+                                         value="Guardar equipo"
+                                         action="#{computadorController.addComputador}"
+                                         onclick="onSubmitButton();"/>
+                    </div>
+                    <div class="col-sm-6 form-group">    
+                        <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="listaInventario"/>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+   <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">
+        Crear secciones (infraestructura)   
+        </ui:define>
+       <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modSoporteIT/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{usuarioController.prepareList}">
+                                <i class="fa fa-users"></i> 
+                                <span>Usuarios del sistema</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{computadorController.prepareList}">
+                                <i class="fa fa-desktop"></i>
+                                <span>Inventario tecnológico</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
+                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario mantenimientos</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                     <span>Preventivos</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                     <span>Correctivos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{reporteSiesaController.prepareListReportes}">
+                                <i class="fa fa-bug "></i>
+                                <span>Fallos del ERP</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="active">
+                            <h:commandLink action="/administrador/modSoporteIT/configuracionMaestros/verConfiguraciones">
+                                <i class="fa fa-file"></i>
+                                <span>Configuración de maestros</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form id="indicador">
+                <div class="col-md-6">
+                    <h:form id="crear-modeloForm">
+                        <h:outputText class="help-block" value="Ingresa los datos del modelo del Equipo de computo o dispositivo Electronico:"/>
+                        <div class="form-group">
+                            <h:outputLabel value="Nombre sección:"  />
+                            <input class="form-control" jsf:id="nomModeloInputText" jsf:value="#{seccionController.seccionActual.nombreSeccion}" 
+                                   type="text" required="true" placeholder="Nombre sección"
+                                         jsf:requiredMessage="Por favor ingrese el nombre de la sección">
+                                         <f:ajax execute="@this" render="nomUsuarioMessage"/>
+                            </input>
+                            <p:message id="nomModeloMessage" for="nomModeloInputText"/>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel value="Bloque:" />
+                            <h:selectOneMenu class="form-control" id="idBloqueSelect" value="#{seccionController.seccionActual.idBloque}"
+                                             required="true" requiredMessage="Por favor ingrese el bloque">
+                                    <f:selectItem itemLabel="Ninguno" />
+                                    <f:selectItems value="#{bloqueController.listaBloque}" var="bloque" itemValue="#{bloque}"/>  
+                            </h:selectOneMenu>
+                            <p:message id="bloqueMessage" for="idBloqueSelect"/>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel value="Area:" />
+                            <h:selectOneMenu class="form-control" id="idAreaSelect" value="#{seccionController.seccionActual.idArea}"
+                                             required="true" requiredMessage="Por favor ingrese el area">
+                                    <f:selectItem itemLabel="Ninguno" />
+                                    <f:selectItems value="#{areaController.listaArea}" var="area" itemValue="#{area}"/>  
+                            </h:selectOneMenu>
+                            <p:message id="areaMessage" for="idAreaSelect"/>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel value="Tipo sección:" />
+                            <h:selectOneMenu class="form-control" id="idTipoSelect" value="#{seccionController.seccionActual.idTipoSeccion}"
+                                             required="true" requiredMessage="Por favor ingrese el tipo">
+                                    <f:selectItem itemLabel="Ninguno" />
+                                    <f:selectItems value="#{tipoSeccionController.listaTipoSeccion}" var="tipo" itemValue="#{tipo}"/>  
+                            </h:selectOneMenu>
+                            <p:message id="tipoMessage" for="idTipoSelect"/>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <p:commandButton class="btn btn-primary btn-block"
+                                                 ajax="false"
+                                                 value="Guardar"
+                                                 action="#{seccionController.addSeccion}"
+                                                 onclick="onSubmitButton();"/>
+                            </div>
+                            <div class="col-sm-6 form-group">    
+                                <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="lista"/>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

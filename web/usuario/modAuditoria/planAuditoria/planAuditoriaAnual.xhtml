@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li style="margin-top: 20px">
+                            <h:commandLink action="/usuario/modAuditoria/planAuditoria/lista">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{auPlanAuditoriaController.prepareCreateAuInterna}"
+                                           rendered="#{loginController.auditor}">
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{auPlanAuditoriaController.usuarioActual}"/>
+                                <i class="fa fa-file-excel-o"></i> 
+                                <span>Crear Nueva Auditoría</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.auditor}">
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{auPlanAuditoriaController.usuarioActual}"/>
+                                <i class="fa fa-table"></i> 
+                                <span>Plan de aditoría anual</span>
+                                <p:ajax update=":crearPeriodo" oncomplete="PF('dlg1').show();" />
+                            </h:commandLink>  
+                        </li>
+                        <li rendered="#{loginController.admin}">
+                            <h:commandLink action="#{auPeriodoPlanAuditoriaController.prepareList}"
+                                           rendered="#{loginController.admin}">
+                                <i class="fa fa-list"></i> 
+                                <span>Periodos auditoría</span>
+                            </h:commandLink>  
+                        </li>
+
+
+                        <li style="margin-top: 20px">
+                            <h:commandLink action="/usuario/modulos">
+                                <i class="fa fa-th"></i>
+                                <span>Modulos del sistema</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Planes de auditoría año #{auPlanAuditoriaController.periodoPlanAuditoriaActual.anio}</ui:define>  
+        <ui:define name="title2">Aquí pueder ver la lista de los programas de auditoría</ui:define> 
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form id="documentosFormList">
+                <p:outputPanel id="documentosTablePanel">
+                    <p:dataTable value="#{auPlanAuditoriaController.listaPlanAuditoriaAnio}" var="item"
+                                 rows="50" paginator="true" id="registrosTable"
+                                 rowStyleClass="#{item.estado eq 'Desarrollo' ? 'color3': item.estado eq 'TERMINADA' ? 'color1':null}"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="50, 100, 150" emptyMessage="No se encontraron formatos con el criterio dado">
+                        <f:facet name="header">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p:button icon="fa fa-arrow-left"
+                                                  value="Volver pagina principal" 
+                                                  style="font-size: 1.2em !important; padding: 5px; left: 0"
+                                                  outcome="/usuario/modCalidad/paginaPrincipal"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h4 class="colorLetra" style="font-weight: bold"  >
+                                            Total planes de auditoría: #{fn:length(auPlanAuditoriaController.listaPlanAuditoriaAnio)}
+                                        </h4>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <h:commandLink id="exportExcel" 
+                                                       action="#{auPlanAuditoriaController.obtenerAnexo}"
+                                                       target="_blank">
+                                            <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                                            target="registrosTable" fileName="auditoria" />
+                                            <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                        </h:commandLink>
+                                        <h:commandLink id="powerPoint" 
+                                                       action="#{auPlanAuditoriaController.obtenerPresentacion}"
+                                                       target="_blank">
+                                            <p:graphicImage library="images" name="/icons/powerpoint.png" width="30"/>
+                                        </h:commandLink>
+                                    </div>
+                                </div>
+                            </div>
+                        </f:facet>
+                        <p:column width="200" filterBy="#{item.titulo}" filterMatchMode="contains">
+                            <f:facet name="header">Titulo</f:facet>
+                            <h:outputText value="#{item.titulo}" style="font-weight: bold">
+                            </h:outputText>
+                        </p:column>
+                        <p:column filterBy="#{item.fechaIAuditoria}" style="font-weight: bold; text-align: center">
+
+                            <f:facet name="header">fecha inicio auditoria</f:facet>
+                            <h:outputText value="#{item.fechaIAuditoria}" style="font-weight: bold; text-align: center">
+                                <f:convertDateTime pattern="MMMM dd, yyyy" />
+                            </h:outputText>                       
+                        </p:column>
+                        <p:column filterBy="#{item.fechafAuditoria}" style="font-weight: bold; text-align: center">
+                            <f:facet name="header">fecha din de auditoria</f:facet>
+                            <h:outputText value="#{item.fechafAuditoria}" style="font-weight: bold; text-align: center">
+                                <f:convertDateTime pattern="MMMM dd, yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column filterBy="#{item.estado}" filterMatchMode="contains">
+                            <f:facet name="header">Estado</f:facet>
+                            <h:outputText value="#{item.estado.toUpperCase()}"/>
+                        </p:column>
+                        <p:column width="130">
+                            <p:commandButton id="ver" icon="ui-icon-search" action="#{auPlanAuditoriaController.prepareViewAuInterna}" ajax="false">
+                                <f:setPropertyActionListener value="#{item}" target="#{auPlanAuditoriaController.planAuditoriaActual}"/>
+                                <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.planAuditoriaActual}"/>
+                            </p:commandButton>
+                            <p:tooltip for="ver" value="Ver"/>
+                            <p:commandButton id="descargar1" icon="ui-icon-document" 
+                                             action="#{auPlanAuditoriaController.obtenerInformeFinal}"
+                                             onclick="target = '_blank';PF('descargar1').hide();"
+                                             ajax="false">
+                                <f:setPropertyActionListener value="#{item}" target="#{auPlanAuditoriaController.planAuditoriaActual}"/>
+                            </p:commandButton>
+                            <p:tooltip for="descargar1" value="Descargar informe final"/>
+                            <p:commandButton id="descargar2" icon="ui-icon-document" 
+                                             action="#{auPlanAuditoriaController.obtenerActaSocializacion}"
+                                             onclick="target = '_blank';PF('descargar2').hide();"
+                                             ajax="false">
+                                <f:setPropertyActionListener value="#{item}" target="#{auPlanAuditoriaController.planAuditoriaActual}"/>
+                            </p:commandButton>
+                            <p:tooltip for="descargar2" value="Descargar acta de socialización"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+            <p:dialog header="Periodo" widgetVar="dlg1" modal="true"  resizable="false" width="400">
+                <h:form id="crearPeriodo">
+                    <div class="form-group">
+                        <h:outputText class="help-block container-fluid" value="Selecciona el año del plan"/>
+                        <p:selectOneMenu id="periodo" style="width: 100%" filter="true" filterMatchMode="contains" value="#{auPlanAuditoriaController.periodoPlanAuditoriaActual}">
+                            <f:selectItems value="#{auPeriodoPlanAuditoriaController.listaPeriodoPlanAuditoria}" var="periodo" itemValue="#{periodo}"/> 
+                        </p:selectOneMenu>
+                        <p:message id="periodoMessage" for="periodo" styleClass="error"/>
+                    </div>
+                    <h:commandButton class="btn btn-danger btn-block form-group" value="Aceptar" action="#{auPlanAuditoriaController.preparePlanAuditoriaAnual}"/>
+                </h:form>
+            </p:dialog>
+        </ui:define>
+    </ui:composition>
+</html>

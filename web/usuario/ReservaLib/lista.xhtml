@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.bibliotecario}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modBiblioteca/ListarLibro/lista">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+
+                        <li>
+                            <h:commandLink action="#{LibroController.prepareCreate()}">
+                                <i class="fa fa-book"></i>
+                                <span>Crear nuevo Libro</span> 
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview" jsf:rendered="#{loginController.bibliotecario}" >
+                            <a href="#"><i class="fa fa-calendar"></i> <span>Caledarios</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+                                        <i class="fa fa-calendar"></i> 
+                                        <span>Calendario de Prestamos</span>
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+                                        <i class="fa fa-calendar"></i> 
+                                        <span>Calendario mantenimientos</span>
+                                    </h:commandLink>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="treeview" jsf:rendered="#{loginController.bibliotecario}">
+                            <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <h:commandLink action="#{LibroController.prepareListPreven()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Preventivos</span>
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{LibroController.prepareListCorrect()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Correctivos</span>
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{LibroController.prepareListDeBaja()}" rendered="#{loginController.bibliotecario}">
+                                        <span>de baja</span>
+                                    </h:commandLink>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-shopping-cart"></i> <span>Prestamos</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <h:commandLink action="#{ReservaLibrosController.prepareCreate()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Generar Prestamos</span>
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{ReservaLibrosController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{ReservaLibrosController.prepareList()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Listar Prestamos</span>
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{ReservaLibrosController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                    </h:commandLink>
+                                </li>
+
+                                <li>
+                                    <h:commandLink action="#{ReservaLibrosController.prepareEditP()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Libros Prestados</span>
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{ReservaLibrosController.prepareHisotrial()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Historial de Prestamos  </span>
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                    </h:commandLink>
+                                </li>
+
+
+                            </ul>
+                        </li>
+
+                        <li>
+                            <h:commandLink  action="/administrador/modBiblioteca/indicadoresGestion/crearIndGestion" rendered="#{loginController.bibliotecario}">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="body">
+
+            <h2>Bienvenido A listar Prestamos</h2>
+
+        </ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form id="formList">
+                <p:outputPanel id="documentosTablePanel">
+                    <p:dataTable value="#{ReservaLibrosController.listaReservaUser}" var="item"
+                                 rows="50" id="documentosTable" 
+                                 paginator="true" widgetVar="filtroTable"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="50,100,150">
+                        <f:facet name="header">
+                            <div class="container-fluid">
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <h3 style="font-weight: bold; color: #00a65a;     position: relative;    left: 70%;    top: -8px;"  >
+                                            Total Prestamos: #{fn:length(ReservaLibrosController.listaReservaUser)}
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-4" style="  position: relative;    top: 12px;    left: 36%;">
+                                        <h:commandLink id="exportExcel">
+                                            <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                            <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                                            target="documentosTable" fileName="inventario" />
+                                        </h:commandLink>
+                                        <p:tooltip id="descripcion-botonExcel" for="exportExcel" value="Exportar en excel" trackMouse="true" />
+                                    </div>
+                                </div>
+                            </div>
+                        </f:facet>
+                        <p:column filterBy="#{item.idReservaLibros}" width="110" filterMatchMode="contains">
+                            <f:facet name="header">Cod. Libro</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{item.idReservaLibros}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.fechaInicioPrestamo}" width="110" filterMatchMode="contains">
+                            <f:facet name="header">Fecha Inicio de Reserva</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1.2em;" value="#{item.fechaInicioPrestamo}">
+                                <f:convertDateTime pattern="MMMM dd, YYYY "/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column filterBy="#{item.fechaFinPrestamo}" width="110" filterMatchMode="contains">
+                            <f:facet name="header">Fecha Fin de Reserva</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1.2em;" value="#{item.fechaFinPrestamo}">
+                                <f:convertDateTime pattern="MMMM dd, YYYY "/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column filterBy="#{item.idLib1.tituloLibro}" width="110" filterMatchMode="contains">
+                            <f:facet name="header">Titulo Del Libro 1</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1.2em;" value="#{item.idLib1.tituloLibro}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.idLib2.tituloLibro}" width="110" filterMatchMode="contains">
+                            <f:facet name="header">Titulo Del Libro 2</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1.2em;" value="#{item.idLib2.tituloLibro}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.idLib1.idGenero.nombre}" width="110" filterMatchMode="contains">
+                            <f:facet name="header">Genero</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1.2em;" value="#{item.idLib1.idGenero.nombre}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.idUsuarioPrestamo.nombreUsuario}" width="110" filterMatchMode="contains">
+                            <f:facet name="header">Usuario Prestamo</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1.2em;" value="#{item.idUsuarioPrestamo.nombreUsuario}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.idBibliotecario.nombreUsuario}" width="110" filterMatchMode="contains">
+                            <f:facet name="header">Bibliotecario</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1.2em;" value="#{item.idBibliotecario.nombreUsuario}"/>
+                        </p:column>
+                        <p:column width="130">
+                            <p:commandButton  icon="ui-icon-search" id="ver" ajax="false" action="#{ReservaLibrosController.prepareEdit()}" >
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{ReservaLibrosController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{item}" target="#{ReservaLibrosController.reservaLibActual}"/>
+                                <f:setPropertyActionListener value="#{item}" target="#{ReservaLibrosController.libroActual}"/>
+
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </ui:define>
+
+    </ui:composition>
+
+
+</html>

@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.bibliotecario}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modBiblioteca/ListarLibro/lista">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+
+                        <li>
+                            <h:commandLink action="#{LibroController.prepareCreate()}">
+                                <i class="fa fa-book"></i>
+                                <span>Crear nuevo Libro</span> 
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview" jsf:rendered="#{loginController.bibliotecario}" >
+                            <a href="#"><i class="fa fa-calendar"></i> <span>Caledarios</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+                                        <i class="fa fa-calendar"></i> 
+                                        <span>Calendario de Prestamos</span>
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+                                        <i class="fa fa-calendar"></i> 
+                                        <span>Calendario mantenimientos</span>
+                                    </h:commandLink>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="treeview" jsf:rendered="#{loginController.bibliotecario}">
+                            <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <h:commandLink action="#{LibroController.prepareListPreven()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Preventivos</span>
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{LibroController.prepareListCorrect()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Correctivos</span>
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{LibroController.prepareListDeBaja()}" rendered="#{loginController.bibliotecario}">
+                                        <span>de baja</span>
+                                    </h:commandLink>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-shopping-cart"></i> <span>Prestamos</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <h:commandLink action="#{reservaLibrosController.prepareCreate()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Generar Prestamos</span>
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reservaLibrosController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{reservaLibrosController.prepareList()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Listar Prestamos</span>
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reservaLibrosController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                    </h:commandLink>
+                                </li>
+
+                                <li>
+                                    <h:commandLink action="#{reservaLibrosController.prepareEditP()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Libros Prestados  </span>
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                    </h:commandLink>
+                                </li>
+
+                                <li>
+                                    <h:commandLink action="#{reservaLibrosController.prepareHisotrial()}" rendered="#{loginController.bibliotecario}">
+                                        <span>Historial de Prestamos  </span>
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+
+                                    </h:commandLink>
+                                    
+
+                                    
+                                </li>
+
+
+                            </ul>
+                        </li>
+
+                        <li>
+                            <h:commandLink  action="/administrador/modBiblioteca/indicadoresGestion/crearIndGestion" rendered="#{loginController.bibliotecario}">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Tipo de Mantenimiento</ui:define> 
+
+        <ui:define name="body">
+            <h:outputText value="#{LibroController.libroActual.tituloLibro}" style="font-size: 25px; "></h:outputText>
+            <p:growl id="growl" showDetail="true" life="5000"/>
+            <h:form id="formulario-crearFicha">
+                <div class="row">
+                    <div class=" col-md-6 form-group">
+                        <h:outputLabel value="Genero:" />
+                        <p:inputText  class="form-control"
+                                      id="genero"
+                                      disabled="true"
+                                      value="#{LibroController.libroActual.idGenero.nombre}">
+                            <f:ajax execute="@this" render="itemMessage"/>
+                        </p:inputText>
+                    </div>
+                    <div class=" col-md-6 form-group">
+                        <h:outputLabel value="Rotulo" />
+                        <p:inputText  class="form-control"
+                                      id="rotulo"
+                                      disabled="true"
+                                      value="#{LibroController.libroActual.idRotulo.color}">
+                            <f:ajax execute="@this" render="itemMessage"/>
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <h:outputLabel value="Tipo de Mantenimiento:" />
+                        <p:selectOneMenu style="width: 100%"
+                                         id="prendaT21"
+                                         requiredMessage="Estado del Libro"
+                                         value="#{LibroController.libroActual.idTipoMantenimiento}">                        
+                            <f:ajax execute="@this" render="clienteMessage"/>
+                            <f:selectItem itemLabel="Seleccionar uno.." />
+                            <f:selectItems value="#{tipoMantenimientoController.listaTipoMantenimiento}" var="categoria" itemValue="#{estadoLibro}"/> 
+                        </p:selectOneMenu>
+                        <p:message id="prendaT21Message" for="prendaT21" styleClass="error"/>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <h:outputLabel value="Estado del Libro:" />
+                        <p:selectOneMenu style="width: 100%"
+                                         id="prendaT1"
+                                         requiredMessage="Estado del Libro"
+                                         value="#{LibroController.libroActual.idEstadoLibro}">                        
+                            <f:ajax execute="@this" render="clienteMessage"/>
+                            <f:selectItem itemLabel="Seleccionar uno.." />
+                            <f:selectItems value="#{EstadoLibroController.listaEstadoLibro}" var="categoria" itemValue="#{estadoLibro}"/> 
+                        </p:selectOneMenu>
+                        <p:message id="prendaT1Message" for="prendaT1" styleClass="error"/>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-6 form-group">
+                            <h:outputLabel value="Cod. Libro:" />
+                            <p:inputText  class="form-control"
+                                          id="item"
+                                          disabled="true"
+                                          required="true"
+                                          requiredMessage="Ingrese el codigo del Item"
+                                          value="#{LibroController.libroActual.codigo}">
+                                <f:ajax execute="@this" render="itemMessage"/>
+                            </p:inputText>
+                            <p:message id="itemMessage" for="item" styleClass="error"/>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <h:outputLabel value="Editorial:"  />
+                            <input placeholder="Editorial:" 
+                                   class="form-control"
+                                   required="true"
+                                   requiredMessage="Ingrese la descripción del item"
+                                   jsf:id="descripcionCorta"
+                                   jsf:value="#{LibroController.libroActual.editorial}" 
+                                   type="text"
+                                   disabled="true">
+                            </input>
+                            <p:message id="descripcionCortaMessage" for="descripcionCorta" styleClass="error"/>
+                        </div>  
+
+                        <div class="col-md-6 form-group ">
+                            <h:outputLabel value="Cop del Libro:"  />
+                            <input placeholder="COP. De los Libors" 
+                                   class="form-control"
+                                   requiredMessage="ingrese la Cant de copias existentes"
+                                   jsf:id="descripcionLarga2"
+                                   jsf:value="#{LibroController.libroActual.copiasDelLibro}" 
+                                   type="text"
+                                   disabled="true">
+                            </input>
+                            <p:message id="descripcionCorta2Message" for="descripcionCorta" styleClass="error"/>
+                        </div> 
+                        <div class="col-md-6 form-group ">
+                            <h:outputLabel value="Costo del Libro:"  />
+                            <input placeholder="COP. De los Libors" 
+                                   class="form-control"
+                                   requiredMessage="ingrese la Cant de copias existentes"
+                                   jsf:id="descripcionLarga3"
+                                   jsf:value="#{LibroController.libroActual.costoLibro}" 
+                                   disabled="true">
+                            </input>
+
+
+                            <p:message id="descripcionCorta3Message" for="descripcionCorta" styleClass="error"/>
+                        </div> 
+
+                        <div class="col-md-6 form-group">
+                            <h:outputLabel value="Autor:"  />
+                            <input placeholder="Autor" 
+                                   class="form-control"
+                                   jsf:id="tela"
+                                   jsf:value="#{LibroController.libroActual.autor}" 
+                                   type="text"
+                                   disabled="true">
+                            </input>
+                            <p:message id="telaMessage" for="tela" styleClass="error"/>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <h:outputLabel value="Bibliotecari@:"  />
+                            <input placeholder="Bibliotecario" 
+                                   class="form-control"
+                                   jsf:id="usuario1"
+                                   jsf:value="#{LibroController.libroActual.idUsuaroLib.toString().toUpperCase()}" 
+                                   type="text"
+                                   disabled="true">
+                            </input>
+                            <p:message id="usuario1Message" for="tela" styleClass="error"/>
+                        </div>
+
+                        <div class="col-md-6 form-group" >
+                            <h:outputLabel value="Resumen del Libro:"  />
+                            <p:inputTextarea placeholder="resumen del libro" 
+                                             class="form-control" 
+                                             id="observaciones2"
+                                             value="#{LibroController.libroActual.descripcionNormal}" 
+                                             style="height: 200px;"
+                                             disabled="true">
+                            </p:inputTextarea>
+                        </div>
+                        <div class="col-md-6 form-group" >
+                            <h:outputLabel value="Observaciones:"  />
+                            <p:inputTextarea placeholder="observaciones" 
+                                             class="form-control" 
+                                             id="observaciones"
+                                             value="#{LibroController.libroActual.descripcion}" 
+                                             style="height: 200px;">
+                            </p:inputTextarea>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel value="Estado Del Libro: "  />
+                            <p:selectBooleanButton id="value1" value="#{LibroController.libroActual.activo}" onLabel="Activo" offLabel="Inactivo" style="margin-left: 10px;width:150px" />
+                        </div>
+                        <div class="col-md-12" >
+                            <div class="row">
+                                <div class="col-sm-6 form-group">
+                                    <p:commandButton class="btn btn-primary btn-block"
+                                                     ajax="false"
+                                                     value="Editar"
+                                                     action="#{LibroController.update()}"
+                                                     onclick="onSubmitButton();"/>
+                                </div>
+                                <div class="col-sm-6 form-group">    
+                                    <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="/usuario/modBiblioteca/ListarLibro/lista"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+
+    </ui:composition>
+
+
+</html>

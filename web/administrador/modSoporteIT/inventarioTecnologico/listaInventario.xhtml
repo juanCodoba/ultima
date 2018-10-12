@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Inventario de equipos tecnológicos activos</ui:define>
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modSoporteIT/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{usuarioController.prepareList}">
+                                <i class="fa fa-users"></i> 
+                                <span>Usuarios del sistema</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="active">
+                            <h:commandLink action="#{computadorController.prepareList}">
+                                <i class="fa fa-desktop"></i>
+                                <span>Inventario tecnológico</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
+                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario mantenimientos</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                     <span>Preventivos</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                     <span>Correctivos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{reporteSiesaController.prepareListReportes}">
+                                <i class="fa fa-bug "></i>
+                                <span>Fallos del ERP</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/configuracionMaestros/verConfiguraciones">
+                                <i class="fa fa-file"></i>
+                                <span>Configuración de maestros</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="body">
+        <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form id="inventarioFormList">
+                <p:outputPanel id="computadorTablePanel">
+                <p:dataTable value="#{computadorController.listaComputadorActivo}" var="computador"
+                             rows="20" id="computadorTable" rowStyleClass="jsfcrud_odd_row,jsfcrud_even_row" 
+                             paginator="true"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="20,50,150">
+                        <f:facet name="header">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p:commandButton icon="fa fa-save"
+                                                         ajax="false"
+                                                        value="Agregar equipo al inventario"
+                                                        style="font-size: 1.2em !important;padding: 5px; right: 0"
+                                                        action="#{computadorController.prepareCreate}"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h4 class="colorLetra" style="font-weight: bold" >
+                                            Total computadores activos: #{fn:length(computadorController.listaComputadorActivo)}
+                                        </h4>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p:commandButton icon="fa fa-sticky-note"
+                                                         ajax="false"
+                                                        value="Ver dados de baja"
+                                                        style="font-size: 1.2em !important;padding: 5px; right: 0"
+                                                        action="#{computadorController.prepareViewComputadorInactivo}"/>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <h:commandLink id="exportExcel">
+                                            <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                            <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                                    target="computadorTable" fileName="inventario" />
+                                        </h:commandLink>
+                                    </div>
+                                </div>
+                            </div>
+                        </f:facet>
+                        <p:column filterBy="#{computador.codigoComputador}"  filterMatchMode="contains" width="130">
+                            <f:facet name="header">Service tag o (S/N)</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{computador.codigoComputador.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{computador.idSeccion}" filterMatchMode="contains">
+                            <f:facet name="header">Sección</f:facet>
+                            <h:outputText value="#{computador.idSeccion.toString()}"/>
+                        </p:column>
+                        <p:column filterBy="#{computador.idUsuario}" filterMatchMode="contains">
+                            <f:facet name="header">Responsable</f:facet>
+                            <h:outputText value="#{computador.idUsuario.toString()}"/>
+                        </p:column>
+                        <p:column filterBy="#{computador.idModelo.idTipo}" width="130" filterMatchMode="contains">
+                            <f:facet name="header">Tipo</f:facet>
+                            <h:outputText value="#{computador.idModelo.idTipo.toString()}"/>
+                        </p:column>
+                        <p:column filterBy="#{computador.idModelo}" filterMatchMode="contains">
+                            <f:facet name="header">Modelo</f:facet>
+                            <h:outputText value="#{computador.idModelo.toString()}"/>
+                        </p:column>
+                        <p:column filterBy="#{computador.discoDuro}"  filterMatchMode="contains" width="80">
+                            <f:facet name="header">Disco duro</f:facet>
+                            <h:outputText value="#{computador.discoDuro} GB"/>
+                        </p:column>
+                        <p:column filterBy="#{computador.memoriaRam}"  filterMatchMode="contains" width="80">
+                            <f:facet name="header">RAM</f:facet>
+                            <h:outputText value="#{computador.memoriaRam} GB"/>
+                        </p:column>
+                        <p:column filterBy="#{computador.procesador}" width="250" filterMatchMode="contains">
+                            <f:facet name="header">Procesador</f:facet>
+                            <h:outputText value="#{computador.procesador}"/>
+                        </p:column>
+                        <p:column width="80" filterBy="#{computador.computadorCritico}" filterMatchMode="contains">
+                            <f:facet name="header">Criticidad de la información</f:facet>
+                            <h:outputText value="#{computador.computadorCritico}"/>
+                        </p:column>
+                        <p:column width="50">
+                            <p:commandButton icon="ui-icon-pencil" ajax="false" id="actualizar" action="#{computadorController.prepareEdit}" >
+                                <f:setPropertyActionListener value="#{computador}" target="#{computadorController.computadorActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-botonActualizacion" for="actualizar" value="Actualizar equipo" trackMouse="true" />
+                            <p:commandButton icon="ui-icon-contact" ajax="false" id="actualizarLic" action="#{computadorController.prepareEditLic}" >
+                                <f:setPropertyActionListener value="#{computador}" target="#{computadorController.computadorActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-botonCambiarLic" for="actualizarLic" value="Cambiar licencias Computador" trackMouse="true" />
+                            <p:commandButton process="@this" ajax="false" id="historial" icon="ui-icon-search" actionListener="#{computadorController.prepareViewHistorial}" action="#{computadorController.viewHistorialComputadores}">
+                                <f:setPropertyActionListener value="#{computador}" target="#{computadorController.computadorActual}"/>
+                                <f:setPropertyActionListener value="#{computador}" target="#{cronogramaController.computadorActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-botonHistorial" for="historial" value="Historial del equipo" trackMouse="true" />
+                            <p:commandButton icon="ui-icon-trash" ajax="false" id="eliminar" action="#{computadorController.prepareInactivo}">
+                                <f:setPropertyActionListener value="#{computador}" target="#{computadorController.computadorActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-botonEliminar" for="eliminar" value="Dar de baja" trackMouse="true" />
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

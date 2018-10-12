@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <head jsf:id="head">
+        <meta charset="utf-8"/>
+        <link rel="icon" type="image/png" href="#{request.contextPath}/resources/images/iconoPestana.png"/>
+        <title>SaINT - Sistema Administrativo Integrado</title>
+        <link href="#{request.contextPath}/resources/css/superslides.css"  rel="stylesheet"/>
+        <link href="#{request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="#{request.contextPath}/resources/css/person.css" rel="stylesheet"/>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"/>
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"/>
+        <link href="https://fonts.googleapis.com/css?family=Rambla:400,700,700i" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Kalam" rel="stylesheet"/>
+
+    </head>
+    <body onLoad="scrollDiv_init();scrollDiv_initProyecto()">
+        <p:growl id="growl" showDetail="true" life="2000"/>
+        <div id="slides">
+            <div class="panel-login">
+                <h:form>
+                    <h:panelGroup id="messagePanel" layout="block">
+                        <h:messages class="alert alert-danger"/>
+                    </h:panelGroup>
+                    <div class="group">
+                        <label>Correo</label>
+                        <h:inputText id="user" 
+                                     class="input-login"
+                                     value="#{loginController.username}" 
+                                     required="true"
+                                     requiredMessage="Escribe el correo">
+                        </h:inputText>
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+
+                    </div>
+                    <div class="group">
+                        <label>Contraseña</label>
+                        <h:inputSecret id="password" 
+                                       class="input-login"
+                                       value="#{loginController.password}" 
+                                       required="true"
+                                       requiredMessage="Escribir la contraseña"/>
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                    </div>
+                    <h:commandButton value="Acceder"
+                                     action="#{loginController.login}"
+                                     styleClass="button buttonBlue">
+                    </h:commandButton>
+                </h:form>
+            </div>
+            <div class="panel-logoIndex">
+                <img class="img-logo" src="#{request.contextPath}/resources/images/logoSaintBlanco.png" style="width: 85%"/>
+            </div>
+            <div class="panel-ayuda">
+                <h:form>
+                    <h:panelGroup rendered="#{!loginController.authenticated}">
+                        <button type="button" jsf:outcome="ayuda" class="btn btn-lg boton-inicioSesion">
+                            <span class="fa fa-question-circle"></span> Ayuda
+                        </button>
+                        <p:commandButton rendered="false" value="" styleClass="btn btn-lg boton-inicioSesion" type="button" onclick="PF('dlg2').show();"/>
+                    </h:panelGroup>
+                </h:form>
+            </div>
+            <div class="slides-container">
+                <div>
+                    <img jsf:library="images" jsf:name="/slider/sliderFT.jpg" alt="Cinelli"/>
+                </div>
+                <div>
+                    <img jsf:library="images" jsf:name="/slider/ambiental.jpg" alt="Cinelli"/>
+                </div>
+                <div>
+                    <img jsf:library="images" jsf:name="/slider/cumpleanos.png" width="1024" height="683" alt="Cinelli"/>
+                    <div id="panelCumple" class="col-lg-4 thumbnail panel-cumpleanos">
+                        <div id="MyDivName" style="height: 280px; width:700px;  overflow:hidden; margin-top: 30px" onMouseOver="pauseDiv()" onMouseOut="resumeDiv()">
+                            <p:dataScroller  value="#{masHerramientasController.listaCumpleaños}" class="fondo-dataScroller"  var="cumpleanos" chunkSize="100" mode="inline" >
+                                <div style="height: 50px; width:500px; display: inline-block;" >
+                                    <h:outputText style=" font-size: 1.7em;font-weight: bold; color: black; font-family: 'Kalam', cursive !important;" value="#{cumpleanos.nombre}"/> 
+                                </div>
+                                <div style="height: 80px; width: 130px; display: inline-block; text-align: right !important">
+                                    <h:outputText style="text-align: right; font-size: 1.5em;font-weight: bold; color: red; font-family: 'Kalam', cursive !important;  " value="#{cumpleanos.fecha}">
+                                        <f:convertDateTime pattern="MMMM dd"/>
+                                    </h:outputText>
+                                </div>
+                            </p:dataScroller>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <img jsf:library="images" jsf:name="/slider/sliderHonra.jpg" alt="Cinelli"/>
+                </div>
+                <div>
+                    <a href="http://www.youtube.com/watch?v=rNvtnURLlZA" target="_blank">
+                        <img jsf:library="images" jsf:name="/slider/sliderCampana.jpg" alt="Cinelli"/>
+                    </a>
+                </div>
+                <div>
+                    <a href="http://www.goo.gl/forms/CJbbOseX6bvGTBen2" target="_blank">
+                        <img jsf:library="images" jsf:name="/slider/acondicionamientoFisico.jpg" width="1024" height="682" alt="Surly"/>
+                    </a>
+                </div>
+                <div>
+                    <img jsf:library="images" jsf:name="/slider/directorio.png" width="1024" height="685" alt="Affinity"/>
+                </div>
+                <div>
+                    <img jsf:library="images" jsf:name="/slider/estadoProyectos.png" width="1024" height="685" alt="Affinity"/>
+                    <div id="panelProyecto" class="col-lg-4 thumbnail panel-proyectos">
+                        <div id="MyDivNameProyecto" style="height: 600px; width:620px;  overflow:hidden; margin-top: 20px; margin-left: 30px" onMouseOver="pauseDivProyecto()" onMouseOut="resumeDivProyecto()">
+                            <h:dataTable value="#{proyectoEstadoProyecto.listaProyecto}"
+                                         styleClass="fondo-dataScroller table"
+                                         var="proyecto" >
+                                <h:column>
+                                    <f:facet name="header">
+                                        Nombre del Proyecto
+                                    </f:facet>
+                                    <h:outputText style=" font-size: 1.0em;"  value="#{proyecto.nombreProyecto}"/> 
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        % Ejecución
+                                    </f:facet>
+                                    <p:progressBar value="#{proyecto.porcentajeFase3}" labelTemplate="{value}%" displayOnly="true"/>
+                                </h:column>
+                            </h:dataTable>
+                            <div style="text-align: center;">
+                                <a id="icono" style="border-radius: 0px; font-size: 1.2em" class="btn btn-md btn-primary" href="https://sites.google.com/a/cfiprovidencia.com/gestion-de-proyectos-cfip/" target="_blank">
+                                    <span class="fa fa-bookmark"></span>   Ver portafolio de proyectos
+                                </a>   
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <img jsf:library="images" jsf:name="/slider/protocoloTelefonos.png" width="1024" height="685" alt="Affinity"/>
+
+                </div>
+            </div>
+        </div>
+        <script src="#{request.contextPath}/resources/js/bootstrap.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="#{request.contextPath}/resources/js/jquery.easing.1.3.js"></script>
+        <script src="#{request.contextPath}/resources/js/jquery.animate-enhanced.min.js"></script>
+        <script src="#{request.contextPath}/resources/js/jquery.superslides.js" type="text/javascript" charset="utf-8"></script>
+        <script>
+                            $(function () {
+                                $('#slides').superslides({
+                                    hashchange: true,
+                                    play: 8000
+                                });
+
+                                $('#panelCumple').on('mouseenter', function () {
+                                    document.body.style.cursor = "pointer";
+                                    $('#slides').superslides('stop');
+                                    console.log('Stopped')
+                                });
+                                $('#panelCumple').on('mouseleave', function () {
+                                    document.body.style.cursor = "default";
+                                    $('#slides').superslides('start');
+                                    console.log('Started')
+                                });
+                            });
+        </script>
+        <script>
+            $(function () {
+                $('#slides').superslides({
+                    hashchange: true,
+                    play: 8000
+                });
+
+                $('#panelProyecto').on('mouseenter', function () {
+                    document.body.style.cursor = "pointer";
+                    $('#slides').superslides('stop');
+                    console.log('Stopped')
+                });
+                $('#panelProyecto').on('mouseleave', function () {
+                    document.body.style.cursor = "default";
+                    $('#slides').superslides('start');
+                    console.log('Started')
+                });
+            });
+        </script>
+        <script>
+            $(function () {
+                $('#slides').superslides({
+                    hashchange: true,
+                    play: 8000
+                });
+
+                $('#panelProtocolo').on('mouseenter', function () {
+                    document.body.style.cursor = "pointer";
+                    $('#slides').superslides('stop');
+                    console.log('Stopped')
+                });
+                $('#panelProtocolo').on('mouseleave', function () {
+                    document.body.style.cursor = "default";
+                    $('#slides').superslides('start');
+                    console.log('Started')
+                });
+            });
+        </script>
+        <script type="text/javascript">
+            if (#{loginController.authenticated}) {
+                location.reload(true);
+                window.location = "#{request.contextPath}/faces/usuario/modulos.xhtml";
+            }
+        </script>
+        <script src="#{request.contextPath}/resources/js/movimientoCumpleanos.js"></script>
+    </body>
+</html>

@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Calendario de reservaciones de salas especiales</ui:define> 
+         <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li style="margin-top: 30px">
+                            <h:commandLink action="/usuario/modManteEdificios/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink type="buttom">
+                                <p:ajax listener="#{solicitudEdificioController.prepareCreate}" update="form-reservar" oncomplete="PF('reservarSala').show();" />
+                                <i class="fa fa-calendar"></i> 
+                                <span>Reservar sala</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink type="buttom">
+                                <p:ajax  oncomplete="PF('botonSolicitud').show();" />
+                                <i class="fa fa-bug "></i>
+                                <span>Solicitudes</span>
+                            </h:commandLink> 
+                        </li>
+                    </h:panelGroup>   
+                </ul>
+            </h:form>
+        </ui:define>
+        
+        
+        <ui:define name="body">
+        <p:growl id="growl" showDetail="true" life="2000"/>
+        <!--MENU DE SOLICITUDES-->
+        <p:dialog id="boton-solicitud" resizable="false" widgetVar="botonSolicitud" header="Menu de Solicitudes" modal="true"  width="400">
+            <p:outputPanel id="form-botonRespuesta">
+                <h:form id="form-respuesta">
+                    <div class="col-sm-12 form-group">
+                        <p:commandButton type="button" class="btn btn-reservaAuditorio btn-block" value="Ver Solicitudes Pendientes (Auditorio)" rendered="#{loginController.adminMante}">
+                            <p:ajax listener="#{solicitudEdificioController.prepareCreate}" update="solicitud-calendario:solicitud-list" oncomplete="PF('solicitudSala').show();" />
+                        </p:commandButton>
+                        <p:commandButton type="button" class="btn btn-reservaAuditorio btn-block" value="Ver Solicitudes Pendientes (Refrigerios)"  rendered="#{loginController.adminMante}">
+                            <p:ajax listener="#{solicitudEdificioController.prepareCreate}" update="solicitud-calendario:solicitudRefrigerio-list" oncomplete="PF('solicitudRefrigerio').show();" />
+                        </p:commandButton>
+                        <p:commandButton type="button" class="btn btn-actividad btn-block" value="Ver Solicitudes Aceptadas" rendered="#{loginController.adminMante}">
+                            <p:ajax listener="#{solicitudEdificioController.prepareCreate}" update="solicitud-calendario:solicitudAceptadas-list" oncomplete="PF('solicitudAceptadas').show();" />
+                        </p:commandButton>
+                        <h:button class="btn btn-block btn-default col-md-6" value="Cerrar menu" outcome="verCalendarioReserva"/>
+                    </div>
+                </h:form>
+            </p:outputPanel>
+        </p:dialog>
+         <!--FORMULARIO DE RESERVACION DE SALA-->
+        <p:dialog id="reserva" widgetVar="reservarSala" header="Reserva de salas especiales" showEffect="clip" hideEffect="clip"  resizable="false" width="840">
+            <h:outputText class="help-block" value="Solicita reservar alguna de nuestras salas especiales para algún evento que vayas a realizar"/>
+            <p:outputPanel id="form-createCronograma">
+                <h:form id="form-reservar">
+                    <div class="col-md-6">
+                        <div class="form-group"> 
+                            <h:outputLabel value="Sala que necesita reservar:"/>
+                            <p:selectOneMenu id="idSeccionDaño" value="#{solicitudEdificioController.idSeccion}"  
+                                             required="true" converter="seccionConverter" style="width: 100%; border: none;" 
+                                             requiredMessage="Por favor ingrese la sección que presenta el daño">
+                                    <f:selectItem/>
+                                    <f:selectItems value="#{seccionController.listaSeccionEspecial}" var="seccion" itemValue="#{seccion}"/>  
+                                    <p:ajax listener="#{solicitudEdificioController.info}"  />
+                            </p:selectOneMenu>
+                           <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                        </div> 
+                        <div class="form-group">       
+                            <h:outputLabel value="Motivo para realizar la reserva:"  />
+                            <textarea placeholder="Escribir el motivo por el cual hace reserva de la sala" class="form-control" jsf:id="descripcionInputText" jsf:value="#{solicitudEdificioController.solicitudEdificioActual.descripcion}" 
+                                      type="text" required="true" style="resize: none"
+                                      jsf:requiredMessage="Por favor ingrese la descripción del incidente">
+                            </textarea>
+                            <p:message id="descripcionMessage" for="descripcionInputText" styleClass="error"/>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel value="Fecha de la reserva"/>
+                            <p:calendar id="fechaSala" style="color: black"
+                                        required="true"  mindate="#{solicitudEdificioController.fechaActual}"
+                                    requiredMessage="Ingresa la fecha" validatorMessage="Dirección de correo electronico no valido"
+                                    value="#{solicitudEdificioController.fechaAlquiler}"
+                                    navigator="true" pattern="MM/dd/yyyy"> 
+                            <f:ajax execute="@this fechaSala" 
+                                    render="msgFecha form-createCronograma"/>
+                            </p:calendar>
+                            <h:message id="msgFecha" for="fechaSala"  styleClass="error"/>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel value="Hora de inicio de la reserva:"/>
+                            <p:calendar id="horaInicio"
+                                        value="#{solicitudEdificioController.horaInicioAlquiler}"
+                                        pattern="hh:mm a" timeOnly="true"  required="true"   
+                                        requiredMessage="Ingresa la hora">
+                                 <f:ajax execute="horaInicio" render="msgHoraInicio"/>
+                            </p:calendar>
+                            <h:message id="msgHoraInicio" for="horaInicio"  styleClass="error"/>
+                        </div>
+                             <div class="form-group">
+                            <h:outputLabel value="Hora que finaliza la reserva:"/>
+                            <p:calendar id="horaFin"
+                                        value="#{solicitudEdificioController.horaFinAlquiler}"
+                                        pattern="hh:mm a" timeOnly="true"  required="true"   
+                                        requiredMessage="Ingresa la hora">
+                                 <f:ajax execute="horaFin" render="msgHoraFin"/>
+                            </p:calendar>
+                            <h:message id="msgHoraFin" for="horaFin"  styleClass="error"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div>
+                            <h:outputLabel  value="Requiere refrigerio:"  />
+                        </div>
+                        <div class="form-group">
+                            <p:selectBooleanButton style="width: 10em" value="#{solicitudEdificioController.solicitudEdificioActual.refrigerio}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close">
+                                <p:ajax event="change" update="divPanel" />
+                            </p:selectBooleanButton>
+                        </div>
+                        <h:panelGroup id="divPanel">
+                            <div class="form-group">       
+                                <h:outputLabel value="Descripción del refrigerio:"  rendered="#{solicitudEdificioController.solicitudEdificioActual.refrigerio}"/>
+                                <h:outputText class="help-block" rendered="#{solicitudEdificioController.solicitudEdificioActual.refrigerio}" value="Solicita que refrigerio necesitas y su cantidad, el jefe de mantenimiento responderá si Aprueba o Rechaza la solicitud generada. "/>
+                                <textarea placeholder="" rendered="#{solicitudEdificioController.solicitudEdificioActual.refrigerio}" class="form-control" jsf:id="refrigerioDescInputText" jsf:value="#{solicitudEdificioController.solicitudEdificioActual.descRefrigerio}" 
+                                          type="text" required="true" style="resize: none; height: 12.2em"
+                                          jsf:requiredMessage="Por favor ingrese la descripción del refrigerio">
+                                </textarea>
+                                <p:message id="refrigerioDescMessage" for="refrigerioDescInputText" styleClass="error"/>
+                            </div>
+                        </h:panelGroup>                             
+                        <div class="row" >
+                            <div class="col-md-6">
+                                <p:commandButton styleClass="btn btn-primary btn-block" 
+                                                    value="Guardar" update=":solicitud-calendario:calendario"
+                                                    action="#{solicitudEdificioController.addSolicitud}">
+                                       <f:ajax onevent="reservarSala.hide()" execute="@this" render=":solicitud-calendario:calendario"/>
+                                </p:commandButton>
+                            </div>
+                            <div class="col-md-6">
+                                <h:button class="btn btn-block col-md-6" style="background: orange; color: white" value="Cancelar" outcome="/usuario/modManteEdificios/reservaSala/verCalendarioReserva"/>
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
+            </p:outputPanel>
+        </p:dialog>
+        <!--CALENDARIO-->
+        <h:form id="solicitud-calendario">
+            <p:outputPanel id="calendario">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p:schedule id="schedule" rightHeaderTemplate="" timeZone="gtm-5" value="#{solicitudEdificioController.eventModel}" style="border-bottom: 1px solid lightslategray" locale="tr" >
+                            <p:ajax event="eventSelect" listener="#{solicitudEdificioController.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+                        </p:schedule>
+                    </div>
+                    <p:dialog id="eventDetails" widgetVar="eventDialog" header="Información de la reservación" showEffect="clip" hideEffect="clip" resizable="false" >
+
+                        <div class="form-group container-fluid">
+                            <h:outputLabel value="Datos de la reserva:" />
+                            <h:inputTextarea  class="form-control" disabled="true"  style="font-weight: bold; font-size: 1em;height: 8em" value="#{solicitudEdificioController.event.title}"/>
+                        </div>
+                        <div class="form-group container-fluid">
+                            <h:outputLabel value="Fecha de inicio de la reserva:" />
+                            <h:outputLabel class=" form-control" value="#{solicitudEdificioController.event.startDate}">
+                                <f:convertDateTime pattern="MMMM dd, yyyy" />
+                            </h:outputLabel> 
+                        </div> 
+                        <div class="form-group container-fluid">
+                            <h:outputLabel value="Fecha que finaliza la reserva:" />
+                            <h:outputLabel class=" form-control" value="#{solicitudEdificioController.event.endDate}">
+                                <f:convertDateTime pattern="MMMM dd, yyyy" />
+                            </h:outputLabel> 
+                        </div>
+                        <div class="form-group container-fluid">
+                            <h:outputLabel value="Estado:" />
+                            <h:outputLabel class="form-control " value="#{solicitudEdificioController.event.styleClass}"/>
+                        </div>
+                    </p:dialog>
+                </div>
+            </p:outputPanel>
+            
+            <!--LISTA DE SOLICITUD DE AUDITORIO-->
+            <p:dialog id="solicitud" widgetVar="solicitudSala" header="Solicitud de auditorio" modal="true"  width="1200">
+                <h:outputText class="help-block" value="Listado de solicitudes para reserva de auditorio"/>
+                <p:outputPanel id="solicitud-list">
+                    <p:outputPanel id="auditorioTablePanel">
+                        <h:form id="tableAuditorio-solicitud">
+                            <p:dataTable value="#{solicitudEdificioController.recargarListaSolicitud}" var="solicitud"
+                                         rows="10" id="incidenteTable" 
+                                         paginator="true" emptyMessage="No tiene solicitudes para reservar el auditorio"
+                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="5,10,15">
+                                    <f:facet name="header">
+                                        <h4 class="colorLetra" style="font-weight: bold" >
+
+                                        </h4>
+                                    </f:facet>
+                                <p:column filterBy="#{solicitud.idSeccion.nombreSeccion}"  filterMatchMode="contains">
+                                    <f:facet name="header">Nombre sección:</f:facet>
+                                    <h:outputText value="#{solicitud.idSeccion.nombreSeccion}" style="font-weight: bold"/>
+                                </p:column>
+                                <p:column filterBy="#{solicitud.idUsuario.toString}" filterMatchMode="contains">
+                                    <f:facet name="header">Usuario que solicita:</f:facet>
+                                    <h:outputText value="#{solicitud.idUsuario.toString().toUpperCase()}"/>
+                                </p:column>
+                                <p:column filterMatchMode="contains" styleClass="wrap">
+                                    <f:facet name="header">Descripcion de la solicitud</f:facet>
+                                    <h:outputText value="#{solicitud.descripcion}"/>
+                                </p:column>
+                                <p:column filterMatchMode="contains" styleClass="wrap">
+                                    <f:facet name="header">Descripcion del refrigerio</f:facet>
+                                    <h:outputText value="#{solicitud.descRefrigerio}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">Fecha de reserva</f:facet>
+                                    <h:outputText value="Fecha incio: "/>
+                                    <h:outputText value="#{solicitud.fechaAlquiler}">
+                                       <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                    </h:outputText>
+                                    <br></br>
+                                    <h:outputText value="Fecha fin: "/>
+                                    <h:outputText value="#{solicitud.fechaFinAlquiler}">
+                                       <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">Horario:</f:facet>
+                                    <h:outputText value="Hora incio: "/>
+                                    <h:outputText value="#{solicitud.horaInicioAlquiler}">
+                                       <f:convertDateTime pattern="hh:mm a"/>
+                                    </h:outputText>
+                                    <br></br>
+                                    <h:outputText value="Hora fin: "/>
+                                    <h:outputText value="#{solicitud.horaFinAlquiler}">
+                                       <f:convertDateTime pattern="hh:mm a"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column width="50">
+                                    <p:commandButton process="@this" actionListener="#{solicitudEdificioController.prepareCrearRespuesta}"  update="solicitud-calendario:form-createRespuesta" oncomplete="PF('editSolicitud').show();" id="estadoSolicitud" icon="ui-icon-check">
+                                        <f:attribute name="solicitud" value="#{solicitud}"/>
+                                        <f:setPropertyActionListener value="#{solicitud}" target="#{solicitudEdificioController.solicitudEdificioActual}"/>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:outputPanel>
+                </p:outputPanel>
+            </p:dialog>
+            <!--FORMULARIO PARA DAR RESPUESTA A LAS SOLICITUDES-->
+            <p:dialog id="edit" widgetVar="editSolicitud" header="Cambiar estado de solicitud" modal="true"  width="440">
+                <h:outputText class="help-block" value="Cambia el estado de las solicitudes llenando el siguiente formulario"/>
+                <p:outputPanel id="form-createRespuesta">
+                    <h:form id="form-respuesta">
+                        <div class="form-group"> 
+                            <h:outputLabel value="Estado de solicitud la reserva:"/>
+                            <p:selectOneMenu id="idSeccionDaño" value="#{solicitudEdificioController.solicitudEdificioActual.idEstadoSolicitudEdificio}"  
+                                             required="true" style="width: 100%; border: none;" converter="estadoSolicitudEdificioConverter" 
+                                             requiredMessage="Por favor ingresar el estado">
+                                    <f:selectItem/>
+                                    <f:selectItems value="#{estadoSolicitudEdificioController.estadoSolicitudEdificioList}" var="estado" itemValue="#{estado}"/>  
+
+                            </p:selectOneMenu>
+                           <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                        </div> 
+                        <div class="form-group">  
+                            <h:outputLabel value="Descripción de respuesta de la solicitud:"  />
+                            <textarea placeholder="Escribe una breve descripción" class="form-control" jsf:id="descripcionInputText" jsf:value="#{solicitudEdificioController.respuestaSolicitudActual.descripcion}" 
+                                      type="text" required="true" style="resize: none"
+                                      jsf:requiredMessage="Por favor ingrese la descripción">
+                            </textarea>
+                            <p:message id="descripcionMessage" for="descripcionInputText" styleClass="error"/>
+                        </div>
+                        <div class="row" >
+                            <div class="col-md-6">
+                                <p:commandButton class="btn btn-actividad btn-block col-md-6" oncomplete="handleSubmit(args,'editSolicitud')" process="solicitud-calendario:form-createRespuesta" value="Enviar solicitud" update="solicitud-calendario:calendario solicitud-calendario:solicitud-list" action="#{solicitudEdificioController.addRespuesta}">
+                                    <f:ajax execute="@this solicitud-calendario" render="solicitud-calendario"/>
+                                </p:commandButton>
+                            </div>
+                            <div class="col-md-6">
+                                <h:button class="btn btn-block col-md-6" style="background: orange; color: white" value="Cancelar" outcome="verCalendarioReserva"/>
+                            </div>
+                        </div>
+                    </h:form>
+                </p:outputPanel>
+            </p:dialog>
+            <!--LISTA DE SOLICITUD DE REFRIGERIO-->
+            <p:dialog id="solicitudRefrigerio" widgetVar="solicitudRefrigerio" header="Solicitud de refrigerios" modal="true"  width="1200">
+                <h:outputText class="help-block" value="Listado de solicitudes para refrigerios"/>
+                <p:outputPanel id="solicitudRefrigerio-list">
+                    <p:outputPanel id="refrigeriosTablePanel">
+                        <h:form id="tableRefrigerio-solicitud">
+                            <p:dataTable value="#{solicitudEdificioController.recargarListaSolicitudRefrigerio}" var="solicitud"
+                                         rows="10" id="incidenteTable" 
+                                         paginator="true" emptyMessage="No tiene solicitudes para reservar el auditorio"
+                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="5,10,15">
+                                    <f:facet name="header">
+                                        <h4 class="colorLetra" style="font-weight: bold" >
+
+                                        </h4>
+                                    </f:facet>
+                                <p:column filterBy="#{solicitud.idSeccion.nombreSeccion}"  filterMatchMode="contains">
+                                    <f:facet name="header">Nombre sección:</f:facet>
+                                    <h:outputText value="#{solicitud.idSeccion.nombreSeccion}" style="font-weight: bold"/>
+                                </p:column>
+                                <p:column filterBy="#{solicitud.idUsuario.toString}" filterMatchMode="contains">
+                                    <f:facet name="header">Usuario que solicita:</f:facet>
+                                    <h:outputText value="#{solicitud.idUsuario.toString().toUpperCase()}"/>
+                                </p:column>
+                                <p:column filterMatchMode="contains" styleClass="wrap">
+                                    <f:facet name="header">Descripcion del refrigerio</f:facet>
+                                    <h:outputText value="#{solicitud.descRefrigerio}"/>
+                                </p:column>
+                                <p:column filterMatchMode="contains" styleClass="wrap">
+                                    <f:facet name="header">Descripcion de la reserva</f:facet>
+                                    <h:outputText value="#{solicitud.descripcion}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">Fecha de reserva</f:facet>
+                                    <h:outputText value="Fecha incio: "/>
+                                    <h:outputText value="#{solicitud.fechaAlquiler}">
+                                       <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                    </h:outputText>
+                                    <br></br>
+                                    <h:outputText value="Fecha fin: "/>
+                                    <h:outputText value="#{solicitud.fechaFinAlquiler}">
+                                       <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">Horario:</f:facet>
+                                    <h:outputText value="Hora incio: "/>
+                                    <h:outputText value="#{solicitud.horaInicioAlquiler}">
+                                       <f:convertDateTime pattern="hh:mm a"/>
+                                    </h:outputText>
+                                    <br></br>
+                                    <h:outputText value="Hora fin: "/>
+                                    <h:outputText value="#{solicitud.horaFinAlquiler}">
+                                       <f:convertDateTime pattern="hh:mm a"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column width="50">
+                                    <p:commandButton process="@this" actionListener="#{solicitudEdificioController.prepareCrearRespuestaRefrigerio}"  update="solicitud-calendario:form-createRespuestaRefrigerio" oncomplete="PF('editSolicitudRefrigerio').show();" id="estadoSolicitud" icon="ui-icon-check">
+                                        <f:attribute name="solicitud" value="#{solicitud}"/>
+                                        <f:setPropertyActionListener value="#{solicitud}" target="#{solicitudEdificioController.solicitudEdificioActual}"/>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:outputPanel>
+                </p:outputPanel>
+            </p:dialog>
+            <!--FORMULARIO PARA DAR RESPUESTA A LAS SOLICITUDES DE REFRIGERIOS-->
+            <p:dialog id="editRefrigerio" widgetVar="editSolicitudRefrigerio" header="Cambiar estado de solicitud" modal="true"  width="440">
+                <h:outputText class="help-block" value="Cambia el estado de las solicitudes llenando el siguiente formulario"/>
+                <p:outputPanel id="form-createRespuestaRefrigerio">
+                    <h:form id="form-respuestaRefrigerio">
+                        <div class="form-group"> 
+                            <h:outputLabel value="Estado de solicitud la reserva:"/>
+                            <p:selectOneMenu id="idSeccionDaño" value="#{solicitudEdificioController.solicitudEdificioActual.idEstadoSolicitudRefrigerio}"  
+                                             required="true" style="width: 100%; border: none;" 
+                                             requiredMessage="Por favor ingresar el estado">
+                                    <f:selectItem/>
+                                    <f:selectItems value="#{estadoSolicitudRefrigerioController.estadoSolicitudRefrigerioList}" var="estado" itemValue="#{estado}"/>  
+
+                            </p:selectOneMenu>
+                           <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                        </div> 
+                        <div class="form-group">  
+                            <h:outputLabel value="Descripción de respuesta de la solicitud:"  />
+                            <textarea placeholder="Escribe una breve descripción" class="form-control" jsf:id="descripcionInputText" jsf:value="#{solicitudEdificioController.respuestaRefrigerioActual.descripcion}" 
+                                      type="text" required="true" style="resize: none"
+                                      jsf:requiredMessage="Por favor ingrese la descripción">
+                            </textarea>
+                            <p:message id="descripcionMessage" for="descripcionInputText" styleClass="error"/>
+                        </div>
+                        <div class="row" >
+                            <div class="col-md-6">
+                                <p:commandButton class="btn btn-actividad btn-block col-md-6" oncomplete="handleSubmit(args,'editSolicitudRefrigerio')" process="solicitud-calendario:form-createRespuestaRefrigerio" value="Enviar solicitud" update="solicitud-calendario:calendario solicitud-calendario:solicitudRefrigerio-list" action="#{solicitudEdificioController.addRespuestaRefrigerio}">
+                                    <f:ajax execute="@this solicitud-calendario" render="solicitud-calendario"/>
+                                </p:commandButton>
+                            </div>
+                            <div class="col-md-6">
+                                <h:button class="btn btn-block col-md-6" style="background: orange; color: white" value="Cancelar" outcome="verCalendarioReserva"/>
+                            </div>
+                        </div>
+                    </h:form>
+                </p:outputPanel>
+            </p:dialog>
+            <!--LISTA DE SOLICITUDES ACEPTADAS-->
+            <p:dialog id="solicitudAceptadas" widgetVar="solicitudAceptadas" header="Lista de Solicitudes" modal="true"  width="1200">
+                <h:outputText class="help-block" value="Listado de solicitudes para atender"/>
+                <p:outputPanel id="solicitudAceptadas-list">
+                    <p:outputPanel id="solicitudTablePanel">
+                        <h:form id="tableAceptadas-solicitud">
+                            <p:dataTable value="#{solicitudEdificioController.recargarListaSolicitudDia}" var="solicitud"
+                                         rows="10" id="incidenteTable" 
+                                         paginator="true" emptyMessage="No tiene solicitudes para atender"
+                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="5,10,15">
+                                    <f:facet name="header">
+                                        <h4 class="colorLetra" style="font-weight: bold" >
+
+                                        </h4>
+                                    </f:facet>
+                                <p:column filterBy="#{solicitud.idSeccion.nombreSeccion}"  filterMatchMode="contains">
+                                    <f:facet name="header">Nombre sección:</f:facet>
+                                    <h:outputText value="#{solicitud.idSeccion.nombreSeccion}" style="font-weight: bold"/>
+                                </p:column>
+                                <p:column filterBy="#{solicitud.idUsuario.toString}" filterMatchMode="contains">
+                                    <f:facet name="header">Usuario que solicita:</f:facet>
+                                    <h:outputText value="#{solicitud.idUsuario.toString().toUpperCase()}"/>
+                                </p:column>
+                                <p:column filterMatchMode="contains" styleClass="wrap">
+                                    <f:facet name="header">Descripcion de la reserva</f:facet>
+                                    <h:outputText value="#{solicitud.descripcion}"/>
+                                </p:column>
+                                <p:column filterMatchMode="contains" styleClass="wrap">
+                                    <f:facet name="header">Descripcion del refrigerio</f:facet>
+                                    <h:outputText value="#{solicitud.descRefrigerio}"/>
+                                </p:column>
+                                 <p:column>
+                                    <f:facet name="header">Estado solicitud de refrigerio:</f:facet>
+                                    <h:outputText value="#{solicitud.idEstadoSolicitudRefrigerio.nombre}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">Fecha de reserva</f:facet>
+                                    <h:outputText value="Fecha incio: "/>
+                                    <h:outputText value="#{solicitud.fechaAlquiler}">
+                                       <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                    </h:outputText>
+                                    <br></br>
+                                    <h:outputText value="Fecha fin: "/>
+                                    <h:outputText value="#{solicitud.fechaFinAlquiler}">
+                                       <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">Horario:</f:facet>
+                                    <h:outputText value="Hora incio: "/>
+                                    <h:outputText value="#{solicitud.horaInicioAlquiler}">
+                                       <f:convertDateTime pattern="hh:mm a"/>
+                                    </h:outputText>
+                                    <br></br>
+                                    <h:outputText value="Hora fin: "/>
+                                    <h:outputText value="#{solicitud.horaFinAlquiler}">
+                                       <f:convertDateTime pattern="hh:mm a"/>
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:outputPanel>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+        <script type="text/javascript">
+            PrimeFaces.locales['tr'] = {
+                closeText: 'Cerrar',
+                prevText: 'Atras',
+                nextText: 'Adelante',
+                currentText: 'Hoy',
+                monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+                    'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+                monthNamesShort: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+                    'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+                dayNames: ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'],
+                dayNamesShort: ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'],
+                dayNamesMin: ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'],
+                weekHeader: 'Semanas',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                month: 'Mes',
+                week: 'Semana',
+                day: 'Dia',
+                allDayText : 'Todo el dia'
+            };
+        </script>
+        <style type="text/css">
+            .value {
+                width: 900px;
+            }
+        </style>
+        </ui:define>
+    </ui:composition>
+</html>

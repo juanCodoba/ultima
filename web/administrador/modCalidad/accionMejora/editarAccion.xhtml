@@ -1,0 +1,306 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminCalidoso}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="#{formatosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-excel-o"></i> 
+                                <span>Administrar Registros</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span>Administrar Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListPermiso}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-user"></i>
+                                <span>Permisos Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li class="active">
+                              <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-spinner" aria-hidden="true"></i>
+                                <span>Administrar Acciones</span>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{calidadPlanAccionController.usuarioActual}"/>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{calidadGestionConocimientoController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                                <span>Administrar Conocimiento</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+                    <p:separator rendered="#{loginController.adminCalidoso}"/>
+                    <li style="margin-top: 20px">
+                            <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                    <li>
+                        <h:commandLink action="#{formatosController.prepareListUser}">
+                            <i class="fa fa-file"></i>
+                            <span>Lista de registros</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{documentosController.prepareListUser}" rendered="#{loginController.userCaliadad}">
+                            <i class="fa fa-book"></i>
+                            <span>Lista de documentos</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadGestionConocimientoController.prepareList}">
+                            <i class="fa fa-lightbulb-o"></i>
+                            <span>Gestión del conocimiento</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/compromisosComite">
+                            <i class="fa fa-users"></i>
+                            <span>Compromisos del comité</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadPlanAccionController.list}">
+                            <i class="fa fa-cogs"></i>
+                            <span>Acciones de mejora</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/informacionCalidad">
+                            <i class="fa fa-question"></i>
+                            <span>¿Que es calidad?</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/horizonteInstitucional">
+                            <i class="fa fa fa-eye"></i>
+                            <span>Horizonte institucional</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Crear acción de mejora</ui:define>   
+        <ui:define name="title2">Aquí puedes crear las acciones de mejora del proceso que lideras</ui:define> 
+        <ui:define name="body">
+            <h:form id="crear-Form">
+                <p:growl id="growl" showDetail="true" life="2000"/>
+                <div class="row">
+                    <h:panelGroup id="encabezado">
+                        <div class="col-md-12 form-group">
+                            <h:outputLabel value="Subproceso:" />
+                            <p:selectOneMenu id="divPanel" style="width: 100%" filter="true" filterMatchMode="contains" value="#{calidadPlanAccionController.planAccionActual.idSubproceso}">
+                                <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
+                                <f:selectItems value="#{subprocesosController.listaSubprocesosSelectOne}" var="subprocesos" itemValue="#{subprocesos}"/>  
+                            </p:selectOneMenu>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <h:outputLabel value="Nombre del plan de acción:"  />
+                            <p:inputText placeholder="Título" 
+                                             class="form-control" 
+                                             id="titulo" 
+                                             value="#{calidadPlanAccionController.planAccionActual.tituloPlan}" 
+                                         required="true"
+                                         requiredMessage="Por favor ingrece el titulo">
+                                         <f:ajax execute="@this" render="descripcionMessage"/>
+                            </p:inputText>
+                            <p:message id="tituloMessage" for="titulo" styleClass="error"/>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <h:outputLabel value="Descripción de la Situación:"  />
+                            <p:inputTextarea placeholder="Quienes diligencian el formato" 
+                                             class="form-control" 
+                                             id="descripcion" 
+                                             value="#{calidadPlanAccionController.planAccionActual.descripcion}" 
+                                         required="true"
+                                         requiredMessage="Por favor ingrece la descripción de la NO conformidad">
+                                         <f:ajax execute="@this" render="descripcionMessage"/>
+                            </p:inputTextarea>
+                            <p:message id="descripcionMessage" for="descripcion" styleClass="error"/>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <h:outputLabel value="Origen de la acción de mejora:"  />
+                            <p:selectOneMenu id="advanced" style="width: 100%"
+                                              value="#{calidadPlanAccionController.planAccionActual.origenAccion}"
+                                              filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
+                                <f:selectItem itemLabel="Auditoria interna" itemValue="Auditoria interna" />
+                                <f:selectItem itemLabel="Revisión de indicadores" itemValue="Revisión de indicadores" />
+                                <f:selectItem itemLabel="Auditoria externa" itemValue="Auditoria externa" />
+                                <f:selectItem itemLabel="Revisión Dirección" itemValue="Revisión dirección" />
+                                <f:selectItem itemLabel="Servicio NO conforme" itemValue="Servicio NO conforme"/>
+                                <f:selectItem itemLabel="Queja" itemValue="Queja"/>
+                                <f:selectItem itemLabel="Gestión de riesgos" itemValue="Gestion de riesgos"/>
+                                <f:selectItem itemLabel="Requerimiento propio del proceso" itemValue="Requerimiento propio del proceso"/>
+                            </p:selectOneMenu>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <h:outputLabel value="Tipo de acción:"  />
+                            <p:selectOneMenu id="tipo" style="width: 100%"
+                                              value="#{calidadPlanAccionController.planAccionActual.tipoPlan}">
+                                <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
+                                <f:selectItem itemLabel="Acción correctiva" itemValue="Acción correctiva" />
+                                <f:selectItem itemLabel="Acción preventiva" itemValue="Acción preventiva" />
+                            </p:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+                </div>
+                <div style="position: absolute; bottom: 4em  ">
+                    <div class="container row">
+                        <div class="col-sm-5 form-group">
+                            <p:commandButton class="btn btn-primary btn-block"
+                                             value="Editar"
+                                             ajax="false"
+                                             icon="fa fa-save"
+                                             process="@this crear-Form"
+                                             action="#{calidadPlanAccionController.update}"
+                                             onclick="onSubmitButton();"/>
+                        </div>
+                        <div class="col-sm-5 form-group">    
+                            <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="/administrador/modCalidad/accionMejora/listaAccion"/>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+            <h:form id="causa">
+                <div class="panel panel-primary form-group"  style="border-radius: 0">
+                    <div class="panel-heading"  style="border-radius: 0"><h4 class="letra-panelDescriEdu">Identificación y análisis de causas</h4></div>
+                    <div class="panel-body">
+                        <h:panelGroup id="agregarFuncion">
+                            <div class="row">
+                                <div class="col-md-9 form-group">
+                                    <h:outputLabel value="¿Por qué pasó la situación?"  />
+                                    <p:inputTextarea  style="width: 100%"
+                                                      id="idManual" 
+                                                      value="#{calidadPlanAccionController.causaActual.descripcion}">
+                                    </p:inputTextarea>
+                                    <p:message id="idManualMessage" for="idManual" styleClass="error"/>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <h:commandButton styleClass="boton-prime" 
+                                                     action="#{calidadPlanAccionController.addCausa}" 
+                                                     style="margin-top: 25px;"
+                                                     value="Agregar">
+                                        <f:ajax execute="@this idManual" render="agregarFuncion"/>
+                                    </h:commandButton>
+                                </div>
+                            </div>
+                            <h:panelGroup id="itemsGroup">
+                                <p:dataTable  id="tablaFuncion" emptyMessage="No se encontraron registros" value="#{calidadPlanAccionController.listaCausaActual}" var="item">
+                                    <p:column headerText="Referencia" >
+                                        <h:outputText value="#{item.descripcion}" style="font-weight: bold"/>
+                                    </p:column>
+                                    
+                                    <p:column width="50">
+                                        <p:commandButton icon="ui-icon-trash" 
+                                                         action="#{calidadPlanAccionController.deleteCausa}"
+                                                        process="@this" 
+                                                        update="tablaFuncion causa:agregarFuncion">
+                                            <f:ajax execute="@this" render="idManual"/>
+                                            <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.causaActual}"/>
+                                        </p:commandButton>
+                                   </p:column>
+                               </p:dataTable>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </h:form>
+            <h:form id="acciones" style="margin-bottom: 5em">
+                <div class="panel panel-primary form-group"  style="border-radius: 0">
+                    <div class="panel-heading"  style="border-radius: 0"><h4 class="letra-panelDescriEdu">Acciones a Implementar</h4></div>
+                    <div class="panel-body">
+                        <h:panelGroup id="agregarFuncion">
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    <h:outputLabel value="Actividad:"  />
+                                    <p:inputTextarea  style="width: 100%"
+                                                      id="actividad" 
+                                                      value="#{calidadPlanAccionController.accionImplementarActual.descripcion}">
+                                    </p:inputTextarea>
+                                    <p:message id="actividadMessage" for="actividad" styleClass="error"/>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <h:outputLabel value="Responsable:"  />
+                                    <p:inputText  style="width: 100%"
+                                                      id="responsable" 
+                                                      value="#{calidadPlanAccionController.accionImplementarActual.responsable}">
+                                    </p:inputText>
+                                    <p:message id="idManualMessage" for="responsable" styleClass="error"/>
+                                </div>
+                                 <div class="col-md-3 form-group">
+                                    <h:outputLabel value="Fecha de Compromiso:"  />
+                                    <p:calendar id="fecha" locale="es"
+                                                value="#{calidadPlanAccionController.accionImplementarActual.fecha}"
+                                          pattern="MMMM dd, yyyy"/>
+                                    <p:message id="fechaMessage" for="fecha" styleClass="error"/>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <h:commandButton styleClass="boton-prime" 
+                                                     action="#{calidadPlanAccionController.addAccion}" 
+                                                     style="margin-top: 25px;"
+                                                     value="Agregar">
+                                        <f:ajax execute="@this actividad responsable fecha" render="agregarFuncion"/>
+                                    </h:commandButton>
+                                </div>
+                            </div>
+                            <h:panelGroup id="itemsGroup">
+                                <p:dataTable  id="tablaFuncion" emptyMessage="No se encontraron registros" value="#{calidadPlanAccionController.listaAccionImplementarActual}" var="item">
+                                    <p:column headerText="Actividad" >
+                                        <h:outputText value="#{item.descripcion}" style="font-weight: bold"/>
+                                    </p:column>
+                                    <p:column headerText="Responsable" >
+                                        <h:outputText value="#{item.responsable}" style="font-weight: bold"/>
+                                    </p:column>
+                                    <p:column headerText="Fecha" >
+                                        <h:outputText value="#{item.fecha}" style="font-weight: bold">
+                                            <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column width="50">
+                                        <p:commandButton icon="ui-icon-trash" 
+                                                         action="#{calidadPlanAccionController.deleteAccion}"
+                                                        process="@this" 
+                                                        update="tablaFuncion acciones:agregarFuncion">
+                                            <f:ajax execute="@this" render="actividad responsable fecha"/>
+                                            <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.accionImplementarActual}"/>
+                                        </p:commandButton>
+                                   </p:column>
+                               </p:dataTable>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

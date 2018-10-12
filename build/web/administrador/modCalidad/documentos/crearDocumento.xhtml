@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminCalidoso}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="#{formatosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-excel-o"></i> 
+                                <span>Administrar Registros</span>
+                            </h:commandLink>  
+                        </li>
+                        <li class="active">
+                            <h:commandLink action="#{documentosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span>Administrar Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListPermiso}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-user"></i>
+                                <span>Permisos Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                          <li>
+                              <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-spinner" aria-hidden="true"></i>
+                                <span>Administrar Acciones</span>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{calidadPlanAccionController.usuarioActual}"/>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{calidadGestionConocimientoController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                                <span>Administrar Conocimiento</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+                    <p:separator rendered="#{loginController.adminCalidoso}"/>
+                    <li style="margin-top: 20px">
+                            <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                    <li>
+                        <h:commandLink action="#{formatosController.prepareListUser}">
+                            <i class="fa fa-file"></i>
+                            <span>Lista de registros</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{documentosController.prepareListUser}" rendered="#{loginController.userCaliadad}">
+                            <i class="fa fa-book"></i>
+                            <span>Lista de documentos</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadGestionConocimientoController.prepareList}">
+                            <i class="fa fa-lightbulb-o"></i>
+                            <span>Gestión del conocimiento</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadPlanAccionController.list}">
+                            <i class="fa fa-cogs"></i>
+                            <span>Acciones de mejora</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/informacionCalidad">
+                            <i class="fa fa-question"></i>
+                            <span>¿Que es calidad?</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/horizonteInstitucional">
+                            <i class="fa fa fa-eye"></i>
+                            <span>Horizonte institucional</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Crear nuevo documento(procedimiento/instructivo)</ui:define>        
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="5000"/>
+            <h:form id="formulario-crearDocu">
+                <div class="form-group">
+                    <h:outputLabel value="Codigo del documento:"  />
+                    <input  placeholder="Codigo unico del Documento" class="form-control" jsf:id="codInputText" jsf:value="#{documentosController.documentosActual.codigoDocumento}" 
+                                 type="text" required="true"
+                                 jsf:requiredMessage="Por favor ingrese el codigo del documento"> 
+                                 <f:ajax execute="@this" render="codMessage"/>
+                    </input>
+                    <p:message id="codMessage" for="codInputText" styleClass="error"/>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Proceso:" />
+                    <h:selectOneMenu class="form-control" id="idSelectProceso" value="#{documentosController.documentosActual.idProceso}" 
+                                     requiredMessage="Por favor ingrese el proceso al que pertenece el documento" required="true">
+                            <f:selectItem itemLabel="Seleccionar uno.." />
+                            <f:selectItems value="#{procesosController.listaProcesos}" var="procesos" itemValue="#{procesos}"/>  
+ 
+                            <f:ajax execute="@this" render="procesoMessage"/>
+                    </h:selectOneMenu>
+                    <p:message id="procesoMessage" for="idSelectProceso" styleClass="error"/>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Nombre del documento:"  />
+                    <input placeholder="Nombre" class="form-control" jsf:id="documentoInputText" jsf:value="#{documentosController.documentosActual.nombreDocumento}" 
+                                 type="text" required="true"
+                                 jsf:validatorMessage="El nombre del documento no puede tener ningún tipo de símbolo ni acento"
+                                 jsf:requiredMessage="Por favor ingrese el nombre del documento">
+                                 <f:ajax execute="@this" render="documentoMessage"/>
+                                 <f:validateRegex pattern="[a-zA-Z 1234567890]*"/>
+                    </input>
+                    <p:message id="documentoMessage" for="documentoInputText" styleClass="error"/>
+                </div>  
+                <div class="row">
+                    <div class="col-md-4">
+                        <h:outputLabel value="Versión:  "/>
+                        <div class="form-group">  
+                            <p:inputNumber  decimalPlaces="0" requiredMessage="Ingresa la versión del documento" required="true" 
+                                       id="versionSpinner" class="form-group" 
+                                       value="#{documentosController.documentosActual.version}" 
+                                       style="width: 21em"/>
+                            <p:message id="versionMessage" for="versionSpinner" styleClass="error"/>
+                        </div> 
+                    </div>
+                    <div class="col-md-8">
+                        <h:outputLabel value="Fecha actualización del documento:"/>
+                        <p:calendar id="fechaActualizacion" 
+                                    required="true" 
+                                requiredMessage="Ingresa la fecha de actualizacion del documento" 
+                                value="#{documentosController.documentosActual.fecha}" pattern="MM/dd/yyyy">
+                        <f:ajax execute="fechaActualizacion" 
+                                render="msgFechaActualizacion"/>
+                        </p:calendar>
+                        <p:message id="msgFechaActualizacion" for="fechaActualizacion"  styleClass="error"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Link de acceso al documento:"  />
+                    <input placeholder="Acceso del documento" class="form-control" 
+                           jsf:id="linkInputText" 
+                           jsf:value="#{documentosController.documentosActual.linkDocumento}" 
+                        type="text" required="true"
+                        jsf:requiredMessage="Ingresa el link de acceso del documento">
+                        <f:ajax execute="@this" render="linkMessage"/>
+                    </input>
+                    <p:message id="linkMessage" for="linkInputText" styleClass="error"/>
+                </div>  
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <p:commandButton class="btn btn-primary btn-block"
+                                         ajax="false"
+                                         value="Guardar"
+                                         action="#{documentosController.addDocumento}"
+                                         onclick="onSubmitButton();"/>
+                    </div>
+                    <div class="col-sm-6 form-group">    
+                        <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="listaDocumento"/>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

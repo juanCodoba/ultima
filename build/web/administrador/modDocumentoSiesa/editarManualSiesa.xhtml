@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modDocumentoSiesa/listaDocumentoSiesa">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{manualSiesaController.prepareCreate}">
+                                <i class="fa fa-users"></i> 
+                                <span>Crear manual</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Editar manual</ui:define>        
+        <ui:define name="body">
+            <h:form enctype="multipart/form-data">
+                 <div class="form-group">
+                    <h:outputLabel class="col-md-5 help-block" value="Codigo del manual"  />
+                    <div class="form-control-static">
+                        <h:outputLabel value="#{manualSiesaController.manualSiesaActual.codigo.toUpperCase()}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel class="col-md-5 help-block" value="Nombre del manual"  />
+                    <div class="form-control-static">
+                        <h:outputLabel value="#{manualSiesaController.manualSiesaActual.nombre.toUpperCase()}"/>
+                    </div>
+                </div> 
+                <div class="form-group">
+                    <h:outputLabel class="col-md-5 help-block" value="Suit"  />
+                    <div class="form-control-static">
+                        <h:outputLabel value="#{manualSiesaController.manualSiesaActual.idSuit.nombreSuit.toUpperCase()}"/>
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <h:outputLabel class="col-md-5 help-block" value="Proceso"  />
+                    <div class="form-control-static">
+                        <h:outputLabel value="#{manualSiesaController.manualSiesaActual.idSubprocesoSuit.nombreSubprocesoSuit.toUpperCase()}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel class="col-md-5 help-block" value="Versión:"  />
+                    <div class="form-control-static">
+                        <h:outputLabel value="#{manualSiesaController.manualSiesaActual.version}"/>
+                    </div>
+                </div>
+                <p:separator />
+                 <div class="row">
+                    <div class="col-md-5">
+                        <h:outputLabel value="Versión:  "/>
+                        <div class="form-group">  
+                            <p:inputNumber style="width: 100%" id="version" decimalPlaces="0" value="#{manualSiesaController.manualSiesaActual.version}"/> 
+                        </div> 
+                    </div>
+                    
+                </div>
+                
+                
+                <div class="form-group" >
+                    <h:outputLabel value="Cargar documento:" style="margin-top: 2em !important" />
+                    <p:fileUpload  cancelLabel="Cancelar" uploadLabel="Cargar documento" label="Examinar" mode="advanced" auto="true"  fileLimit="1" invalidFileMessage="Solo se aceptan archivos con formatos xls, pdf o doc"
+                                   fileLimitMessage="Solo se puede cargar un documento a la vez" allowTypes="/(\.|\/)(pdf)$/" fileUploadListener="#{manualSiesaController.guardarManual}"/>
+                </div>
+                 <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <p:commandButton class="btn btn-primary btn-block"
+                                ajax="false"
+                                value="Actualizar"
+                                action="#{manualSiesaController.updateManual}"
+                                onclick="onSubmitButton();"/>
+                    </div>
+                    <div class="col-sm-6 form-group">    
+                        <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="/usuario/modDocumentoSiesa/listaDocumentoSiesa"/>
+                    </div>
+                </div>
+                
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+
+

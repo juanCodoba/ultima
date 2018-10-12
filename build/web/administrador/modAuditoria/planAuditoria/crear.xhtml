@@ -1,0 +1,326 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li style="margin-top: 20px">
+                            <h:commandLink action="/usuario/modAuditoria/planAuditoria/lista">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{auPlanAuditoriaController.prepareCreateAuInterna}"
+                                           rendered="#{loginController.auditor}">
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{auPlanAuditoriaController.usuarioActual}"/>
+                                <i class="fa fa-file-excel-o"></i> 
+                                <span>Crear programa de Auditoría</span>
+                            </h:commandLink>  
+                        </li>
+      
+                        <li rendered="#{loginController.admin}">
+                            <h:commandLink action="#{auPeriodoPlanAuditoriaController.prepareList}"
+                                           rendered="#{loginController.admin}">
+                                <i class="fa fa-list"></i> 
+                                <span>Periodos auditoría</span>
+                            </h:commandLink>  
+                        </li>
+                        <li class="active">
+                            <h:commandLink action="#{auPlanAuditoriaController.prepareCreate}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{auPlanAuditoriaController.usuarioActual}"/>
+                                <i class="fa fa-file-excel-o"></i> 
+                                <span>Crear plan de auditoría</span>
+                            </h:commandLink>  
+                        </li>
+                        <li style="margin-top: 20px">
+                            <h:commandLink action="/usuario/modulos">
+                                <i class="fa fa-th"></i>
+                                <span>Modulos del sistema</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Crear plan de auditoría</ui:define>   
+        <ui:define name="title2">Aquí puedes crear el plan de auditoría</ui:define> 
+        <ui:define name="body">
+            <h:form id="crear-Form">
+                <p:growl id="growl" showDetail="true" life="2000"/>
+                <div class="row">
+                    <h:panelGroup id="encabezado">
+                        <div class="col-md-12 form-group">
+                            <h:outputLabel value="Titulo de la áuditoría:"  />
+                            <p:inputText placeholder="Titulo" 
+                                         class="form-control" 
+                                         id="titulo" 
+                                         value="#{auPlanAuditoriaController.planAuditoriaActual.titulo}" 
+                                         required="true"
+                                         requiredMessage="Por favor ingrece el titulo">
+                                <f:ajax execute="@this" render="tituloMessage"/>
+                            </p:inputText>
+                            <p:message id="tituloMessage" for="titulo" styleClass="error"/>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <h:outputLabel value="Tipo de auditoría:"  />
+                            <p:selectOneMenu  style="width: 100%" value="#{auPlanAuditoriaController.planAuditoriaActual.tipoAuditoria}">
+                                <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}" />
+                                <f:selectItem itemLabel="Auditoría interna calidad" itemValue="Auditoría interna calidad" />
+                                <f:selectItem itemLabel="Auditoría externa ente certificador" itemValue="Auditoría externa ente certificador" />
+                                <f:selectItem itemLabel="Auditoría de control interno" itemValue="Auditoría de control interno" />
+                            </p:selectOneMenu>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <h:outputLabel value="Objetivo del plan de auditoría:"  />
+                            <p:inputTextarea placeholder="Objetivo" 
+                                             class="form-control" 
+                                             id="objetivo" 
+                                             value="#{auPlanAuditoriaController.planAuditoriaActual.objetivo}" 
+                                             required="true"
+                                             requiredMessage="Por favor ingrece el obejtivo">
+                                <f:ajax execute="@this" render="objetivoMessage"/>
+                            </p:inputTextarea>
+                            <p:message id="objetivoMessage" for="objetivo" styleClass="error"/>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <h:outputLabel value="Alcance de la auditoria:"  />
+                            <p:inputTextarea placeholder="Descripción" 
+                                             class="form-control" 
+                                             id="alcance" 
+                                             value="#{auPlanAuditoriaController.planAuditoriaActual.alcance}" 
+                                             required="true"
+                                             requiredMessage="Por favor ingrece el alcance de la auditoría ">
+                                <f:ajax execute="@this" render="alcanceMessage"/>
+                            </p:inputTextarea>
+                            <p:message id="alcanceMessage" for="alcance" styleClass="error"/>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <h:outputLabel value="Criterio:"  />
+                            <p:inputTextarea placeholder="criterio" 
+                                             class="form-control" 
+                                             id="criterio" 
+                                             value="#{auPlanAuditoriaController.planAuditoriaActual.criterios}" 
+                                             required="true"
+                                             requiredMessage="Por favor ingrece el criterio de la auditoría ">
+                                <f:ajax execute="@this" render="criterioMessage"/>
+                            </p:inputTextarea>
+                            <p:message id="criterioMessage" for="criterio" styleClass="error"/>
+                        </div>
+                    </h:panelGroup>
+                </div>
+                <div style="position: absolute; bottom: 7em  ">
+                    <div class="container row">
+                        <div class="col-sm-5 form-group">
+                            <p:commandButton class="btn btn-primary btn-block"
+                                             value="Guardar"
+                                             ajax="false"
+                                             icon="fa fa-save"
+                                             process="@this crear-Form"
+                                             action="#{auPlanAuditoriaController.add}"
+                                             onclick="onSubmitButton();"/>
+                        </div>
+                        <div class="col-sm-5 form-group">    
+                            <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="/usuario/modAuditoria/planAuditoria/lista"/>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+            <h:form id="causa">
+                <div class="panel panel-primary form-group"  style="border-radius: 0;margin-bottom: 10em">
+                    <div class="panel-heading"  style="border-radius: 0; "><h4 class="letra-panelDescriEdu">Agregar proceso a auditar</h4></div>
+                    <div class="panel-body">
+                        <h:panelGroup id="agregarFuncion">
+                            <div class="row">
+
+                                <div class="col-md-2 form-group">
+                                    <h:outputLabel value="Fecha:"  />
+                                    <p:calendar id="fechaAuditoria" locale="es"
+                                                value="#{auPlanAuditoriaController.procesoEvaluadoActual.fecha}"
+                                                pattern="MMMM dd, yyyy"/>
+                                    <p:message id="fechaAuditoriaMessage" for="fechaAuditoria" styleClass="error"/>
+                                </div>
+                                <div class="col-md-1 form-group">
+                                    <h:outputLabel value="Hora:"/>
+                                    <p:calendar id="horaAuditoria"
+                                                value="#{auPlanAuditoriaController.procesoEvaluadoActual.hora}"
+                                                pattern="hh:mm a" timeOnly="true"  required="true"   
+                                                requiredMessage="Ingresa la hora">
+                                    </p:calendar>
+                                    <h:message id="msgHoraAuditoria" for="horaAuditoria"  styleClass="error"/>
+                                </div>
+                                <div class="col-md-1 form-group">
+                                    <h:outputLabel value="Hora fin:"/>
+                                    <p:calendar id="horaFinAuditoria"
+                                                value="#{auPlanAuditoriaController.procesoEvaluadoActual.horaFin}"
+                                                pattern="hh:mm a" timeOnly="true"  required="true"   
+                                                requiredMessage="Ingresa la hora">
+                                    </p:calendar>
+                                    <h:message id="msgHoraFinAuditoria" for="horaFinAuditoria"  styleClass="error"/>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <h:outputLabel value="Auditado:" />
+                                    <p:selectOneMenu id="auditado"
+                                                     converter="usuarioConverter"
+                                                     style="width: 100%"
+                                                     filter="true"
+                                                     filterMatchMode="contains"
+                                                     value="#{auPlanAuditoriaController.procesoEvaluadoActual.idAuditado}">
+                                        <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
+                                        <f:selectItems value="#{usuarioController.listaUsuariosEstado}" var="usuario"/>  
+                                    </p:selectOneMenu>
+                                    <p:message id="auditadoMessage" for="auditado" styleClass="error"/>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <h:outputLabel value="Auditores:" />
+                                    <p:selectCheckboxMenu id="auditores"
+                                                          value="#{auPlanAuditoriaController.procesoEvaluadoActual.usuarioList}" 
+                                                          label="Seleccionar"
+                                                          style="width: 100%"
+                                                          filter="true"
+                                                          filterMatchMode="contains"
+                                                          converter="usuarioConverter">
+                                        <f:selectItems value="#{usuarioController.listaUsuariosEstado}" />
+                                    </p:selectCheckboxMenu>
+                                </div>
+                                <div class="col-md-2 form-group">
+                                    <h:commandButton styleClass="boton-prime" 
+                                                     action="#{auPlanAuditoriaController.addProcesoAuditar}" 
+                                                     style="margin-top: 25px"
+                                                     value="Agregar subproceso">
+                                        <f:ajax execute="@this idSubproceso fechaAuditoria horaAuditoria horaFinAuditoria auditado auditores" 
+                                                render="agregarFuncion"/>
+                                    </h:commandButton>
+                                </div>
+                            </div>
+                            <h:panelGroup id="itemsGroup">
+                                <p:dataGrid  emptyMessage="No se encontraron registros" value="#{auPlanAuditoriaController.listaProcesoEvaluado}" var="item" columns="3" layout="grid"
+                                             rows="12" paginator="true" id="tablaFuncion" 
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="6,12,16" >
+                                    <f:facet name="header">
+                                        Subprocesos a evaluar
+                                    </f:facet>
+                                    <p:panel header="Subproceso: #{item.idSubproceso.nombreSubproceso}" >
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h:outputText value="Auditado: " style="font-weight: bold"/>
+                                                <h:outputText value="#{item.idAuditado.toString()}" />
+                                                <br></br>
+                                                <h:outputText value="Fecha: " style="font-weight: bold"/>
+                                                <h:outputText value="#{item.fecha}" >
+                                                    <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                                </h:outputText>
+                                                <br></br>
+                                                <h:outputText value="Hora: " style="font-weight: bold"/>
+                                                <h:outputText value="#{item.hora}">
+                                                    <f:convertDateTime pattern="HH:mm"/>
+                                                </h:outputText>
+                                                <br></br>
+                                                <h:outputText value="Auditores: " style="font-weight: bold"/>
+                                                <p:dataList styleClass="dataList" value="#{item.usuarioList}" var="auditores" emptyMessage="No tiene auditores asignados">
+                                                    <h:outputText value="#{auditores.toString()}"/>
+                                                </p:dataList>
+                                                <h:commandButton value="Quitar"  class="btn btn-primary" action="#{auPlanAuditoriaController.deleteProcesoAuditar}">
+                                                    <f:ajax execute="@this" render="idManual"/>
+                                                    <f:setPropertyActionListener value="#{item}" target="#{auPlanAuditoriaController.procesoEvaluadoActual}"/>
+                                                </h:commandButton>
+                                                <h:commandButton type="button" value="Ver aspectos" style="margin-left: 5px" class="btn btn-primary">
+                                                    <f:attribute name="item" value="#{item}" />
+                                                    <f:setPropertyActionListener value="#{item}" target="#{auPlanAuditoriaController.procesoEvaluadoActualAspecto}"/>
+                                                    <p:ajax listener="#{auPlanAuditoriaController.prepareAspecto}" update=":formCreateVehiculo" oncomplete="PF('dlg2').show();" />
+                                                </h:commandButton>
+                                            </div>
+                                        </div>
+                                    </p:panel>
+                                </p:dataGrid>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </h:form>
+            <p:dialog header="Crear aspecto a evaluar" widgetVar="dlg2" showHeader="false" modal="true" width="50%" height="600px">
+                <h:form id="formCreateVehiculo">
+                    <h:panelGroup id="agregarFuncion">
+                        <div class="container-fluid">
+                            <div class="form-group" style="margin-top: 2em">
+                                Ingresa los aspectos a evaluar de
+                                <h:outputLabel value=" #{auPlanAuditoriaController.procesoEvaluadoActualAspecto.idSubproceso.nombreSubproceso}"/>
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel value="Requisito de norma (Opcional):"  />
+                                <p:inputText placeholder="Requisito" 
+                                             class="form-control" 
+                                             id="requisito" 
+                                             value="#{auPlanAuditoriaController.aspectoEvaluarActual.requisito}" 
+                                             requiredMessage="Por favor ingresar lo solicitado">
+                                    <f:ajax execute="@this" render="requisitoMessage"/>
+                                </p:inputText>
+                                <p:message id="requisitoMessage" for="requisito" styleClass="error"/>
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel value="Aspecto a evaluar:"  />
+                                <p:inputText placeholder="Aspecto" 
+                                             class="form-control" 
+                                             id="aspecto" 
+                                             value="#{auPlanAuditoriaController.aspectoEvaluarActual.aspecto}" 
+                                             required="true"
+                                             requiredMessage="Por favor ingresar lo solicitado">
+                                    <f:ajax execute="@this" render="aspectoMessage"/>
+                                </p:inputText>
+                                <p:message id="aspectoMessage" for="aspecto" styleClass="error"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <h:commandButton styleClass="boton-prime" 
+                                             action="#{auPlanAuditoriaController.addAspectoEvaluar}" 
+                                             value="Agregar">
+                                <f:ajax execute="@this aspecto requisito" 
+                                        render="agregarFuncion tablaFuncion"/>
+                            </h:commandButton> 
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <p:commandButton styleClass="btn btn-danger btn-block" 
+                                             value="Cerrar" 
+                                             oncomplete="PF('dlg2').hide();"
+                                             process="@this"/>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <h:panelGroup id="itemsGroup">
+                                <p:dataTable  id="tablaFuncion" scrollable="true" scrollHeight="250" emptyMessage="No se encontraron registros" value="#{auPlanAuditoriaController.listaAspectoEvaluarProceso}" var="item2">
+                                    <p:column width="100" headerText="Requisito" >
+                                        <h:outputText value="#{item2.requisito}" style="font-weight: bold"/>
+                                    </p:column>
+                                    <p:column headerText="Aspecto a evaluar" >
+                                        <h:outputText value="#{item2.aspecto}" style="font-weight: bold"/>
+                                    </p:column>
+                                    <p:column width="50">
+                                        <p:commandButton id="aspectoEvaluar" icon="ui-icon-trash" 
+                                                         action="#{auPlanAuditoriaController.deleteProcesoAuditar}"
+                                                         process="@this" 
+                                                         update="tablaFuncion causa:agregarFuncion">
+                                            <f:ajax execute="@this" render="idManual"/>
+                                            <f:setPropertyActionListener value="#{item}" target="#{auPlanAuditoriaController.procesoEvaluadoActual}"/>
+                                        </p:commandButton>
+                                        <p:tooltip for="aspectoEvaluar" value="Descargar acta de socialización"/>
+
+                                    </p:column>
+
+                                </p:dataTable>
+                            </h:panelGroup>
+                        </div>
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>
+        </ui:define>
+    </ui:composition>
+</html>

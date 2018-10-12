@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Modulo de Soporte IT para ERP Siesa</ui:define>  
+        <ui:define name="title2">Aqui debes de reportar todos los problemas o errores que posea Siesa</ui:define>  
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+                <div class="col-md-6">
+                    <h:form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{reporteSiesaController.prepareCreate}">
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/iconosSoporteERP/reportarFallo.png"/>
+                                    </h:commandLink>
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="itemZoom img-bordered">
+                                    <h:commandLink action="#{reporteSiesaController.prepareListEstadoTicket}">
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                        <img class="img-responsive" src="#{request.contextPath}/resources/images/iconosSoporteERP/ticketsValoraciones.png"/>
+                                    </h:commandLink>
+                                    <div class="item-overlay top"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </h:form> 
+                </div>
+                <div class="col-md-3" style="margin-left: 5em">
+                    <p:graphicImage id="photo" name="images/circulo_siesa(2).png"  class="img-responsive"/>               
+                </div>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+   <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">
+        Lista de secciones (infraestructura)    
+        </ui:define>
+       <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modSoporteIT/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{usuarioController.prepareList}">
+                                <i class="fa fa-users"></i> 
+                                <span>Usuarios del sistema</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{computadorController.prepareList}">
+                                <i class="fa fa-desktop"></i>
+                                <span>Inventario tecnológico</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
+                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario mantenimientos</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                     <span>Preventivos</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                     <span>Correctivos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{reporteSiesaController.prepareListReportes}">
+                                <i class="fa fa-bug "></i>
+                                <span>Fallos del ERP</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="active">
+                            <h:commandLink action="/administrador/modSoporteIT/configuracionMaestros/verConfiguraciones">
+                                <i class="fa fa-file"></i>
+                                <span>Configuración de maestros</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form id="modelosFormList">
+               <p:outputPanel id="modelosTablePanel">
+                   <p:dataTable value="#{seccionController.listaSeccion}" var="seccion"
+                                rows="50" id="modelosTable" 
+                                paginator="true"
+                                paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                rowsPerPageTemplate="50,100,150">
+                       <f:facet name="header">
+                           <div class="container-fluid">
+                               <div class="row">
+                                   <div class="col-md-4">
+                                        <p:commandButton icon="fa fa-plus" 
+                                                   value="Crear sección" 
+                                                   ajax="false"
+                                                   style="font-size: 1.5em !important; left: 0"
+                                                   action="#{seccionController.prepareCreate}"/>
+                                   </div>
+                               </div>
+                           </div>
+                       </f:facet>
+                       <p:column filterBy="#{seccion.idSeccion}" >
+                           <f:facet name="header">Codigo</f:facet>
+                           <h:outputText value="#{seccion.idSeccion}"/>
+                       </p:column>
+                       <p:column filterBy="#{seccion.nombreSeccion}" >
+                           <f:facet name="header">Nombre de la sección</f:facet>
+                           <h:outputText value="#{seccion.nombreSeccion.toUpperCase()}"/>
+                       </p:column>
+                       <p:column filterBy="#{seccion.idBloque.nombreBloque}" >
+                           <f:facet name="header">Bloque</f:facet>
+                           <h:outputText value="#{seccion.idBloque.nombreBloque.toUpperCase()}"/>
+                       </p:column>
+                       <p:column filterBy="#{seccion.idArea.nombreArea}" >
+                           <f:facet name="header">Area</f:facet>
+                           <h:outputText value="#{seccion.idArea.nombreArea.toUpperCase()}"/>
+                       </p:column>
+                       <p:column filterBy="#{seccion.idTipoSeccion.nombre}" >
+                           <f:facet name="header">Tipo sección</f:facet>
+                           <h:outputText value="#{seccion.idTipoSeccion.nombre.toUpperCase()}"/>
+                       </p:column>
+                       <p:column>
+                           <p:commandButton ajax="false" icon="ui-icon-pencil" id="editModelo" action="#{seccionController.prepareEdit}" >
+                               <f:setPropertyActionListener value="#{seccion}" target="#{seccionController.seccionActual}"/>
+                           </p:commandButton>
+                           <p:tooltip id="descripcion-botonEditModelo" for="editModelo" value="Editar sección" trackMouse="true" />
+                       </p:column>
+                   </p:dataTable>
+               </p:outputPanel>
+           </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

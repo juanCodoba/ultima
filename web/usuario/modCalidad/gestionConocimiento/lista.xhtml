@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Gestión del conocimiento</ui:define> 
+        <ui:define name="title2">Registra todo lo que pase con tu proceso.</ui:define>
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminCalidoso}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="#{formatosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-excel-o"></i> 
+                                <span>Administrar Registros</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span>Administrar Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListPermiso}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-user"></i>
+                                <span>Permisos Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                          <li>
+                              <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-spinner" aria-hidden="true"></i>
+                                <span>Administrar Acciones</span>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{calidadPlanAccionController.usuarioActual}"/>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{calidadGestionConocimientoController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                                <span>Administrar Conocimiento</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+                    <p:separator rendered="#{loginController.adminCalidoso}"/>
+                    <li style="margin-top: 20px">
+                        <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
+                            <i class="fa fa-dashboard"></i> 
+                            <span>Principal</span>
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{formatosController.prepareListUser}">
+                            <i class="fa fa-file"></i>
+                            <span>Lista de registros</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{documentosController.prepareListUser}" rendered="#{loginController.userCaliadad}">
+                            <i class="fa fa-book"></i>
+                            <span>Lista de documentos</span> 
+                        </h:commandLink>
+                    </li>
+                    <li class="active">
+                        <h:commandLink action="#{calidadGestionConocimientoController.prepareList}">
+                            <i class="fa fa-lightbulb-o"></i>
+                            <span>Gestión del conocimiento</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadPlanAccionController.list}">
+                            <i class="fa fa-cogs"></i>
+                            <span>Acciones de mejora</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/informacionCalidad">
+                            <i class="fa fa-question"></i>
+                            <span>¿Que es calidad?</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/horizonteInstitucional">
+                            <i class="fa fa fa-eye"></i>
+                            <span>Horizonte institucional</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000" />
+            <h:form id="valoracionForm">
+                <div class="row form-group">
+                    <div class="container-fluid col-sm-6 form-group"> 
+                        <p:commandButton value="Agregar conocimiento" style="margin-left: 5px; width: 100%" class="btn btn-primary" icon="fa fa-save">
+                            <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{calidadGestionConocimientoController.usuarioActual}"/>
+                            <p:ajax listener="#{calidadGestionConocimientoController.prepareCreate}" update=":valorarEditForm" oncomplete="PF('dlg').show();" />
+                        </p:commandButton>
+                    </div>  
+                    <div class="container-fluid col-sm-6 form-group">
+                        <h:button class="btn btn-cancelar btn-block" value="Volver pagina pricipal" outcome="/usuario/modCalidad/paginaPrincipal"/>
+                    </div>  
+                </div>
+                <p:dataScroller id="valoracionTable" value="#{calidadGestionConocimientoController.listaGestionConocimiento}" var="item" >
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">#{item.titulo}</h3>
+                        </div>
+                        <div class="panel-body">
+                          <h:outputLabel value="Proceso:" />
+                          #{item.idSubproceso.nombreSubproceso.toUpperCase()}
+                          <br></br>
+                          <h:outputLabel value="Situación presentada:" />
+                          #{item.situacionPresentada}
+                          <br></br>
+                          <h:outputLabel value="Lección aprendida:" />
+                          #{item.leccionAprendida}
+                          <br></br>
+                        </div>
+                        <div class="panel-footer" style="padding-bottom: 2em">
+                            <div class="col-lg-9">
+                                #{item.idUsuario.toString()}
+                            </div>
+                            <div class="col-lg-3">
+                                <h:outputText value="#{item.fecha}">
+                                    <f:convertDateTime pattern="MMMM dd, YYYY"/>
+                                </h:outputText>
+                            </div>
+                        </div>
+                    </div>
+                </p:dataScroller>  
+            </h:form> 
+            <p:dialog widgetVar="dlg" modal="true" resizable="false" width="1000">
+                    <h:form id="valorarEditForm">
+                        <h:outputText class="help-block" value="Valora y comenta nuestro servició de soporte IT:"/>
+                        <div class="form-group">       
+                            <h:outputLabel value="Titulo:"  />
+                            <input placeholder="Titulo" class="form-control" jsf:id="tituloInputText" jsf:value="#{calidadGestionConocimientoController.gestionConocimientoActual.titulo}" 
+                                      type="text" required="true" style="resize: none"
+                                      jsf:requiredMessage="Por favor ingrese la leccion">
+                            </input>
+                            <p:message id="tituloMessage" for="tituloInputText" styleClass="error"/>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel value="Subproceso:" />
+                            <p:selectOneMenu id="idSubproceso" style="width: 100%" filter="true" filterMatchMode="contains" value="#{calidadGestionConocimientoController.gestionConocimientoActual.idSubproceso}">
+                                <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
+                                <f:selectItems value="#{subprocesosController.listaSubprocesosSelectOne}" var="subprocesos" itemValue="#{subprocesos}"/>  
+                            </p:selectOneMenu>
+                            <p:message id="idSuprocesoMessage" for="idSubproceso" styleClass="error"/>
+                        </div>
+                        <div class="form-group">       
+                            <h:outputLabel value="Situación presentada:"  />
+                            <textarea placeholder="Situación presentada" class="form-control" jsf:id="situacionInputText" jsf:value="#{calidadGestionConocimientoController.gestionConocimientoActual.situacionPresentada}" 
+                                      type="text" required="true" style="resize: none"
+                                      jsf:requiredMessage="Por favor ingrese la situación">
+                            </textarea>
+                            <p:message id="situacionMessage" for="situacionInputText" styleClass="error"/>
+                        </div>
+                        <div class="form-group">       
+                            <h:outputLabel value="Lección aprendida:"  />
+                            <textarea placeholder="Lección aprendida" class="form-control" jsf:id="leccionInputText" jsf:value="#{calidadGestionConocimientoController.gestionConocimientoActual.leccionAprendida}" 
+                                      type="text" required="true" style="resize: none"
+                                      jsf:requiredMessage="Por favor ingrese la leccion">
+                            </textarea>
+                            <p:message id="leccionMessage" for="leccionInputText" styleClass="error"/>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel value="Fecha:"  />
+                            <p:calendar id="fecha" 
+                                        required="true" 
+                                        requiredMessage="Ingresa Fecha" 
+                                        value="#{calidadGestionConocimientoController.gestionConocimientoActual.fecha}"
+                                        pattern="MM/dd/yyyy">
+                            </p:calendar>
+                             <h:message id="fechaMesaage" for="fecha"  styleClass="error"/>
+                        </div>
+                        <div class="form-group">
+                            <h:commandButton class="btn btn-primary btn-block" value="Guardar" action="#{calidadGestionConocimientoController.add}"/>
+                        </div>
+                        <div class="form-group">
+                            <h:button class="btn btn-warning btn-block" value="Cancelar" outcome="lista"/>
+                        </div>
+                    </h:form>
+                </p:dialog>
+        </ui:define>
+    </ui:composition>
+</html>

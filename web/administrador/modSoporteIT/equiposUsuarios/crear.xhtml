@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+   <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">
+         Lista de equipos    
+        </ui:define>
+       <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modSoporteIT/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{usuarioController.prepareList}">
+                                <i class="fa fa-users"></i> 
+                                <span>Usuarios del sistema</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{computadorController.prepareList}">
+                                <i class="fa fa-desktop"></i>
+                                <span>Inventario tecnológico</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
+                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario mantenimientos</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                     <span>Preventivos</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                     <span>Correctivos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{reporteSiesaController.prepareListReportes}">
+                                <i class="fa fa-bug "></i>
+                                <span>Fallos del ERP</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/configuracionMaestros/verConfiguraciones">
+                                <i class="fa fa-file"></i>
+                                <span>Configuración de maestros</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="active">
+                            <h:commandLink action="/administrador/modSoporteIT/equiposUsuarios/list">
+                                <i class="fa fa-folder" ></i>
+                                <span>Declaraciónes de uso</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>
+                            DECLARACIÓN DE USO LEGÍTIMO DE PROGRAMAS O SOFTWARE EN EQUIPO DE COMPUTO DE TERCEROS QUE INGRESAN FRECUENTEMENTE A LA ORGANIZACIÓN
+                        </h2> 
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <h:outputLabel value="C.C." />
+                        <input class="form-control" jsf:id="cc" jsf:value="#{equiposUsuariosController.sistemasEquiposUsuariosActual.cedula}" 
+                                type="text" required="true" placeholder="Numero C.C.">
+                                      <f:ajax execute="@this" render="cedulaMessage"/>
+                         </input>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <h:outputLabel value="Ciudad de expedición de la cedula:" />
+                        <input class="form-control" jsf:id="ciudad" jsf:value="#{equiposUsuariosController.sistemasEquiposUsuariosActual.ciudad}" 
+                                type="text" required="true" placeholder="Ciudad">
+                                      <f:ajax execute="@this" render="ciudadMessage"/>
+                         </input>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <h:outputLabel value="Nombre:"  />
+                        <input class="form-control" jsf:id="nomUsuarioInputText" jsf:value="#{equiposUsuariosController.sistemasEquiposUsuariosActual.nombres}" 
+                               type="text" required="true" placeholder="Nombres"
+                                     jsf:requiredMessage="Por favor ingrese el nombre del usuario"
+                                     jsf:validatorMessage="Use solo letras, ej: Luis"> 
+                                     <f:validateRegex pattern="[a-zA-Z áéíóúÁÉÍÓÚÑñ]*"/>
+                                     <f:ajax execute="@this" render="nomUsuarioMessage"/>
+                        </input>
+                        <p:message id="nomUsuarioMessage" for="nomUsuarioInputText"/>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <h:outputLabel value="Apellido:"  />
+                        <input class="form-control" jsf:id="apeUsuarioInputText" jsf:value="#{equiposUsuariosController.sistemasEquiposUsuariosActual.apelldios}" 
+                                     type="text" required="true" placeholder="Apellidos"
+                                     jsf:requiredMessage="Por favor ingrese el apellido del usuario"
+                                     jsf:validatorMessage="Use solo letras, ej: Cabal"> 
+                                     <f:validateRegex pattern="[a-zA-Z áéíóúÁÉÍÓÚÑñ]*"/>
+                                     <f:ajax execute="@this" render="apeUsuarioMessage"/>
+                        </input>
+                        <p:message id="apeUsuarioMessage" for="apeUsuarioInputText"/>
+                    </div>
+                    
+                    <div class="form-group col-sm-6">
+                        <h:outputLabel value="Proceso:" />
+                        <p:selectOneMenu id="idProcesoSeccion"
+                                         style="width: 100%; border: none;"
+                                         value="#{equiposUsuariosController.sistemasEquiposUsuariosActual.idSubproceso}"
+                                         filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="Ninguno" />
+                                <f:selectItems value="#{subprocesosController.listaSubProcesosTotal}" var="proceso" itemValue="#{proceso}"/>  
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <h:outputLabel value="Marca del equipo:" />
+                        <p:selectOneMenu id="idSelectMarca"
+                                         value="#{equiposUsuariosController.sistemasEquiposUsuariosActual.idMarca}"
+                                         required="true"
+                                         style="width: 100%; border: none;"
+                                         requiredMessage="Por favor ingrese la marca del equipo"
+                                         filter="true"
+                                         filterMatchMode="contains">
+                                <f:ajax execute="@this" render="idSelectMarca"/>
+                                <f:selectItem/>
+                                <f:selectItems value="#{marcaController.listaMarca}" var="marca" itemValue="#{marca}"/>
+                        </p:selectOneMenu>
+                        <p:message id="idSelectMessage" for="idSelectMarca" styleClass="error"/>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <h:outputLabel value="Modelo:" />
+                        <input class="form-control" jsf:id="modelo" jsf:value="#{equiposUsuariosController.sistemasEquiposUsuariosActual.modelo}" 
+                                type="text" required="true" placeholder="Modelo">
+                                      <f:ajax execute="@this" render="modeloMessage"/>
+                         </input>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <h:outputLabel value="N° Serie:" />
+                        <input class="form-control" jsf:id="serie" jsf:value="#{equiposUsuariosController.sistemasEquiposUsuariosActual.serie}" 
+                                type="text" required="true" placeholder="serie">
+                                      <f:ajax execute="@this" render="serieMessage"/>
+                         </input>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <h:outputLabel value="MAC:" />
+                        <input class="form-control" jsf:id="mac" jsf:value="#{equiposUsuariosController.sistemasEquiposUsuariosActual.mac}" 
+                                type="text" required="true" placeholder="MAC">
+                                      <f:ajax execute="@this" render="macMessage"/>
+                         </input>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <h:outputLabel value="Ruta escaneo:" />
+                        <input class="form-control" jsf:id="ruta" jsf:value="#{equiposUsuariosController.sistemasEquiposUsuariosActual.escaneo}" 
+                                type="text" required="true" placeholder="ruta">
+                                      <f:ajax execute="@this" render="rutaMessage"/>
+                         </input>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <h:outputLabel value="Fecha del permiso:"  />
+                        <p:calendar id="fechaRevision" 
+                                    required="true" 
+                                    requiredMessage="Ingresa Fecha de inicio" 
+                                    value="#{equiposUsuariosController.sistemasEquiposUsuariosActual.fechaPermiso}"
+                                    pattern="MM/dd/yyyy" maxdate="#{equiposUsuariosController.sistemasEquiposUsuariosActual.fechaVencimiento}">
+                            <f:ajax execute="fechaRevision" render="msgFechaRevision"/>
+                        </p:calendar>
+                         <h:message id="msgFechaRevision" for="fechaRevision"  styleClass="error"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <p:commandButton class="btn btn-primary btn-block"
+                                ajax="false"
+                                value="Guardar"
+                                action="#{equiposUsuariosController.add}"
+                                onclick="onSubmitButton();"/>
+                    </div>
+                    <div class="col-sm-6 form-group">    
+                        <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="lista"/>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

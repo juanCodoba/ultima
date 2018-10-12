@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Reportes de ERP sin diagnosticar</ui:define>
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modSoporteIT/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{usuarioController.prepareList}">
+                                <i class="fa fa-users"></i> 
+                                <span>Usuarios del sistema</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{computadorController.prepareList}">
+                                <i class="fa fa-desktop"></i>
+                                <span>Inventario tecnológico</span> 
+                            </h:commandLink>
+                        </li>
+                        <li class="active">
+                            <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
+                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario mantenimientos</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                     <span>Preventivos</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                     <span>Correctivos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{reporteSiesaController.prepareListReportes}">
+                                <i class="fa fa-bug "></i>
+                                <span>Fallos del ERP</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/configuracionMaestros/verConfiguraciones">
+                                <i class="fa fa-file"></i>
+                                <span>Configuración de maestros</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/equiposUsuarios/lista">
+                                <i class="fa fa-folder" ></i>
+                                <span>Declaraciónes de uso</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form>
+                <nav class="navbar navbar-inverse" role="navigation">
+                     <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target=".navbar-ex1-collapse">
+                          <span class="sr-only">Desplegar navegación</span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <p:commandLink ajax="false" action="#{cronogramaController.prepareViewCalendario}">
+                                    <i class="fa fa-calendar"></i>
+                                    <span>Cronograma de mantenimientos</span>
+                                </p:commandLink>
+                             </li>
+                            <li class="dropdown active">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                  <i class="fa fa-wrench"></i>
+                                  Mantenimientos sin diagnostico<b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaController.prepareViewMantenimientosP}">
+                                            <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                            <i class="fa fa-check "/>
+                                            <span>Mantenimientos preventivos</span>
+                                        </p:commandLink>  
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaController.prepareViewMantenimientosC}">
+                                            <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                            <i class="fa fa-exclamation-triangle"/>
+                                            <span>Mantenimientos correctivos</span>
+                                        </p:commandLink>  
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{reporteSiesaController.prepareListErroresSinDiag}">
+                                            <i class="fa fa-bug"/>
+                                            <span>Errores de ERP</span>
+                                        </p:commandLink>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <p:commandLink ajax="false" action="#{computadorController.prepareViewProgramar}">
+                                <i class="fa fa-edit"/>
+                                    <span>Programar mantenimiento tecnológico</span>
+                                </p:commandLink>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                  <i class="fa fa-wrench"></i>
+                                  Historial de Diagnósticos<b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaController.prepareViewCronogramaSolucionados}">
+                                            <i class="fa fa-desktop"/>
+                                            <span>Equipos tecnológicos</span>
+                                        </p:commandLink>  
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{diagnosticoReporteSiesaController.prepareList}">
+                                            <i class="fa fa-bug"/>
+                                            <span>Errores de ERP</span>
+                                        </p:commandLink>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </h:form>
+            <h:form id="form">
+                <p:dataTable value="#{reporteSiesaController.reporteSiesaListSinDiag}" var="incidente"
+                                 rows="100" id="incidenteTable" rowStyleClass="#{incidente.estado eq 'Abierto' ? 'color2': incidente.estado eq 'Siesa IT' ? 'color3': incidente.estado eq 'Cerrado' ? 'color1':null}" 
+                                 paginator="true"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="100,150,200">
+                                <f:facet name="header">
+                                    <h4 class="colorLetra" style="font-weight: bold" >
+                                        Total fallos reportados: #{fn:length(reporteSiesaController.reporteSiesaListSinDiag)}
+                                    </h4>
+                                </f:facet>
+                        <p:column filterBy="#{incidente.idReporteSiesa}"  filterMatchMode="contains">
+                            <f:facet name="header"># Ticket:</f:facet>
+                            <h:outputText value="#{incidente.idReporteSiesa}CFIPERP" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column filterBy="#{incidente.idUsuario}" filterMatchMode="contains">
+                            <f:facet name="header">Usuario</f:facet>
+                            <h:outputText value="#{incidente.idUsuario.toString()}"/>
+                        </p:column>
+                        <p:column filterBy="#{incidente.descripcionReporte}" filterMatchMode="contains">
+                            <f:facet name="header">Descripcion del incidente</f:facet>
+                            <h:outputText value="#{incidente.descripcionReporte}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Fecha del reporte</f:facet>
+                            <h:outputText value="#{incidente.fechaReporte}">
+                               <f:convertDateTime pattern="MMMM dd, yyyy HH:mm a"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column filterBy="#{incidente.idEstadoTicket}" filterMatchMode="contains">
+                                <f:facet name="header">Estado del ticket</f:facet>
+                                <h:outputText value="#{incidente.idEstadoTicket.nombre}"/>
+                        </p:column>
+                        <p:column width="150">
+                            <p:commandButton ajax="false" process="@this" icon="ui-icon-check" id="solucionarReporte" action="#{reporteSiesaController.prepareCrearDiagnostico}">
+                                <f:attribute name="incidente" value="#{incidente}"/>
+                                <f:setPropertyActionListener value="#{incidente}" target="#{reporteSiesaController.reporteSiesaActual}"/>
+                            </p:commandButton>
+                             <p:tooltip id="descripcion-botonSolucionarC" for="solucionarReporte" value="Diagnosticar" trackMouse="true" />
+                             <p:commandButton ajax="false" process="@this" id="viewIncidente" icon="ui-icon-search" action="#{reporteSiesaController.prepareView}" >
+                                    <f:attribute name="incidente" value="#{incidente}"/>
+                                    <f:setPropertyActionListener value="#{incidente}" target="#{reporteSiesaController.reporteSiesaActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-botonViewIncidente" for="viewIncidente" value="Ver datos del incidente" trackMouse="true" />
+                            <p:commandButton oncomplete="PF('carDialog').show()" icon="ui-icon-transferthick-e-w" title="View">
+                                <f:setPropertyActionListener value="#{incidente}" target="#{reporteSiesaController.reporteSiesaActual}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                    
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

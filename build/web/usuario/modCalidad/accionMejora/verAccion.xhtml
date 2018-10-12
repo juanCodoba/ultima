@@ -1,0 +1,412 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminCalidoso}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="#{formatosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-excel-o"></i> 
+                                <span>Administrar Registros</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span>Administrar Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListPermiso}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-user"></i>
+                                <span>Permisos Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                          <li>
+                              <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-spinner" aria-hidden="true"></i>
+                                <span>Administrar Acciones</span>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{calidadPlanAccionController.usuarioActual}"/>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{calidadGestionConocimientoController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                                <span>Administrar Conocimiento</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+                    <p:separator rendered="#{loginController.adminCalidoso}"/>
+                    <li style="margin-top: 20px">
+                            <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                    <li>
+                        <h:commandLink action="#{formatosController.prepareListUser}">
+                            <i class="fa fa-file"></i>
+                            <span>Lista de registros</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{documentosController.prepareListUser}" rendered="#{loginController.userCaliadad}">
+                            <i class="fa fa-book"></i>
+                            <span>Lista de documentos</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadGestionConocimientoController.prepareList}">
+                            <i class="fa fa-lightbulb-o"></i>
+                            <span>Gestión del conocimiento</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/compromisosComite">
+                            <i class="fa fa-users"></i>
+                            <span>Compromisos del comité</span> 
+                        </h:commandLink>
+                    </li>
+                    <li class="active">
+                        <h:commandLink action="#{calidadPlanAccionController.list}">
+                            <i class="fa fa-cogs"></i>
+                            <span>Acciones de mejora</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/informacionCalidad">
+                            <i class="fa fa-question"></i>
+                            <span>¿Que es calidad?</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/horizonteInstitucional">
+                            <i class="fa fa fa-eye"></i>
+                            <span>Horizonte institucional</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Plan de acción</ui:define>   
+        <ui:define name="body">
+            <h:form id="crear-Form">
+                <p:growl id="growl" showDetail="true" life="2000"/>
+                <div class="row">
+                    <h:panelGroup id="encabezado">
+                        <div class="col-md-6 form-group">
+                            <h:outputLabel value="Acción N°: " />
+                               
+                            <h:outputText style="font-weight: bold; color: red" value=" #{calidadPlanAccionController.planAccionActual.idPlanAccion} ">
+                            </h:outputText>
+                        </div>
+                        
+                        <div class="col-md-6 form-group">
+                            <h:outputLabel value="Fecha análisis: " />
+                            <span> </span>
+                            <h:outputText style="font-weight: bold;" value="#{calidadPlanAccionController.planAccionActual.fechaAnalisis}">
+                                <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                            </h:outputText>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <h:outputLabel value="Proceso:" />
+                            <h:outputText style="font-weight: bold;" value=" #{calidadPlanAccionController.planAccionActual.idSubproceso.idProceso.nombreProceso}">
+                            </h:outputText>
+                            <span> | </span>
+                            <h:outputText style="font-weight: bold;" id="divPanel" value="#{calidadPlanAccionController.planAccionActual.idSubproceso.nombreSubproceso}">
+                            </h:outputText>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <h:outputLabel value="Responsable: " />
+                            <h:outputText style="font-weight: bold" value=" #{calidadPlanAccionController.planAccionActual.responsable.toString()}">
+                            </h:outputText>
+                        </div>
+                         <div class="col-md-12 form-group">
+                            <h:outputLabel value="Nombre del plan de acción:"  />
+                            <h:outputText id="nombre" class="form-control"
+                                          value="#{calidadPlanAccionController.planAccionActual.tituloPlan}">
+                            </h:outputText>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <h:outputLabel value="Descripción de la Situación:"  />
+                            <h:outputText class="form-control"
+                                          id="descripcion" 
+                                          style="height: 100px"
+                                          value="#{calidadPlanAccionController.planAccionActual.descripcion}"/>
+                        </div> 
+                        <div class="form-group col-md-6">
+                            <h:outputLabel value="Origen de la acción de mejora:"  />
+                            <h:outputText id="advanced" class="form-control"
+                                              value="#{calidadPlanAccionController.planAccionActual.origenAccion}">
+                            </h:outputText>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <h:outputLabel value="Tipo de acción:"  />
+                            <h:outputText id="tipo" class="form-control"
+                                              value="#{calidadPlanAccionController.planAccionActual.tipoPlan}">
+                            </h:outputText>
+                        </div>
+                        
+                    </h:panelGroup>
+                </div>
+                <div style="position: absolute; bottom: 4em  ">
+                    <div class="container row">
+                        <div class="col-sm-5 form-group">    
+                            <h:button class="btn btn-cancelar btn-block" value="Volver" outcome="/usuario/modCalidad/accionMejora/listaAccion"/>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+            <h:form id="causa">
+                <div class="panel panel-primary form-group"  style="border-radius: 0">
+                    <div class="panel-heading"  style="border-radius: 0"><h4 class="letra-panelDescriEdu">Identificación y análisis de causas</h4></div>
+                    <div class="panel-body">
+                        <h:panelGroup id="agregarFuncion">
+                            <h:panelGroup id="itemsGroup">
+                                <p:dataTable  id="tablaFuncion" emptyMessage="No se encontraron registros" rowIndexVar="rowIndex" value="#{calidadPlanAccionController.listaCausaActual}" var="item">
+                                    <p:column headerText="No." width="80" >
+                                        #{rowIndex+1}
+                                    </p:column>
+                                    <p:column headerText="¿Por qué pasó la situación?" >
+                                        <h:outputText value="#{item.descripcion}" style="font-weight: bold"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </h:form>
+            <h:form id="acciones" style="margin-bottom: 1em">
+                <div class="panel panel-primary form-group"  style="border-radius: 0">
+                    <div class="panel-heading"  style="border-radius: 0"><h4 class="letra-panelDescriEdu">Acciones a Implementar</h4></div>
+                    <div class="panel-body">
+                        <h:panelGroup id="agregarFuncion">
+                            <h:panelGroup id="itemsGroup">
+                                <p:dataTable  id="tablaFuncion" 
+                                              emptyMessage="No se encontraron registros"
+                                              value="#{calidadPlanAccionController.listaAccionImplementarActual}"
+                                              var="item">
+                                    <p:column headerText="No." width="80" >
+                                        #{rowIndex+1}
+                                    </p:column>
+                                    <p:column headerText="Actividad" >
+                                        <h:outputText value="#{item.descripcion}" style="font-weight: bold"/>
+                                    </p:column>
+                                    <p:column headerText="Responsable" width="300">
+                                        <h:outputText value="#{item.responsable}" style="font-weight: bold"/>
+                                    </p:column>
+                                    <p:column headerText="Fecha" width="200">
+                                        <h:outputText value="#{item.fecha}" style="font-weight: bold">
+                                            <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column width="60">
+                                        <h:commandLink id="list" class="btn btn-primary" style="color: white; margin-left: 3px"> 
+                                            <li class="fa fa-bars"></li> 
+                                            <p:ajax listener="#{calidadPlanAccionController.listSeguimiento}" update="formListaSeguimiento:listaSeguimiento" oncomplete="PF('dlg2').show();" />     
+                                            <f:attribute name="item" value="#{item}"/>
+                                            <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.accionImplementarActual}"/>
+                                        </h:commandLink>
+                                        <p:tooltip for="list" value="Lista de seguimientos"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </h:form>
+            <h:form id="formSeguimiento">
+                <p:dialog widgetVar="dlg1" header="Seguimiento a las acciones" width="500">
+                    <h:panelGroup id="panelSeguimiento">
+                        <div class="form-group">
+                             <h:outputLabel value="Responsable del seguimiento:"  />
+                             <p:inputText placeholder="" 
+                                        class="form-control" 
+                                        id="observacion" 
+                                        value="#{calidadPlanAccionController.seguimientoAccionActual.responsable}"> 
+                                    <f:ajax execute="@this" render="descripcionMessage"/>
+                            </p:inputText>
+                            <p:message id="observacionMessage" for="observacion" styleClass="error"/>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel value="Fecha seguimiento:"  />
+                            <p:calendar id="fecha" locale="es"
+                                        value="#{calidadPlanAccionController.seguimientoAccionActual.fecha}"
+                                        pattern="MMMM dd, yyyy"/>
+                            <p:message id="fechaMessage" for="fecha" styleClass="error"/>
+                        </div>
+                        <div class="">
+                            <p:commandButton styleClass="btn btn-primary btn-block" 
+                                             value="Guardar seguimiento"
+                                             update=":formSeguimiento:panelSeguimiento"
+                                             action="#{calidadPlanAccionController.addSeguimiento}">
+                                <f:ajax onevent="dlg1.hide()" execute="@this" render=":formSeguimiento:panelSeguimiento"/>
+                            </p:commandButton>
+                            <p:commandButton styleClass="btn btn-danger btn-block" 
+                                      value="Cancelar" 
+                                      oncomplete="PF('dlg1').hide();"
+                                      process="@this"/>
+                        </div>
+                    </h:panelGroup>
+                </p:dialog>
+            </h:form>
+            <h:form id="formListaSeguimiento">
+                <p:dialog widgetVar="dlg2" header="Seguimiento a las acciones" width="800" modal="true">
+                    <h:panelGroup id="listaSeguimiento" style="font-size: 1.3em">
+                          <p:dataTable value="#{calidadPlanAccionController.listaSeguimientoAccionActual}"
+                                        var="seguimiento">
+                               <p:column width="300">
+                                   <f:facet name="header">
+                                       Resultado del seguimiento
+                                   </f:facet>
+                                   <h:outputText value="#{seguimiento.resultado}"/>
+                               </p:column>
+                               <p:column>
+                                   <f:facet name="header">
+                                       Fecha del seguimeinto
+                                   </f:facet>
+                                   <h:outputText value="#{seguimiento.fecha}">
+                                       <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                   </h:outputText>
+                               </p:column>
+                               <p:column>
+                                   <f:facet name="header">
+                                       Responsable del seguimeinto
+                                   </f:facet>
+                                   <h:outputText value="#{seguimiento.responsable}"/>
+                               </p:column>
+                               <p:column>
+                                   <f:facet name="header">
+                                       Estado
+                                   </f:facet>
+                                   <h:outputText value="#{seguimiento.estado.toUpperCase()}"/>
+                               </p:column>
+                            </p:dataTable>
+                    </h:panelGroup>
+                </p:dialog>
+            </h:form>
+              <h:form id="editarSeguimiento">
+                <p:dialog widgetVar="dlg3" header="Seguimiento a las acciones" width="800">
+                    <h:panelGroup id="editarSeguimiento">
+                        <div class="form-group">
+                             <h:outputLabel value="Resultado del seguimiento:"  />
+                             <p:inputTextarea placeholder="" 
+                                        class="form-control" 
+                                        id="observacion" 
+                                        value="#{calidadPlanAccionController.seguimientoAccionActual.resultado}"> 
+                                    <f:ajax execute="@this" render="descripcionMessage"/>
+                            </p:inputTextarea>
+                            <p:message id="observacionMessage" for="observacion" styleClass="error"/>
+                        </div>
+                         <div class="form-group col-md-3">
+                            <h:outputLabel class="letra-form" value="Estado:"/>
+                            <p:selectOneButton value="#{calidadPlanAccionController.seguimientoAccionActual.estado}"
+                                               style="width: 100%">
+                                <f:selectItem itemLabel="ABIERTO " itemValue="abierto" />
+                                <f:selectItem itemLabel="CERRADO" itemValue="cerrado" />
+                            </p:selectOneButton> 
+                        </div>
+                        
+                        <div class="">
+                            <p:commandButton styleClass="btn btn-primary btn-block" 
+                                             value="Editar seguimiento"
+                                             update=":formSeguimiento:panelSeguimiento"
+                                             action="#{calidadPlanAccionController.updateSeguimiento}">
+                                <f:ajax onevent="dlg3.hide()" execute="@this" render=":formSeguimiento:panelSeguimiento"/>
+                            </p:commandButton>
+                            <p:commandButton styleClass="btn btn-danger btn-block" 
+                                      value="Cancelar" 
+                                      oncomplete="PF('dlg3').hide();"
+                                      process="@this"/>
+                        </div>
+                    </h:panelGroup>
+                </p:dialog>
+            </h:form>
+            <h:form>
+                <div class="panel panel-primary form-group"  style="border-radius: 0">
+                    <div class="panel-heading"  style="border-radius: 0"><h4 class="letra-panelDescriEdu">Administración de acción</h4></div>
+                    <div class="panel-body">
+                        <h:panelGroup id="Preguntas">
+                            <h:panelGroup id="itemsGroup">
+                                <div class=" form-group">
+                                    <h:outputLabel value="Observaciones generales:"  />
+                                    <h:outputText class="form-control"
+                                                    style="height: 100px;" 
+                                                    value="#{calidadPlanAccionController.planAccionActual.observacionGeneral}"> 
+                                    </h:outputText>
+                                </div>
+                               <table class="table table-striped">
+                                    <thead class="thead-inverse">
+                                      <tr>
+                                        <th>#</th>
+                                        <th>Preguntas</th>
+                                        <th>Criterio</th>
+                                        <th></th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <th scope="row">1</th>
+                                        <td>¿La no conformidad real ó potencial se ha presentado en los últimos 6 meses por la misma causa?</td>
+                                        <td>Si es afirmativa: No es eficaz</td>
+                                        <td style="width: 140px">
+                                            <h:outputText style="font-weight: bold; color: red" value="#{calidadPlanAccionController.planAccionActual.criterio1}"/>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">2</th>
+                                        <td>¿Considera que con la acción implementada es poco probable que se presente la no conformidad en el futuro?</td>
+                                        <td>Si es negativa: No es eficaz</td>
+                                        <td>
+                                            <h:outputText style="font-weight: bold; color: red" value="#{calidadPlanAccionController.planAccionActual.criterio2}"/>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                        <div class="form-group col-md-3">
+                            <h:outputLabel class="letra-form" value="¿Es la acción Eficaz?:"/>
+                            <h:outputText style="font-weight: bold; color: red; margin-left: 1em" value="#{calidadPlanAccionController.planAccionActual.accionEficaz}"/>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <h:outputLabel value="Comentarios de la eficacia:"  />
+                            <h:outputText class="form-control"
+                                          style="height: 100px;"  
+                                          value="#{calidadPlanAccionController.planAccionActual.comentarios}"> 
+                            </h:outputText>
+                        </div>
+                         <div class="form-group col-md-12">
+                            <h:outputLabel class="letra-form" value="Estado de la acción: "/>
+                            <h:outputText style="font-weight: bold; margin-left: 3px; font-size: 1.2em" value="#{calidadPlanAccionController.planAccionActual.estadoPlan.toUpperCase()}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="container row">
+                    <div class="col-sm-5 form-group">    
+                        <h:button class="btn btn-cancelar btn-block" value="Volver" outcome="/usuario/modCalidad/accionMejora/listaAccion"/>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

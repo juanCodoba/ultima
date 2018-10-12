@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Reservar salas especiales</ui:define>        
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" globalOnly="true" life="2000"/>
+            <h:form id="form-reservar">
+                <div class="col-md-6">
+                    <div class="form-group"> 
+                        <h:outputLabel value="Sala que necesita reservar:"/>
+                        <p:selectOneMenu id="idSeccionDaño" value="#{solicitudEdificioController.idSeccion}"  
+                                         required="true" converter="seccionConverter" style="width: 100%; border: none;" 
+                                         requiredMessage="Por favor ingrese la sección que presenta el daño">
+                                <f:selectItem/>
+                                <f:selectItems value="#{seccionController.listaSeccionEspecial}" var="seccion" itemValue="#{seccion}"/>  
+                                <p:ajax listener="#{solicitudEdificioController.info}"  />
+                        </p:selectOneMenu>
+                       <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                    </div> 
+                    <div class="form-group">       
+                        <h:outputLabel value="Motivo para realizar la reserva:"  />
+                        <textarea placeholder="Escribir el motivo por el cual hace reserva de la sala" class="form-control" jsf:id="descripcionInputText" jsf:value="#{solicitudEdificioController.solicitudEdificioActual.descripcion}" 
+                                  type="text" required="true" style="resize: none"
+                                  jsf:requiredMessage="Por favor ingrese la descripción del incidente">
+                        </textarea>
+                        <p:message id="descripcionMessage" for="descripcionInputText" styleClass="error"/>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Fecha de la reserva"/>
+                        <p:calendar id="fechaSala" style="color: black" locale="es" pages="4"
+                                    required="true"  mindate="#{solicitudEdificioController.fechaActual}"
+                                requiredMessage="Ingresa la fecha" validatorMessage="Dirección de correo electronico no valido"
+                                value="#{solicitudEdificioController.fechaAlquiler}"
+                                navigator="true" pattern="MM/dd/yyyy"> 
+                        <f:ajax execute="@this fechaSala" 
+                                render="msgFecha form-createCronograma"/>
+                        </p:calendar>
+                        <h:message id="msgFecha" for="fechaSala"  styleClass="error"/>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Hora de inicio de la reserva:"/>
+                        <p:calendar id="horaInicio"
+                                    value="#{solicitudEdificioController.horaInicioAlquiler}"
+                                    pattern="hh:mm a" timeOnly="true"  required="true"   
+                                    requiredMessage="Ingresa la hora">
+                             <f:ajax execute="horaInicio" render="msgHoraInicio"/>
+                        </p:calendar>
+                        <h:message id="msgHoraInicio" for="horaInicio"  styleClass="error"/>
+                    </div>
+                         <div class="form-group">
+                        <h:outputLabel value="Hora que finaliza la reserva:"/>
+                        <p:calendar id="horaFin"
+                                    value="#{solicitudEdificioController.horaFinAlquiler}"
+                                    pattern="hh:mm a" timeOnly="true"  required="true"   
+                                    requiredMessage="Ingresa la hora">
+                             <f:ajax execute="horaFin" render="msgHoraFin"/>
+                        </p:calendar>
+                        <h:message id="msgHoraFin" for="horaFin"  styleClass="error"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div>
+                        <h:outputLabel  value="Requiere refrigerio:"  />
+                    </div>
+                    <div class="form-group">
+                        <p:selectBooleanButton style="width: 10em" value="#{solicitudEdificioController.solicitudEdificioActual.refrigerio}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close">
+                            <p:ajax event="change" update="divPanel" />
+                        </p:selectBooleanButton>
+                    </div>
+                    <h:panelGroup id="divPanel">
+                        <div class="form-group">       
+                            <h:outputLabel value="Descripción del refrigerio:"  rendered="#{solicitudEdificioController.solicitudEdificioActual.refrigerio}"/>
+                            <h:outputText class="help-block" rendered="#{solicitudEdificioController.solicitudEdificioActual.refrigerio}" value="Solicita que refrigerio necesitas y su cantidad, el jefe de mantenimiento responderá si Aprueba o Rechaza la solicitud generada. "/>
+                            <textarea rendered="#{solicitudEdificioController.solicitudEdificioActual.refrigerio}" class="form-control" jsf:id="refrigerioDescInputText" jsf:value="#{solicitudEdificioController.solicitudEdificioActual.descRefrigerio}" 
+                                      type="text" required="true" style="resize: none; height: 12.2em"
+                                      jsf:requiredMessage="Por favor ingrese la descripción del refrigerio">
+                            </textarea>
+                            <p:message id="refrigerioDescMessage" for="refrigerioDescInputText" styleClass="error"/>
+                        </div>
+                    </h:panelGroup>                             
+                    <div class="row" >
+                        <div class="col-md-6">
+                            <p:commandButton class="btn btn-actividad btn-block col-md-6" value="Reservar sala" action="#{solicitudEdificioController.addSolicitud}">
+                                <f:ajax execute="@this solicitud-calendario" render="solicitud-calendario"/>
+                            </p:commandButton>
+                        </div>
+                        <div class="col-md-6">
+                            <h:button class="btn btn-block col-md-6" style="background: orange; color: white" value="Cancelar" outcome="userViewCronogramaSolicitudes"/>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

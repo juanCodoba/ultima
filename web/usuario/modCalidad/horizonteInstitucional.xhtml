@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminCalidoso}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="#{formatosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-excel-o"></i> 
+                                <span>Administrar Registros</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span>Administrar Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListPermiso}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-user"></i>
+                                <span>Permisos Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-spinner" aria-hidden="true"></i>
+                                <span>Administrar Acciones</span>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{calidadPlanAccionController.usuarioActual}"/>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{calidadGestionConocimientoController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                                <span>Administrar Conocimiento</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+                    <p:separator rendered="#{loginController.adminCalidoso}"/>
+                    <li style="margin-top: 20px">
+                        <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
+                            <i class="fa fa-dashboard"></i> 
+                            <span>Principal</span>
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{formatosController.prepareListUser}">
+                            <i class="fa fa-file"></i>
+                            <span>Lista de registros</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{documentosController.prepareListUser}" rendered="#{loginController.userCaliadad}">
+                            <i class="fa fa-book"></i>
+                            <span>Lista de documentos</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadGestionConocimientoController.prepareList}">
+                            <i class="fa fa-lightbulb-o"></i>
+                            <span>Gestión del conocimiento</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="compromisosComite">
+                            <i class="fa fa-users"></i>
+                            <span>Compromisos del comité</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadPlanAccionController.list}">
+                            <i class="fa fa-cogs"></i>
+                            <span>Acciones de mejora</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="informacionCalidad">
+                            <i class="fa fa-question"></i>
+                            <span>¿Que es calidad?</span> 
+                        </h:commandLink>
+                    </li>
+                    <li class="active">
+                        <h:commandLink action="horizonteInstitucional">
+                            <i class="fa fa fa-eye"></i>
+                            <span>Horizonte institucional</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Horizonte institucional</ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form>
+                <div class="row container-cuerpo">
+                    <div class="col-md-6 wow bounceInLeft" >
+                        <h3 class="letra-tituloNosotros">¿Quiénes somos?</h3>
+                        <p style="text-align: justify">
+                            En el Centro de Formación Integral Providencia aportamos al crecimiento económico, social y cultural de la zona de influencia, a través de la confección de uniformes para el sector productivo y de servicios, lavado y reparación de Big Bag, Extensión Académica, Formación para el trabajo y desarrollo humano, que nos permite brindar Educación Integral a niños, jóvenes y adultos, impactando la calidad de vida de nuestros colaboradores y de la comunidad.
+                            <br></br>
+                            Desarrollamos nuestras actividades en El Cerrito, región azucarera del Valle del Cauca.
+                        </p>
+                        <br></br>
+                        <h3 class="letra-tituloNosotros">Nuestros valores</h3>
+                        <p style="text-align: justify">
+                            En el 2020 seremos reconocidos como el motor de crecimiento de nuestra comunidad por ser una organización tecnológicamente desarrollada, con altos estándares de calidad en nuestros servicios educativos y en la confección de uniformes para el sector productivo y de servicios, lavado de Big Bag y oferta de cursos especializados para la industria. Nuestras unidades de negocio estarán preparadas para responder a las exigencias de un mundo globalizado, ampliando sus oportunidades y aportando al mejoramiento de la calidad de vida de los niños, jóvenes y adultos de nuestra comunidad.
+
+
+                        </p>
+                        <br></br>
+                        <br></br>
+                        <h3 class="letra-tituloNosotros">Política de Gestión Integrada</h3>
+                        <p style="text-align: justify">
+                            El Centro de Formación Integral Providencia se compromete  a gestionar los riesgos  de la organización para cumplir con los requisitos legales, laborales, del cliente y de otra índole,  fortaleciendo la competencia de sus colaboradores para responder a  las políticas de gestión en todos los niveles de la organización, mitigando el impacto en el cumplimiento de los objetivos organizacionales y mantener la sostenibilidad  a través de la identificación, seguimiento,  control  y medición  al interior de cada uno de los procesos,  estableciendo métodos sistemáticos que nos permita:
+                        </p>
+                        1.    Alcanzar los objetivos estratégicos.
+                        <br></br>
+                        2.    Fortalecer  la cultura de seguridad y salud en el trabajo. 
+                        <br></br>
+                        3.    Identificar y controlar los peligros en todos los niveles de la organización.
+                        <br></br>
+                        4.    Lograr altos estándares de calidad en cada uno de los procesos.
+                        <br></br>
+                        5.    Obtener los recursos necesarios para gestionar los riesgos.
+                        <br></br>
+                        <br></br>
+                        La alta dirección, se compromete a revisar periódicamente la política y los factores de riesgo que garanticen la eficacia, eficiencia y mejora continua de los procesos, a través de indicadores de medición y desempeño de su gestión.
+                    </div>
+                    <div>
+                        <div class="col-md-6 wow bounceInRight" >
+                            <h3 class="letra-tituloNosotros"><span class="glyphicon glyphicon-user" style="color: dodgerblue; font-size: .8em"></span>Misión</h3>
+                            <p style="text-align: justify">
+                                En el Centro de Formación Integral Providencia aportamos al crecimiento económico, social y cultural de la zona de influencia, a través de la confección de uniformes para el sector productivo y de servicios, que nos permite brindar Educación Integral a niños, jóvenes y adultos,  impactando la calidad de vida de nuestros colaboradores y de la comunidad.
+                            </p>
+                            <br></br>
+                            <h3 class="letra-tituloNosotros"><span class="glyphicon glyphicon-eye-open" style="color: dodgerblue; font-size: .8em"></span> Visión</h3>
+                            <p style="text-align: justify">
+                                En el 2020 seremos reconocidos como el motor de crecimiento de nuestra comunidad por ser una organización tecnológicamente desarrollada, con altos estándares de calidad en nuestros  servicios educativos y en la confección de uniformes para el sector productivo y de servicios. Nuestras unidades de negocio  estarán preparadas para responder a las exigencias de un mundo globalizado, ampliando sus oportunidades  y aportando al mejoramiento de la calidad de vida de los niños, jóvenes y adultos de nuestra comunidad.
+                            </p>
+                            <br></br>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading"><h4 class="letra-panelDescriEdu">Objetivos de calidad</h4></div>
+                                <p class="letra-parrafoNosotros">
+                                    <div class="panel-body">
+                                        <span class="glyphicon glyphicon-ok icono-panelColorAzulEdu"></span>
+                                        <span>Mejorar la calidad educativa</span>
+                                        <br></br>
+                                        <span class="glyphicon glyphicon-ok icono-panelColorAzulEdu"></span>
+                                        <span>Mejorar el nivel de inglés.</span>
+                                        <br></br>
+                                        <span class="glyphicon glyphicon-ok icono-panelColorAzulEdu"></span>
+                                        <span>Ampliar la cobertura en los programas de formación para el trabajo.</span>
+                                        <br></br>
+                                        <span class="glyphicon glyphicon-ok icono-panelColorAzulEdu"></span>
+                                        <span>Mejorar las competencias del personal.</span>
+                                        <br></br>
+                                        <span class="glyphicon glyphicon-ok icono-panelColorAzulEdu"></span>
+                                        <span>Asegurar la disponibilidad de la infraestructura.</span>
+                                        <br></br>
+                                        <span class="glyphicon glyphicon-ok icono-panelColorAzulEdu"></span>
+                                        <span>Mejorar continuamente el desempeño de los procesos.</span>
+                                        <br></br>
+                                        <span class="glyphicon glyphicon-ok icono-panelColorAzulEdu"></span>
+                                        <span>Alcanzar la satisfacción de nuestros clientes.</span>
+                                        <br></br>
+                                        <span class="glyphicon glyphicon-ok icono-panelColorAzulEdu"></span>
+                                        <span>Incrementar el nivel de productividad del área de confecciones.</span>
+                                        <br></br>
+                                        <span class="glyphicon glyphicon-ok icono-panelColorAzulEdu"></span>
+                                        <span>Mejorar las condiciones de seguridad y salud de los colaboradores.</span>
+                                        <br></br>
+                                        <span class="glyphicon glyphicon-ok icono-panelColorAzulEdu"></span>
+                                        <span>Aportar a la preservación del Medio Ambiente.</span>
+                                        <br></br>      
+                                        <span class="glyphicon glyphicon-ok icono-panelColorAzulEdu"></span>
+                                        <span>Garantizar la Sostenibilidad de la obra social del CFIP.</span>
+                                        <br></br>  
+                                    </div>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="organigrama" class="col-md-12">
+                                <div class="row cuadros-texto3 form-group">
+                                    <div style="padding: 0 2em">
+                                        <h3 class="titulo-cuadroTexto3">Organigrama de los procesos</h3>
+                                        <div class="col-md-12">
+                                            <figure>
+                                                <img class="img-responsive" src="#{request.contextPath}/resources/images/imagenesCalidad/organigrama.JPG" alt="iso"/>
+                                            </figure>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="mapa" class="col-md-6">
+                                <div class="row cuadros-texto3 form-group">
+                                    <div style="padding: 0 2em">
+                                        <h3 class="titulo-cuadroTexto3">Mapa de Procesos</h3>
+                                        <div class="col-md-12">
+                                            <figure>
+                                                <img class="img-responsive" src="#{request.contextPath}/resources/images/imagenesCalidad/mapaProcesos.JPG" alt="iso"/>
+                                            </figure>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

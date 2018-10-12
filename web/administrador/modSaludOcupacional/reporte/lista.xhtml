@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">    
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.saludOcupacional}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li class="active">
+                            <h:commandLink action="/usuario/modSaludOcupacional/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{formatoSaludOcupacionalController.prepareCreate}">
+                                <i class="fa fa-file-pdf-o"></i> 
+                                <span>Crear documento</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{indicadorSaludOcupacionalController.prepareCreate}">
+                                <i class="fa fa-desktop"></i>
+                                <span>Crear Indicador</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{indicadorSaludOcupacionalController.prepareList}">
+                                <i class="fa fa-line-chart"></i> 
+                                <span>Lista de indicadores</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{tipSaludOcupacionalController.prepareCreate}">
+                                <i class="fa fa-check"></i> 
+                                <span>Crear Tip</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{sstReporteController.prepareList}">
+                                <i class="fa fa-tasks"></i> 
+                                <span>Lista de reportes</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Modulo del Sistema de Gestión de Seguridad y Salud en el Trabajo</ui:define>  
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form id="documentosFormList">
+                <p:outputPanel id="documentosTablePanel">
+                    <p:dataTable value="#{sstReporteController.listaSstReporteActual}" var="item"
+                                 rows="10" id="documentosTable" rowStyleClass="#{item.estado eq 'SOLUCIONADO' ? 'color1': item.estado eq 'OBSERVACION' ? 'color3': null}"
+                                 paginator="true" widgetVar="filtroTable"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+                        <f:facet name="header">
+                            <h:commandLink id="exportExcel">
+                                    <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                    <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                            target="documentosTable" fileName="inventario" />
+                                </h:commandLink>
+                                <p:tooltip id="descripcion-botonExcel" for="exportExcel" value="Exportar en excel" trackMouse="true" />
+                            <h4 class="colorLetra" style="font-weight: bold; display: inline-block !important;" >
+                                Total reportes: #{fn:length(sstReporteController.listaSstReporteActual)}
+                            </h4>
+                            <div class="input-group" style="margin-top: 1em; margin-bottom: 1em">
+                                    <div class="input-group-addon"><span>Buscar:</span></div>
+                                    <p:inputText id="globalFilter" onkeyup="PF('filtroTable').filter()"  placeholder="Buscar en toda la tabla"/>  
+                            </div>
+                        </f:facet>
+                        <p:column filterBy="#{item.idSstIncidente}" filterMatchMode="contains" width="110" >
+                            <f:facet name="header">Código</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{item.idSstIncidente}SST-R"/>
+                        </p:column>
+                        <p:column filterBy="#{item.idSeccion}" filterMatchMode="contains" width="400">
+                            <f:facet name="header">Sección</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1.5em;" value="#{item.idSeccion.toString().toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.tipo}" filterMatchMode="contains" priority="6">
+                            <f:facet name="header">Tipo</f:facet>
+                            <h:outputText value="#{item.tipo.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.descripcion}"  filterMatchMode="contains" priority="6">
+                            <f:facet name="header">Descripción</f:facet>
+                            <h:outputText value="#{item.descripcion.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.recomendacion}"  filterMatchMode="contains" priority="6">
+                            <f:facet name="header">Recomendación</f:facet>
+                            <h:outputText value="#{item.recomendacion.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.observaciones}"  filterMatchMode="contains" priority="6">
+                            <f:facet name="header">Observaciones</f:facet>
+                            <h:outputText value="#{item.observaciones.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.idUsuario}"  filterMatchMode="contains" priority="6">
+                            <f:facet name="header">Usuario</f:facet>
+                            <h:outputText value="#{item.idUsuario.toString().toUpperCase()}"/>
+                        </p:column>
+                        
+                        <p:column priority="7">
+                             <f:facet name="header">Fecha del reporte</f:facet>
+                             <h:outputText value="#{item.fecha}">
+                                 <f:convertDateTime pattern="MMMM dd, YYYY"/>
+                             </h:outputText>
+                        </p:column>
+                        <p:column filterBy="#{item.estado}" filterMatchMode="contains" priority="6">
+                            <f:facet name="header">Estado</f:facet>
+                            <h:outputText value="#{item.estado}"/>
+                        </p:column>
+                        <p:column width="100">
+                            <p:commandButton ajax="false" process="@this"  icon="ui-icon-pencil" id="actualizar" action="#{sstReporteController.prepareEdit}">
+                                <f:setPropertyActionListener value="#{item}" target="#{sstReporteController.sstReporteUsuarioActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-botonActualizar" for="actualizar" value="Actualizar reporte" trackMouse="true" />
+                            <p:commandButton ajax="false" process="@this"  icon="ui-icon-search" id="ver" action="#{sstReporteController.prepareView}">
+                                <f:setPropertyActionListener value="#{item}" target="#{sstReporteController.sstReporteUsuarioActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-botonVer" for="ver" value="Ver reporte" trackMouse="true" />
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

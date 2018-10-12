@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminMante}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modManteEdificios/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaActividadesEdificiosController.prepareViewCalendario}">
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario de Actividades</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaAnualController.prepareList}">
+                                <i class="fa fa-calendar-check-o"></i>
+                                <span>Cronograma Anual</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Historial de Actividades</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaActividadesEdificiosController.prepareListAnualDaños}">
+                                     <span>Daños de Infraestructura</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaActividadesEdificiosController.prepareListAnualInconsistenciaAseo}">
+                                     <span>Inconsistencia de Aseos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Lista de diagnosticos (Actividades diarias)</ui:define>  
+        <ui:define name="body">
+            <h:form>
+                <nav class="navbar navbar-inverse" role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target=".navbar-ex1-collapse">
+                          <span class="sr-only">Desplegar navegación</span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <p:commandLink ajax="false" action="#{cronogramaActividadesEdificiosController.prepareViewCalendario}">
+                                  <i class="fa fa-calendar"></i>
+                                 <span>Cronograma de mantenimientos</span>
+                              </p:commandLink>
+                             </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                  <i class="fa fa-wrench"></i>
+                                  Actividades diarias<b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="divider"></li>
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaActividadesEdificiosController.prepareListActividad}">
+                                            <i class="fa fa-th-list"/>
+                                            <span>Ver lista de actividades diarias</span>
+                                        </p:commandLink>  
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                  <i class="fa fa-wrench"></i>
+                                  Reportes sin diagnostico<b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaActividadesEdificiosController.prepareListDaños}" >
+                                            <i class="fa fa-home"/>
+                                            <span>Daños en la infraestructura</span>
+                                        </p:commandLink>  
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaActividadesEdificiosController.prepareListInconsistenciaAseo}">
+                                            <i class="fa fa-tint"/>
+                                            <span>Inconsistencias en los aseos</span>
+                                        </p:commandLink>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                  <i class="fa fa-wrench"></i>
+                                  Historial de Diagnósticos<b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu active">
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaActividadesEdificiosController.prepareListDiagnosticosDaños}">
+                                            <i class="fa fa-home"/>
+                                            <span>Daños en la infraestructura</span>
+                                        </p:commandLink>  
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaActividadesEdificiosController.prepareListDiagnosticosAseos}">
+                                            <i class="fa fa-tint"/>
+                                            <span>Inconsistencias en los aseos</span>
+                                        </p:commandLink>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaActividadesEdificiosController.prepareListDiagnosticosActividades}">
+                                            <i class="fa fa-th-list"/>
+                                            <span>Actividades diarias</span>
+                                        </p:commandLink>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </h:form>
+            <h:form id="MantenimientosFormList">
+                <p:outputPanel id="MantenimientosTablePanel">
+                    <p:dataTable value="#{cronogramaActividadesEdificiosController.diagnosticoActividadList}" var="diagnostico"
+                                 rows="100" id="incidenteTable" 
+                                 paginator="true"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="100,150,200">
+
+                        <p:column filterBy="#{diagnostico.idDiagnosticoActividadEdificios}" width="120" filterMatchMode="contains">
+                            <f:facet name="header"># Ticket:</f:facet>
+                            <h:outputText value="#{diagnostico.idDiagnosticoActividadEdificios}CFIP-D-I" style="font-weight: bold; font-size: 1.1em"/>
+                        </p:column>
+                        <p:column filterBy="#{diagnostico.idCronogramaActividadesEdificios.idSeccion.nombreSeccion}" styleClass="wrap" filterMatchMode="contains">
+                            <f:facet name="header">Sección</f:facet>
+                            <h:outputText value="#{diagnostico.idCronogramaActividadesEdificios.idSeccion.nombreSeccion.toUpperCase()}" style="font-weight: bold; font-size: 1.1em"/>
+                        </p:column>
+                        <p:column filterBy="#{diagnostico.idCronogramaActividadesEdificios.idSeccion.idBloque}" styleClass="wrap" width="60" filterMatchMode="contains">
+                            <f:facet name="header">Bloque</f:facet>
+                            <h:outputText value="#{diagnostico.idCronogramaActividadesEdificios.idSeccion.idBloque}" style="font-weight: bold; font-size: 1.1em"/>
+                        </p:column>
+                        <p:column filterBy="#{diagnostico.idCronogramaActividadesEdificios.descripcion}" styleClass="wrap" width="300"  filterMatchMode="contains">
+                            <f:facet name="header">Descripción de la Inconsistencia</f:facet>
+                            <h:outputText value="#{diagnostico.idCronogramaActividadesEdificios.descripcion.toUpperCase()}" style="font-weight: bold; font-size: 1.1em"/>
+                        </p:column>
+                      
+                        <p:column filterBy="#{diagnostico.idCronogramaActividadesEdificios.idUsuario.toString()}"  styleClass="wrap" width="300"  filterMatchMode="contains">
+                            <f:facet name="header">Responsable de la actividad</f:facet>
+                            <h:outputText value="#{diagnostico.idCronogramaActividadesEdificios.idUsuario.toString()}" style="font-weight: bold; font-size: 1.1em"/>
+                        </p:column>
+                        <p:column filterBy="#{diagnostico.descripcionDiagnostico}" filterMatchMode="contains">
+                            <f:facet name="header">Observación</f:facet>
+                            <h:outputText value="#{diagnostico.descripcionDiagnostico.toUpperCase()}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Fecha que se cumplio la observación</f:facet>
+                            <h:outputText value="#{diagnostico.fechaDiagnostico}">
+                                <f:convertDateTime pattern="MMMM dd, YYYY"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
