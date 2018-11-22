@@ -36,13 +36,8 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/entities/TipoEstudiante.java</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/controller/ReporteBibliotecaController.java</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/reservaLibro/crear/crear.xhtml</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/entities/ReporteBiblioteca.java</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/reservaLibro/reportesLibroU/crearRPU/crear.xhtml</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/usuario/modBiblioteca/ListarLibro/lista.xhtml</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/entities/ReservaLibrosBiblioteca.java</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/controller/ReservaLibrosController.java</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modBiblioteca/indicadoresGestion/crearIndGestion.xhtml</file>
         </group>
     </open-files>
 </project-private>

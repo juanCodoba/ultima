@@ -7,6 +7,7 @@ package com.proyectoCFIP.sessions;
 
 import com.proyectoCFIP.entities.AuPeriodoPlanAuditoria;
 import com.proyectoCFIP.entities.AuPlanAuditoria;
+import com.proyectoCFIP.entities.TipoAuditoria;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -35,9 +36,8 @@ public class AuPlanAuditoriaFacade extends AbstractFacade<AuPlanAuditoria> {
 
     
     
-       public List<AuPlanAuditoria> consultaTipoPlanAuditoria(String tipoAuditoria) {
+       public List<AuPlanAuditoria> consultaTipoPlanAuditoria() {
         Query q = getEntityManager().createNamedQuery("AuPlanAuditoria.findByTipoAuditoria");   
-        q.setParameter("tipoAuditoriaCo", tipoAuditoria);
         return q.getResultList();
     }
 
@@ -47,15 +47,13 @@ public class AuPlanAuditoriaFacade extends AbstractFacade<AuPlanAuditoria> {
         return q.getResultList();
     }
     
-    public List<AuPlanAuditoria> consultaTipoPlanAuditoriaCalidad(String tipoAuditoria) {
+    public List<AuPlanAuditoria> consultaTipoPlanAuditoriaCalidad() {
         Query q = getEntityManager().createNamedQuery("AuPlanAuditoria.findByTipoAuditoriaCalidad");
-        q.setParameter("tipoAuditoriaC", tipoAuditoria);
         return q.getResultList();
     }
 //
-    public List<AuPlanAuditoria> consultaTipoPlanAuditoriaExterna(String tipoAuditoria) {
+    public List<AuPlanAuditoria> consultaTipoPlanAuditoriaExterna() {
         Query q = getEntityManager().createNamedQuery("AuPlanAuditoria.findByTipoAuditoriaExterna");
-        q.setParameter("tipoAuditoriaE", tipoAuditoria);
         return q.getResultList();
     }
 

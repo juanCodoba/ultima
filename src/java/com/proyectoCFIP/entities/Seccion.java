@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,7 +43,7 @@ public class Seccion implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSeccion")
     private List<SstReporteUsuario> sstReporteUsuarioList;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSeccion")
+    @OneToMany(cascade = CascadeType.PERSIST,fetch=FetchType.LAZY, mappedBy = "idSeccion")
     private List<CronogramaActividadesEdificios> cronogramaActividadesEdificiosList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSeccion")
     private List<SolicitudEdificio> solicitudEdificioList;

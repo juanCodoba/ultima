@@ -154,8 +154,7 @@ and open the template in the editor.
                         <h:outputLabel value="Genero:" style="position: relative;left: 25%; color: black"/>
                         <p:selectOneMenu style="width: 100%;position: relative;left: 25% ;color: black"
                                          id="genero"
-                                         required="true"
-                                         requiredMessage="Ingrese el Genero"
+                                        
                                          value="#{LibroController.libroActual.idGenero}"
                                          filter="true" filterMatchMode="contains">
                             <f:selectItem itemLabel="Seleccionar uno.." />
@@ -168,8 +167,7 @@ and open the template in the editor.
                         <h:outputLabel value="Rotulo:" style="width: 100%;position: relative;left: 25%;color: black" />
                         <p:selectOneMenu style="width: 100%; position: relative;left: 25%"
                                          id="rotulo"
-                                         required="true"
-                                         requiredMessage="Ingrese El Nombre De la Prenda"
+                                         
                                          value="#{LibroController.libroActual.idRotulo}">                        
                             <f:selectItem itemLabel="Seleccionar uno.." />
                             <f:selectItems value="#{RotuloController.listaRotulo}" var="rotulo" itemValue="#{rotulo}"/> 
@@ -183,8 +181,7 @@ and open the template in the editor.
                         <h:outputLabel value="Estado del Libro:" style="width: 100%;position: relative;left: 25%;color: black" />
                         <p:selectOneMenu style="width: 100%;position: relative;left: 25%"
                                          id="prendaT12"
-                                         required="true"
-                                         requiredMessage="Estado del Libro"
+                                         
                                          value="#{LibroController.libroActual.idEstadoLibro}">                        
                             <f:ajax execute="@this" render="clienteMessage"/>
                             <f:selectItem itemLabel="Seleccionar uno.." />
@@ -199,8 +196,7 @@ and open the template in the editor.
                                 <h:outputLabel value="Codigo:"  />
                                 <p:inputText  class="form-control"
                                               id="item"
-                                              required="true"
-                                              requiredMessage="Ingrese el codigo del Item"
+                                              
                                               value="#{LibroController.libroActual.codigo}">
                                     <f:ajax execute="@this" render="itemMessage"/>
                                 </p:inputText>
@@ -228,8 +224,7 @@ and open the template in the editor.
                                 <h:outputLabel value="Editorial"    />
                                 <input placeholder="Editorial " 
                                        class="form-control"
-                                       required="true"
-                                       requiredMessage="Ingrese la descripción de la abertura"
+                                       
                                        jsf:id="abertura"
                                        value="#{LibroController.libroActual.editorial }" 
                                        type="text" >
@@ -243,8 +238,7 @@ and open the template in the editor.
                                 <h:outputLabel value="N° De Copias:"   />
                                 <input placeholder="N° De Copias " 
                                        class="form-control"
-                                       required="true"
-                                       requiredMessage="Ingrese la descripción de la abertura"
+                                       
                                        jsf:id="puntada"
                                        value="#{LibroController.libroActual.copiasDelLibro }" 
                                        type="text" >
@@ -258,8 +252,7 @@ and open the template in the editor.
                                 <h:outputLabel value="Costo del Libro:"   />
                                 <input placeholder="Costo del libro " 
                                        class="form-control"
-                                       required="true"
-                                       requiredMessage="Ingrese la descripción de la abertura"
+                                       
                                        jsf:id="marquilla"
                                        value="#{LibroController.libroActual.costoLibro }" 
                                        type="text" >
@@ -275,8 +268,7 @@ and open the template in the editor.
                                 <h:outputLabel value="Autor del Libro:"   />
                                 <input placeholder="Autor del Libro " 
                                        class="form-control"
-                                       required="true"
-                                       requiredMessage="Ingrese la descripción de la abertura"
+                                       
                                        jsf:id="reflectivo"
                                        value="#{LibroController.libroActual.autor }" 
                                        type="text" >
@@ -293,7 +285,7 @@ and open the template in the editor.
                                                  value="#{LibroController.libroActual.descripcionNormal}" 
                                                  style="height: 200px;">
                                 </p:inputTextarea>
-                                <p:message id="observacionesMessage" for="observaciones" styleClass="error"/>
+
                             </div>
                         </p:outputPanel>
 

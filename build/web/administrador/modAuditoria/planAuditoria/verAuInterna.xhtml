@@ -110,7 +110,7 @@
                         </div>
                         <div class="col-md-12 form-group">
                             <h:outputLabel value="Tipo De Auditoria"  />
-                            <h:inputText class="form-control" disabled="true" value="#{auPlanAuditoriaController.planAuditoriaActual.tipoAuditoria}">
+                            <h:inputText class="form-control" disabled="true" value="#{auPlanAuditoriaController.planAuditoriaActual.idTipoAuditoria}">
                             </h:inputText>
                         </div>
                         <div class="col-md-12 form-group" jsf:rendered="#{loginController.auditor}" >
@@ -152,24 +152,25 @@
 
                     </h:panelGroup>
                 </div>
-                <div style="position: absolute; bottom: 4em;  ">
+                <div style="position: absolute; bottom: 4em;" jsf:rendered="#{loginController.auditor || auPlanAuditoriaController.externa}">
                     <div class="container row">
                         <div class="col-sm-12 form-group">
-                            <h:outputLabel value="Link de acceso al acta de socialización:"  />
+                            <h:outputLabel value="Link de acceso al acta de socialización:" rendered="#{loginController.auditor || auPlanAuditoriaController.externa}" />
                             <input placeholder="Acceso del documento" class="form-control" 
                                    jsf:id="linkActaInputText" 
                                    jsf:value="#{auPlanAuditoriaController.planAuditoriaActual.actaSocializacion}" 
-                                   type="text">
+                                   type="text" jsf:rendered="#{loginController.auditor || auPlanAuditoriaController.externa}">
                                 <f:ajax execute="@this" render="linkMessage"/>
                             </input>
                             <p:message id="linkActaMessage" for="linkActaInputText" styleClass="error"/>
                         </div>
                         <div class=" col-sm-12 form-group">
-                            <h:outputLabel value="Link de acceso al informe final:"  />
+                            <h:outputLabel value="Link de acceso al informe final:" rendered="#{loginController.auditor || auPlanAuditoriaController.externa}"  />
                             <input placeholder="Acceso del documento" class="form-control" 
                                    jsf:id="linkInformeInputText" 
                                    jsf:value="#{auPlanAuditoriaController.planAuditoriaActual.informeFinal}" 
-                                   type="text">
+                                   type="text"
+                                   jsf:rendered="#{loginController.auditor || auPlanAuditoriaController.externa}">
                                 <f:ajax execute="@this" render="linkMessage"/>
                             </input>
                             <p:message id="linkInformeMessage" for="linkInformeInputText" styleClass="error"/>

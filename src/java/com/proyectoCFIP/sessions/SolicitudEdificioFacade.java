@@ -45,21 +45,21 @@ public class SolicitudEdificioFacade extends AbstractFacade<SolicitudEdificio> {
           q.setParameter("horaFinAlquiler",query3);
           q.setParameter("idSeccion",idSeccion);
           try {
-            return (SolicitudEdificio) q.getSingleResult() ;
+            return  (SolicitudEdificio) q.getSingleResult();
         } catch (NonUniqueResultException ex) {
             throw ex;
         } catch (NoResultException ex){
             return null;
         }
     }
-     public SolicitudEdificio findByValidarAudiovisuales(Date query1, Date query2,Date query3, Seccion idSeccion){
+     public  SolicitudEdificio findByValidarAudiovisuales(Date query1, Date query2,Date query3, Seccion idSeccion){
           Query q= getEntityManager().createNamedQuery("SolicitudEdificio.findByValidacionAudiovisuales");
           q.setParameter("fechaAlquiler",query1);
           q.setParameter("horaInicioAlquiler",query2);
           q.setParameter("horaFinAlquiler",query3);
           q.setParameter("idSeccion",idSeccion);
           try {
-            return (SolicitudEdificio) q.getSingleResult();
+            return   (SolicitudEdificio) q.getSingleResult();
         } catch (NonUniqueResultException ex) {
             throw ex;
         } catch (NoResultException ex){

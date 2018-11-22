@@ -62,7 +62,7 @@ import org.primefaces.model.UploadedFile;
  */
 @ManagedBean
 @SessionScoped
-public class CronogramaActividadesEdificiosController implements Serializable{
+public class CronogramaActividadesEdificiosController implements Serializable {
 
     @EJB
     private CronogramaActividadesEdificiosFacade cronogramaActividadesFacade;
@@ -83,8 +83,7 @@ public class CronogramaActividadesEdificiosController implements Serializable{
     EmailSessionBean emailBean;
     public Date fechaParametro1;
     public Date fechaParametro2;
-    
-    
+
     public CronogramaActividadesEdificiosController() {
     }
 
@@ -107,21 +106,24 @@ public class CronogramaActividadesEdificiosController implements Serializable{
     public List<CronogramaActividadesEdificios> getCronogramaActividadesListDaños() {
         return cronogramaActividadesList = getCronogramaActividadesFacade().consultaTicketDaños(tipoActividad, usuarioActual);
     }
-    public List<CronogramaActividadesEdificios> getListTipoDaños(){
-         return cronogramaActividadesList = getCronogramaActividadesFacade().tipoActividad(new TipoActividad(1, "Daño de la infraestructura"));
+
+    public List<CronogramaActividadesEdificios> getListTipoDaños() {
+        return cronogramaActividadesList = getCronogramaActividadesFacade().tipoActividad(new TipoActividad(1, "Daño de la infraestructura"));
     }
-    public List<CronogramaActividadesEdificios> getListInconsistenciaAseos(){
-         return cronogramaActividadesList = getCronogramaActividadesFacade().tipoActividad(new TipoActividad(2, "Inconsistencia de aseos"));
+
+    public List<CronogramaActividadesEdificios> getListInconsistenciaAseos() {
+        return cronogramaActividadesList = getCronogramaActividadesFacade().tipoActividad(new TipoActividad(2, "Inconsistencia de aseos"));
     }
-    
+
     public List<CronogramaActividadesEdificios> getCronogramaActividadesListIncoAseo() {
         return cronogramaActividadesList = getCronogramaActividadesFacade().consultaTicketDaños(new TipoActividad(2, "Inconsistencia de aseos"), usuarioActual);
     }
-   
+
     public void setCronogramaActividadesList(List<CronogramaActividadesEdificios> cronogramaActividadesList) {
         this.cronogramaActividadesList = cronogramaActividadesList;
     }
-     public CronogramaActividadesEdificios getCronogramaActividadesEdificios(java.lang.Integer id) {
+
+    public CronogramaActividadesEdificios getCronogramaActividadesEdificios(java.lang.Integer id) {
         return getCronogramaActividadesFacade().find(id);
     }
 
@@ -152,19 +154,23 @@ public class CronogramaActividadesEdificiosController implements Serializable{
     public void setDiagnosticoActividadActual(DiagnosticoActividadEdificios diagnosticoActividadActual) {
         this.diagnosticoActividadActual = diagnosticoActividadActual;
     }
-     public List<DiagnosticoActividadEdificios> getListaDiagnosticoTicket() {
+
+    public List<DiagnosticoActividadEdificios> getListaDiagnosticoTicket() {
         return getDiagnosticoActividadFacade().consultaTicket(cronogramaActividadesActual);
     }
 
     public List<DiagnosticoActividadEdificios> getDiagnosticoActividadList() {
         return diagnosticoActividadList = getDiagnosticoActividadFacade().consultaDiagnosticoAseos(new TipoActividad(3));
     }
+
     public List<DiagnosticoActividadEdificios> getDiagnosticoActividadAseoList() {
         return diagnosticoActividadList = getDiagnosticoActividadFacade().consultaDiagnosticoAseos(new TipoActividad(2, "Inconsistencia de aseos"));
     }
-      public List<DiagnosticoActividadEdificios> getDiagnosticoActividadDañosList() {
+
+    public List<DiagnosticoActividadEdificios> getDiagnosticoActividadDañosList() {
         return diagnosticoActividadList = getDiagnosticoActividadFacade().consultaDiagnosticoAseos(new TipoActividad(1, "Daño de la infraestructura"));
     }
+
     public void setDiagnosticoActividadList(List<DiagnosticoActividadEdificios> diagnosticoActividadList) {
         this.diagnosticoActividadList = diagnosticoActividadList;
     }
@@ -184,44 +190,44 @@ public class CronogramaActividadesEdificiosController implements Serializable{
     public void setStringTipoActividad(String stringTipoActividad) {
         this.stringTipoActividad = stringTipoActividad;
     }
-    
-    
-    
-    
 
     public void setUsuarioActual(Usuario usuarioActual) {
         this.usuarioActual = usuarioActual;
     }
-    public List<CronogramaActividadesEdificios> getActividadesProgramadasList(){
-        return getCronogramaActividadesFacade().consultaCronograma(new TipoActividad(3,"Actividad programada"), new EstadoActividad(1, "Abierto"));    
+
+    public List<CronogramaActividadesEdificios> getActividadesProgramadasList() {
+        return getCronogramaActividadesFacade().consultaCronograma(new TipoActividad(3, "Actividad programada"), new EstadoActividad(1, "Abierto"));
     }
-    public List<CronogramaActividadesEdificios> getActividadesDañosList(){
-        return getCronogramaActividadesFacade().consultaCronograma(new TipoActividad(1,"Daño de la infraestructura"), new EstadoActividad(1, "Abierto"));
+
+    public List<CronogramaActividadesEdificios> getActividadesDañosList() {
+        return getCronogramaActividadesFacade().consultaCronograma(new TipoActividad(1, "Daño de la infraestructura"), new EstadoActividad(1, "Abierto"));
     }
-    public List<CronogramaActividadesEdificios> getListaReporteDaños(){
+
+    public List<CronogramaActividadesEdificios> getListaReporteDaños() {
         cronogramaActividadesList = new ArrayList<>();
         //  return listaCronogramaMantenimientos = getCronogramaMantenimientosFacade().findAll();
         return cronogramaActividadesList = getCronogramaActividadesFacade().consultaDaños(fechaParametro1, fechaParametro2);
     }
-    public List<CronogramaActividadesEdificios> getInconsistenciaAseosList(){
-        return cronogramaActividadesList=  getCronogramaActividadesFacade().consultaCronograma(new TipoActividad(2,"Inconsistencia de aseos"), new EstadoActividad(1, "Abierto"));
+
+    public List<CronogramaActividadesEdificios> getInconsistenciaAseosList() {
+        return cronogramaActividadesList = getCronogramaActividadesFacade().consultaCronograma(new TipoActividad(2, "Inconsistencia de aseos"), new EstadoActividad(1, "Abierto"));
 
     }
-    
-    public void addDiagnosticoActividad(){
+
+    public void addDiagnosticoActividad() {
         diagnosticoActividadActual.setIdCronogramaActividadesEdificios(cronogramaActividadesActual);
         getDiagnosticoActividadFacade().create(diagnosticoActividadActual);
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ticket Cerrado", "El ticket fue cerrado correctamente");
         cronogramaActividadesActual.setEstado(true);
         cronogramaActividadesActual.setIdEstadoActividad(new EstadoActividad(2));
         updateActividad();
-        cronogramaActividadesList= null;
+        cronogramaActividadesList = null;
         getActividadesDañosList();
         getActividadesProgramadasList();
         getInconsistenciaAseosList();
         sendMailDiagnostico();
     }
-    
+
     public void updateActividad() {
         try {
             getCronogramaActividadesFacade().edit(cronogramaActividadesActual);
@@ -229,9 +235,9 @@ public class CronogramaActividadesEdificiosController implements Serializable{
             addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
         }
     }
-    
-    public String addReporteDaño(){
-         try {
+
+    public String addReporteDaño() {
+        try {
             cronogramaActividadesActual.setFechaReporte(new Date());
             cronogramaActividadesActual.setHoraReporte(new Date());
             cronogramaActividadesActual.setEstado(false);
@@ -239,8 +245,8 @@ public class CronogramaActividadesEdificiosController implements Serializable{
             cronogramaActividadesActual.setIdTipoActividad(new TipoActividad(1, "DAÑO DE INFRAESTRUCTURA"));
             cronogramaActividadesActual.setIdUsuario(usuarioActual);
             getCronogramaActividadesFacade().create(cronogramaActividadesActual);
-            ticket="CFIPRD-I";
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Su daño ha sido registrado", "Su daño con numero de ticket "+cronogramaActividadesActual.getIdCronogramaActividadesEdificios()+ticket +" pronto será atendido.");
+            ticket = "CFIPRD-I";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Su daño ha sido registrado", "Su daño con numero de ticket " + cronogramaActividadesActual.getIdCronogramaActividadesEdificios() + ticket + " pronto será atendido.");
             recargarLista();
             sendMailRegistroTec();
             sendMailRegistroUser();
@@ -250,8 +256,9 @@ public class CronogramaActividadesEdificiosController implements Serializable{
             return null;
         }
     }
-    public String crearValoracionTicket(){
-      try {
+
+    public String crearValoracionTicket() {
+        try {
             cronogramaActividadesActual.setIdEstadoActividad(new EstadoActividad(3));
             getCronogramaActividadesFacade().edit(cronogramaActividadesActual);
             addSuccessMessage("Valoración guardada", "El ticket ha sido cerrado correctamente");
@@ -259,10 +266,11 @@ public class CronogramaActividadesEdificiosController implements Serializable{
         } catch (Exception e) {
             addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
             return "crearValoracionTicket";
-        }  
+        }
     }
-    public String addActividad(){
-         try {
+
+    public String addActividad() {
+        try {
             cronogramaActividadesActual.setEstado(false);
             cronogramaActividadesActual.setIdEstadoActividad(new EstadoActividad(1));
             cronogramaActividadesActual.setIdTipoActividad(new TipoActividad(3));
@@ -279,15 +287,16 @@ public class CronogramaActividadesEdificiosController implements Serializable{
             return null;
         }
     }
-    public String addReporteAseo(){
-         try {
-            ticket="CFIPIA-I";
+
+    public String addReporteAseo() {
+        try {
+            ticket = "CFIPIA-I";
             cronogramaActividadesActual.setFechaReporte(new Date());
             cronogramaActividadesActual.setHoraReporte(new Date());
             cronogramaActividadesActual.setEstado(false);
             cronogramaActividadesActual.setIdEstadoActividad(new EstadoActividad(1));
             cronogramaActividadesActual.setIdTipoActividad(new TipoActividad(2, "INCONSISTENCIA DE ASEO"));
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Su inconsistencia ha sido registrada", "Su inconsistencia con numero de ticket "+cronogramaActividadesActual.getIdCronogramaActividadesEdificios()+ticket +" pronto será atendido.");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Su inconsistencia ha sido registrada", "Su inconsistencia con numero de ticket " + cronogramaActividadesActual.getIdCronogramaActividadesEdificios() + ticket + " pronto será atendido.");
             cronogramaActividadesActual.setIdUsuario(usuarioActual);
             getCronogramaActividadesFacade().create(cronogramaActividadesActual);
             recargarLista();
@@ -299,46 +308,62 @@ public class CronogramaActividadesEdificiosController implements Serializable{
             return null;
         }
     }
-    public void prepareCreateActividad(){
+
+    public void prepareCreateActividad() {
         cronogramaActividadesActual = new CronogramaActividadesEdificios();
     }
-    public String prepareListActividad(){
+
+    public String prepareListActividad() {
         return "/administrador/modManteEdificios/calendarioActividades/actividadesDiarias/listaActividadesDiarias";
     }
-    public String prepareListDaños(){
+
+    public String prepareListDaños() {
         return "/administrador/modManteEdificios/calendarioActividades/danosInfraestructura/listaDanosInfraestructura";
     }
-    public String prepareListInconsistenciaAseo(){
+
+    public String prepareListInconsistenciaAseo() {
         return "/administrador/modManteEdificios/calendarioActividades/inconsistenciasAseos/listaInconsistenciasAseos";
     }
-    public String prepareCreate(){
+
+    public String prepareCreate() {
+//        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Acceso Denegado", "Nos encontramos trabajando en este módulo, pronto se encontrara habilitado");
+//        RequestContext.getCurrentInstance().showMessageInDialog(message);
+//        return null;
         cronogramaActividadesActual = new CronogramaActividadesEdificios();
         return "/usuario/modManteEdificios/reportarDano/crearDano";
     }
-    public String prepareListDiagnosticosAseos(){
+
+    public String prepareListDiagnosticosAseos() {
         return "/administrador/modManteEdificios/calendarioActividades/inconsistenciasAseos/listaDiagnosticoAseos";
     }
-    public String prepareListDiagnosticosDaños(){
+
+    public String prepareListDiagnosticosDaños() {
         return "/administrador/modManteEdificios/calendarioActividades/danosInfraestructura/listaDiagnosticoDanos";
     }
-    public String prepareListDiagnosticosActividades(){
+
+    public String prepareListDiagnosticosActividades() {
         return "/administrador/modManteEdificios/calendarioActividades/actividadesDiarias/listaDiagnosticoActividades";
     }
-    public String prepareListAnualDaños(){
+
+    public String prepareListAnualDaños() {
         ticket = "CFIPRD-I";
         return "/administrador/modManteEdificios/calendarioActividades/danosInfraestructura/listaDanosTotal";
     }
-    public String prepareListAnualInconsistenciaAseo(){
+
+    public String prepareListAnualInconsistenciaAseo() {
         ticket = "CFIPIA-I";
         return "/administrador/modManteEdificios/calendarioActividades/inconsistenciasAseos/listaAseosTotal";
     }
-    public void prepareCreateDiagnostico(){
+
+    public void prepareCreateDiagnostico() {
         diagnosticoActividadActual = new DiagnosticoActividadEdificios();
     }
-    public String prepareCreateIncidenteAseo(){
+
+    public String prepareCreateIncidenteAseo() {
         cronogramaActividadesActual = new CronogramaActividadesEdificios();
         return "/usuario/modManteEdificios/incidenteAseo/crearIncidenteAseo";
     }
+
     public String prepareListEstadoTicketsDaños() {
         stringTipoActividad = "(Daño de la infraestructura)";
         ticket = "CFIPRD-I";
@@ -346,87 +371,92 @@ public class CronogramaActividadesEdificiosController implements Serializable{
         tipoActividad = new TipoActividad(1, "Daño de la infraestructura");
         return "/usuario/modManteEdificios/ticketsValoraciones/listaEstadoTicket";
     }
-     public String prepareListEstadoTicketsAseos() {
+
+    public String prepareListEstadoTicketsAseos() {
         stringTipoActividad = "(Inconsistencia de aseo)";
         ticket = "CFIPIA-I";
         cronogramaActividadesList = new ArrayList<>();
-        tipoActividad = new TipoActividad(2, "Inconsistencia de aseos");        
+        tipoActividad = new TipoActividad(2, "Inconsistencia de aseos");
         return "/usuario/modManteEdificios/ticketsValoraciones/listaEstadoTicket";
     }
-    public void recargarLista(){
+
+    public void recargarLista() {
         cronogramaActividadesList = null;
     }
-    
+
     public void prepareViewDiagnostico(ActionEvent event) {
         cronogramaActividadesActual = new CronogramaActividadesEdificios();
         cronogramaActividadesActual = (CronogramaActividadesEdificios) event.getComponent().getAttributes().get("mantenimiento");
         cronogramaActividadesList = new ArrayList<>();
         //listaActividadAprendizaje=actividadActual.getActividadAprendizajeList(); 
     }
-     public String viewValoracionDaño(){
-         if(cronogramaActividadesActual.getIdTipoActividad().equals(new TipoActividad(1))){
-             ticket="CFIPRD-I";
-         }else if(cronogramaActividadesActual.getIdTipoActividad().equals(new TipoActividad(2))){
-             ticket="CFIPIA-I";
-         }
-        
-        if(cronogramaActividadesActual.getIdEstadoActividad().equals(new EstadoActividad(2))){
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Valora el servicio prestado", "Por favor valora el servicio prestado para cerrar correctamente el ticket.");
-                RequestContext.getCurrentInstance().showMessageInDialog(message);
-            return "/usuario/modManteEdificios/ticketsValoraciones/crearValoracionTicket"; 
-        }else if(cronogramaActividadesActual.getIdEstadoActividad().equals(new EstadoActividad(3))){
-            return "/usuario/modManteEdificios/ticketsValoraciones/verValoracionTicket"; 
-        }else{
-            addErrorMessage("Ticket no diagnosticado"  , "Para valorar el servicio debes esperar a que nuestros técnicos diagnostiquen el ticket");
+
+    public String viewValoracionDaño() {
+        if (cronogramaActividadesActual.getIdTipoActividad().equals(new TipoActividad(1))) {
+            ticket = "CFIPRD-I";
+        } else if (cronogramaActividadesActual.getIdTipoActividad().equals(new TipoActividad(2))) {
+            ticket = "CFIPIA-I";
+        }
+
+        if (cronogramaActividadesActual.getIdEstadoActividad().equals(new EstadoActividad(2))) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Valora el servicio prestado", "Por favor valora el servicio prestado para cerrar correctamente el ticket.");
+            RequestContext.getCurrentInstance().showMessageInDialog(message);
+            return "/usuario/modManteEdificios/ticketsValoraciones/crearValoracionTicket";
+        } else if (cronogramaActividadesActual.getIdEstadoActividad().equals(new EstadoActividad(3))) {
+            return "/usuario/modManteEdificios/ticketsValoraciones/verValoracionTicket";
+        } else {
+            addErrorMessage("Ticket no diagnosticado", "Para valorar el servicio debes esperar a que nuestros técnicos diagnostiquen el ticket");
             return null;
         }
-       
+
     }
-     public String viewValoracion(){
-        if(cronogramaActividadesActual.getIdTipoActividad().equals(new TipoActividad(1))){
-             ticket="CFIPRD-I";
-        }else if(cronogramaActividadesActual.getIdTipoActividad().equals(new TipoActividad(2))){
-             ticket="CFIPIA-I";
+
+    public String viewValoracion() {
+        if (cronogramaActividadesActual.getIdTipoActividad().equals(new TipoActividad(1))) {
+            ticket = "CFIPRD-I";
+        } else if (cronogramaActividadesActual.getIdTipoActividad().equals(new TipoActividad(2))) {
+            ticket = "CFIPIA-I";
         }
-        return "/administrador/modManteEdificios/calendarioActividades/ticketsValoraciones/verValoracionTicket"; 
-     }
+        return "/administrador/modManteEdificios/calendarioActividades/ticketsValoraciones/verValoracionTicket";
+    }
+
     //imagen
-     private String getRandomImageName() {
+    private String getRandomImageName() {
         int i = (int) (Math.random() * 10000000);
-         
+
         return String.valueOf(i);
     }
 
     public void setNombreImagen(String nombreImagen) {
         this.nombreImagen = nombreImagen;
     }
-    
+
     public String getNombreImagen() {
         return nombreImagen;
     }
-     
+
     public void guardarImagen(FileUploadEvent event) throws IOException {
         nombreImagen = getRandomImageName();
         UploadedFile file = event.getFile();
         byte[] data = IOUtils.toByteArray(file.getInputstream());
         cronogramaActividadesActual.setImagen(data);
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        String newFileName = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "demo" +
-                                    File.separator + "images" + File.separator + "photocam" + File.separator + nombreImagen + ".jpg";
-         
+        String newFileName = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "demo"
+                + File.separator + "images" + File.separator + "photocam" + File.separator + nombreImagen + ".jpg";
+
         FileImageOutputStream imageOutput;
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Proceso terminado", "La imagen ha sido cargada correctamente.");
-                RequestContext.getCurrentInstance().showMessageInDialog(message);        
-                try {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Proceso terminado", "La imagen ha sido cargada correctamente.");
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
+        try {
             imageOutput = new FileImageOutputStream(new File(newFileName));
             imageOutput.write(data, 0, data.length);
             imageOutput.close();
-        
-        }
-        catch(IOException e) {
+
+        } catch (IOException e) {
             throw new FacesException("Error in writing captured image.", e);
         }
     }
+
     private void addErrorMessage(String title, String msg) {
         FacesMessage facesMsg
                 = new FacesMessage(FacesMessage.SEVERITY_ERROR, title, msg);
@@ -477,7 +507,7 @@ public class CronogramaActividadesEdificiosController implements Serializable{
             }
         }
 
-    }  
+    }
 
     public Date getFechaActual() {
         return fechaActual = new Date();
@@ -486,13 +516,12 @@ public class CronogramaActividadesEdificiosController implements Serializable{
     public void setFechaActual(Date fechaActual) {
         this.fechaActual = fechaActual;
     }
-    
 
     private ScheduleModel eventModel;
     private ScheduleModel eventModel2;
     private ScheduleEvent event = new DefaultScheduleEvent();
-    DefaultScheduleEvent man= new DefaultScheduleEvent();
- 
+    DefaultScheduleEvent man = new DefaultScheduleEvent();
+
     public void init() {
         eventModel = new DefaultScheduleModel();
         eventModel2 = new DefaultScheduleModel();
@@ -503,19 +532,19 @@ public class CronogramaActividadesEdificiosController implements Serializable{
             DateFormat fecha1 = new SimpleDateFormat("hh:mma");
             horaReporte = fecha1.format(i.getHoraReporte());
             i.getDescripcion();
-            eventModel.addEvent(new DefaultScheduleEvent(" - "+i.getIdUsuario().toString()+"\n - #TICKET "+i.getIdCronogramaActividadesEdificios()+"CFIPRD-I\n - "+i.getIdSeccion().getNombreSeccion().toUpperCase()+"\n - HORA: "+horaReporte,i.getFechaReporte(),i.getHoraReporte(),"DAÑO_INFRAESTRUCTURA"));
-            eventModel2.addEvent(new DefaultScheduleEvent(" - "+i.getIdUsuario().toString()+"\n  "+i.getIdCronogramaActividadesEdificios()+"CFIPRD-I\n - "+i.getIdSeccion().getNombreSeccion().toUpperCase()+"\n - HORA: "+horaReporte,i.getFechaReporte(),i.getHoraReporte(),"DAÑO_INFRAESTRUCTURA"));
+            eventModel.addEvent(new DefaultScheduleEvent(" - " + i.getIdUsuario().toString() + "\n - #TICKET " + i.getIdCronogramaActividadesEdificios() + "CFIPRD-I\n - " + i.getIdSeccion().getNombreSeccion().toUpperCase() + "\n - HORA: " + horaReporte, i.getFechaReporte(), i.getHoraReporte(), "DAÑO_INFRAESTRUCTURA"));
+            eventModel2.addEvent(new DefaultScheduleEvent(" - " + i.getIdUsuario().toString() + "\n  " + i.getIdCronogramaActividadesEdificios() + "CFIPRD-I\n - " + i.getIdSeccion().getNombreSeccion().toUpperCase() + "\n - HORA: " + horaReporte, i.getFechaReporte(), i.getHoraReporte(), "DAÑO_INFRAESTRUCTURA"));
         }
         //Actividades diarias
-        
+
         for (Iterator<CronogramaActividadesEdificios> it = recargarListaActividadesProgramadas().iterator(); it.hasNext();) {
             CronogramaActividadesEdificios i = it.next();
             String horaReporte;
             DateFormat fecha1 = new SimpleDateFormat("hh:mma");
             horaReporte = fecha1.format(i.getHoraReporte());
             i.getDescripcion();
-            eventModel.addEvent(new DefaultScheduleEvent(" - "+i.getIdUsuario().toString()+"\n - "+i.getDescripcion()+"\n - "+i.getIdSeccion().getNombreSeccion().toUpperCase()+"\n - HORA: "+horaReporte,i.getFechaReporte(),i.getHoraReporte(),"ACTIVIDAD_PROGRAMADA"));
-            eventModel2.addEvent(new DefaultScheduleEvent(" - "+i.getIdUsuario().toString()+"\n  "+i.getIdCronogramaActividadesEdificios()+"CFIP-A-D\n - "+i.getIdSeccion().getNombreSeccion().toUpperCase()+"\n - HORA: "+horaReporte,i.getFechaReporte(),i.getHoraReporte(),"DAÑO_INFRAESTRUCTURA"));
+            eventModel.addEvent(new DefaultScheduleEvent(" - " + i.getIdUsuario().toString() + "\n - " + i.getDescripcion() + "\n - " + i.getIdSeccion().getNombreSeccion().toUpperCase() + "\n - HORA: " + horaReporte, i.getFechaReporte(), i.getHoraReporte(), "ACTIVIDAD_PROGRAMADA"));
+            eventModel2.addEvent(new DefaultScheduleEvent(" - " + i.getIdUsuario().toString() + "\n  " + i.getIdCronogramaActividadesEdificios() + "CFIP-A-D\n - " + i.getIdSeccion().getNombreSeccion().toUpperCase() + "\n - HORA: " + horaReporte, i.getFechaReporte(), i.getHoraReporte(), "DAÑO_INFRAESTRUCTURA"));
         }
         //Inconsistencia en los aseos
         for (Iterator<CronogramaActividadesEdificios> it = recargarListaInconsistenciaAseos().iterator(); it.hasNext();) {
@@ -524,43 +553,51 @@ public class CronogramaActividadesEdificiosController implements Serializable{
             DateFormat fecha1 = new SimpleDateFormat("hh:mma");
             horaReporte = fecha1.format(i.getHoraReporte());
             i.getDescripcion();
-            eventModel.addEvent(new DefaultScheduleEvent(" - "+i.getIdUsuario().toString()+"\n - #TICKET "+i.getIdCronogramaActividadesEdificios()+"CFIPIA-I\n - "+i.getIdSeccion().getNombreSeccion().toUpperCase()+"\n - HORA: "+horaReporte,i.getFechaReporte(),i.getHoraReporte(),"INCONSISTENCIA_ASEO"));
-            eventModel2.addEvent(new DefaultScheduleEvent(" - "+i.getIdUsuario().toString()+"\n  "+i.getIdCronogramaActividadesEdificios()+"CFIPIA-I\n - "+i.getIdSeccion().getNombreSeccion().toUpperCase()+"\n - HORA: "+horaReporte,i.getFechaReporte(),i.getHoraReporte(),"DAÑO_INFRAESTRUCTURA"));
+            eventModel.addEvent(new DefaultScheduleEvent(" - " + i.getIdUsuario().toString() + "\n - #TICKET " + i.getIdCronogramaActividadesEdificios() + "CFIPIA-I\n - " + i.getIdSeccion().getNombreSeccion().toUpperCase() + "\n - HORA: " + horaReporte, i.getFechaReporte(), i.getHoraReporte(), "INCONSISTENCIA_ASEO"));
+            eventModel2.addEvent(new DefaultScheduleEvent(" - " + i.getIdUsuario().toString() + "\n  " + i.getIdCronogramaActividadesEdificios() + "CFIPIA-I\n - " + i.getIdSeccion().getNombreSeccion().toUpperCase() + "\n - HORA: " + horaReporte, i.getFechaReporte(), i.getHoraReporte(), "DAÑO_INFRAESTRUCTURA"));
         }
-    };
-    public List<CronogramaActividadesEdificios> recargarListaActividadesDaños(){
+    }
+
+    ;
+    public List<CronogramaActividadesEdificios> recargarListaActividadesDaños() {
         cronogramaActividadesList = new ArrayList<>();
-        cronogramaActividadesList=  getCronogramaActividadesFacade().consultaCronograma(new TipoActividad(1,"Daño de la infraestructura"), new EstadoActividad(1, "Abierto"));
+        cronogramaActividadesList = getCronogramaActividadesFacade().consultaCronograma(new TipoActividad(1, "Daño de la infraestructura"), new EstadoActividad(1, "Abierto"));
         return cronogramaActividadesList;
     }
-    public List<CronogramaActividadesEdificios> recargarListaActividadesProgramadas(){
+
+    public List<CronogramaActividadesEdificios> recargarListaActividadesProgramadas() {
         cronogramaActividadesList = new ArrayList<>();
-        cronogramaActividadesList=  getCronogramaActividadesFacade().consultaCronograma(new TipoActividad(3,"Actividad programada"), new EstadoActividad(1, "Abierto"));
+        cronogramaActividadesList = getCronogramaActividadesFacade().consultaCronograma(new TipoActividad(3, "Actividad programada"), new EstadoActividad(1, "Abierto"));
         return cronogramaActividadesList;
     }
-    public List<CronogramaActividadesEdificios> recargarListaInconsistenciaAseos(){
+
+    public List<CronogramaActividadesEdificios> recargarListaInconsistenciaAseos() {
         cronogramaActividadesList = new ArrayList<>();
-        cronogramaActividadesList=  getCronogramaActividadesFacade().consultaCronograma(new TipoActividad(2,"Inconsistencia de aseos"), new EstadoActividad(1, "Abierto"));
+        cronogramaActividadesList = getCronogramaActividadesFacade().consultaCronograma(new TipoActividad(2, "Inconsistencia de aseos"), new EstadoActividad(1, "Abierto"));
         return cronogramaActividadesList;
     }
-  
+
     public ScheduleModel getEventModel() {
         return eventModel;
     }
-     public ScheduleModel getEventModel2() {
+
+    public ScheduleModel getEventModel2() {
         return eventModel2;
     }
-    public String prepareViewMantenimientos(){
+
+    public String prepareViewMantenimientos() {
         return "/Admin/moduloConfigMantenimiento/mantenimientosAnuales/adminViewMantenimientosAnualesCom";
     }
-    
-    public String prepareViewCalendario(){
+
+    public String prepareViewCalendario() {
         init();
         return "/administrador/modManteEdificios/calendarioActividades/verCalendarioActividades";
-     }
+    }
+
     public void onEventSelect(SelectEvent selectEvent) {
         event = (ScheduleEvent) selectEvent.getObject();
     }
+
     public ScheduleEvent getEvent() {
         return event;
     }
@@ -576,6 +613,7 @@ public class CronogramaActividadesEdificiosController implements Serializable{
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
     //Envio de correos
     private void sendMail(String to, String subject, String body) {
         try {
@@ -585,36 +623,35 @@ public class CronogramaActividadesEdificiosController implements Serializable{
             JsfUtil.addErrorMessage("Error sending message " + ex.getClass().getName());
         }
     }
-    
-    
+
     private void sendMailRegistroTec() {
         String imagen = "";
-        String nombreUsuario="";
+        String nombreUsuario = "";
         String jornada = "";
-        String correoJornada =  "";
-        if (cronogramaActividadesActual.getImagen()== null){
+        String correoJornada = "";
+        if (cronogramaActividadesActual.getImagen() == null) {
             imagen = "NO";
-        }else{
+        } else {
             imagen = "SI";
         }
-        if(cronogramaActividadesActual.getNombreUsuarioReporte()==null){
-            nombreUsuario="N/A";
-        }else{
+        if (cronogramaActividadesActual.getNombreUsuarioReporte() == null) {
+            nombreUsuario = "N/A";
+        } else {
             nombreUsuario = cronogramaActividadesActual.getNombreUsuarioReporte().toUpperCase();
         }
-       
-        if(cronogramaActividadesActual.getIdTipoJornada()==null){
-            jornada="N/A";
-        }else{
-            jornada=cronogramaActividadesActual.getIdTipoJornada().getNombre();
+
+        if (cronogramaActividadesActual.getIdTipoJornada() == null) {
+            jornada = "N/A";
+        } else {
+            jornada = cronogramaActividadesActual.getIdTipoJornada().getNombre();
         }
-        if(cronogramaActividadesActual.getIdTipoJornada()==null){
-            correoJornada="";
-        }else{
-            correoJornada=cronogramaActividadesActual.getIdTipoJornada().getCorreo();
+        if (cronogramaActividadesActual.getIdTipoJornada() == null) {
+            correoJornada = "";
+        } else {
+            correoJornada = cronogramaActividadesActual.getIdTipoJornada().getCorreo();
         }
-        
-        String subject = "REPORTE DE "+cronogramaActividadesActual.getIdTipoActividad().getNombre().toUpperCase()+", NUMERO DE TICKET #"+ cronogramaActividadesActual.getIdCronogramaActividadesEdificios()+ticket ;
+
+        String subject = "REPORTE DE " + cronogramaActividadesActual.getIdTipoActividad().getNombre().toUpperCase() + ", NUMERO DE TICKET #" + cronogramaActividadesActual.getIdCronogramaActividadesEdificios() + ticket;
         StringBuilder mensaje = new StringBuilder();
         mensaje.append("TICKET # ");
         mensaje.append(cronogramaActividadesActual.getIdCronogramaActividadesEdificios());
@@ -638,31 +675,30 @@ public class CronogramaActividadesEdificiosController implements Serializable{
         mensaje.append(cronogramaActividadesActual.getFechaReporte().toLocaleString());
         mensaje.append("\nCAPTURA DE PANTALLA: ");
         mensaje.append(imagen);
-       
-        sendMail("auxsistemas2@cfiprovidencia.com "+" "+" mantenimiento@cfiprovidencia.com "+" "+correoJornada, subject, mensaje.toString());  
+
+        sendMail("auxsistemas2@cfiprovidencia.com " + " " + " mantenimiento@cfiprovidencia.com " + " " + correoJornada, subject, mensaje.toString());
     }
-    
+
     private void sendMailRegistroUser() {
-            String captura="";
-            String nombreUsuario="";
-            String correo="";
-            if(cronogramaActividadesActual.getImagen()== null){
-                captura="No";
-            }
-            else{
-                captura="Si";
-            }
-            if(cronogramaActividadesActual.getNombreUsuarioReporte()==null){
-                nombreUsuario=" ";
-            }else{
-                nombreUsuario = cronogramaActividadesActual.getNombreUsuarioReporte().toUpperCase();
-            }
-             if(cronogramaActividadesActual.getCorreoUsuarioReporte()==null){
-                correo=" ";
-            }else{
-                correo = cronogramaActividadesActual.getCorreoUsuarioReporte();
-            }
-        String subject = "SU REPORTE CON NUMERO DE TICKET #" + cronogramaActividadesActual.getIdCronogramaActividadesEdificios()+ticket;
+        String captura = "";
+        String nombreUsuario = "";
+        String correo = "";
+        if (cronogramaActividadesActual.getImagen() == null) {
+            captura = "No";
+        } else {
+            captura = "Si";
+        }
+        if (cronogramaActividadesActual.getNombreUsuarioReporte() == null) {
+            nombreUsuario = " ";
+        } else {
+            nombreUsuario = cronogramaActividadesActual.getNombreUsuarioReporte().toUpperCase();
+        }
+        if (cronogramaActividadesActual.getCorreoUsuarioReporte() == null) {
+            correo = " ";
+        } else {
+            correo = cronogramaActividadesActual.getCorreoUsuarioReporte();
+        }
+        String subject = "SU REPORTE CON NUMERO DE TICKET #" + cronogramaActividadesActual.getIdCronogramaActividadesEdificios() + ticket;
         StringBuilder mensaje = new StringBuilder();
         mensaje.append("TICKET # ");
         mensaje.append(cronogramaActividadesActual.getIdCronogramaActividadesEdificios());
@@ -687,19 +723,19 @@ public class CronogramaActividadesEdificiosController implements Serializable{
         mensaje.append(nombreUsuario);
         mensaje.append("\nCAPTURA DE PANTALLA: ");
         mensaje.append(captura.toUpperCase());
-       
+
         mensaje.append("\n\nPRONTO UNA PERSONA DE LA SECCIÓN DE MANTENIMIENTO DE EDIFICIOS ATENDERA SU CASO.");
-        sendMail(cronogramaActividadesActual.getIdUsuario().getCorreoUsuario()+ " "+correo, subject, mensaje.toString());
+        sendMail(cronogramaActividadesActual.getIdUsuario().getCorreoUsuario() + " " + correo, subject, mensaje.toString());
     }
-    
-    private void sendMailDiagnostico() {        
+
+    private void sendMailDiagnostico() {
         SimpleDateFormat fecha = new SimpleDateFormat("MMM/dd/yyyy");
-        String subject = "DIAGNOSTICO DEL TICKET #" + diagnosticoActividadActual.getIdCronogramaActividadesEdificios().getIdCronogramaActividadesEdificios()+"CFIP-D-I";
+        String subject = "DIAGNOSTICO DEL TICKET #" + diagnosticoActividadActual.getIdCronogramaActividadesEdificios().getIdCronogramaActividadesEdificios() + "CFIP-D-I";
         StringBuilder mensaje = new StringBuilder();
         mensaje.append("CODIGO DEL DIAGNOSTICO ");
         mensaje.append(diagnosticoActividadActual.getIdCronogramaActividadesEdificios().getIdCronogramaActividadesEdificios());
         mensaje.append("CFIP-D-I");
-        
+
         mensaje.append("\n---------------------------------------------------------------------");
         mensaje.append("\nDATOS DEL REPORTE ");
         mensaje.append("\n---------------------------------------------------------------------");
@@ -715,7 +751,7 @@ public class CronogramaActividadesEdificiosController implements Serializable{
         mensaje.append(diagnosticoActividadActual.getIdCronogramaActividadesEdificios().getFechaReporte().toLocaleString());
         mensaje.append("\nUSUARIO QUE REALIZO EL REPORTE: ");
         mensaje.append(diagnosticoActividadActual.getIdCronogramaActividadesEdificios().getIdUsuario().toString().toUpperCase());
-        
+
         mensaje.append("\n---------------------------------------------------------------------");
         mensaje.append("\nDATOS DEL DIAGNOSTICO:");
         mensaje.append("\n---------------------------------------------------------------------");
@@ -727,9 +763,9 @@ public class CronogramaActividadesEdificiosController implements Serializable{
         mensaje.append(diagnosticoActividadActual.getDescripcionDiagnostico().toUpperCase());
         mensaje.append("\nFECHA QUE SE CERRO EL TICKET: ");
         mensaje.append(fecha.format(diagnosticoActividadActual.getFechaDiagnostico()));
-        sendMail(diagnosticoActividadActual.getIdCronogramaActividadesEdificios().getIdUsuario().getCorreoUsuario() +" "+" mantenimiento@cfiprovidencia.com ", subject, mensaje.toString());
+        sendMail(diagnosticoActividadActual.getIdCronogramaActividadesEdificios().getIdUsuario().getCorreoUsuario() + " " + " mantenimiento@cfiprovidencia.com ", subject, mensaje.toString());
     }
-    
+
     //Reporte indicadores
     public Date getFechaParametro1() {
         return fechaParametro1;
@@ -746,30 +782,32 @@ public class CronogramaActividadesEdificiosController implements Serializable{
     public void setFechaParametro2(Date fechaParametro2) {
         this.fechaParametro2 = fechaParametro2;
     }
-    
+
     JasperPrint jasperPrint;
-    public void initReport() throws JRException{
+
+    public void initReport() throws JRException {
         setFechaParametro1(getFechaParametro1());
         setFechaParametro2(getFechaParametro2());
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        String newFileName = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images" +
-                                    File.separator + "logocfip.png";
-            Map parametros = new HashMap();
-            parametros.put("parameter1", fechaParametro1);
-            parametros.put("parameter2", fechaParametro2);
-            parametros.put("logo", newFileName);
-        JRBeanCollectionDataSource beanCollectionDataSource=new JRBeanCollectionDataSource(getListaReporteDaños());
+        String newFileName = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images"
+                + File.separator + "logocfip.png";
+        Map parametros = new HashMap();
+        parametros.put("parameter1", fechaParametro1);
+        parametros.put("parameter2", fechaParametro2);
+        parametros.put("logo", newFileName);
+        JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(getListaReporteDaños());
         String reportPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("reportes/indicadorDanoInfraestructura.jasper");
-       jasperPrint=JasperFillManager.fillReport(reportPath, parametros,beanCollectionDataSource);
+        jasperPrint = JasperFillManager.fillReport(reportPath, parametros, beanCollectionDataSource);
     }
-   
+
     // indicadores correctivos
-   public void PDF(ActionEvent actionEvent) throws JRException, IOException{
-       initReport();
-       HttpServletResponse httpServletResponse=(HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
-       httpServletResponse.addHeader("Content-disposition", "attachment; filename=IndicadorDanoInfraestructura.pdf");
-       ServletOutputStream servletOutputStream=httpServletResponse.getOutputStream();
-       JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
-       FacesContext.getCurrentInstance().responseComplete();
-   }
+    public void PDF(ActionEvent actionEvent) throws JRException, IOException {
+        initReport();
+        HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        httpServletResponse.addHeader("Content-disposition", "attachment; filename=IndicadorDanoInfraestructura.pdf");
+        ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+        JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+        FacesContext.getCurrentInstance().responseComplete();
+    }
 }
+

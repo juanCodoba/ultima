@@ -34,30 +34,30 @@
                         </li>
                         <li class="active">
                             <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
-                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
                                 <i class="fa fa-calendar"></i> 
                                 <span>Calendario mantenimientos</span>
                             </h:commandLink>
                         </li>
                         <li class="treeview">
-                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
-                            <span class="pull-right-container">
-                              <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                          </a>
-                          <ul class="treeview-menu">
-                            <li>
-                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
-                                     <span>Preventivos</span>
-                                </h:commandLink>
-                            </li>
-                            <li>
-                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
-                                     <span>Correctivos</span>
-                                </h:commandLink>
-                            </li>
-                          </ul>
+                            <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                        <span>Preventivos</span>
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                        <span>Correctivos</span>
+                                    </h:commandLink>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <h:commandLink action="#{reporteSiesaController.prepareListReportes}">
@@ -94,30 +94,30 @@
             </h:form>
         </ui:define>
         <ui:define name="body">
-        <p:growl id="growl" showDetail="true" life="2000"/>
-         <h:form>
-            <nav class="navbar navbar-inverse" role="navigation">
-                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse"
-                            data-target=".navbar-ex1-collapse">
-                      <span class="sr-only">Desplegar navegación</span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                    </button>
-                </div>
-                <div class="collapse navbar-collapse navbar-ex1-collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="active">
-                          <p:commandLink ajax="false" action="#{cronogramaController.prepareViewCalendario}">
-                              <i class="fa fa-calendar"></i>
-                             <span>Cronograma de mantenimientos</span>
-                          </p:commandLink>
-                         </li>
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form>
+                <nav class="navbar navbar-inverse" role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target=".navbar-ex1-collapse">
+                            <span class="sr-only">Desplegar navegación</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="active">
+                                <p:commandLink ajax="false" action="#{cronogramaController.prepareViewCalendario}">
+                                    <i class="fa fa-calendar"></i>
+                                    <span>Cronograma de mantenimientos</span>
+                                </p:commandLink>
+                            </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                  <i class="fa fa-wrench"></i>
-                                  Mantenimientos sin diagnostico<b class="caret"></b>
+                                    <i class="fa fa-wrench"></i>
+                                    Mantenimientos sin diagnostico<b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
@@ -145,118 +145,148 @@
                                 </ul>
                             </li>
                             <li>
-                            <p:commandLink ajax="false" action="#{computadorController.prepareViewProgramar}">
-                            <i class="fa fa-edit"/>
-                                <span>Programar mantenimiento tecnológico</span>
-                            </p:commandLink>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                              <i class="fa fa-wrench"></i>
-                              Historial de Diagnósticos<b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <p:commandLink ajax="false" action="#{cronogramaController.prepareViewCronogramaSolucionados}">
-                                        <i class="fa fa-desktop"/>
-                                        <span>Equipos tecnológicos</span>
-                                    </p:commandLink>  
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <p:commandLink ajax="false" action="#{diagnosticoReporteSiesaController.prepareList}">
-                                        <i class="fa fa-bug"/>
-                                        <span>Errores de ERP</span>
-                                    </p:commandLink>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </h:form>
-        <div class="container-fluid" >
-            <div class="col-md-12">
-                 <h:form>
-                    <p:schedule id="schedule" rightHeaderTemplate="" value="#{cronogramaController.eventModel}" style="border-bottom: 1px solid lightslategray" locale="tr" >
-                        <p:ajax event="eventSelect" listener="#{cronogramaController.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
-                    </p:schedule>
-                     <p:dialog id="eventDetails" widgetVar="eventDialog" header="Datos del Mantenimiento" width="500" showEffect="clip" hideEffect="clip" resizable="false" >
+                                <p:commandLink ajax="false" action="#{computadorController.prepareViewProgramar}">
+                                    <i class="fa fa-edit"/>
+                                    <span>Programar mantenimiento tecnológico</span>
+                                </p:commandLink>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-wrench"></i>
+                                    Historial de Diagnósticos<b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaController.prepareViewCronogramaSolucionados}">
+                                            <i class="fa fa-desktop"/>
+                                            <span>Equipos tecnológicos</span>
+                                        </p:commandLink>  
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{diagnosticoReporteSiesaController.prepareList}">
+                                            <i class="fa fa-bug"/>
+                                            <span>Errores de ERP</span>
+                                        </p:commandLink>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
 
-                       <div class="form-group container-fluid">
-                            <h:outputLabel value="Datos basicos:" />
-                            <p:inputTextarea class="form-control" style="font-weight: bold; font-size:0.9em; height: 7em" disabled="true" value="#{cronogramaController.event.title}"/>
-                        </div>
-                        <div class="form-group container-fluid">
-                            <h:outputLabel value="Descripción y tipo de mantenimiento:" />
-                            <p:inputTextarea class="form-control" style="font-weight: bold; font-size:0.9em; height: 4em" disabled="true" value="#{cronogramaController.event.styleClass}"/>
-                        </div>
-                        <div class="form-group container-fluid">
-                            <h:outputLabel value="Fecha mantenimiento:" />
-                            <p:inputText class=" form-control" value="#{cronogramaController.event.startDate}" disabled="true" style="font-weight: bold; font-size:0.9em;">
-                                <f:convertDateTime pattern="MMMM dd, yyyy" />
-                            </p:inputText> 
-                        </div>  
-                        <div class="container-fluid form-group">
-                            <p:commandButton ajax="false"
-                                             style="font-size: 1.1em !important;padding: 2px; width: 100%"
-                                             icon="fa fa-check" 
-                                             value="Mantenimientos preventivos sin diagnóstico" 
-                                             action="#{cronogramaController.prepareViewMantenimientosP}">
-                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
-                            </p:commandButton>
-                        </div>
-                        <div class="container-fluid form-group">
-                            <p:commandButton ajax="false" 
-                                             style="font-size: 1.1em !important;padding: 2px; width: 100%"
-                                             icon="fa fa-exclamation-triangle"
-                                             value="Mantenimientos correctivos sin diagnóstico"
-                                             action="#{cronogramaController.prepareViewMantenimientosC}">
-                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
-                            </p:commandButton>
-                        </div>
-                        <div class="container-fluid form-group">
-                            <p:commandButton ajax="false"
-                                             style="font-size: 1.1em !important;padding: 2px; width: 100%"
-                                             icon="fa fa-bug"
-                                             value="Fallos del ERP sin diagnóstico"
-                                             action="#{reporteSiesaController.prepareListErroresSinDiag}">
-                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
-                            </p:commandButton>
-                        </div>
-                    </p:dialog>
-                </h:form>
+            </h:form>
+            <div class="container-fluid" >
+                <div class="col-md-12">
+                    <h:form>
+                        <p:schedule id="schedule" rightHeaderTemplate="" value="#{cronogramaController.eventModel}" style="border-bottom: 1px solid lightslategray" locale="tr" >
+                            <p:ajax event="eventSelect" listener="#{cronogramaController.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+                        </p:schedule>
+                        <p:dialog id="eventDetails" widgetVar="eventDialog" header="Datos del Mantenimiento" width="500" showEffect="clip" hideEffect="clip" resizable="false" >
+
+                            <div class="form-group container-fluid">
+                                <h:outputLabel value="Datos basicos:" />
+                                <p:inputTextarea class="form-control" style="font-weight: bold; font-size:0.9em; height: 7em" disabled="true" value="#{cronogramaController.event.title}"/>
+                            </div>
+                            <div class="form-group container-fluid">
+                                <h:outputLabel value="Descripción y tipo de mantenimiento:" />
+                                <p:inputTextarea class="form-control" style="font-weight: bold; font-size:0.9em; height: 4em" disabled="true" value="#{cronogramaController.event.styleClass}"/>
+                            </div>
+                            <div class="form-group container-fluid">
+                                <h:outputLabel value="Fecha mantenimiento:" />
+                                <p:inputText class=" form-control" value="#{cronogramaController.event.startDate}" disabled="true" style="font-weight: bold; font-size:0.9em;">
+                                    <f:convertDateTime pattern="MMMM dd, yyyy" />
+                                </p:inputText> 
+                            </div>  
+                            <div class="container-fluid form-group">
+                                <p:commandButton ajax="false"
+                                                 style="font-size: 1.1em !important;padding: 2px; width: 100%"
+                                                 icon="fa fa-check" 
+                                                 value="Mantenimientos preventivos sin diagnóstico" 
+                                                 action="#{cronogramaController.prepareViewMantenimientosP}">
+                                    <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                </p:commandButton>
+                            </div>
+                            <div class="container-fluid form-group">
+                                <p:commandButton ajax="false" 
+                                                 style="font-size: 1.1em !important;padding: 2px; width: 100%"
+                                                 icon="fa fa-exclamation-triangle"
+                                                 value="Mantenimientos correctivos sin diagnóstico"
+                                                 action="#{cronogramaController.prepareViewMantenimientosC}">
+                                    <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                </p:commandButton>
+                            </div>
+                            <div class="container-fluid form-group">
+                                <p:commandButton ajax="false"
+                                                 style="font-size: 1.1em !important;padding: 2px; width: 100%"
+                                                 icon="fa fa-bug"
+                                                 value="Fallos del ERP sin diagnóstico"
+                                                 action="#{reporteSiesaController.prepareListErroresSinDiag}">
+                                    <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
+                                </p:commandButton>
+                            </div>
+                        </p:dialog>
+                    </h:form>
+                </div>
             </div>
-        </div>
-        <script type="text/javascript">
-            PrimeFaces.locales['tr'] = {
-                closeText: 'Cerrar',
-                prevText: 'Atras',
-                nextText: 'Adelante',
-                currentText: 'Hoy',
-                monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
-                    'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-                monthNamesShort: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
-                    'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-                dayNames: ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'],
-                dayNamesShort: ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'],
-                dayNamesMin: ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'],
-                weekHeader: 'Semanas',
-                firstDay: 1,
-                isRTL: false,
-                showMonthAfterYear: false,
-                yearSuffix: '',
-                month: 'Mes',
-                week: 'Semana',
-                day: 'Dia',
-                allDayText : 'Todo el dia'
-            };
-        </script>
-        <style type="text/css">
-            .value {
-                width: 900px;
-            }
-        </style>
+            <div class="form-group">
+                <div class="container" style="margin-top: 2em">
+                    <div class="col-md-3">
+                        <div class="col-md-2" style="width: 25px; height: 20px; background: lightblue; border: 1px solid black;"/>
+                        <div class="col-md-10">
+                            <p style="font-size: 1em; font-weight: bold; margin-top: .5em">
+                                Mantenimientos Preventivos 
+                            </p>
+                        </div>                              
+                    </div>   
+                    <div class="col-md-5">
+                        <div class="col-md-2" style="width: 25px; height: 20px;background: lightcoral ; border: 1px solid black;"/>
+                        <div class="col-md-10">
+                            <p style="font-size: 1em; font-weight: bold; margin-top: .5em">
+                                Mantenimientos Correctivos
+                            </p>
+                        </div>                              
+                    </div>
+                    <div class="col-md-4">
+                        <div class="col-md-2" style="width: 25px; height: 20px;background: #7a869d !important ; border: 1px solid black;"/>
+                        <div class="col-md-10">
+                            <p style="font-size: 1em; font-weight: bold; margin-top: .5em">
+                                Reporte de Entrada de equipos
+                            </p>
+                        </div>                              
+                    </div> 
+
+                </div>
+            </div>
+            <script type="text/javascript">
+                PrimeFaces.locales['tr'] = {
+                    closeText: 'Cerrar',
+                    prevText: 'Atras',
+                    nextText: 'Adelante',
+                    currentText: 'Hoy',
+                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    monthNamesShort: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+                    dayNamesShort: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+                    dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+                    weekHeader: 'Semanas',
+                    firstDay: 1,
+                    isRTL: false,
+                    showMonthAfterYear: false,
+                    yearSuffix: '',
+                    month: 'Mes',
+                    week: 'Semana',
+                    day: 'Dia',
+                    allDayText: 'Todo el dia'
+                };
+            </script>
+            <style type="text/css">
+                .value {
+                    width: 900px;
+                }
+            </style>
         </ui:define>
     </ui:composition>
 </html>

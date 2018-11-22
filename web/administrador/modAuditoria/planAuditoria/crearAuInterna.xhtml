@@ -108,17 +108,13 @@
                             </p:selectOneMenu>
                         </div>
 
-                        <div class="col-md-12 form-group">
-                            <h:outputLabel value="Tipo de Auditoria:"  />
-                            <p:selectOneMenu id="TipoAuditoria" style="width: 100%" filter="true" filterMatchMode="contains" value="#{auPlanAuditoriaController.planAuditoriaActual.tipoAuditoria}">
-                                <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
-                                <f:selectItem itemLabel="Plan Auditoria de Control Interno" itemValue="Plan Auditoria de Control Interno" />
-                                <f:selectItem itemLabel="Programa Auditoria Control de Calidad" itemValue="Programa Auditoria Control de Calidad" />
-                                <f:selectItem itemLabel="Plan Auditoria Control Externo" itemValue="Plan Auditoria Control Externo" />
 
-                                <f:selectItems value="#{auPlanAuditoriaController.planAuditoriaActual.tipoAuditoria}" var="tipoAuditoria" itemValue="#{tipoAuditoria}"/> 
+                        <div class="col-md-12 form-group"> 
+                            <h:outputLabel value="Tipo De Auditoria:"  />
+                            <p:selectOneMenu id="TipoAuditoria" style="width: 100%" filter="true" filterMatchMode="contains" value="#{auPlanAuditoriaController.planAuditoriaActual.idTipoAuditoria}">
+                                <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
+                                <f:selectItems value="#{TipoAuditoriaController.listaTipoAuditoria}" var="periodo" itemValue="#{tipoAuditoria}"/> 
                             </p:selectOneMenu>
-                            <p:message id="tipoAuditoria" for="tipoAuditoria" styleClass="error"/>
                         </div>
                         <div class="col-md-12 form-group">
                             <h:outputLabel value="Mes A Auditar"  style="display: block; position: relative; left: 13px;"/>

@@ -55,12 +55,13 @@
         <ui:define name="title">Modulo de auditoría</ui:define>  
         <ui:define name="body">
             <p:growl id="growl" showDetail="true" life="2000"/>
-            <h:form id="programasFormList">
+            <h:form id="programasFormList" >
                 <p:dataTable value="#{auPlanAuditoriaController.listaPlanAuditoria}" var="item"
                              rows="50" paginator="true" id="registrosTable"
                              rowStyleClass="#{item.estado eq 'Desarrollo' ? 'color3': item.estado eq 'TERMINADA' ? 'color1':null}"
                              paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="50, 100, 150" emptyMessage="No se encontraron formatos con el criterio dado">
+                             rowsPerPageTemplate="50, 100, 150" emptyMessage="No se encontraron formatos con el criterio dado"
+                             rendered="#{loginController.auditor}">
                     <f:facet name="header">
                         <div class="container-fluid">
                             <div class="row">
@@ -86,9 +87,9 @@
                         <f:facet name="header">Cód</f:facet>
                         <h:outputText  style="font-weight: bold; text-align: center" value="#{item.idPlanAuditoria}"/>
                     </p:column>
-                    <p:column filterBy="#{item.tipoAuditoria}" filterMatchMode="contains">
+                    <p:column filterBy="#{item.idTipoAuditoria.nombre.toUpperCase()}" filterMatchMode="contains">
                         <f:facet name="header">Tipo De Auditoria</f:facet>
-                        <h:outputText value="#{item.tipoAuditoria}"/>
+                        <h:outputText value="#{item.idTipoAuditoria.nombre.toUpperCase()}"/>
                     </p:column>
                     <p:column filterBy="#{item.objetivo}" filterMatchMode="contains">
                         <f:facet name="header">Objetivo</f:facet>
@@ -153,7 +154,9 @@
                             <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.planAuditoriaActual}"/>
 
                         </p:commandButton>
-                        <p:tooltip for="Agregar-concluciones" value="Agregar concluciones "/>
+                        <p:tooltip for="Agregar-concluciones" value="Agregar concluciones auditorias internas "/>
+
+
 
 
 
@@ -163,6 +166,119 @@
 
                 </p:dataTable>
             </h:form>
+            <p:growl id="growl1" showDetail="true" life="2000"/>
+            <h:form id="programasFormList1" >
+                <p:dataTable value="#{auPlanAuditoriaController.listaPlanAuditoriaCalidad}" var="item"
+                             rows="50" paginator="true" id="registrosTable"
+                             rowStyleClass="#{item.estado eq 'Desarrollo' ? 'color3': item.estado eq 'TERMINADA' ? 'color1':null}"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="50, 100, 150" emptyMessage="No se encontraron formatos con el criterio dado"
+                             rendered="#{loginController.auditorInterno }">
+                    <f:facet name="header">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-4">
+
+                                </div>
+                                <div class="col-md-4">
+                                    <h4 class="colorLetra" style="font-weight: bold" >
+                                        Total Control de auditoría: #{fn:length(auPlanAuditoriaController.listaPlanAuditoriaCalidad)}
+                                    </h4>
+                                </div>
+                                <div class="col-md-1">
+                                    <h:commandLink id="exportExcel1">
+                                        <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                        <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                                        target="registrosTable" fileName="auditoria" />
+                                    </h:commandLink>
+                                </div>
+                            </div>
+                        </div>
+                    </f:facet>
+                    <p:column width="60" filterBy="#{item.idPlanAuditoria}" filterMatchMode="contains" style=" text-align: center" >
+                        <f:facet name="header">Cód</f:facet>
+                        <h:outputText  style="font-weight: bold; text-align: center" value="#{item.idPlanAuditoria}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.idTipoAuditoria.nombre.toUpperCase()}" filterMatchMode="contains">
+                        <f:facet name="header">Tipo De Auditoria</f:facet>
+                        <h:outputText value="#{item.idTipoAuditoria.nombre.toUpperCase()}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.objetivo}" filterMatchMode="contains">
+                        <f:facet name="header">Objetivo</f:facet>
+                        <h:outputText value="#{item.objetivo}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.criterios}" filterMatchMode="contains">
+                        <f:facet name="header">Criterios de auditoria</f:facet>
+                        <h:outputText value="#{item.criterios}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.idAuPeriodoPlanAuditoria.anio}" filterMatchMode="contains">
+                        <f:facet name="header">Año de creación</f:facet>
+                        <h:outputText value="#{item.idAuPeriodoPlanAuditoria.anio}">
+                            <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column filterBy="#{item.idUsuario.toString()}" filterMatchMode="contains">
+                        <f:facet name="header">Elaborado por</f:facet>
+                        <h:outputText value="#{item.idUsuario.toString()}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.estado}" filterMatchMode="contains">
+                        <f:facet name="header">Estado</f:facet>
+                        <h:outputText value="#{item.estado.toUpperCase()}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.fechaIAuditoria}" filterMatchMode="contains">
+                        <f:facet name="header">Fecha inicio</f:facet>
+                        <h:outputText value="#{item.fechaIAuditoria}">
+                            <f:convertDateTime pattern="MMMM dd, yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column filterBy="#{item.fechafAuditoria}" filterMatchMode="contains">
+                        <f:facet name="header">Fecha Fin </f:facet>
+                        <h:outputText value="#{item.fechafAuditoria}">
+                            <f:convertDateTime pattern="MMMM dd, yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column width="130">
+                        <p:commandButton id="ver1" icon="ui-icon-search" action="#{auPlanAuditoriaController.prepareViewAuInterna}" ajax="false">
+                            <f:setPropertyActionListener value="#{item}" target="#{auPlanAuditoriaController.planAuditoriaActual}"/>
+                            <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.planAuditoriaActual}"/>
+                            <f:setPropertyActionListener value="#{item2}" target="#{AuAspectoEvaluarController.planAuditoriaActual}"/>
+
+                        </p:commandButton>
+                        <p:tooltip for="ver1" value="Ver"/>
+                        <p:commandButton id="descargar1" icon="ui-icon-document" 
+                                         action="#{auPlanAuditoriaController.obtenerInformeFinal}"
+                                         onclick="target = '_blank';PF('descargar1').hide();"
+                                         ajax="false">
+                            <f:setPropertyActionListener value="#{item}" target="#{auPlanAuditoriaController.planAuditoriaActual}"/>
+                        </p:commandButton>
+                        <p:tooltip for="descargar1" value="Descargar informe final"/>
+                        <p:commandButton id="descargar2" icon="ui-icon-document" 
+                                         action="#{auPlanAuditoriaController.obtenerActaSocializacion}"
+                                         onclick="target = '_blank';PF('descargar2').hide();"
+                                         ajax="false">
+                            <f:setPropertyActionListener value="#{item}" target="#{auPlanAuditoriaController.planAuditoriaActual}"/>
+                        </p:commandButton>
+                        <p:tooltip for="descargar2" value="Descargar acta de socialización"/>
+
+                        <p:commandButton id="Agregar-concluciones1" icon="ui-icon-pencil" action="#{auPlanAuditoriaController.prepareView()}" ajax="false">
+                            <f:setPropertyActionListener value="#{item}" target="#{auPlanAuditoriaController.planAuditoriaActual}"/>
+                            <f:setPropertyActionListener value="#{item}" target="#{AuAspectoEvaluarController.planAuditoriaActual}"/>
+                            <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.planAuditoriaActual}"/>
+
+                        </p:commandButton>
+                        <p:tooltip for="Agregar-concluciones1" value="Agregar concluciones auditorias internas "/>
+
+
+
+
+
+
+                    </p:column>
+
+
+                </p:dataTable>
+            </h:form>
+
 
             <p:dialog header="Periodo" widgetVar="dlg1" modal="true"  resizable="false" width="400">
                 <h:form id="crearPeriodo">

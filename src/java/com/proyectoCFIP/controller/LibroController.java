@@ -5,7 +5,9 @@
  */
 package com.proyectoCFIP.controller;
 
+import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.PageSize;
 import com.proyectoCFIP.entities.EstadoLibro;
 import com.proyectoCFIP.entities.Genero;
 import com.proyectoCFIP.entities.Libro;
@@ -32,6 +34,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
+import javax.faces.FacesException;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
@@ -46,6 +49,7 @@ import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
+import org.primefaces.model.StreamedContent;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 /**
@@ -199,15 +203,7 @@ public class LibroController implements Serializable {
         return listaLibro = getLibroFacade().consultaLibId();
     }
 
-    public void OnListLibroG() {
-        if (LibroActual.getIdGenero() != null && !LibroActual.getIdGenero().equals("")) {
-            listaLibro = libroFacade.consultaLibGenero(LibroActual.getIdGenero());
 
-        } else {
-
-        }
-
-    }
 
     public ReservaLibrosBibliotecaFacade getReservaLibFacade() {
         return reservaLibFacade;
@@ -328,6 +324,8 @@ public class LibroController implements Serializable {
             LibroActual.setActivo(Boolean.TRUE);
             LibroActual.setFechaModific(new Date());
             getLibroFacade().create(LibroActual);
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Libro creado", "El Libro fue creado correctamente");
+            RequestContext.getCurrentInstance().showMessageInDialog(message);
             recargarLista();
 
             return "/usuario/modBiblioteca/ListarLibro/lista";
@@ -503,7 +501,7 @@ public class LibroController implements Serializable {
         HttpSession session = (HttpSession) externalContext.getSession(true);
         String url;
         //url = "http://servidor/saintFichTec/faces/usuario/modFichaTecnica/fileCliente_1.xhtml;jsessionid=" + session.getId() + "?pdf=true";
-        url = "http://localhost:8080/fichasTecnicas/faces/usuario/modBiblioteca/indicadores/indMantenimiento.xhtml;jsessionid=" + session.getId() + "?pdf=true";
+          url = "http://localhost:8080/fichasTecnicas/faces/usuario/modBiblioteca/indicadores/indMantenimiento/indicador1.xhtml;jsessionid=" + session.getId() + "?pdf=true";
         //url = "http://167.114.11.220:8080/saint/faces/usuario/modFichaTecnica/fileCliente_1.xhtml;jsessionid=" + session.getId() + "?pdf=true";
 
         try {
@@ -512,8 +510,10 @@ public class LibroController implements Serializable {
             renderer.layout();
             HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
             response.reset();
+            Document document = new Document(PageSize.LEGAL.rectangle(40, 50));
+            document.setPageSize(PageSize.LEGAL);
             response.setContentType("application/pdf");
-            response.setHeader("Content-Disposition", "inline; filename=\"print-file.pdf\"");
+            response.setHeader("Content-Disposition", "inline; filename=\"Indicador-biblioteca.pdf\"");
             OutputStream outputStream = response.getOutputStream();
             renderer.createPDF(outputStream);
         } catch (Exception ex) {
@@ -521,5 +521,9 @@ public class LibroController implements Serializable {
         }
         facesContext.responseComplete();
     }
+    
+        private StreamedContent archivoDescarga;
+
+
 
 }

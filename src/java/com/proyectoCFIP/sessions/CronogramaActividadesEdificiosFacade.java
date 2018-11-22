@@ -18,10 +18,11 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Junior Cabal
+ * @author Luis Carlos Cabal
  */
 @Stateless
 public class CronogramaActividadesEdificiosFacade extends AbstractFacade<CronogramaActividadesEdificios> {
+
     @PersistenceContext(unitName = "ProyectoV2CFIPPU")
     private EntityManager em;
 
@@ -33,7 +34,8 @@ public class CronogramaActividadesEdificiosFacade extends AbstractFacade<Cronogr
     public CronogramaActividadesEdificiosFacade() {
         super(CronogramaActividadesEdificios.class);
     }
-    public List<CronogramaActividadesEdificios> consultaTicketDaños(TipoActividad tipoActividad,Usuario usuario){
+    
+        public List<CronogramaActividadesEdificios> consultaTicketDaños(TipoActividad tipoActividad,Usuario usuario){
         Query q= getEntityManager().createNamedQuery("CronogramaActividadesEdificios.findByConsultaTickesDaños");
         q.setParameter("idTipoActividad", tipoActividad);
         q.setParameter("idUsuario", usuario);
@@ -56,4 +58,5 @@ public class CronogramaActividadesEdificiosFacade extends AbstractFacade<Cronogr
         q.setParameter("fecha2", fecha2);
         return q.getResultList();
     }
+    
 }

@@ -8,8 +8,10 @@ package com.proyectoCFIP.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TipoJornada.findByCorreo", query = "SELECT t FROM TipoJornada t WHERE t.correo = :correo")})
 public class TipoJornada implements Serializable {
 
-    @OneToMany(mappedBy = "idTipoJornada")
+    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY,mappedBy = "idTipoJornada")
     private List<CronogramaActividadesEdificios> cronogramaActividadesEdificiosList;
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,11 +56,11 @@ public class TipoJornada implements Serializable {
     @Size(min = 1, max = 75)
     @Column(name = "correo")
     private String correo;
-    @OneToMany(mappedBy = "idTipoJornada")
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "idTipoJornada")
     private List<CronogramaManteDispositivo> cronogramaManteDispositivoList;
-    @OneToMany(mappedBy = "idTipoJornada")
+    @OneToMany(cascade = CascadeType.PERSIST,mappedBy = "idTipoJornada")
     private List<CronogramaMantenimientos> cronogramaMantenimientosList;
-    @OneToMany(mappedBy = "idTipoJornada")
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "idTipoJornada")
     private List<CronogramaManteDisCon> cronogramaManteDisConList;
 
     public TipoJornada() {

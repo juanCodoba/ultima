@@ -163,6 +163,10 @@ public class LoginController implements Serializable {
     public boolean isBibliotecario() {
         return getRequest().isUserInRole("BIBLIOTEC");
     }
+    
+        public boolean isAuditorInterno() {
+        return getRequest().isUserInRole("AUDITORI");
+    }
 
     public String login() {
         try {
@@ -282,6 +286,8 @@ public class LoginController implements Serializable {
         } else {
             return "/usuario/modSoporteSiesa/paginaPrincipal";
         }
+//            return "/usuario/modSoporteSiesa/paginaPrincipal";
+
     }
     
     

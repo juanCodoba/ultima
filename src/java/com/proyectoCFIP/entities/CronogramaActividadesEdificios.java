@@ -29,11 +29,10 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Junior Cabal
+ * @author Luis Carlos Cabal
  */
 @Entity
 @Table(name = "cronograma_actividades_edificios")
@@ -46,26 +45,22 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "CronogramaActividadesEdificios.findByDescripcionValoracion", query = "SELECT c FROM CronogramaActividadesEdificios c WHERE c.descripcionValoracion = :descripcionValoracion"),
     @NamedQuery(name = "CronogramaActividadesEdificios.findByValoracion", query = "SELECT c FROM CronogramaActividadesEdificios c WHERE c.valoracion = :valoracion"),
     @NamedQuery(name = "CronogramaActividadesEdificios.findByEstado", query = "SELECT c FROM CronogramaActividadesEdificios c WHERE c.estado = :estado"),
-    @NamedQuery(name = "CronogramaActividadesEdificios.findByConsultaTickesDaños", query = "SELECT c FROM CronogramaActividadesEdificios c WHERE c.idTipoActividad = :idTipoActividad AND c.idUsuario =:idUsuario"),
-    @NamedQuery(name = "CronogramaActividadesEdificios.findByTipoActividad", query = "SELECT c FROM CronogramaActividadesEdificios c WHERE c.idTipoActividad = :idTipoActividad"),
-    @NamedQuery(name = "CronogramaActividadesEdificios.findByConsultaCronograma", query = "SELECT c FROM CronogramaActividadesEdificios c WHERE c.idTipoActividad = :idTipoActividad AND c.idEstadoActividad =:idEstadoActividad"),
-    @NamedQuery(name = "CronogramaActividadesEdificios.findByIndicadorDano", query = "SELECT c FROM CronogramaActividadesEdificios c WHERE c.idTipoActividad.idTipoActividad = 1 AND c.fechaReporte BETWEEN :fecha1 AND :fecha2 ORDER BY c.estado"),
     @NamedQuery(name = "CronogramaActividadesEdificios.findByHoraReporte", query = "SELECT c FROM CronogramaActividadesEdificios c WHERE c.horaReporte = :horaReporte"),
-    @NamedQuery(name = "CronogramaActividadesEdificios.findByFechaValoracion", query = "SELECT c FROM CronogramaActividadesEdificios c WHERE c.fechaValoracion = :fechaValoracion")})
+    @NamedQuery(name = "CronogramaActividadesEdificios.findByFechaValoracion", query = "SELECT c FROM CronogramaActividadesEdificios c WHERE c.fechaValoracion = :fechaValoracion"),
+    @NamedQuery(name = "CronogramaActividadesEdificios.findByIdSeccion", query = "SELECT c FROM CronogramaActividadesEdificios c WHERE c.idSeccion = :idSeccion"),
+    @NamedQuery(name = "CronogramaActividadesEdificios.findByIdUsuario", query = "SELECT c FROM CronogramaActividadesEdificios c WHERE c.idUsuario = :idUsuario"),
+    @NamedQuery(name = "CronogramaActividadesEdificios.findByTipoActividad", query = "SELECT c FROM CronogramaActividadesEdificios c WHERE c.idTipoActividad = :idTipoActividad"),
+    @NamedQuery(name = "CronogramaActividadesEdificios.findByIdEstadoActividad", query = "SELECT c FROM CronogramaActividadesEdificios c WHERE c.idEstadoActividad = :idEstadoActividad"),
+    @NamedQuery(name = "CronogramaActividadesEdificios.findByNombreUsuarioReporte", query = "SELECT c FROM CronogramaActividadesEdificios c WHERE c.nombreUsuarioReporte = :nombreUsuarioReporte"),
+    @NamedQuery(name = "CronogramaActividadesEdificios.findByCorreoUsuarioReporte", query = "SELECT c FROM CronogramaActividadesEdificios c WHERE c.correoUsuarioReporte = :correoUsuarioReporte"),
+
+    @NamedQuery(name = "CronogramaActividadesEdificios.findByIndicadorDano", query = "SELECT c FROM CronogramaActividadesEdificios c WHERE c.idTipoActividad.idTipoActividad = 1 AND c.fechaReporte BETWEEN :fecha1 AND :fecha2 ORDER BY c.estado"),
+    @NamedQuery(name = "CronogramaActividadesEdificios.findByConsultaCronograma", query = "SELECT c FROM CronogramaActividadesEdificios c WHERE c.idTipoActividad = :idTipoActividad AND c.idEstadoActividad =:idEstadoActividad"),
+    @NamedQuery(name = "CronogramaActividadesEdificios.findByConsultaTickesDaños", query = "SELECT c FROM CronogramaActividadesEdificios c WHERE c.idTipoActividad = :idTipoActividad AND c.idUsuario =:idUsuario"),
+
+    @NamedQuery(name = "CronogramaActividadesEdificios.findByIdTipoJornada", query = "SELECT c FROM CronogramaActividadesEdificios c WHERE c.idTipoJornada = :idTipoJornada")})
 public class CronogramaActividadesEdificios implements Serializable {
 
-    @Lob
-    @Column(name = "imagen")
-    private byte[] imagen;
-    @Size(max = 100)
-    @Column(name = "nombre_usuario_reporte")
-    private String nombreUsuarioReporte;
-    @Size(max = 75)
-    @Column(name = "correo_usuario_reporte")
-    private String correoUsuarioReporte;
-    @JoinColumn(name = "id_tipo_jornada", referencedColumnName = "id_tipo_jornada")
-    @ManyToOne
-    private TipoJornada idTipoJornada;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -99,6 +94,11 @@ public class CronogramaActividadesEdificios implements Serializable {
     @Column(name = "fecha_valoracion")
     @Temporal(TemporalType.DATE)
     private Date fechaValoracion;
+    @Lob
+    @Column(name = "imagen")
+    private byte[] imagen;
+    
+    //RELACIONES
     @JoinColumn(name = "id_estado_actividad", referencedColumnName = "id_estado_actividad")
     @ManyToOne(optional = false)
     private EstadoActividad idEstadoActividad;
@@ -113,6 +113,17 @@ public class CronogramaActividadesEdificios implements Serializable {
     private Usuario idUsuario;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCronogramaActividadesEdificios")
     private List<DiagnosticoActividadEdificios> diagnosticoActividadEdificiosList;
+    @JoinColumn(name = "id_tipo_jornada", referencedColumnName = "id_tipo_jornada")
+    @ManyToOne
+    private TipoJornada idTipoJornada;
+    //RELACIONES
+    
+    @Size(max = 100)
+    @Column(name = "nombre_usuario_reporte")
+    private String nombreUsuarioReporte;
+    @Size(max = 75)
+    @Column(name = "correo_usuario_reporte")
+    private String correoUsuarioReporte;
 
     public CronogramaActividadesEdificios() {
     }
@@ -121,14 +132,14 @@ public class CronogramaActividadesEdificios implements Serializable {
         this.idCronogramaActividadesEdificios = idCronogramaActividadesEdificios;
     }
 
-    public CronogramaActividadesEdificios(Integer idCronogramaActividadesEdificios, String descripcion, Date fechaReporte, boolean estado, Date horaReporte) {
+    public CronogramaActividadesEdificios(Integer idCronogramaActividadesEdificios, String descripcion, Date fechaReporte, boolean estado, Date horaReporte, int idSeccion, int idUsuario, int idTipoActividad, int idEstadoActividad) {
         this.idCronogramaActividadesEdificios = idCronogramaActividadesEdificios;
         this.descripcion = descripcion;
         this.fechaReporte = fechaReporte;
         this.estado = estado;
         this.horaReporte = horaReporte;
+
     }
-    
 
     public Integer getIdCronogramaActividadesEdificios() {
         return idCronogramaActividadesEdificios;
@@ -194,6 +205,29 @@ public class CronogramaActividadesEdificios implements Serializable {
         this.fechaValoracion = fechaValoracion;
     }
 
+    public byte[] getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(byte[] imagen) {
+        this.imagen = imagen;
+    }
+
+    public String getNombreUsuarioReporte() {
+        return nombreUsuarioReporte;
+    }
+
+    public void setNombreUsuarioReporte(String nombreUsuarioReporte) {
+        this.nombreUsuarioReporte = nombreUsuarioReporte;
+    }
+
+    public String getCorreoUsuarioReporte() {
+        return correoUsuarioReporte;
+    }
+
+    public void setCorreoUsuarioReporte(String correoUsuarioReporte) {
+        this.correoUsuarioReporte = correoUsuarioReporte;
+    }
 
     public EstadoActividad getIdEstadoActividad() {
         return idEstadoActividad;
@@ -226,8 +260,23 @@ public class CronogramaActividadesEdificios implements Serializable {
     public void setIdUsuario(Usuario idUsuario) {
         this.idUsuario = idUsuario;
     }
-    
-    public String getFechaAñoString() {
+
+    public List<DiagnosticoActividadEdificios> getDiagnosticoActividadEdificiosList() {
+        return diagnosticoActividadEdificiosList;
+    }
+
+    public void setDiagnosticoActividadEdificiosList(List<DiagnosticoActividadEdificios> diagnosticoActividadEdificiosList) {
+        this.diagnosticoActividadEdificiosList = diagnosticoActividadEdificiosList;
+    }
+
+    public TipoJornada getIdTipoJornada() {
+        return idTipoJornada;
+    }
+
+    public void setIdTipoJornada(TipoJornada idTipoJornada) {
+        this.idTipoJornada = idTipoJornada;
+    }
+        public String getFechaAñoString() {
         String convertido;
         DateFormat fecha = new SimpleDateFormat("yyyy");
 	convertido = fecha.format(fechaReporte);
@@ -239,13 +288,17 @@ public class CronogramaActividadesEdificios implements Serializable {
 	convertido = fecha.format(fechaReporte);
         return convertido;
     }
-    @XmlTransient
-    public List<DiagnosticoActividadEdificios> getDiagnosticoActividadEdificiosList() {
-        return diagnosticoActividadEdificiosList;
-    }
-
-    public void setDiagnosticoActividadEdificiosList(List<DiagnosticoActividadEdificios> diagnosticoActividadEdificiosList) {
-        this.diagnosticoActividadEdificiosList = diagnosticoActividadEdificiosList;
+    
+        public String getEstadoActividad(){
+        if(getIdEstadoActividad().equals(new EstadoActividad(1)) ){
+            return "Abierto";
+        }else if(getIdEstadoActividad().equals(new EstadoActividad(2)) ){
+            return "Sin valoracion";
+        }else if(getIdEstadoActividad().equals(new EstadoActividad(3)) ){
+            return "Cerrado";
+        }else{
+            return null;
+        }
     }
 
     @Override
@@ -267,60 +320,10 @@ public class CronogramaActividadesEdificios implements Serializable {
         }
         return true;
     }
-   
-    
-    public String getEstadoActividad(){
-        if(getIdEstadoActividad().equals(new EstadoActividad(1)) ){
-            return "Abierto";
-        }else if(getIdEstadoActividad().equals(new EstadoActividad(2)) ){
-            return "Sin valoracion";
-        }else if(getIdEstadoActividad().equals(new EstadoActividad(3)) ){
-            return "Cerrado";
-        }else{
-            return null;
-        }
-    }
+
     @Override
     public String toString() {
-        return "entities.CronogramaActividadesEdificios[ idCronogramaActividadesEdificios=" + idCronogramaActividadesEdificios + " ]";
+        return "com.proyectoCFIP.entities.CronogramaActividadesEdificios[ idCronogramaActividadesEdificios=" + idCronogramaActividadesEdificios + " ]";
     }
 
-    public byte[] getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(byte[] imagen) {
-        this.imagen = imagen;
-    }
-
-    public String getNombreUsuarioReporte() {
-        return nombreUsuarioReporte;
-    }
-
-    public void setNombreUsuarioReporte(String nombreUsuarioReporte) {
-        this.nombreUsuarioReporte = nombreUsuarioReporte;
-    }
-
-    public String getCorreoUsuarioReporte() {
-        return correoUsuarioReporte;
-    }
-
-    public void setCorreoUsuarioReporte(String correoUsuarioReporte) {
-        this.correoUsuarioReporte = correoUsuarioReporte;
-    }
-
-    public TipoJornada getIdTipoJornada() {
-        return idTipoJornada;
-    }
-
-    public void setIdTipoJornada(TipoJornada idTipoJornada) {
-        this.idTipoJornada = idTipoJornada;
-    }
-
-    public boolean isEstado() {
-        return estado;
-    }
-    
-    
-    
 }

@@ -11,8 +11,9 @@ and open the template in the editor.
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
       xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+
     <ui:composition template="/template/plantilla.xhtml">
         <ui:define name="menu">
             <h:form id="menu-principal">
@@ -118,7 +119,7 @@ and open the template in the editor.
                                         <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
 
                                     </h:commandLink>
-                                    
+
 
                                 </li>
 
@@ -143,174 +144,135 @@ and open the template in the editor.
             </h:form>
         </ui:define>
         <ui:define name="body">
+
             <p:growl id="growl" showDetail="true" life="2000"/>
             <h:form id="indicador">
                 <!--INDICADORES-->
                 <div class="col-md-6">
                     <h:form>
-                        <p:commandButton class="btn btn-primary btn-block form-group" type="button" value="Indicador de valoraciones de mantenimientos correctivos"
-                                         action="#{LibroController.createIndicadorMant}"
-                                        onclick="PF('botonReportesEstrellasCorreDlg').show();"
-                                         ajax="false" id="botonReportesPrevDlg">
-                        </p:commandButton>            
-                        <h:commandButton class="btn btn-primary btn-block form-group" type="button" value="Indicador de valoraciones de mantenimientos correctivos" onclick="PF('botonReportesEstrellasCorreDlg').show();"/>
-                        <h:commandButton class="btn btn-primary btn-block form-group" type="button" value="Indicador de mantenimientos preventivos" onclick="PF('botonReportesPrevDlg').show();"/>
-                        <h:commandButton class="btn btn-primary btn-block form-group" type="button" value="Tiempo en atención al usuario" onclick="PF('tiempoIndicador').show();"/>
+                        <div class="col-md-12">
+
+
+                            <table class=" col-md-12 table">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Indicadores</th>
+                                        <th scope="col">Descargar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Indicador Principal</td>
+                                        <td>
+                                            <p:commandButton class="btn btn-primary" type="button" value="indicador general" onclick="PF('descarga').show();" ajax="false"
+                                                             >
+                                            </p:commandButton>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Indicador de Estudiantes</td>
+                                        <td>
+                                            <h:commandButton class="btn btn-primary" type="button" value="indicador general" onclick="PF('botonReportesCorreDlg').show();"
+                                                             >
+                                            </h:commandButton>
+
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+
+                        <p:dialog header="Generador de indicador" widgetVar="descarga" modal="true"  resizable="false" width="400">
+                            <div class="row">
+                                <h5 class="container-fluid">(Mantenimientos correctivos)</h5>
+                                <h:outputText class="help-block container-fluid" value="Escoge algúna de las siguientes opciones"/>
+                            </div>
+                            <div>
+                                <h:form>
+                                    <div class="form-group">
+                                        <h:outputLabel value="Fecha de inicio del indicador:"  />
+                                        <p:calendar id="fechaInicioPrestamo" 
+                                                    required="true" 
+                                                    requiredMessage="Ingresa Fecha 1" 
+                                                    value="#{reservaLibrosController.fechaParametro1}"
+                                                    pattern="MM/dd/yyyy" maxdate="#{reservaLibrosController.fechaParametro2}">
+                                            <f:ajax execute="fechaInicioPrestamo" render="msgfechaInicioPrestamo"/>
+                                            <p:ajax event="dateSelect" process="@this" update="fechaInicioPrestamo fechaFinPrestamo"/>
+                                            <p:ajax event="valueChange" process="@this" update="fechaFinPrestamo fechaInicioPrestamo"/>
+                                        </p:calendar>
+                                        <h:message id="msgfechaInicioPrestamo" for="fechaInicioPrestamo"  styleClass="error"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <h:outputLabel value="Fecha fin del indicador:"  />
+                                        <p:calendar id="fechaFinPrestamo" 
+                                                    required="true" 
+                                                    requiredMessage="Ingresa Fecha 2" 
+                                                    value="#{reservaLibrosController.fechaParametro2}"
+                                                    pattern="MM/dd/yyyy" mindate="#{reservaLibrosController.fechaParametro1}">
+                                            <f:ajax execute="fechaFinPrestamo" render="msgfechaFinPrestamo"/>
+                                            <p:ajax event="dateSelect" process="@this" update="fechaInicioPrestamo fechaFinPrestamo"/>
+                                            <p:ajax event="valueChange" process="@this" update="fechaFinPrestamo fechaInicioPrestamo"/>
+                                        </p:calendar>
+                                        <h:message id="msgfechaFinPrestamo" for="fechaFinPrestamo"  styleClass="error"/>
+                                    </div>
+                                    <h:commandButton class="btn btn-danger btn-block form-group" value="Indicador PDF" actionListener="#{LibroController.createIndicadorMant()}"/>
+                                </h:form>
+                            </div>
+                        </p:dialog>
+
+                        <p:dialog header="Generador de indicador" widgetVar="botonReportesCorreDlg" modal="true"  resizable="false" width="400">
+                            <div class="row">
+                                <h5 class="container-fluid">(Mantenimientos correctivos)</h5>
+                                <h:outputText class="help-block container-fluid" value="Escoge algúna de las siguientes opciones"/>
+                            </div>
+                            <div>
+                                <h:form>
+                                    <div class="form-group">
+                                        <h:outputLabel value="Fecha de inicio del indicador:"  />
+                                        <p:calendar id="fechaInicioPrestamo" 
+                                                    required="true" 
+                                                    requiredMessage="Ingresa Fecha 1" 
+                                                    value="#{reservaLibrosController.fechaParametro1}"
+                                                    pattern="MM/dd/yyyy" maxdate="#{reservaLibrosController.fechaParametro2}">
+                                            <f:ajax execute="fechaInicioPrestamo" render="msgfechaInicioPrestamo"/>
+                                            <p:ajax event="dateSelect" process="@this" update="fechaInicioPrestamo fechaFinPrestamo"/>
+                                            <p:ajax event="valueChange" process="@this" update="fechaInicioPrestamo fechaFinPrestamo"/>
+                                        </p:calendar>
+                                        <h:message id="msgfechaInicioPrestamo" for="fechaInicioPrestamo"  styleClass="error"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <h:outputLabel value="Fecha fin del indicador:"  />
+                                        <p:calendar id="fechaFinPrestamo" 
+                                                    required="true" 
+                                                    requiredMessage="Ingresa Fecha 2" 
+                                                    value="#{reservaLibrosController.fechaParametro2}"
+                                                    pattern="MM/dd/yyyy" mindate="#{reservaLibrosController.fechaParametro1}">
+                                            <f:ajax execute="fechaFinPrestamo" render="msgfechaFinPrestamo"/>
+                                            <p:ajax event="dateSelect" process="@this" update="fechaInicioPrestamo fechaFinPrestamo"/>
+                                            <p:ajax event="valueChange" process="@this" update="fechaFinPrestamo fechaInicioPrestamo"/>
+                                        </p:calendar>
+                                        <h:message id="msgfechaFinPrestamo" for="fechaFinPrestamo"  styleClass="error"/>
+                                    </div>
+                                    <h:commandButton class="btn btn-danger btn-block form-group" value="Indicador PDF" actionListener="#{reservaLibrosController.PDF()}" />
+                                </h:form>
+                            </div>
+                        </p:dialog>
+
+
+
+
+
                     </h:form>
                 </div>
             </h:form>
 
-            <p:dialog header="Generador de indicador" widgetVar="botonReportesCorreDlg" modal="true"  resizable="false" width="400">
-                <div class="row">
-                    <h5 class="container-fluid">(Mantenimientos correctivos)</h5>
-                    <h:outputText class="help-block container-fluid" value="Escoge algúna de las siguientes opciones"/>
-                </div>
-                <div>
-                    <h:form>
-                        <div class="form-group">
-                            <h:outputLabel value="Fecha de inicio del indicador:"  />
-                            <p:calendar id="fechaRevision" 
-                                        required="true" 
-                                        requiredMessage="Ingresa Fecha 1" 
-                                        value="#{LibroController.fechaParametro1}"
-                                        pattern="MM/dd/yyyy" maxdate="#{LibroController.fechaParametro2}">
-                                <f:ajax execute="fechaRevision" render="msgFechaRevision"/>
-                                <p:ajax event="dateSelect" process="@this" update="fechaRevision fechaEntrega"/>
-                                <p:ajax event="valueChange" process="@this" update="fechaEntrega fechaRevision"/>
-                            </p:calendar>
-                            <h:message id="msgFechaRevision" for="fechaRevision"  styleClass="error"/>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="Fecha fin del indicador:"  />
-                            <p:calendar id="fechaEntrega" 
-                                        required="true" 
-                                        requiredMessage="Ingresa Fecha 2" 
-                                        value="#{LibroController.fechaParametro2}"
-                                        pattern="MM/dd/yyyy" mindate="#{LibroController.fechaParametro1}">
-                                <f:ajax execute="fechaEntrega" render="msgFechaEntraga"/>
-                                <p:ajax event="dateSelect" process="@this" update="fechaRevision fechaEntrega"/>
-                                <p:ajax event="valueChange" process="@this" update="fechaEntrega fechaRevision"/>
-                            </p:calendar>
-                            <h:message id="msgFechaEntrega" for="fechaEntrega"  styleClass="error"/>
-                        </div>
-                        <h:commandButton class="btn btn-danger btn-block form-group" value="Indicador PDF" actionListener="#{cronogramaController.PDF}"/>
-                    </h:form>
-                </div>
-            </p:dialog>
-
-            <p:dialog header="Generador de indicador" widgetVar="botonReportesEstrellasCorreDlg" modal="true"  resizable="false" width="400">
-                <div class="row">
-                    <h5 class="container-fluid">(Indicador de valoraciones)</h5>
-                    <h:outputText class="help-block container-fluid" value="Escoge algúna de las siguientes opciones"/>
-                </div>
-                <div>
-                    <h:form>
-                        <div class="form-group">
-                            <h:outputLabel value="Fecha de inicio del indicador:"  />
-                            <p:calendar id="fechaRevision" 
-                                        required="true" 
-                                        requiredMessage="Ingresa Fecha 1" 
-                                        value="#{LibroController.fechaParametro1}"
-                                        pattern="MM/dd/yyyy" maxdate="#{LibroController.fechaParametro2}">
-                                <f:ajax execute="fechaRevision" render="msgFechaRevision"/>
-                                <p:ajax event="dateSelect" process="@this" update="fechaRevision fechaEntrega"/>
-                                <p:ajax event="valueChange" process="@this" update="fechaEntrega fechaRevision"/>
-                            </p:calendar>
-                            <h:message id="msgFechaRevision" for="fechaRevision"  styleClass="error"/>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="Fecha fin del indicador:"  />
-                            <p:calendar id="fechaEntrega" 
-                                        required="true" 
-                                        requiredMessage="Ingresa Fecha 2" 
-                                        value="#{LibroController.fechaParametro2}"
-                                        pattern="MM/dd/yyyy" mindate="#{LibroController.fechaParametro1}">
-                                <f:ajax execute="fechaEntrega" render="msgFechaEntraga"/>
-                                <p:ajax event="dateSelect" process="@this" update="fechaRevision fechaEntrega"/>
-                                <p:ajax event="valueChange" process="@this" update="fechaEntrega fechaRevision"/>
-                            </p:calendar>
-                            <h:message id="msgFechaEntrega" for="fechaEntrega"  styleClass="error"/>
-                        </div>
-                        <h:commandButton class="btn btn-danger btn-block form-group" value="Indicador PDF" actionListener="#{cronogramaController.PDFEstreCorre}"/>
-                    </h:form>
-                </div>
-            </p:dialog>
-
-            <p:dialog header="Generador de indicador" widgetVar="botonReportesPrevDlg" modal="true"  resizable="false" width="400">
-                <div class="row">
-                    <h5 class="container-fluid">(Indicador de mantenimientos preventivos)</h5>
-                    <h:outputText class="help-block container-fluid" value="Escoge algúna de las siguientes opciones"/>
-                </div>
-                <div>
-                    <h:form>
-                        <div class="form-group">
-                            <h:outputLabel value="Fecha de inicio del indicador:"  />
-                            <p:calendar id="fechaRevision" 
-                                        required="true" 
-                                        requiredMessage="Ingresa Fecha 1" 
-                                        value="#{cronogramaController.fechaParametro1}"
-                                        pattern="MM/dd/yyyy" maxdate="#{cronogramaController.fechaParametro2}">
-                                <f:ajax execute="fechaRevision" render="msgFechaRevision"/>
-                                <p:ajax event="dateSelect" process="@this" update="fechaRevision fechaEntrega"/>
-                                <p:ajax event="valueChange" process="@this" update="fechaEntrega fechaRevision"/>
-                            </p:calendar>
-                            <h:message id="msgFechaRevision" for="fechaRevision"  styleClass="error"/>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="Fecha fin del indicador:"  />
-                            <p:calendar id="fechaEntrega" 
-                                        required="true" 
-                                        requiredMessage="Ingresa Fecha 2" 
-                                        value="#{cronogramaController.fechaParametro2}"
-                                        pattern="MM/dd/yyyy" mindate="#{cronogramaController.fechaParametro1}">
-                                <f:ajax execute="fechaEntrega" render="msgFechaEntraga"/>
-                                <p:ajax event="dateSelect" process="@this" update="fechaRevision fechaEntrega"/>
-                                <p:ajax event="valueChange" process="@this" update="fechaEntrega fechaRevision"/>
-                            </p:calendar>
-                            <h:message id="msgFechaEntrega" for="fechaEntrega"  styleClass="error"/>
-                        </div>
-                        <h:commandButton class="btn btn-danger btn-block form-group" value="Indicador PDF" actionListener="#{cronogramaController.PDFPrev}"/>
-                    </h:form>
-                </div>
-            </p:dialog>
-
-            <p:dialog header="Generador de indicador" widgetVar="tiempoIndicador" modal="true"  resizable="false" width="400">
-                <div class="row">
-                    <h5 class="container-fluid">(Indicador de tiempo)</h5>
-                    <h:outputText class="help-block container-fluid" value="Escoge algúna de las siguientes opciones"/>
-                </div>
-                <div>
-                    <h:form>
-                        <div class="form-group">
-                            <h:outputLabel value="Fecha de inicio del indicador:"  />
-                            <p:calendar id="fechaRevision" 
-                                        required="true" 
-                                        requiredMessage="Ingresa Fecha 1" 
-                                        value="#{cronogramaController.fechaParametro1}"
-                                        pattern="MM/dd/yyyy" maxdate="#{cronogramaController.fechaParametro2}">
-                                <f:ajax execute="fechaRevision" render="msgFechaRevision"/>
-                                <p:ajax event="dateSelect" process="@this" update="fechaRevision fechaEntrega"/>
-                                <p:ajax event="valueChange" process="@this" update="fechaEntrega fechaRevision"/>
-                            </p:calendar>
-                            <h:message id="msgFechaRevision" for="fechaRevision"  styleClass="error"/>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="Fecha fin del indicador:"  />
-                            <p:calendar id="fechaEntrega" 
-                                        required="true" 
-                                        requiredMessage="Ingresa Fecha 2" 
-                                        value="#{cronogramaController.fechaParametro2}"
-                                        pattern="MM/dd/yyyy" mindate="#{cronogramaController.fechaParametro1}">
-                                <f:ajax execute="fechaEntrega" render="msgFechaEntraga"/>
-                                <p:ajax event="dateSelect" process="@this" update="fechaRevision fechaEntrega"/>
-                                <p:ajax event="valueChange" process="@this" update="fechaEntrega fechaRevision"/>
-                            </p:calendar>
-                            <h:message id="msgFechaEntrega" for="fechaEntrega"  styleClass="error"/>
-                        </div>
-                        <h:commandButton class="btn btn-danger btn-block form-group" value="Ver indicador" action="#{cronogramaController.prepareViewReporteTiempo}"/>
-                    </h:form>
-                </div>
-            </p:dialog>
 
         </ui:define>
     </ui:composition>

@@ -32,7 +32,7 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-08-30T14:13:28")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-09T14:16:32")
 @StaticMetamodel(Usuario.class)
 public class Usuario_ { 
 
@@ -71,6 +71,7 @@ public class Usuario_ {
     public static volatile ListAttribute<Usuario, DiagnosticoMantenimiento> diagnosticoMantenimientoList;
     public static volatile SingularAttribute<Usuario, Boolean> estadoUsuario;
     public static volatile ListAttribute<Usuario, ReservaLibrosBiblioteca> idUsuarioPrestamoList;
+    public static volatile SingularAttribute<Usuario, Boolean> auditorInterno;
     public static volatile ListAttribute<Usuario, SolicitudEdificio> solicitudEdificioList;
 
 }

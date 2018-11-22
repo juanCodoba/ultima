@@ -180,6 +180,7 @@
         <auth-constraint>
             <description>permitir ingresar </description>
             <role-name>AUD</role-name>
+            <role-name>AUDITORI</role-name>
         </auth-constraint>
         <user-data-constraint>
             <description/>
@@ -285,5 +286,10 @@
     <security-role>
         <description>Usuario Bibliotecario</description>
         <role-name>BIBLIOTEC</role-name>
+    </security-role>
+    <security-role>
+        <description>Auditor interno
+</description>
+        <role-name>AUDITORI</role-name>
     </security-role>
 </web-app>

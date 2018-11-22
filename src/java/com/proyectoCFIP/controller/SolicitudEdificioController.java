@@ -21,11 +21,9 @@ import com.proyectoCFIP.sessions.RespuestaSolicitudFacade;
 import com.proyectoCFIP.sessions.SeccionFacade;
 import com.proyectoCFIP.sessions.SolicitudEdificioFacade;
 import java.io.Serializable;
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -225,7 +223,7 @@ public class SolicitudEdificioController implements Serializable{
         listaSeccion = getSeccionFacade().consultaSeccionEspecial(new TipoSeccion(1,"Sala especial"),new TipoSeccion(2,"Auditorio"));
         return listaSeccion;
     }
-   public String addSolicitud() {
+public String addSolicitud() {
         SolicitudEdificio solicitudEdificio=getSolicitudEdificioFacade().findByValidarReserva(fechaAlquiler,horaInicioAlquiler, horaFinAlquiler, idSeccion);
         SolicitudEdificio solicitudEdificioAudiovisuales1=getSolicitudEdificioFacade().findByValidarAudiovisuales(fechaAlquiler,horaInicioAlquiler, horaFinAlquiler, new Seccion(13, "Cuarto de audiovisuales 1" ));
         SolicitudEdificio solicitudEdificioAudiovisuales2=getSolicitudEdificioFacade().findByValidarAudiovisuales(fechaAlquiler,horaInicioAlquiler, horaFinAlquiler, new Seccion(77, "Cuarto de audiovisuales 2"));
@@ -294,6 +292,7 @@ public class SolicitudEdificioController implements Serializable{
             }
         }        
     }
+
 
     public void getMessageDiag(){
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al realizar la reservación","La hora de comienzo de la reserva no puede ser mayor a la hora de finalización");

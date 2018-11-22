@@ -12,12 +12,13 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-08-30T14:13:28")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-09T14:16:32")
 @StaticMetamodel(Libro.class)
 public class Libro_ { 
 
     public static volatile SingularAttribute<Libro, String> editorial;
     public static volatile SingularAttribute<Libro, String> descripcion;
+    public static volatile SingularAttribute<Libro, String> descripcionNormal;
     public static volatile SingularAttribute<Libro, String> codigo;
     public static volatile SingularAttribute<Libro, Date> fechaReporte;
     public static volatile SingularAttribute<Libro, Date> fechaDiagnostico;
@@ -29,6 +30,7 @@ public class Libro_ {
     public static volatile SingularAttribute<Libro, Usuario> idUsuaroLib;
     public static volatile SingularAttribute<Libro, Rotulo> idRotulo;
     public static volatile SingularAttribute<Libro, Integer> costoLibro;
+    public static volatile SingularAttribute<Libro, Date> fechaModific;
     public static volatile SingularAttribute<Libro, Date> horaReporte;
     public static volatile SingularAttribute<Libro, Genero> idGenero;
     public static volatile ListAttribute<Libro, ReservaLibrosBiblioteca> reservaLibrosBibliotecas2;

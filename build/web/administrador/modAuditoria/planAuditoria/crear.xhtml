@@ -71,13 +71,12 @@
                             </p:inputText>
                             <p:message id="tituloMessage" for="titulo" styleClass="error"/>
                         </div>
-                        <div class="form-group col-md-12">
-                            <h:outputLabel value="Tipo de auditoría:"  />
-                            <p:selectOneMenu  style="width: 100%" value="#{auPlanAuditoriaController.planAuditoriaActual.tipoAuditoria}">
-                                <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}" />
-                                <f:selectItem itemLabel="Auditoría interna calidad" itemValue="Auditoría interna calidad" />
-                                <f:selectItem itemLabel="Auditoría externa ente certificador" itemValue="Auditoría externa ente certificador" />
-                                <f:selectItem itemLabel="Auditoría de control interno" itemValue="Auditoría de control interno" />
+
+                        <div class="col-md-12 form-group"> 
+                            <h:outputLabel value="Tipo De Auditoria:"  />
+                            <p:selectOneMenu id="TipoAuditoria" style="width: 100%" filter="true" filterMatchMode="contains" value="#{auPlanAuditoriaController.planAuditoriaActual.idTipoAuditoria}">
+                                <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
+                                <f:selectItems value="#{tipoAuditoriaController.listaTipoAuditoria}" var="periodo" itemValue="#{periodo}"/> 
                             </p:selectOneMenu>
                         </div>
                         <div class="col-md-12 form-group">

@@ -5,19 +5,23 @@
  */
 package com.proyectoCFIP.controller;
 
+import com.proyectoCFIP.controller.util.JsfUtil;
 import com.proyectoCFIP.entities.AuAspectoEvaluar;
 import com.proyectoCFIP.entities.AuPeriodoPlanAuditoria;
 import com.proyectoCFIP.entities.AuPlanAuditoria;
 import com.proyectoCFIP.entities.AuProcesoEvaluado;
+import com.proyectoCFIP.entities.TipoAuditoria;
 import com.proyectoCFIP.entities.Usuario;
 import com.proyectoCFIP.sessions.AuAspectoEvaluarFacade;
 import com.proyectoCFIP.sessions.AuPlanAuditoriaFacade;
 import com.proyectoCFIP.sessions.AuProcesoEvaluadoFacade;
+import com.proyectoCFIP.sessions.EmailSessionBean;
 import com.proyectoCFIP.sessions.UsuarioFacade;
 import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +29,8 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.mail.MessagingException;
+import javax.naming.NamingException;
 
 import org.primefaces.context.RequestContext;
 
@@ -58,11 +64,25 @@ public class AuPlanAuditoriaController implements Serializable {
     private Usuario usuarioActual;
     private List<Usuario> listaUsuario;
 
+    @EJB
+    EmailSessionBean emailBean;
+
     private String tipoAuditoria;
 
     private AuPeriodoPlanAuditoria periodoPlanAuditoriaActual;
 
     public AuPlanAuditoriaController() {
+    }
+
+    public boolean isExterna() {
+        return planAuditoriaActual.getIdTipoAuditoria() == null ? false
+                : planAuditoriaActual.getIdTipoAuditoria().getIdTipoAuditoria() == (short) 1;
+    }
+
+    public boolean isInterna() {
+        return planAuditoriaActual.getIdTipoAuditoria() == null ? false
+                : planAuditoriaActual.getIdTipoAuditoria().getIdTipoAuditoria() == (short) 2 ? false
+                        : planAuditoriaActual.getIdTipoAuditoria().getIdTipoAuditoria() == (short) 3;
     }
 
     public AuPlanAuditoriaFacade getPlanAuditoriaFacade() {
@@ -90,16 +110,11 @@ public class AuPlanAuditoriaController implements Serializable {
     }
 
     public List<AuPlanAuditoria> getListaPlanAuditoriaControl() {
-        return listaPlanAuditoria = getPlanAuditoriaFacade().consultaTipoPlanAuditoria("Plan Auditoria Control Externo");
+        return listaPlanAuditoria = getPlanAuditoriaFacade().consultaTipoPlanAuditoria();
     }
 
     public List<AuPlanAuditoria> getListaPlanAuditoriaCalidad() {
-        return listaPlanAuditoria = getPlanAuditoriaFacade().consultaTipoPlanAuditoriaCalidad("Programa Auditoria Control de Calidad");
-    }
-
-    public List<AuPlanAuditoria> getListaPlanAuditoriaExterna() {
-        return listaPlanAuditoria = getPlanAuditoriaFacade().consultaTipoPlanAuditoriaExterna("Plan Auditoria Control Externo");
-
+        return listaPlanAuditoria = getPlanAuditoriaFacade().consultaTipoPlanAuditoriaCalidad();
     }
 
     public void setListaPlanAuditoria(List<AuPlanAuditoria> listaPlanAuditoria) {
@@ -262,6 +277,12 @@ public class AuPlanAuditoriaController implements Serializable {
         return "/administrador/modAuditoria/planAuditoria/ver";
     }
 
+    public String prepareViewExterna() {
+        recargarLista();
+
+        return "/administrador/modAuditoria/planAuditoria/ver2";
+    }
+
     public String prepareViewAuInterna() {
         recargarLista();
 
@@ -284,16 +305,22 @@ public class AuPlanAuditoriaController implements Serializable {
             planAuditoriaActual.setIdUsuario(usuarioActual);
             planAuditoriaActual.setFecha(new Date());
             planAuditoriaActual.setEstado("Desarrollo");
+
             getPlanAuditoriaFacade().create(planAuditoriaActual);
+
             for (AuProcesoEvaluado items : listaProcesoEvaluado) {
                 items.setIdPlanAuditoria(planAuditoriaActual);
                 items.setEstado(true);
                 getProcesoEvaluadoFacade().edit(items);
+
             }
             for (AuAspectoEvaluar items2 : listaAspectoEvaluarTotal) {
                 items2.setEstado("Sin auditar");
                 getAspectoEvaluarFacade().edit(items2);
             }
+
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Auditoria Generada  ", "La Auditoria fue generada correctamente");
+            RequestContext.getCurrentInstance().showMessageInDialog(message);
             recargarLista();
             return "/usuario/modAuditoria/planAuditoria/lista";
         } catch (Exception e) {
@@ -309,7 +336,11 @@ public class AuPlanAuditoriaController implements Serializable {
             listaProcesoEvaluado.add(procesoEvaluadoActual);
             getProcesoEvaluadoFacade().create(procesoEvaluadoActual);
             procesoEvaluadoActual = new AuProcesoEvaluado();
-            addSuccessMessage("Item guardado", "Proceso a evaluar creado");
+
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Auditoria Generada  ", "Elsubroceso a auditar se a generado correctamente");
+            RequestContext.getCurrentInstance().showMessageInDialog(message);
+            recargarLista();
+            sendMailAdd3();
         } catch (Exception e) {
             addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
         }
@@ -332,6 +363,7 @@ public class AuPlanAuditoriaController implements Serializable {
             aspectoEvaluarActual.setIdAuProcesoEvaluado(procesoEvaluadoActualAspecto);
             aspectoEvaluarActual.setEstado("creacion");
             getAspectoEvaluarFacade().create(aspectoEvaluarActual);
+
             addSuccessMessage("Item guardado", "Proceso a evaluar creado");
         } catch (Exception e) {
             addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
@@ -460,6 +492,35 @@ public class AuPlanAuditoriaController implements Serializable {
             addErrorMessage("Documento sin acceso", "el documento no tiene acceso");
         } else {
             FacesContext.getCurrentInstance().getExternalContext().redirect(periodoPlanAuditoriaActual.getLinkAnexo());
+        }
+    }
+    //Envio de correos
+
+    private void sendMailAdd3() {
+        String correo = "";
+        String subject = "NUEVO PRESTAMO, ENTERATE DE ESTA NUEVA ACTUALIZACION EN TUS PRESTAMOS  ";
+        StringBuilder mensaje = new StringBuilder();
+
+        mensaje.append("\nCOD. DE LA AUDITORIA: ");
+        mensaje.append(procesoEvaluadoActual.getIdPlanAuditoria().getIdPlanAuditoria()).append("-AUD-CFIP");
+
+        mensaje.append("\nFECHA DE INICIO DE AUDITORIA: ");
+        mensaje.append(procesoEvaluadoActual.getIdPlanAuditoria().getFechaIAuditoria().toLocaleString());
+
+        mensaje.append("\nFECHA FIN DE AUDITORIA: ");
+        mensaje.append(procesoEvaluadoActual.getIdPlanAuditoria().getFechafAuditoria().toLocaleString());
+
+        mensaje.append("\n\nTodos los Derechos Reservados www.cfiprovidencia.com © 2017.");
+        sendMail("juan.cordoba@cfiprovidencia.com " + " angelica.barreiro@cfiprovidencia.com " + "sistemas@cfiprovidencia.com", subject, mensaje.toString());
+
+    }
+
+    private void sendMail(String to, String subject, String body) {
+        try {
+            emailBean.sendMail(to, subject, body);
+            JsfUtil.addSuccessMessage("Mensaje Enviado Exitosamente");
+        } catch (NamingException | MessagingException ex) {
+            JsfUtil.addErrorMessage("Error sending message " + ex.getClass().getName());
         }
     }
 

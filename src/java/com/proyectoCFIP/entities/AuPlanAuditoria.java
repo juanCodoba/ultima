@@ -47,8 +47,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "AuPlanAuditoria.findAll", query = "SELECT a FROM AuPlanAuditoria a"),
     @NamedQuery(name = "AuPlanAuditoria.findByIdPlanAuditoria", query = "SELECT a FROM AuPlanAuditoria a WHERE a.idPlanAuditoria = :idPlanAuditoria "),
-    @NamedQuery(name = "AuPlanAuditoria.findByTipoAuditoria", query = "SELECT a FROM AuPlanAuditoria a WHERE a.tipoAuditoria = :tipoAuditoriaCo ORDER BY a.idPlanAuditoria DESC "),
-    @NamedQuery(name = "AuPlanAuditoria.findByTipoAuditoriaCalidad", query = "SELECT a FROM AuPlanAuditoria a WHERE a.tipoAuditoria = :tipoAuditoriaC ORDER BY a.idPlanAuditoria DESC "),
+    @NamedQuery(name = "AuPlanAuditoria.findByTipoAuditoria", query = "SELECT a FROM AuPlanAuditoria a WHERE a.idTipoAuditoria.idTipoAuditoria = 1 ORDER BY a.idPlanAuditoria DESC "),
+    @NamedQuery(name = "AuPlanAuditoria.findByTipoAuditoriaCalidad", query = "SELECT a FROM AuPlanAuditoria a WHERE a.idTipoAuditoria.idTipoAuditoria = 2 OR a.idTipoAuditoria.idTipoAuditoria = 3  ORDER BY a.idPlanAuditoria DESC "),
     @NamedQuery(name = "AuPlanAuditoria.findByTipoAuditoriaExterna", query = "SELECT a FROM AuPlanAuditoria a WHERE a.tipoAuditoria = :tipoAuditoriaE ORDER BY a.idPlanAuditoria DESC"),
     @NamedQuery(name = "AuPlanAuditoria.findByFecha", query = "SELECT a FROM AuPlanAuditoria a WHERE a.fecha = :fecha"),
     @NamedQuery(name = "AuPlanAuditoria.findByTipoAnio", query = "SELECT a FROM AuPlanAuditoria a WHERE a.idAuPeriodoPlanAuditoria =:idAuPeriodoPlanAuditoria ORDER BY a.idPlanAuditoria DESC"),
@@ -103,7 +103,9 @@ public class AuPlanAuditoria implements Serializable {
     @OneToMany(mappedBy = "idPlanAuditoria")
     private List<AuProcesoEvaluado> auProcesoEvaluadoList;
 
-
+    @JoinColumn(name = "id_tipo_auditoria", referencedColumnName = "id_tipo_auditoria")
+    @ManyToOne
+    private TipoAuditoria idTipoAuditoria;
 
     @Size(max = 45)
     @Column(name = "estado")
@@ -552,6 +554,14 @@ public class AuPlanAuditoria implements Serializable {
 
     public void setIdAuPeriodoPlanAuditoria(AuPeriodoPlanAuditoria idAuPeriodoPlanAuditoria) {
         this.idAuPeriodoPlanAuditoria = idAuPeriodoPlanAuditoria;
+    }
+
+    public TipoAuditoria getIdTipoAuditoria() {
+        return idTipoAuditoria;
+    }
+
+    public void setIdTipoAuditoria(TipoAuditoria idTipoAuditoria) {
+        this.idTipoAuditoria = idTipoAuditoria;
     }
 
 

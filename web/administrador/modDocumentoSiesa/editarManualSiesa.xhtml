@@ -42,7 +42,7 @@ and open the template in the editor.
         <ui:define name="title">Editar manual</ui:define>        
         <ui:define name="body">
             <h:form enctype="multipart/form-data">
-                 <div class="form-group">
+                <div class="form-group">
                     <h:outputLabel class="col-md-5 help-block" value="Codigo del manual"  />
                     <div class="form-control-static">
                         <h:outputLabel value="#{manualSiesaController.manualSiesaActual.codigo.toUpperCase()}"/>
@@ -60,7 +60,7 @@ and open the template in the editor.
                         <h:outputLabel value="#{manualSiesaController.manualSiesaActual.idSuit.nombreSuit.toUpperCase()}"/>
                     </div>
                 </div>
-                 <div class="form-group">
+                <div class="form-group">
                     <h:outputLabel class="col-md-5 help-block" value="Proceso"  />
                     <div class="form-control-static">
                         <h:outputLabel value="#{manualSiesaController.manualSiesaActual.idSubprocesoSuit.nombreSubprocesoSuit.toUpperCase()}"/>
@@ -73,35 +73,35 @@ and open the template in the editor.
                     </div>
                 </div>
                 <p:separator />
-                 <div class="row">
+                <div class="row">
                     <div class="col-md-5">
                         <h:outputLabel value="Versión:  "/>
                         <div class="form-group">  
                             <p:inputNumber style="width: 100%" id="version" decimalPlaces="0" value="#{manualSiesaController.manualSiesaActual.version}"/> 
                         </div> 
                     </div>
-                    
+
                 </div>
-                
-                
-                <div class="form-group" >
-                    <h:outputLabel value="Cargar documento:" style="margin-top: 2em !important" />
-                    <p:fileUpload  cancelLabel="Cancelar" uploadLabel="Cargar documento" label="Examinar" mode="advanced" auto="true"  fileLimit="1" invalidFileMessage="Solo se aceptan archivos con formatos xls, pdf o doc"
-                                   fileLimitMessage="Solo se puede cargar un documento a la vez" allowTypes="/(\.|\/)(pdf)$/" fileUploadListener="#{manualSiesaController.guardarManual}"/>
+
+
+               <div class="form-group" >
+                    <h:outputLabel value="Cargar manual:"/>
+                    <p:fileUpload  cancelLabel="Cancelar" uploadLabel="Cargar manual" label="Examinar" mode="advanced" auto="true"  fileLimit="1" invalidFileMessage="Solo se aceptan archivos con formato pdf"
+                                   fileLimitMessage="Solo se puede cargar un documento" allowTypes="/(\.|\/)(pdf)$/" fileUploadListener="#{manualSiesaController.cargarFichaLogo}"/>
                 </div>
-                 <div class="row">
+                <div class="row">
                     <div class="col-sm-6 form-group">
                         <p:commandButton class="btn btn-primary btn-block"
-                                ajax="false"
-                                value="Actualizar"
-                                action="#{manualSiesaController.updateManual}"
-                                onclick="onSubmitButton();"/>
+                                         ajax="false"
+                                         value="Actualizar"
+                                         action="#{manualSiesaController.updateManual}"
+                                         onclick="onSubmitButton();"/>
                     </div>
                     <div class="col-sm-6 form-group">    
                         <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="/usuario/modDocumentoSiesa/listaDocumentoSiesa"/>
                     </div>
                 </div>
-                
+
             </h:form>
         </ui:define>
     </ui:composition>

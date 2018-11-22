@@ -41,19 +41,19 @@ and open the template in the editor.
         </ui:define>
         <ui:define name="title">Manuales y Procedimientos de Siesa</ui:define> 
         <ui:define name="title">Aquí puedes descargar los manuales y procedimientos del software ERP</ui:define>  
-         <ui:define name="body">
+        <ui:define name="body">
             <h:form id="documentosFormList">
                 <p:outputPanel id="documentosTablePanel">
                     <p:dataTable value="#{manualSiesaController.manualSiesaList}" var="manualesSiesa"
                                  rows="100" id="manualesTable" rowIndexVar="rowIndex"  resizableColumns="true" 
-                                    draggableColumns="true" 
+                                 draggableColumns="true" 
                                  paginator="true" widgetVar="manualesSiesaTable" 
                                  emptyMessage="No se encontraron manuales con el criterio dado"
                                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="100,200,300">
-                       
-                       
-                       <p:column filterBy="#{manualesSiesa.codigo}" width="140" filterMatchMode="contains" style=" text-align: center" >
+
+
+                        <p:column filterBy="#{manualesSiesa.codigo}" width="140" filterMatchMode="contains" style=" text-align: center" >
                             <f:facet name="header">Código del Manual</f:facet>
                             <h:outputText style="font-weight: bold; font-size: 1.3em" value="#{manualesSiesa.codigo}"/>
                         </p:column>
@@ -81,22 +81,17 @@ and open the template in the editor.
                             </h:outputText>
                         </p:column>
                         <p:column width="120">
-                            <h:commandLink id="boton-descargarUser" class="btn btn-primary" style="color: white" rendered="#{!loginController.admin}">
-                                    <li class="fa fa-download "></li> Descargar
+                            <p:commandButton icon="ui-icon-arrowthickstop-1-s" id="descargarLogo" ajax="false">
                                 <f:setPropertyActionListener value="#{manualesSiesa}" target="#{manualSiesaController.manualSiesaActual}"/>
-                                <p:fileDownload value="#{manualSiesaController.manualSiesaActual.manual}" />
-                            </h:commandLink>
-                            <p:commandButton ajax="false" id="boton-descargar"  icon="ui-icon-arrowthick-1-s" rendered="#{loginController.admin}">
-                                <f:setPropertyActionListener value="#{manualesSiesa}" target="#{manualSiesaController.manualSiesaActual}"/>
-                                <p:fileDownload value="#{manualSiesaController.manualSiesaActual.manual}" />
+                                <p:fileDownload value="#{manualSiesaController.archivoDescarga}" />
                             </p:commandButton>
-                            <p:tooltip id="descripcion-descargar" for="boton-descargar" value="Descargar Manual" trackMouse="true"/>
+                            <p:tooltip id="descripcion-descargarLogo" for="descargarLogo" value="Descargar manual" trackMouse="true" />
                             <p:commandButton rendered="#{loginController.admin}" ajax="false" id="boton-edit"  icon="ui-icon-pencil" action="#{manualSiesaController.prepareEdit}">
                                 <f:setPropertyActionListener value="#{manualesSiesa}" target="#{manualSiesaController.manualSiesaActual}"/>
                             </p:commandButton>
                             <p:tooltip id="descripcion-edit" for="boton-edit" value="Editar formato" trackMouse="true"/>
                             <p:commandButton  id="boton-delete" rendered="#{loginController.admin}" icon="ui-icon-trash" action="#{manualSiesaController.deleteManual}"
-                                             process="@this" update="documentosFormList">
+                                              process="@this" update="documentosFormList">
                                 <p:confirm header="Confirmación" message="¿Esta seguro que desea eliminar el formato?" icon="ui-icon-alert" />
                                 <f:setPropertyActionListener value="#{manualesSiesa}" target="#{manualSiesaController.manualSiesaActual}"/>
                             </p:commandButton>
@@ -107,9 +102,9 @@ and open the template in the editor.
             </h:form>
             <h:form>
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
-                     <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                 </p:confirmDialog>
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
             </h:form>
         </ui:define>
     </ui:composition>

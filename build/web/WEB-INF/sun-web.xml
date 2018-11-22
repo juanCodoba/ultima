@@ -66,6 +66,10 @@
         <group-name>AUD</group-name>
     </security-role-mapping>
     <security-role-mapping>
+        <role-name>AUDITORI</role-name>
+        <group-name>AUDITORI</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
         <role-name>BIBLIOTEC</role-name>
         <group-name>BIBLIOTEC</group-name>
     </security-role-mapping>

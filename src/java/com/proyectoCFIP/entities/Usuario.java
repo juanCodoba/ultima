@@ -16,6 +16,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -101,7 +102,7 @@ public class Usuario implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
 
     private List<CronogramaActividadesEdificios> cronogramaActividadesEdificiosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idUsuario")
     private List<CronogramaMantenimientoMaquina> cronogramaMantenimientoMaquinaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<CronogramaAnual> cronogramaAnualList;
@@ -168,6 +169,8 @@ public class Usuario implements Serializable {
 
     @Column(name = "auditor_interno")
     private boolean auditorInterno;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    private List<ReporteSiesa> reporteSiesaList;
 
     public Usuario() {
     }
@@ -540,9 +543,14 @@ public class Usuario implements Serializable {
         this.auditorInterno = auditorInterno;
     }
 
+    public List<ReporteSiesa> getReporteSiesaList() {
+        return reporteSiesaList;
+    }
 
+    public void setReporteSiesaList(List<ReporteSiesa> reporteSiesaList) {
+        this.reporteSiesaList = reporteSiesaList;
+    }
+    
+    
 
-    
-    
-    
 }

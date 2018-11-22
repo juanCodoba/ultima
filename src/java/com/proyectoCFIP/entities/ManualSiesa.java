@@ -71,11 +71,9 @@ public class ManualSiesa implements Serializable {
     @Size(max = 100)
     @Column(name = "descripcion")
     private String descripcion;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
+
     @Column(name = "manual")
-    private byte[] manual;
+    private String manual;
     @Basic(optional = false)
     @NotNull
     @Column(name = "version")
@@ -103,7 +101,7 @@ public class ManualSiesa implements Serializable {
         this.idManualSiesa = idManualSiesa;
     }
 
-    public ManualSiesa(Integer idManualSiesa, String codigo, String nombre, byte[] manual, double version) {
+    public ManualSiesa(Integer idManualSiesa, String codigo, String nombre, String manual, double version) {
         this.idManualSiesa = idManualSiesa;
         this.codigo = codigo;
         this.nombre = nombre;
@@ -151,19 +149,17 @@ public class ManualSiesa implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public DefaultStreamedContent getManual() {
-        try {
-             InputStream is= new ByteArrayInputStream((byte[])manual);
-             return new DefaultStreamedContent(is,"documento/pdf",getCodigo().toUpperCase()+"-"+getNombre().toUpperCase()+".pdf");
-             }
-          catch (Exception e) {
-             return null;
-         }
-    }
+//    public DefaultStreamedContent getManual() {
+//        try {
+//             InputStream is= new ByteArrayInputStream((byte[])manual);
+//             return new DefaultStreamedContent(is,"documento/pdf",getCodigo().toUpperCase()+"-"+getNombre().toUpperCase()+".pdf");
+//             }
+//          catch (Exception e) {
+//             return null;
+//         }
+//    }
 
-    public void setManual(byte[] manual) {
-        this.manual = manual;
-    }
+
 
     public double getVersion() {
         return version;
@@ -232,5 +228,16 @@ public class ManualSiesa implements Serializable {
     public String toString() {
         return "entities.ManualSiesa[ idManualSiesa=" + idManualSiesa + " ]";
     }
+
+    public String getManual() {
+        return manual;
+    }
+
+    public void setManual(String manual) {
+        this.manual = manual;
+    }
+    
+    
+    
     
 }
