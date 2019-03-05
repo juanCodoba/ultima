@@ -9,14 +9,13 @@
         <h:outputStylesheet name="css/jsfcrud.css"/>
     </h:head>
     <h:body styleClass="body">
-        <h:outputText value="Acceso Denegado!!!" styleClass="header"></h:outputText>
-        <h:outputText
-            value="You don't have sufficient rights to view the page you're requesting, 
-            contact your administrator if you need access!!"></h:outputText>
+        <div class="col-sm-12" style="width:100% " >
+            <img class="img-responsive" src="resources/images/FORBIDEN.jpg" alt="raci"/>
+        </div>
         <h:messages></h:messages>
         <h:form>
             <h:commandLink value="Regresar a la página principal" action="/index.xhtml" rendered="#{!loginController.authenticated}"></h:commandLink>
-            <h:commandLink value="Regresar a la página principal" action="/User/eleccionModulo.xhtml" rendered="#{loginController.authenticated}"></h:commandLink>
+            <h:commandLink value="Regresar a la página principal" action="/usuario/modulos.xhtml" rendered="#{loginController.authenticated}"></h:commandLink>
         </h:form>
     </h:body>
 </html>

@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminCalidoso}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+
+                        <!-- Optionally, you can add icons to the links -->
+
+                        <li style="margin-top: 20px" class="active">
+                            <h:commandLink action="/administrador/modPestel/list">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+
+
+                        <li jsf:rendered="#{loginController.adminCalidad || loginController.adminCalidoso ||loginController.admin || loginController.jefe}">
+                            <h:commandLink   action="#{factorController.prepareCreate()}">
+                                <i class="fa fa-file" aria-hidden="true"></i>
+                                <span>Genera tu matriz</span>
+                            </h:commandLink> 
+                        </li>
+
+                        <li jsf:rendered="#{loginController.adminCalidad || loginController.adminCalidoso ||loginController.admin || loginController.jefe}" >
+                            <h:commandLink   action="#{factorController.prepareAspectoGlobal()}" actionListener="#{factorController.listarGlobal()}" >
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                <span>Matriz Global</span>
+                            </h:commandLink> 
+                        </li>
+
+
+                        <li>
+                            <h:commandLink action="/usuario/modulos">
+                                <i class="fa fa-th"></i>
+                                <span>Modulos del sistema</span>
+                            </h:commandLink>
+                        </li>
+
+
+
+                    </h:panelGroup>
+
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Crear cargo</ui:define>        
+        <ui:define name="body">
+            <h:form id="formulario-crearRequisito">
+                <p:growl id="msgs2" />
+                <h:outputText class="help-block" value="Ingresa los datos del cargo:"/>
+                <div class="panel panel-primary">
+                    <div class="panel-heading" style="border-radius: 0"><h4 class="letra-panelDescriEdu">Factores Matriz pestel</h4></div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <h:panelGroup id="agregar-requisito">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <div class="col-md-12 form-group">
+                                                <h:outputLabel value="Proceso" />
+                                                <div class="form-group">  
+                                                    <p:selectOneMenu  style="width: 100% !important"
+                                                                      id="idProceso" 
+                                                                      value="#{factorController.procesoActual}"
+                                                                      >
+                                                        <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                                        <f:selectItems value="#{procesosController.listaProcesos}" 
+                                                                       var="proceso"
+                                                                       itemValue="#{Procesos}"/>  
+                                                        <f:ajax execute="@this" render="divPanel"/>
+                                                    </p:selectOneMenu>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 form-group">
+                                                <h:outputLabel value="Categoria:"  />
+                                                <p:selectOneMenu  style="width: 100% !important"
+                                                                  id="idCategoria" 
+                                                                  value="#{factorController.factoresActual.idCategoria}"
+                                                                  converter="categoriaConverter">
+                                                    <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                                    <f:selectItems value="#{categoriaController.listaCategoria}" 
+                                                                   var="categoria"
+                                                                   itemValue="#{Categoria}"/>  
+                                                    <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+
+                                                    <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+                                                </p:selectOneMenu>
+                                                <p:message id="idCategoriaMessage" for="idCategoria" styleClass="error"/>
+                                            </div>
+
+                                            <div class="col-md-12 form-group">
+                                                <h:outputLabel value="Situación: "  />
+                                                <p:selectOneMenu  style="width: 100% !important"
+                                                                  id="idSituacion" 
+                                                                  value="#{factorController.factoresActual.idItemSituacion}"
+                                                                  >
+                                                    <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                                    <f:selectItems value="#{itemSituacionController.listaItemSituacion}" 
+                                                                   var="situacion"
+                                                                   itemValue="#{itemSituacion}"/>  
+                                                    <f:ajax execute="@this" render="divPanel"/>
+                                                </p:selectOneMenu>
+                                                <p:message id="idSituacionMessage" for="idSituacion" styleClass="error"/>
+                                            </div>
+
+                                           <div class="col-md-12 form-group">
+                                                <h:outputLabel value="Oportunidad: "  />
+                                                <p:selectOneMenu  style="width: 100% !important"
+                                                                  id="idOportunidad" 
+                                                                  value="#{factorController.factoresActual.idOportunidad}"
+                                                                  converter="oportunidadConverter">
+                                                    <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                                    <f:selectItems value="#{oportunidadController.listaOportunidad}" 
+                                                                   var="oportunidad"
+                                                                   itemValue="#{Oportunidad}"/>  
+                                                    <f:ajax execute="@this" render="divPanel"/>
+                                                </p:selectOneMenu>
+                                                <p:message id="idOportunidadMessage" for="idOportunidad" styleClass="error"/>
+                                            </div>
+                                            <div class="col-md-12 form-group">
+                                                <h:outputLabel value="Riesgo: "  />
+                                                <p:selectOneMenu  style="width: 100% !important"
+                                                                  id="idRiesgo" 
+                                                                  value="#{factorController.factoresActual.idRiesgo}"
+                                                                  converter="riesgoConverter">
+                                                    <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                                    <f:selectItems value="#{riesgoController.listaRiesgo}" 
+                                                                   var="oportunidad"
+                                                                   itemValue="#{Oportunidad}"/> 
+                                                    <f:ajax execute="@this" render="divPanel"/>
+                                                </p:selectOneMenu>
+                                                <p:message id="idRiesgoMessage" for="idRiesgo" styleClass="error"/>
+                                            </div>
+
+                                            <div class="col-md-12 form-group">
+                                                <h:outputLabel value="Importancia: "  />
+                                                <p:selectOneMenu  style="width: 100% !important"
+                                                                  id="idImportancia" 
+                                                                  value="#{factorController.factoresActual.idImportancia}"
+                                                                  converter="importanciaConverter">
+                                                    <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                                    <f:selectItems value="#{importanciaController.listaImportancia}" 
+                                                                   var="importancia"
+                                                                   itemValue="#{Importancia}"/> 
+                                                    <f:ajax execute="@this" render="divPanel"/>
+                                                </p:selectOneMenu>
+                                                <p:message id="idImportanciaMessage" for="idImportancia" styleClass="error"/>
+                                            </div>
+
+
+
+                                            <div class="col-md-12 form-group">
+                                                <h:outputLabel value="Puntaje:"  />
+                                                <p:inputText placeholder="Puntaje:" 
+                                                             class="form-control" 
+                                                             id="titulo" 
+                                                             value="#{factorController.factoresActual.puntuacion}" >
+                                                    <f:ajax execute="@this" render="tituloMessage"/>
+                                                </p:inputText>
+                                                <p:message id="tituloMessage" for="titulo" styleClass="error"/>
+                                            </div>
+
+
+
+                                            <div class="col-md-12 form-group">
+                                                <h:outputLabel value="Descripción: "  />
+                                                <textarea   placeholder="Ejem: Una estrategia..."
+                                                            class="form-control"
+                                                            jsf:id="descripcion"
+                                                            jsf:value="#{factorController.factoresActual.descripcionFactor}" 
+                                                            type="text"
+                                                            style="resize: none"
+                                                            jsf:requiredMessage="Por favor ingrese la descripcion">
+                                                </textarea>
+                                                <p:message id="descripcionMessage" for="descripcion" styleClass="error"/>
+                                            </div>
+                                            <div class="col-md-12" style="       position: relative;   left: 36%;   width: 100%;">
+                                                <img class="img-responsive" src="../../../resources/images/calificacion.jpg" alt="raci"/>
+                                            </div>  
+
+                                        </div>
+                                        <div class="col-md-6 form-group" style="position: relative;left: 25%">
+                                            <div class="form-group">
+                                                <h:commandButton class="btn btn-primary btn-block" style="margin-top:20px; height: 3em"
+                                                                 action="#{factorController.add2()}"
+                                                                 value="Agregar Factores" 
+                                                                 >
+                                                    <f:ajax execute="@this idProceso situacion idOportunidad idRiesgo idImportancia descripcion out2" 
+                                                            render="agregar-requisito"/>
+
+
+                                                </h:commandButton>
+                                            </div>
+
+                                        </div>
+                                    </div>  
+                                </div>
+                                <h:panelGroup id="actualizar">
+                                    <p:dataTable id="tablaFuncion" class="table table-striped table-bordered"
+                                                 value="#{factorController.listaFactoresActual}" emptyMessage="No se encontraron registros"
+                                                 var="factor"  >
+                                        <p:column width="100" headerText="ID Factor">
+                                            <h:outputText value="#{factor.idFactor}"/>
+                                        </p:column>
+                                        <p:column width="100" headerText="Situación">
+                                            <h:outputText value="#{factor.idItemSituacion.descripcion}"/>
+                                        </p:column>
+
+                                        <p:column width="100" headerText="Oportunidad">
+                                            <h:outputText value="#{factor.idOportunidad.descOprtunidad}"/>
+                                        </p:column>
+                                        <p:column width="100" headerText="Riesgo">
+                                            <h:outputText value="#{factor.idRiesgo.descripcionRiesgo}"/>
+                                        </p:column>
+                                        <p:column width="100" headerText="Importancia">
+                                            <h:outputText value="#{factor.idImportancia.descripcionImportancia}"/>
+                                        </p:column>
+
+                                        <p:column width="100" headerText="Descripcion del factor">
+                                            <h:outputText value="#{factor.descripcionFactor}"/>
+                                        </p:column>
+                                        <p:column width="100" headerText="Puntuación">
+                                            <h:outputText value="#{factor.puntuacion}"/>
+                                        </p:column>
+
+                                        <p:column width="50">
+                                            <p:commandButton icon="ui-icon-trash" 
+                                                             id="eliminar" 
+                                                             action="#{requisitosController.deleteRequisitoLista()}"
+                                                             process="@this" 
+                                                             update="tablaFuncion">
+                                                <f:setPropertyActionListener value="#{requisito}" 
+                                                                             target="#{requisitosController.requisitoActual}"/>
+                                            </p:commandButton>
+                                        </p:column>
+                                    </p:dataTable> 
+                                </h:panelGroup>
+
+                            </h:panelGroup>
+
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="row"> 
+                    <div class="container-fluid col-sm-6 form-group">
+                        <h:commandButton type="buttom" class="btn btn-primary btn-block" 
+                                         value="Guardar" 
+                                         action="#{factorController.prepareEdit()}" actionListener="#{factorController.listardos()}" > 
+                        </h:commandButton>
+                    </div>
+                    <div class="container-fluid col-sm-6 form-group">
+                        <h:button class="btn btn-orange btn-block" 
+                                  value="Cancelar" 
+                                  outcome="list"> 
+                        </h:button>
+                    </div>
+                </div>
+
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+</html>
+

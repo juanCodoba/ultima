@@ -7,6 +7,7 @@ package com.proyectoCFIP.controller;
 
 import com.proyectoCFIP.entities.Cargos;
 import com.proyectoCFIP.entities.Documentos;
+import com.proyectoCFIP.entities.Procesos;
 import com.proyectoCFIP.entities.Roles;
 import com.proyectoCFIP.entities.Usuario;
 import com.proyectoCFIP.entities.Valoracion;
@@ -72,6 +73,8 @@ public class UsuarioController implements Serializable {
     private List<Valoracion> listaValoracion = new ArrayList<>();
     private Valoracion valoracionActual;
     private boolean permisoCalidad;
+    
+    private Procesos procesoActual;
 
     //Roles
     public RolesFacade getRolFacade() {
@@ -119,6 +122,24 @@ public class UsuarioController implements Serializable {
         this.permisoCalidad = permisoCalidad;
     }
 
+    public Procesos getProcesoActual() {
+        return procesoActual;
+    }
+
+    public void setProcesoActual(Procesos procesoActual) {
+        this.procesoActual = procesoActual;
+    }
+
+    public JasperPrint getJasperPrint() {
+        return jasperPrint;
+    }
+
+    public void setJasperPrint(JasperPrint jasperPrint) {
+        this.jasperPrint = jasperPrint;
+    }
+
+    
+    
     //Select one Cargos
     public CargosFacade getCargosFacade() {
         return cargosFacade;

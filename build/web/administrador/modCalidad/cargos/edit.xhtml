@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Crear cargo</ui:define>        
+        <ui:define name="body">
+            <h:form id="formulario-crearCargo">
+                <p:growl id="msgs" />
+                <h:outputText class="help-block" value="Ingresa los datos del cargo:"/>
+                <div class="panel panel-primary">
+                    <div class="panel-heading" style="border-radius: 0"><h4 class="letra-panelDescriEdu">1. Edicion del Cargo</h4></div>
+                    <div class="panel-body">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <h:outputLabel value="Creacion del codigo inteligente de cargo:"  /> 
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 form-group" >
+                                    <h:outputLabel value="Area:"  />
+                                    <p:selectOneMenu class="cargoReporta"
+                                                     id="area" 
+                                                     filter="true" style="width: 100%"
+                                                     value="#{cargosController.cargosActual.idArea}" 
+                                                     required="true"
+                                                     requiredMessage="Por favor ingrese el nivel del cargo">
+                                        <f:ajax execute="@this" render="areaMessage"/>
+                                        <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                        <f:selectItems value="#{areaController.listaArea}" var="AreaResposable" itemValue="#{Area}"/>
+                                    </p:selectOneMenu>
+                                    <p:message id="areaMessage" for="area" styleClass="error"/>
+                                </div>
+                                <div class="col-md-4 form-group" > 
+                                    <h:outputLabel value="Tipo de cargo:"  />
+                                    <p:selectOneMenu class="cargoReporta"
+                                                     converter="tipoCargoConverter"
+                                                     id="TipoCargo" 
+                                                     filter="true" style="width: 100%"
+                                                     value="#{cargosController.cargosActual.idTipoCargo}" 
+                                                     required="true"
+                                                     requiredMessage="Por favor ingrese el nivel del cargo">
+                                        <f:ajax execute="@this" render="subProcesoMessage"/>
+                                        <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                        <f:selectItems value="#{tipoCargoController.listaTipoCargo}" var="AreaResposable" itemValue="#{TipoCargo}"/>
+                                    </p:selectOneMenu>
+                                    <p:message id="TipoCargoMessage" for="TipoCargo" styleClass="error"/>
+                                </div>
+                                <div class="col-md-4 form-group" >
+                                    <h:outputLabel value="Tipo de Proceso:"  />
+                                    <p:selectOneMenu class="cargoReporta"
+                                                     converter="nivelCargoConverter"
+
+                                                     id="NivelCargo" 
+                                                     filter="true" style="width: 100%"
+                                                     value="#{cargosController.cargosActual.idNivelCargo}" 
+                                                     required="true"
+                                                     requiredMessage="Por favor ingrese el nivel del cargo">
+                                        <f:ajax execute="@this" render="subProcesoMessage"/>
+                                        <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                        <f:selectItems value="#{nivelCargoController.listaNivelCargo}" var="AreaResposable" itemValue="#{NivelCargo}"/>
+                                    </p:selectOneMenu>
+                                    <p:message id="codTipoMessage" for="NivelCargo" styleClass="error"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel value="Nombre del cargo:"  />
+                                <h:inputText  class="form-control" 
+                                              id="cargoInputText" 
+                                              value="#{cargosController.cargosActual.nombreCargo}" 
+                                              required="true"
+                                              validatorMessage="El nombre del cargo no puede contener mas de 85 caracteres"
+                                              requiredMessage="Por favor ingrese el nombre del cargo">
+                                    <f:ajax execute="@this" render="cargoMessage"/>
+                                    <f:validateLength maximum="85"/>
+                                </h:inputText>
+                                <p:message id="cargoInputTextMessage" for="cargoInputText" styleClass="error"/>
+                            </div>
+                        </div> 
+                        <div>
+
+                            <div class="col-md-12 form-group">
+                                <h:outputLabel value="Personas en el cargo:"  />
+                                <h:inputText  class="form-control" 
+                                              id="cargoInputText23" 
+                                              value="#{cargosController.cargosActual.usuarioEnCargo}">
+                                    <f:ajax execute="@this" render="cargoInputText23Message"/>
+                                </h:inputText>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="col-md-12 form-group">
+                                <h:outputLabel value="Personas A cargo:"  />
+                                <h:inputText  class="form-control" 
+                                              id="cargoInputText3" 
+                                              value="#{cargosController.cargosActual.usuarioAcargo}">
+                                    <f:ajax execute="@this" render="cargoInputText3Message"/>
+                                </h:inputText>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <h:outputLabel value="Subproceso:" />
+                                <div class="form-group">  
+                                    <p:selectOneMenu class="cargoReporta"
+                                                     id="subProceso" 
+                                                     filter="true" style="width: 100%"
+                                                     value="#{cargosController.cargosActual.idSubproceso}" 
+                                                     converter="subprocesoConverter">
+                                        <f:ajax execute="@this" render="subProcesoMessage"/>
+                                        <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                        <f:selectItems value="#{subprocesosController.listaSubProcesosTotal}" var="cargoResponsable" itemValue="#{cargoResponsable}"/>
+                                    </p:selectOneMenu>
+                                    <p:message id="subProcesoMessage" for="subProceso" styleClass="error"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <h:outputLabel value="A quien le reporta:" />
+                                <div class="form-group">  
+                                    <p:selectOneMenu class="cargoReporta"
+                                                     id="cargoResponsable" 
+                                                     converter="cargosConverter"
+                                                     filter="true" style="width: 100%"
+                                                     value="#{cargosController.cargosActual.idCargoResponsable}" >
+                                        <f:ajax execute="@this" render="cargoResponsableMessage"/>
+                                        <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                        <f:selectItems value="#{cargosController.listaCargos}" var="cargoResponsable" itemValue="#{cargoResponsable}"/>
+                                    </p:selectOneMenu>
+                                    <p:message id="cargoResponsableMessage" for="cargoResponsable" styleClass="error"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <h:outputLabel value="Asignar profesiograma:" rendered="#{cargosController.cargosActual.idProfesiograma == null}"/>
+                                <div class="form-group">  
+                                    <p:selectOneMenu class="profesiograma"
+                                                     converter="profesiogramaConverter"
+                                                     id="idProfesiograma" 
+                                                     filter="true" style="width: 100%"
+                                                     value="#{cargosController.cargosActual.idProfesiograma}" 
+                                                     required="true"
+                                                     requiredMessage="Por favor asigne un profesiograma"
+                                                     rendered="#{cargosController.cargosActual.idProfesiograma == null}">
+                                        <f:ajax execute="@this" render="idProfesiogramaMessage"/>
+                                        <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                        <f:selectItems value="#{ProfesiogramaController.listaProfesiograma}" var="idProfesiograma" itemValue="#{Profesiograma}"/>
+                                    </p:selectOneMenu>
+                                    <p:message id="idProfesiogramaMessage" for="idProfesiograma" styleClass="error"/>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="panel panel-primary form-group"  style="border-radius: 0;margin-bottom: 15em">
+                    <div class="panel-heading"  style="border-radius: 0; "><h4 class="letra-panelDescriEdu">Requisitos, Funciones y Actividades del Cargo</h4></div>
+                    <div class="panel-body">
+                        <p:dataGrid  emptyMessage="No se encontraron registros" value="#{requisitosController.listreq}" var="item2" columns="3" layout="grid"
+                                     rows="12" paginator="true" id="tablaFuncion" 
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="6,12,16" style="margin-bottom: 2%"  >
+                            <f:facet name="header">
+                                <h4> Requisitos del cargo</h4>
+
+                                <h:commandButton type="buttom" class="btn btn-primary" 
+                                                 value="Siguiente" 
+                                                 action="#{requisitosController.prepareAspecto()}"
+                                                 > 
+                                    <!--<p:ajax  update=":formCreateVehiculo3" oncomplete="PF('dlg1').show();" />-->
+
+                                </h:commandButton>
+                            </f:facet>
+                            <p:panel header="Nombre del requisto: #{item2.descripcion}" >
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h:outputText value="Educación: " style="font-weight: bold"/>
+                                        <br></br>
+                                        <h:outputText value="#{item2.educacion}" />
+                                        <br></br>
+                                        <h:outputText value="Experiencia: " style="font-weight: bold"/>
+                                        <br></br>
+                                        <h:outputText value="#{item2.experiencia}" />
+                                        <br></br>
+                                        <h:outputText value="Otros Conocimientos: " style="font-weight: bold"/>
+                                        <br></br>
+                                        <h:outputText value="#{item2.otrosConocimientos}" />
+                                        <br></br>
+                                        <p:commandButton icon="ui-icon-trash" 
+                                                         id="eliminar" 
+                                                         action="#{requisitosController.delete()}"
+                                                         process="@this" 
+                                                         update="tablaFuncion">
+                                            <f:setPropertyActionListener value="#{item2}" 
+                                                                         target="#{requisitosController.requisitoActual}"/>
+
+                                        </p:commandButton>
+                                    </div>
+                                </div>
+                            </p:panel>
+                        </p:dataGrid>
+
+                        <p:dataGrid  emptyMessage="No se encontraron registros" value="#{habilidadController.listreq}" var="item4" columns="3" layout="grid"
+                                     rows="12" paginator="true" id="tablaFuncion4" 
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="6,12,16" style="margin-bottom: 2%" >
+                            <f:facet name="header">
+                                <h4>Habilidades del Cargo</h4>
+
+                                <h:commandButton type="buttom" class="btn btn-primary" 
+                                                 value="Siguiente" 
+                                                 action="#{habilidadController.prepareAspecto()}"
+                                                 > 
+                                    <!--<p:ajax  update=":formCreateVehiculo3" oncomplete="PF('dlg1').show();" />-->
+
+                                </h:commandButton>
+                            </f:facet>
+                            <p:panel header="Nombre de la Habilidad: #{item4.nombre}" >
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h:outputText value="Nivel de la Habilidad " style="font-weight: bold"/>
+                                        <h:outputText value="#{item4.idNivelHabilidad.nivel}" />
+                                        <br></br>
+                                    </div>
+                                </div>
+                                <p:commandButton icon="ui-icon-trash" 
+                                                 id="eliminar" 
+                                                 action="#{habilidadController.deleteHabilidad()}"
+                                                 process="@this" 
+                                                 update="tablaFuncion4">
+                                    <f:setPropertyActionListener value="#{item4}" 
+                                                                 target="#{habilidadController.habilidadActual}"/>
+                                </p:commandButton>
+                            </p:panel>
+
+                        </p:dataGrid>
+
+                        <p:dataGrid  emptyMessage="No se encontraron registros" value="#{MaeFuncionController.listaPorTipoDeMaeFuncion2}" var="item" columns="3" layout="grid"
+                                     rows="12" paginator="true" id="tablaFuncion2" 
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="6,12,16" style="margin-bottom: 2%" >
+                            <f:facet name="header">
+                                <h4>Funciones del cargo</h4>
+                                <h:commandButton type="buttom" class="btn btn-primary" 
+                                                 value="Siguiente" 
+                                                 action="#{MaeFuncionController.prepareAspecto()}"
+                                                 > 
+                                    <!--<p:ajax  update=":formCreateVehiculo3" oncomplete="PF('dlg1').show();" />-->
+
+                                </h:commandButton>
+
+                            </f:facet>
+                            <p:panel header="Nombre de la Función: #{item.nombre}" >
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h:outputText value="Descripcion de la Función: " style="font-weight: bold"/>
+                                        <br></br>
+                                        <h:outputText value="#{item.toString()}">
+                                        </h:outputText>
+                                        <br></br>
+                                        <h:outputText value="RACI " style="font-weight: bold"/>
+                                        <p:dataList styleClass="dataList" value="#{item.raciList}" var="raci" emptyMessage="No tiene actividades asignadas">
+                                            <h:outputText value="#{raci.toString()}"/>
+
+                                        </p:dataList>
+                                        <br></br>
+                                        <p:commandButton icon="ui-icon-trash" 
+                                                         id="eliminar" 
+                                                         action="#{MaeFuncionController.delete2()}"
+                                                         process="@this" 
+                                                         update="tablaFuncion2">
+                                            <f:setPropertyActionListener value="#{item}" 
+                                                                         target="#{MaeFuncionController.maeFuncionActual}"/>
+                                        </p:commandButton>
+                                    </div>
+                                </div>
+                            </p:panel>
+                        </p:dataGrid>
+
+                        <p:dataGrid  emptyMessage="No se encontraron registros" value="#{ActividadController.listaPorTipoDeMaeFuncion2}" var="item3" columns="3" layout="grid"
+                                     rows="12" paginator="true" id="tablaFuncion3" 
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="6,12,16" style="margin-bottom: 2%" >
+                            <f:facet name="header">
+                                <h4>Actividades del Cargo</h4>
+
+                                <h:commandButton type="buttom" class="btn btn-primary" 
+                                                 value="Siguiente" 
+                                                 action="#{ActividadController.prepareAspecto()}"
+                                                 > 
+                                    <!--<p:ajax  update=":formCreateVehiculo3" oncomplete="PF('dlg1').show();" />-->
+
+                                </h:commandButton>
+                            </f:facet>
+                            <p:panel header="Funcion Asignada a la Actividad: #{item3.idMaeFuncion.nombre}" >
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h:outputText value="Nombre de la Actividad " style="font-weight: bold"/>
+                                        <h:outputText value="#{item3.nombre}" />
+                                        <br></br>
+                                        <h:outputText value="Descripcion de la Actividad: " style="font-weight: bold"/>
+                                        <h:outputText value="#{item3.toString()}" >
+                                        </h:outputText>
+                                        <br></br>
+                                        <h:outputText value="Periodicidad: " style="font-weight: bold"/>
+                                        <h:outputText value="#{item3.idMaePeriodicidad.nombre}">
+                                            <f:convertDateTime pattern="HH:mm"/>
+                                        </h:outputText>
+                                        <br></br>
+                                        <h:outputText value="Herramientas " style="font-weight: bold"/>
+                                        <p:dataList styleClass="dataList" value="#{item3.maeHerramientaList}" var="herramientas" emptyMessage="No tiene actividades asignadas">
+                                            <h:outputText value="#{herramientas.toString()}"/>
+
+                                        </p:dataList>
+                                        <br></br>
+                                        <p:commandButton icon="ui-icon-trash" 
+                                                         id="eliminar" 
+                                                         action="#{ActividadController.delete()}"
+                                                         process="@this" 
+                                                         update="tablaFuncion3">
+                                            <f:setPropertyActionListener value="#{item3}" 
+                                                                         target="#{ActividadController.actividadActual}"/>
+                                        </p:commandButton>
+
+                                    </div>
+                                </div>
+                            </p:panel>
+                        </p:dataGrid>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="container-fluid col-sm-4 form-group">
+                        <h:commandButton class="btn btn-primary btn-block" 
+                                         value="Guardar" 
+                                         action="#{cargosController.updateCargos()}"> 
+
+                        </h:commandButton>
+                    </div>
+                    <div class="container-fluid col-sm-4 form-group">
+                        <h:commandButton class="btn btn-primary btn-block" 
+                                         value="Terminar" 
+                                         action="#{cargosController.list()}"> 
+
+                        </h:commandButton>
+                    </div>
+                    <div class="container-fluid col-sm-4 form-group">
+                        <h:button class="btn btn-orange btn-block" 
+                                  value="Cancelar" 
+                                  outcome="list"> 
+                        </h:button >
+                    </div>
+
+                </div>
+            </h:form>
+
+            <p:dialog header="Asignar un nuevo requisito" widgetVar="dlg1" showHeader="false" modal="true" width="50%" height="600px">
+                <h:form id="formCreateVehiculo3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" style="border-radius: 0"><h4 class="letra-panelDescriEdu">2. Requisitos y habilidades</h4></div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <h:panelGroup id="agregar-requisito">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-12 form-group">
+                                                <div class="col-md-12 form-group">
+                                                    <h:outputLabel value="Cargos:" />
+                                                    <div class="form-group">  
+                                                        <p:selectOneMenu  style="width: 100% !important"
+                                                                          id="cargos" 
+                                                                          converter="cargosConverter"
+                                                                          value="#{requisitosController.cargosActual}">
+                                                            <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                                            <f:selectItems value="#{cargosController.listaCargos}" 
+                                                                           var="cargos"
+                                                                           itemValue="#{Cargos}"/>  
+                                                            <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+                                                        </p:selectOneMenu>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 form-group">
+                                                    <h:outputLabel value="Nivel de educación "  />
+                                                    <p:selectOneMenu  style="width: 100% !important"
+                                                                      id="educacion" 
+                                                                      value="#{requisitosController.requisitoActual.educacion}">
+                                                        <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                                        <f:selectItem 
+                                                            itemLabel="Profesional en carreras administrativas o financieras, Preferiblemente 
+                                                            con especialización en ciencias administrativas, financieras o afines. "  
+
+                                                            itemValue="Profesional en carreras administrativas o financieras, Preferiblemente 
+                                                            con especialización en ciencias administrativas, financieras o afines. "                                                                  
+                                                            />                                                   
+                                                        <f:selectItem
+                                                            itemLabel="Ingeniero industrial, carreras administrativas o a fines."
+                                                            itemValue="Ingeniero industrial, carreras administrativas o a fines."/>
+                                                        <f:selectItem 
+                                                            itemLabel="Contador Público con matricula profesional."
+                                                            itemValue="Contador Público con matricula profesional."/>
+
+                                                        />
+                                                        <f:selectItem 
+                                                            itemLabel="Profesional  en contabilidad o carreras afines."
+
+                                                            itemValue="Profesional  en contabilidad o carreras afines."/>
+                                                        <f:selectItem 
+                                                            itemLabel="Técnico o estudiante de contaduría."
+
+                                                            itemValue="Técnico o estudiante de contaduría."/>
+                                                        <f:selectItem 
+                                                            itemLabel="Profesional, en contabilidad o carreras afines"
+
+                                                            itemValue="Profesional, en contabilidad o carreras afines"/>
+                                                        <f:selectItem 
+                                                            itemLabel="Técnico o Tecnólogo en contabilidad o estudiante de carreras Administrativas"
+
+                                                            itemValue="Técnico o Tecnólogo en contabilidad o estudiante de carreras Administrativas"/>
+                                                        <f:selectItem 
+                                                            itemLabel="Estudiante o tecnólogo de Contaduría"
+
+                                                            itemValue="Estudiante o tecnólogo de Contaduría"/>
+                                                        <f:selectItem 
+                                                            itemLabel="Licenciado en Ciencias de la Educación o profesional en carrera administrativas. "
+
+                                                            itemValue="Licenciado en Ciencias de la Educación o profesional en carrera administrativas. "/>
+                                                        <f:selectItem 
+                                                            itemLabel="Profesional en Ingenierías, carreras Administrativas o afines."
+
+                                                            itemValue="Profesional en Ingenierías, carreras Administrativas o afines."/>
+                                                        <f:selectItem 
+                                                            itemLabel="Estudiante ò Técnico  en carreras administrativas o afines."
+
+                                                            itemValue="Estudiante ò Técnico  en carreras administrativas o afines."/>
+                                                        <f:selectItem 
+                                                            itemLabel="Profesional en Administración, Ingeniería Industrial o carreras afines."
+
+                                                            itemValue="Profesional en Administración, Ingeniería Industrial o carreras afines."/>
+                                                        <f:selectItem 
+                                                            itemLabel="Profesional en Seguridad y Salud en el trabajo con licencia en SST o profesional en otras áreas con especialización en SST"
+
+                                                            itemValue="Profesional en Seguridad y Salud en el trabajo con licencia en SST o profesional en otras áreas con especialización en SST"/>
+                                                        <f:selectItem 
+                                                            itemLabel="Bachillerato completo  "
+
+                                                            itemValue="Bachillerato completo  "/>
+                                                        <f:selectItem 
+                                                            itemLabel="Bachiller   "
+
+                                                            itemValue="Bachiller"/>
+                                                        <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+                                                    </p:selectOneMenu>
+                                                    <p:message id="educacionMessage" for="educacion" styleClass="error"/>
+                                                </div>
+                                                <div class="col-md-12 form-group">
+                                                    <h:outputLabel value="Nivel de Formación: "  />
+                                                    <p:selectOneMenu  style="width: 100% !important"
+                                                                      id="formacion" 
+                                                                      value="#{requisitosController.requisitoActual.formacion}">
+                                                        <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                                        <f:selectItem 
+                                                            itemLabel="Inducción general y Específica. (Ver Documento de Inducción) y Específica (Ver Documento de Inducción)"
+                                                            itemValue="Inducción general y Específica. (Ver Documento de Inducción) y Específica (Ver Documento de Inducción)"/>                                                   
+                                                        <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+                                                    </p:selectOneMenu>
+                                                    <p:message id="formacionMessage" for="formacion" styleClass="error"/>
+                                                </div>
+                                                <div class="col-md-12 form-group">
+                                                    <h:outputLabel value="Experiencia Laboral: "  />
+                                                    <p:selectOneMenu  style="width: 100% !important"
+                                                                      id="experiencia" 
+                                                                      value="#{requisitosController.requisitoActual.experiencia}">
+                                                        <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                                        <f:selectItem 
+                                                            itemLabel="Mínimo 5 Años desempeñando cargos  gerenciales o directivos."
+                                                            itemValue="Mínimo 5 Años desempeñando cargos  gerenciales o directivos."/> 
+                                                        <f:selectItem 
+                                                            itemLabel="Mínimo 5 Años desempeñando cargos similares"
+                                                            itemValue="Mínimo 5 Años desempeñando cargos similares"/>   
+                                                        <f:selectItem 
+                                                            itemLabel="Mínima de dos (2) años en cargos afines."
+                                                            itemValue="Mínima de dos (2) años en cargos afines."/>   
+                                                        <f:selectItem 
+                                                            itemLabel="Experiencia mínima de 1 año en cargos afines."
+                                                            itemValue="Experiencia mínima de 1 año en cargos afines."/>   
+                                                        <f:selectItem 
+                                                            itemLabel="Experiencia 6 meses en  cargos afines."
+                                                            itemValue="Experiencia 6 meses en  cargos afines."/> 
+                                                        <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+                                                    </p:selectOneMenu>
+                                                    <p:message id="experienciaMessage" for="experiencia" styleClass="error"/>
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <h:outputLabel value="Otros Conocimientos: "  />
+                                                    <textarea   placeholder="Otros Conocimientos:"
+                                                                class="form-control"
+                                                                jsf:id="conoci"
+                                                                jsf:value="#{requisitosController.requisitoActual.otrosConocimientos}" 
+                                                                type="text"
+                                                                jsf:requiredMessage="Por favor ingrese el nievel de formacion">
+                                                    </textarea>
+                                                    <p:message id="conociMessage" for="conoci" styleClass="error"/>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-3 form-group" style="position: relative;left: 5%">
+                                                <div class="form-group">
+                                                    <h:commandButton class="btn btn-primary btn-block" style="margin-top:20px; height: 3em"
+                                                                     action="#{requisitosController.add2}"
+                                                                     value="Agregar Requisito" 
+                                                                     >
+                                                        <f:ajax execute="@this idFuncion nombreFuncion accionF ObjetoF condicionF herramientas conoci" 
+                                                                render="agregar-requisito"/>
+                                                        <p:ajax update=":formulario-crearCargo:tablaFuncion" oncomplete="PF('dlg1').hide();"></p:ajax>
+
+                                                    </h:commandButton>
+                                                </div>
+
+                                            </div>
+                                        </div>  
+                                    </div>
+
+
+                                </h:panelGroup>
+
+                            </div> 
+                        </div>
+                    </div>
+
+                </h:form>
+            </p:dialog>
+
+
+
+
+
+        </ui:define>
+    </ui:composition>
+</html>

@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -50,6 +51,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Libro.findByTipoTotalCorre", query = "SELECT l FROM Libro l WHERE l.idTipoMantenimiento.idTipoMantenimiento = 1 ORDER BY l.idLibro DESC"),
     @NamedQuery(name = "Libro.findByTipoTotalDeBaja", query = "SELECT l FROM Libro l WHERE l.idTipoMantenimiento.idTipoMantenimiento = 4 ORDER BY l.idLibro DESC"),
     @NamedQuery(name = "Libro.findByTipoTotalReservados", query = "SELECT l FROM Libro l WHERE l.idEstadoLibro.idEstadoLibro = 4 ORDER BY l.idLibro DESC"),
+    @NamedQuery(name = "Libro.findByIdTipoLibro", query = "SELECT l FROM Libro l WHERE l.idTipoLibro = :idTipoLibro   ORDER BY l.idLibro DESC"),
 
     @NamedQuery(name = "Libro.findByTotalDisponibilidad", query = "SELECT l FROM Libro l WHERE l.idEstadoLibro.idEstadoLibro = 3   ORDER BY l.idLibro DESC"),
     @NamedQuery(name = "Libro.findByTotalDisponibilidadReserva", query = "SELECT l FROM Libro l WHERE l.idEstadoLibro.idEstadoLibro = 3 ORDER BY l.idLibro DESC"),
@@ -94,23 +96,24 @@ public class Libro implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaReporte;
 
-    @Column(name = "fecha_modificacion",insertable = false,updatable = false )
-    @Temporal(TemporalType.TIMESTAMP )
+    @Column(name = "url_libro")
+    private String urlLibro;
+    @Column(name = "fecha_modificacion", insertable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fechaModific;
 
     @Column(name = "hora_reporte")
     @Temporal(TemporalType.TIME)
     private Date horaReporte;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idLib1")
-    private List<ReservaLibrosBiblioteca> reservaLibrosBibliotecas1;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idLib2")
-    private List<ReservaLibrosBiblioteca> reservaLibrosBibliotecas2;
-
+    @ManyToMany(mappedBy = "libroList")
+    private List<ReservaLibrosBiblioteca> ReservaLibrosBiblioecaList;
     @JoinColumn(name = "id_rotulo", referencedColumnName = "id_rotulo")
     @ManyToOne(optional = false)
     private Rotulo idRotulo;
+    @JoinColumn(name = "id_tipo_libro", referencedColumnName = "id_tipo_libro")
+    @ManyToOne(optional = false)
+    private TipoLibro idTipoLibro;
 
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     @ManyToOne(optional = false)
@@ -148,8 +151,6 @@ public class Libro implements Serializable {
         this.costoLibro = costoLibro;
         this.autor = autor;
         this.activo = activo;
-        this.reservaLibrosBibliotecas1 = reservaLibrosBibliotecas1;
-        this.reservaLibrosBibliotecas2 = reservaLibrosBibliotecas2;
         this.idRotulo = idRotulo;
         this.idUsuaroLib = idUsuaroLib;
         this.idGenero = idGenero;
@@ -243,22 +244,6 @@ public class Libro implements Serializable {
         this.idUsuaroLib = idUsuaroLib;
     }
 
-    public List<ReservaLibrosBiblioteca> getReservaLibrosBibliotecas1() {
-        return reservaLibrosBibliotecas1;
-    }
-
-    public void setReservaLibrosBibliotecas1(List<ReservaLibrosBiblioteca> reservaLibrosBibliotecas1) {
-        this.reservaLibrosBibliotecas1 = reservaLibrosBibliotecas1;
-    }
-
-    public List<ReservaLibrosBiblioteca> getReservaLibrosBibliotecas2() {
-        return reservaLibrosBibliotecas2;
-    }
-
-    public void setReservaLibrosBibliotecas2(List<ReservaLibrosBiblioteca> reservaLibrosBibliotecas2) {
-        this.reservaLibrosBibliotecas2 = reservaLibrosBibliotecas2;
-    }
-
     public Date getFechaDiagnostico() {
         return fechaDiagnostico;
     }
@@ -329,7 +314,7 @@ public class Libro implements Serializable {
 
     @Override
     public String toString() {
-        return getCodigo()+ "-" + getTituloLibro().toUpperCase();
+        return getIdLibro() +getCodigo() + getTituloLibro().toUpperCase();
     }
 
     public Date getFechaModific() {
@@ -347,8 +332,29 @@ public class Libro implements Serializable {
     public void setDescripcionNormal(String descripcionNormal) {
         this.descripcionNormal = descripcionNormal;
     }
-    
-    
-    
+
+    public List<ReservaLibrosBiblioteca> getReservaLibrosBiblioecaList() {
+        return ReservaLibrosBiblioecaList;
+    }
+
+    public void setReservaLibrosBiblioecaList(List<ReservaLibrosBiblioteca> ReservaLibrosBiblioecaList) {
+        this.ReservaLibrosBiblioecaList = ReservaLibrosBiblioecaList;
+    }
+
+    public TipoLibro getIdTipoLibro() {
+        return idTipoLibro;
+    }
+
+    public void setIdTipoLibro(TipoLibro idTipoLibro) {
+        this.idTipoLibro = idTipoLibro;
+    }
+
+    public String getUrlLibro() {
+        return urlLibro;
+    }
+
+    public void setUrlLibro(String urlLibro) {
+        this.urlLibro = urlLibro;
+    }
 
 }

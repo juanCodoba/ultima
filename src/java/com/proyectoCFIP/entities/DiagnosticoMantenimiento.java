@@ -6,7 +6,9 @@
 package com.proyectoCFIP.entities;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,6 +40,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "DiagnosticoMantenimiento.findByIdComputador", query = "SELECT d FROM DiagnosticoMantenimiento d WHERE d.idCronogramaMantenimientos.idComputador = :idComputador"),
     @NamedQuery(name = "DiagnosticoMantenimiento.findByFechaRevision", query = "SELECT d FROM DiagnosticoMantenimiento d WHERE d.fechaRevision = :fechaRevision"),
     @NamedQuery(name = "DiagnosticoMantenimiento.findByTicket", query = "SELECT d FROM DiagnosticoMantenimiento d WHERE d.idCronogramaMantenimientos = :idCronogramaMantenimientos"),
+    @NamedQuery(name = "DiagnosticoMantenimiento.findByIdCronograma", query = "SELECT d FROM DiagnosticoMantenimiento d WHERE d.idCronogramaMantenimientos.estadoMantenimiento.idEstado = 4 ORDER BY d.idMantenimiento"),
+
+    @NamedQuery(name = "DiagnosticoMantenimiento.findByReporteTiempoCorrectivo", query = "SELECT d FROM DiagnosticoMantenimiento d WHERE d.idCronogramaMantenimientos.idTipoMantenimiento.idTipoMantenimiento = 1 AND d.idCronogramaMantenimientos.fechaProgMantenimiento BETWEEN :fecha1 AND :fecha2 ORDER BY d.idCronogramaMantenimientos.fechaProgMantenimiento"),
+
     @NamedQuery(name = "DiagnosticoMantenimiento.findByDiagnosticosTotales", query = "SELECT d FROM DiagnosticoMantenimiento d ORDER BY d.idCronogramaMantenimientos.fechaInicioMantenimiento DESC"),
     @NamedQuery(name = "DiagnosticoMantenimiento.findByFechaEntrega", query = "SELECT d FROM DiagnosticoMantenimiento d WHERE d.fechaEntrega = :fechaEntrega")})
 public class DiagnosticoMantenimiento implements Serializable {
@@ -51,25 +57,15 @@ public class DiagnosticoMantenimiento implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_mantenimiento")
     private Integer idMantenimiento;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
     @Size(min = 1, max = 2147483647)
     @Column(name = "revision")
     private String revision;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
     @Size(min = 1, max = 2147483647)
     @Column(name = "diagnostico")
     private String diagnostico;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "fecha_revision")
     @Temporal(TemporalType.DATE)
     private Date fechaRevision;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "fecha_entrega")
     @Temporal(TemporalType.DATE)
     private Date fechaEntrega;
@@ -152,6 +148,7 @@ public class DiagnosticoMantenimiento implements Serializable {
     public void setIdCronogramaMantenimientos(CronogramaMantenimientos idCronogramaMantenimientos) {
         this.idCronogramaMantenimientos = idCronogramaMantenimientos;
     }
+
     public Boolean getMantenimientoCorrectivo() {
         return mantenimientoCorrectivo;
     }
@@ -159,6 +156,7 @@ public class DiagnosticoMantenimiento implements Serializable {
     public void setMantenimientoCorrectivo(Boolean mantenimientoCorrectivo) {
         this.mantenimientoCorrectivo = mantenimientoCorrectivo;
     }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -192,4 +190,55 @@ public class DiagnosticoMantenimiento implements Serializable {
         this.idTipoDiagnostico = idTipoDiagnostico;
     }
     
+    
+    public int getDiasValoracion() {
+        int diffDays = 0;
+        Calendar fecha1 = new GregorianCalendar();
+        fecha1.setLenient(false);
+
+        Calendar fecha2 = new GregorianCalendar();
+        fecha2.setLenient(false);
+        if (idCronogramaMantenimientos.getFechaDiagnostico() == null || idCronogramaMantenimientos.getFechaValoracion() == null) {
+            return 0;
+        } else {
+            fecha1.setTime(idCronogramaMantenimientos.getFechaDiagnostico());
+            fecha2.setTime(idCronogramaMantenimientos.getFechaValoracion());
+        }
+
+        if (fecha2.before(fecha1) || fecha2.equals(fecha1)) {
+            diffDays = 0;
+        } else {
+            while (fecha1.before(fecha2) || fecha1.equals(fecha2)) {
+                diffDays++;
+                fecha1.add(Calendar.DATE, 1);
+            }
+        }
+        return diffDays;
+    }
+
+    public int getDiasDiagnostico() {
+        int diffDays = 0;
+        Calendar fecha1 = new GregorianCalendar();
+        fecha1.setLenient(false);
+
+        Calendar fecha2 = new GregorianCalendar();
+        fecha2.setLenient(false);
+        if (idCronogramaMantenimientos.getFechaProgMantenimiento() == null || idCronogramaMantenimientos.getFechaDiagnostico() == null) {
+            return 0;
+        } else {
+            fecha1.setTime(idCronogramaMantenimientos.getFechaProgMantenimiento());
+            fecha2.setTime( idCronogramaMantenimientos.getFechaDiagnostico() );
+        }
+
+        if (fecha2.before(fecha1) || fecha1.equals(fecha2)) {
+            return diffDays = 0;
+        } else {
+            while (fecha1.before(fecha2) || fecha1.equals(fecha2)) {
+                diffDays++;
+                fecha1.add(Calendar.DATE, 1);
+            }
+            return diffDays;
+        }
+    }
+
 }

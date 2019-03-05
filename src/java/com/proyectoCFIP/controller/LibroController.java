@@ -5,27 +5,27 @@
  */
 package com.proyectoCFIP.controller;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.PageSize;
+
+import com.proyectoCFIP.entities.Documentos;
 import com.proyectoCFIP.entities.EstadoLibro;
 import com.proyectoCFIP.entities.Genero;
 import com.proyectoCFIP.entities.Libro;
 import com.proyectoCFIP.entities.ReservaLibrosBiblioteca;
+import com.proyectoCFIP.entities.TipoLibro;
 import com.proyectoCFIP.entities.TipoMantenimiento;
 import com.proyectoCFIP.entities.Usuario;
 import com.proyectoCFIP.sessions.EmailSessionBean;
 import com.proyectoCFIP.sessions.GeneroFacade;
 import com.proyectoCFIP.sessions.LibroFacade;
 import com.proyectoCFIP.sessions.ReservaLibrosBibliotecaFacade;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.InputStream;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,24 +33,26 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.enterprise.context.Dependent;
 import javax.faces.FacesException;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.faces.event.ActionEvent;
+import javax.imageio.stream.FileImageOutputStream;
+import javax.servlet.ServletContext;
+import org.apache.commons.io.IOUtils;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 import org.primefaces.model.StreamedContent;
-import org.xhtmlrenderer.pdf.ITextRenderer;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -64,6 +66,7 @@ public class LibroController implements Serializable {
     private LibroFacade libroFacade;
     private Libro LibroActual;
     private List<Libro> listaLibro;
+    private List<Libro> listaLibroTipo;
 
     @EJB
     private GeneroFacade generoFacade;
@@ -75,6 +78,7 @@ public class LibroController implements Serializable {
     private Date fechaParametro2;
 
     private Usuario usuarioActual;
+    private TipoLibro tipoLibroActual;
 
     @EJB
     private ReservaLibrosBibliotecaFacade reservaLibFacade;
@@ -83,12 +87,16 @@ public class LibroController implements Serializable {
     private List<ReservaLibrosBiblioteca> listaReservaLib1 = new ArrayList<>();
 
     public LibroController() {
-
     }
 
     public boolean isCuento() {
         return LibroActual.getIdGenero() == null ? false
                 : LibroActual.getIdGenero().getIdGenero() == (short) 1;
+    }
+
+    public boolean isDigital() {
+        return LibroActual.getIdTipoLibro() == null ? false
+                : LibroActual.getIdTipoLibro().getIdTipoLibro() == (short) 2;
     }
 
     public GeneroFacade getGeneroFacade() {
@@ -138,6 +146,27 @@ public class LibroController implements Serializable {
     public void setFechaParametro2(Date fechaParametro2) {
         this.fechaParametro2 = fechaParametro2;
     }
+
+    public List<Libro> getListaLibroTipo() {
+        return listaLibroTipo ;
+    }
+
+    public void setListaLibroTipo(List<Libro> listaLibroTipo) {
+        this.listaLibroTipo = listaLibroTipo;
+    }
+
+
+
+    public List<Libro> listaPorTipoDeMaeFuncion() {
+      return listaLibroTipo   =   getLibroFacade().consultaIdTipoLibro(tipoLibroActual);
+    }
+    
+    
+    
+//
+//    public void SelectOneLibro1() {
+//         listaTiposLibro = getLibroFacade().consultaLibTipo(tipoLibroActual);
+//    }
 
     public DefaultScheduleEvent getMan() {
         return man;
@@ -203,7 +232,13 @@ public class LibroController implements Serializable {
         return listaLibro = getLibroFacade().consultaLibId();
     }
 
+    public TipoLibro getTipoLibroActual() {
+        return tipoLibroActual;
+    }
 
+    public void setTipoLibroActual(TipoLibro tipoLibroActual) {
+        this.tipoLibroActual = tipoLibroActual;
+    }
 
     public ReservaLibrosBibliotecaFacade getReservaLibFacade() {
         return reservaLibFacade;
@@ -236,8 +271,6 @@ public class LibroController implements Serializable {
     public void setListaReservaLib1(List<ReservaLibrosBiblioteca> listaReservaLib1) {
         this.listaReservaLib1 = listaReservaLib1;
     }
-    
-    
 
     public void setListaLibro(List<Libro> listaLibro) {
         this.listaLibro = listaLibro;
@@ -495,35 +528,67 @@ public class LibroController implements Serializable {
         this.event = event;
     }
 
-    public void createIndicadorMant() throws FileNotFoundException, MalformedURLException, DocumentException, IOException {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = facesContext.getExternalContext();
-        HttpSession session = (HttpSession) externalContext.getSession(true);
-        String url;
-        //url = "http://servidor/saintFichTec/faces/usuario/modFichaTecnica/fileCliente_1.xhtml;jsessionid=" + session.getId() + "?pdf=true";
-          url = "http://localhost:8080/fichasTecnicas/faces/usuario/modBiblioteca/indicadores/indMantenimiento/indicador1.xhtml;jsessionid=" + session.getId() + "?pdf=true";
-        //url = "http://167.114.11.220:8080/saint/faces/usuario/modFichaTecnica/fileCliente_1.xhtml;jsessionid=" + session.getId() + "?pdf=true";
+    public void cargarFichaLogo(FileUploadEvent event) throws IOException {
+        UploadedFile file = event.getFile();
+        byte[] data = IOUtils.toByteArray(file.getInputstream());
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
 
+        String newFileName = "\\\\172.16.0.241\\Volume_1\\05LibrosDgitales\\" + LibroActual.getIdGenero().getNombre() + "\\" + "-" + LibroActual.getCodigo() + ".pdf";
+        //String newFileName = "/root/alojamientoFichasImg//02FICHASTECNICAS//" + manualSiesaActual.getNombre().toUpperCase() + "\\" + manualSiesaActual.getCodigo() + "-manual.pdf";
+
+        LibroActual.setUrlLibro(newFileName);
+        FileImageOutputStream imageOutput;
         try {
-            ITextRenderer renderer = new ITextRenderer();
-            renderer.setDocument(new URL(url).toString());
-            renderer.layout();
-            HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
-            response.reset();
-            Document document = new Document(PageSize.LEGAL.rectangle(40, 50));
-            document.setPageSize(PageSize.LEGAL);
-            response.setContentType("application/pdf");
-            response.setHeader("Content-Disposition", "inline; filename=\"Indicador-biblioteca.pdf\"");
-            OutputStream outputStream = response.getOutputStream();
-            renderer.createPDF(outputStream);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            imageOutput = new FileImageOutputStream(new File(newFileName));
+            imageOutput.write(data, 0, data.length);
+            imageOutput.close();
+        } catch (IOException e) {
+            throw new FacesException("Error in writing captured image.", e);
         }
-        facesContext.responseComplete();
+
+    }
+    private StreamedContent file;
+
+    public void obtenerFichaLogo() throws IOException {
+        if (LibroActual.getUrlLibro() == null) {
+            addErrorMessage("Documento sin acceso", "el documento no tiene acceso");
+        } else {
+            InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream(LibroActual.getUrlLibro());
+            file = new DefaultStreamedContent(stream, "file/pdf", "downloaded_optimus.pdf");
+        }
+    }
+
+    private StreamedContent archivoDescarga;
+
+    public StreamedContent getArchivoDescarga() throws FileNotFoundException {
+        try {
+            if (LibroActual.getUrlLibro() == null) {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "No existe documento", "El documento no tiene acceso");
+                RequestContext.getCurrentInstance().showMessageInDialog(message);
+                return null;
+            } else {
+                InputStream stream = new FileInputStream(LibroActual.getUrlLibro());
+                return archivoDescarga = new DefaultStreamedContent(stream, "application/pdf", "file.pdf");
+            }
+        } catch (Exception e) {
+            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
+
+            return null;
+        }
     }
     
-        private StreamedContent archivoDescarga;
-
-
-
+    
+    
+        public void prepareDocumento(ActionEvent event){
+        LibroActual = new Libro();
+        LibroActual = (Libro) event.getComponent().getAttributes().get("documento");
+    }   
+   
+    public void obtenerDocumento() throws IOException{
+        if(LibroActual.getUrlLibro()==null){
+            addErrorMessage("Documento sin acceso","el documento no tiene acceso");
+        }else{
+            FacesContext.getCurrentInstance().getExternalContext().redirect(LibroActual.getUrlLibro());
+        }
+    }   
 }

@@ -302,14 +302,17 @@ and open the template in the editor.
                         <p:outputPanel id="prueba5">
                             <div class="col-md-12 form-group">
                                 <h:outputLabel value="Grado" rendered="#{reservaLibrosController.estudiante}"  />
-                                <input class="form-control"  jsf:rendered="#{reservaLibrosController.estudiante}" jsf:id="nomUsuarioInputText2" 
-                                       jsf:value="#{reservaLibrosController.reservaLibActual.gradoEstudiante}" 
-                                       type="text" required="true" placeholder="Grado"
-                                       jsf:requiredMessage="Por favor ingrese su grado"
-                                       > 
-                                    <f:ajax execute="@this" render="nomUsuario2Message"/>
-                                </input>
-                                <p:message id="nomUsuario2Message" for="nomUsuarioInputText2"/>
+                                <p:selectOneMenu id="gradosId"
+                                                 rendered="#{reservaLibrosController.estudiante}"
+                                                 value="#{reservaLibrosController.reservaLibActual.idGrado}" 
+                                                 label="Seleccionar"
+                                                 style="width: 100%"
+                                                 filter="true"
+                                                 filterMatchMode="contains"
+                                                 >
+                                    <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                    <f:selectItems value="#{gradoController.listaGrado}" />
+                                </p:selectOneMenu>
                             </div>
                         </p:outputPanel>
 
@@ -326,84 +329,24 @@ and open the template in the editor.
                                 <p:message id="nomUsuario22Message" for="nomUsuarioInputText22"/>
                             </div>
                         </p:outputPanel>
+                        
+                        
 
-                        <div class="col-md-12 form-group">
-                            <h:outputLabel style="width: 100%; font-family: cursive !important; font-size: 14px"  value="Libro N°1 a Reservar:" />
-                            <p:selectOneMenu id="libro1"
-                                             converter="libroConverter"
-                                             style="width: 100%; font-family: cursive !important; font-size: 14px"
-                                             filter="true"
-                                             filterMatchMode="contains"
-                                             value="#{reservaLibrosController.reservaLibActual.idLib1}"
-                                             required="false">
-                                <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}" itemDisabled="true"/>
-                                <f:selectItems value="#{LibroController.consultaReservas}" var="libro2"/>  
-                                <f:ajax render="opcionActual opcionActual2 opcionActual3 opcionActual4 opcionActual5 idTipoUsuario libro1Estado prueba8 " />
-                            </p:selectOneMenu>
-                            <p:message id="lib1Message" for="libro1" styleClass="error"/>
+                        <div class="col-md-12 form-group" style="    position: relative;    right: 0%;">
+                            <h:outputLabel value="Libros" />
+                            <p:selectCheckboxMenu id="idLib"
+                                                  value="#{reservaLibrosController.reservaLibActual.libroList}" 
+                                                  label="Seleccionar"
+                                                  style="width: 100%"
+                                                  filter="true"
+                                                  filterMatchMode="contains"
+                                                  converter="libroConverter"
+                                                  >
+                                <f:validator validatorId="limitCheckboxMenuValidator" />
+                                 <f:attribute name="minLimit" value="2" />
+                                <f:selectItems value="#{LibroController.listaLibroEstado}" />
+                            </p:selectCheckboxMenu>
                         </div>
-                        <div class="col-md-12" style="position: relative;left: 1%;border-radius: 0%;width: 98% ">
-                            <h4 style="font-family: cursive !important; font-size: 27px !important;">Titulo Del Libro: </h4><h:outputText id="opcionActual" style="font-family: cursive !important; font-size: 17px !important;" value="#{reservaLibrosController.reservaLibActual.idLib1.tituloLibro}" />
-                            <br></br>
-                            <br></br>
-                            <h4 style="font-family: cursive !important; font-size: 27px !important;">Resumen del Libro: </h4><h:outputText id="opcionActual2" style="font-family: cursive !important; font-size: 17px !important;" value="#{reservaLibrosController.reservaLibActual.idLib1.descripcionNormal}" />
-                            <br></br>
-                            <br></br>
-                            <h4 style="font-family: cursive !important; font-size: 27px !important;">Genero del Libro: </h4><h:outputText id="opcionActual3" style="font-family: cursive !important; font-size: 17px !important;" value="#{reservaLibrosController.reservaLibActual.idLib1.idGenero.nombre.toUpperCase()}" />
-                            <br></br>
-                            <br></br>
-                            <br></br> 
-                            <p:outputPanel id="prueba8">
-                                <div class="form-group col-md-8">
-                                    <h:outputLabel value="Estado del Libro:" style="width: 100%;position: relative;left: 25%;color: black" rendered="#{reservaLibrosController.reservaLibActual.idLib1 != null}" />
-                                    <p:selectOneMenu style="width: 100%;position: relative;left: 25%"
-                                                     id="prendaT12"
-                                                     rendered="#{reservaLibrosController.reservaLibActual.idLib1 != null}"
-                                                     value="#{reservaLibrosController.reservaLibActual.idLib1.idEstadoLibro}">                        
-                                        <f:ajax execute="@this" render="clienteMessage"/>
-                                        <f:selectItem itemLabel="Seleccionar uno.." />
-                                        <f:selectItems value="#{EstadoLibroController.listaEstadoLibro}" var="categoria" itemValue="#{estadoLibro}"/> 
-                                    </p:selectOneMenu>
-                                    <p:message id="prendaT12Message" for="prendaT12" styleClass="error"/>
-                                </div>
-
-                            </p:outputPanel>
-
-                        </div>
-
-
-                        <div class="col-md-12 form-group">
-                            <h:outputLabel value="Libro N°2 a Reservar:" style="width: 100%; font-family: cursive !important; font-size: 14px" />
-                            <p:selectOneMenu id="libro2"
-                                             converter="libroConverter"
-                                             style="width: 100%; font-family: cursive !important; font-size: 14px"
-                                             filter="true"
-                                             filterMatchMode="contains"
-                                             value="#{reservaLibrosController.reservaLibActual.idLib2}"
-                                             required="false">
-                                <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}" itemDisabled="true"/>
-                                <f:selectItems value="#{LibroController.consultaReservas}" var="libro2"/>  
-                                <f:ajax render="opcionActual11 opcionActual22 opcionActual33 opcionActual44 idTipoUsuario opcionActual56  " />
-                            </p:selectOneMenu>
-                            <p:message id="lib2Message" for="libro2" styleClass="error"/>
-                        </div>
-                        <div class="col-md-12" style="position: relative;left: 1%;border-radius: 0%;width: 98% " >
-
-                            <h4 style="font-family: cursive !important; font-size: 27px !important;">Titulo Del Libro: </h4> <h:outputText id="opcionActual11" style="font-family: cursive !important; font-size: 17px !important;" value="#{reservaLibrosController.reservaLibActual.idLib2.tituloLibro}" />
-                            <br></br>
-                            <br></br>
-                            <h4 style="font-family: cursive !important; font-size: 27px !important;">Resumen del Libro: </h4><h:outputText id="opcionActual22" style="font-family: cursive !important; font-size: 17px !important;" value="#{reservaLibrosController.reservaLibActual.idLib2.descripcionNormal}" />
-                            <br></br>
-                            <br></br>
-                            <h4 style="font-family: cursive !important; font-size: 27px !important;">Genero del Libro: </h4><h:outputText id="opcionActual33" style="font-family: cursive !important; font-size: 17px !important;" value="#{reservaLibrosController.reservaLibActual.idLib2.idGenero.nombre.toUpperCase()}" />
-                            <br></br>
-                            <br></br>  
-
-
-
-
-                        </div>
-
 
 
                         <div class="col-md-4 form-group" style="    position: relative;   left: 10%;">

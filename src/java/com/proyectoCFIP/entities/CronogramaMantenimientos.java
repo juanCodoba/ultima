@@ -56,7 +56,10 @@ import org.primefaces.model.DefaultStreamedContent;
     @NamedQuery(name = "CronogramaMantenimientos.findByUsuarioDocente", query = "SELECT c FROM CronogramaMantenimientos c WHERE c.idUsuario.idUsuario = 304 ORDER BY c.idCronogramaMantenimientos DESC"),
     @NamedQuery(name = "CronogramaMantenimientos.findByComputador", query = "SELECT c FROM CronogramaMantenimientos c WHERE c.estadoMantenimiento =:estado AND c.idComputador = :idComputador"),
     @NamedQuery(name = "CronogramaMantenimientos.findByEstadoTipoMantenimiento", query = "SELECT c FROM CronogramaMantenimientos c WHERE c.estadoMantenimiento = :estadoMantenimiento AND c.idTipoMantenimiento = :idTipoMantenimiento ORDER BY c.fechaInicioMantenimiento ASC"),
-    @NamedQuery(name = "CronogramaMantenimientos.findByTipoTotal", query = "SELECT c FROM CronogramaMantenimientos c WHERE c.idTipoMantenimiento = :idTipoMantenimiento"),    
+    @NamedQuery(name = "CronogramaMantenimientos.findByEstadoTipoMantenimientoCuatro", query = "SELECT c FROM CronogramaMantenimientos c WHERE c.estadoMantenimiento = :estadoMantenimiento  ORDER BY c.fechaInicioMantenimiento ASC"),
+    @NamedQuery(name = "CronogramaMantenimientos.findByEstadoTipoMantenimientoListado", query = "SELECT c FROM CronogramaMantenimientos c WHERE  c.estadoMantenimiento.idEstado = 4 ORDER BY c.fechaInicioMantenimiento ASC"),
+
+    @NamedQuery(name = "CronogramaMantenimientos.findByTipoTotal", query = "SELECT c FROM CronogramaMantenimientos c WHERE c.idTipoMantenimiento = :idTipoMantenimiento"),
     @NamedQuery(name = "CronogramaMantenimientos.findByTipoTotalPrev", query = "SELECT c FROM CronogramaMantenimientos c WHERE c.idTipoMantenimiento.idTipoMantenimiento = 2 OR c.idTipoMantenimiento.idTipoMantenimiento= 3 ORDER BY c.idCronogramaMantenimientos DESC"),
     @NamedQuery(name = "CronogramaMantenimientos.findByParametro", query = "SELECT c.idComputador.codigoComputador FROM CronogramaMantenimientos c"),
     @NamedQuery(name = "CronogramaMantenimientos.findByTipoTotalCorre", query = "SELECT c FROM CronogramaMantenimientos c WHERE c.idTipoMantenimiento.idTipoMantenimiento = 1 ORDER BY c.idCronogramaMantenimientos DESC"),
@@ -93,7 +96,7 @@ public class CronogramaMantenimientos implements Serializable {
     @Column(name = "fecha_inicio_mantenimiento")
     @Temporal(TemporalType.DATE)
     private Date fechaInicioMantenimiento;
-     @JoinColumn(name = "estado_mantenimiento", referencedColumnName = "id_estado")
+    @JoinColumn(name = "estado_mantenimiento", referencedColumnName = "id_estado")
     @ManyToOne(optional = false)
     private EstadoCronograma estadoMantenimiento;
     @Column(name = "hora_mantenimiento")
@@ -128,6 +131,7 @@ public class CronogramaMantenimientos implements Serializable {
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     @ManyToOne
     private Usuario idUsuario;
+
     public CronogramaMantenimientos() {
     }
 
@@ -143,14 +147,14 @@ public class CronogramaMantenimientos implements Serializable {
     public Integer getIdCronogramaMantenimientos() {
         return idCronogramaMantenimientos;
     }
-    
-    public String getIdTicket(){
-        if(getIdTipoMantenimiento().getNombreTipoMantenimiento().equals("correctivo")){
-            return idCronogramaMantenimientos+"CFIPMC-C";
-        }else{
-            return idCronogramaMantenimientos+"CFIPMP-C";
+
+    public String getIdTicket() {
+        if (getIdTipoMantenimiento().getNombreTipoMantenimiento().equals("correctivo")) {
+            return idCronogramaMantenimientos + "CFIPMC-C";
+        } else {
+            return idCronogramaMantenimientos + "CFIPMP-C";
         }
-    } 
+    }
 
     public void setIdCronogramaMantenimientos(Integer idCronogramaMantenimientos) {
         this.idCronogramaMantenimientos = idCronogramaMantenimientos;
@@ -165,22 +169,23 @@ public class CronogramaMantenimientos implements Serializable {
     }
 
     public Date getFechaProgMantenimiento() {
-        
+
         return fechaProgMantenimiento;
     }
+
     public String getFechaAñoString() {
         String convertido;
         DateFormat fecha = new SimpleDateFormat("yyyy");
-	convertido = fecha.format(fechaInicioMantenimiento);
+        convertido = fecha.format(fechaInicioMantenimiento);
         return convertido;
     }
+
     public String getFechaMesString() {
         String convertido;
         DateFormat fecha = new SimpleDateFormat("MM");
-	convertido = fecha.format(fechaInicioMantenimiento);
+        convertido = fecha.format(fechaInicioMantenimiento);
         return convertido;
     }
-    
 
     public void setFechaProgMantenimiento(Date fechaProgMantenimiento) {
         this.fechaProgMantenimiento = fechaProgMantenimiento;
@@ -201,7 +206,6 @@ public class CronogramaMantenimientos implements Serializable {
     public void setEstadoReporte(Boolean estadoReporte) {
         this.estadoReporte = estadoReporte;
     }
-    
 
     public EstadoCronograma getEstadoMantenimiento() {
         return estadoMantenimiento;
@@ -210,7 +214,6 @@ public class CronogramaMantenimientos implements Serializable {
     public void setEstadoMantenimiento(EstadoCronograma estadoMantenimiento) {
         this.estadoMantenimiento = estadoMantenimiento;
     }
-
 
     public Date getHoraMantenimiento() {
         return horaMantenimiento;
@@ -232,8 +235,6 @@ public class CronogramaMantenimientos implements Serializable {
         this.valoracionReporte = valoracionReporte;
     }
 
-    
-    
     public void setValoracion(Integer valoracionReporte) {
         this.valoracionReporte = valoracionReporte;
     }
@@ -246,8 +247,6 @@ public class CronogramaMantenimientos implements Serializable {
         this.fechaValoracion = fechaValoracion;
     }
 
-    
-    
     public TipoMantenimiento getIdTipoMantenimiento() {
         return idTipoMantenimiento;
     }
@@ -279,8 +278,6 @@ public class CronogramaMantenimientos implements Serializable {
     public void setCorreoUsuarioReporte(String correoUsuarioReporte) {
         this.correoUsuarioReporte = correoUsuarioReporte;
     }
-    
-    
 
     public Computador getIdComputador() {
         return idComputador;
@@ -290,15 +287,14 @@ public class CronogramaMantenimientos implements Serializable {
         this.idComputador = idComputador;
     }
 
-     public DefaultStreamedContent getImagenMantenimiento() {
+    public DefaultStreamedContent getImagenMantenimiento() {
         try {
-             InputStream is= new ByteArrayInputStream((byte[])imagenMantenimiento);
-             return new DefaultStreamedContent(is,"image/png");
-         } catch (Exception e) {
-             return null;
-         }
+            InputStream is = new ByteArrayInputStream((byte[]) imagenMantenimiento);
+            return new DefaultStreamedContent(is, "image/png");
+        } catch (Exception e) {
+            return null;
+        }
     }
-    
 
     public void setImagenMantenimiento(byte[] imagenMantenimiento) {
         this.imagenMantenimiento = imagenMantenimiento;
@@ -310,15 +306,15 @@ public class CronogramaMantenimientos implements Serializable {
         hash += (idCronogramaMantenimientos != null ? idCronogramaMantenimientos.hashCode() : 0);
         return hash;
     }
-    
-    public String getEstado(){
-        if(estadoMantenimiento.equals(new EstadoCronograma(1)) ){
+
+    public String getEstado() {
+        if (estadoMantenimiento.equals(new EstadoCronograma(1))) {
             return "Cerrado";
-        }else if(estadoMantenimiento.equals(new EstadoCronograma(2)) ){
+        } else if (estadoMantenimiento.equals(new EstadoCronograma(2))) {
             return "Sin Cerrar";
-        }else if(estadoMantenimiento.equals(new EstadoCronograma(3)) ){
+        } else if (estadoMantenimiento.equals(new EstadoCronograma(3))) {
             return "Sin Valoración";
-        }else{
+        } else {
             return null;
         }
     }
@@ -338,10 +334,7 @@ public class CronogramaMantenimientos implements Serializable {
     public void setIdUsuario(Usuario idUsuario) {
         this.idUsuario = idUsuario;
     }
-    
-    
-    
-    
+
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -375,54 +368,55 @@ public class CronogramaMantenimientos implements Serializable {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-  
-    public int getDiasValoracion(){
-        int diffDays=0;
+
+    public int getDiasValoracion() {
+        int diffDays = 0;
         Calendar fecha1 = new GregorianCalendar();
         fecha1.setLenient(false);
-        
+
         Calendar fecha2 = new GregorianCalendar();
         fecha2.setLenient(false);
-        if(fechaDiagnostico==null||fechaValoracion==null){
+        if (fechaDiagnostico == null || fechaValoracion == null) {
             return 0;
-        }else{
-           fecha1.setTime(fechaDiagnostico); 
-           fecha2.setTime(fechaValoracion);
+        } else {
+            fecha1.setTime(fechaDiagnostico);
+            fecha2.setTime(fechaValoracion);
         }
-        
-        if(fecha2.before(fecha1) || fecha2.equals(fecha1)){
-            diffDays=0;
-        }else{
-            while(fecha1.before(fecha2) || fecha1.equals(fecha2)){
-            diffDays++;
-            fecha1.add(Calendar.DATE, 1);
+
+        if (fecha2.before(fecha1) || fecha2.equals(fecha1)) {
+            diffDays = 0;
+        } else {
+            while (fecha1.before(fecha2) || fecha1.equals(fecha2)) {
+                diffDays++;
+                fecha1.add(Calendar.DATE, 1);
             }
         }
         return diffDays;
     }
-    public int getDiasDiagnostico(){
-        int diffDays=0;
+
+    public int getDiasDiagnostico() {
+        int diffDays = 0;
         Calendar fecha1 = new GregorianCalendar();
         fecha1.setLenient(false);
-        
+
         Calendar fecha2 = new GregorianCalendar();
         fecha2.setLenient(false);
-        if(fechaProgMantenimiento==null||fechaDiagnostico==null){
+        if (fechaProgMantenimiento == null || fechaDiagnostico == null) {
             return 0;
-        }else{
-           fecha1.setTime(fechaProgMantenimiento); 
-           fecha2.setTime(fechaDiagnostico);
+        } else {
+            fecha1.setTime(fechaProgMantenimiento);
+            fecha2.setTime(fechaDiagnostico);
         }
-        
-        if(fecha2.before(fecha1) || fecha1.equals(fecha2)){
-            return diffDays=0;
-        }else{
-            while(fecha1.before(fecha2) || fecha1.equals(fecha2)){
-            diffDays++;
-            fecha1.add(Calendar.DATE, 1);
+
+        if (fecha2.before(fecha1) || fecha1.equals(fecha2)) {
+            return diffDays = 0;
+        } else {
+            while (fecha1.before(fecha2) || fecha1.equals(fecha2)) {
+                diffDays++;
+                fecha1.add(Calendar.DATE, 1);
             }
             return diffDays;
         }
     }
-    
+
 }

@@ -6,11 +6,11 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:fn="http://java.sun.com/jsp/jstl/functions">
-   <ui:composition template="/template/plantilla.xhtml">
+    <ui:composition template="/template/plantilla.xhtml">
         <ui:define name="title">
-        Tiempo de atención al usuario    
+            Tiempo de atención al usuario    
         </ui:define>
-       <ui:define name="menu">
+        <ui:define name="menu">
             <h:form id="menu-principal">
                 <ul class="sidebar-menu">
                     <h:panelGroup rendered="#{loginController.admin}">
@@ -36,30 +36,30 @@
                         </li>
                         <li>
                             <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
-                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
                                 <i class="fa fa-calendar"></i> 
                                 <span>Calendario mantenimientos</span>
                             </h:commandLink>
                         </li>
                         <li class="treeview">
-                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
-                            <span class="pull-right-container">
-                              <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                          </a>
-                          <ul class="treeview-menu">
-                            <li>
-                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
-                                     <span>Preventivos</span>
-                                </h:commandLink>
-                            </li>
-                            <li>
-                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
-                                     <span>Correctivos</span>
-                                </h:commandLink>
-                            </li>
-                          </ul>
+                            <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                        <span>Preventivos</span>
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                        <span>Correctivos</span>
+                                    </h:commandLink>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <h:commandLink action="#{reporteSiesaController.prepareListReportes}">
@@ -92,69 +92,76 @@
         <ui:define name="body">
             <p:growl id="growl" showDetail="true" life="2000"/>
             <h:form id="incidentesFormList">
-                <p:dataTable value="#{cronogramaController.listaReporteTiempo}" var="incidente"
-                            rows="100" id="incidenteTable" 
-                            paginator="true"
-                            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                            rowsPerPageTemplate="100,150,200">
+                <p:dataTable value="#{cronogramaController.listaReporteTiempo2}" var="incidente"
+                             rows="100" id="incidenteTable" 
+                             paginator="true"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="100,150,200">
 
-                           <f:facet name="header">
-                               <h:commandLink id="exportExcel">
-                                   <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
-                                   <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
-                                           target="incidenteTable" fileName="inventario" />
-                               </h:commandLink>
-                               <p:tooltip id="descripcion-botonExcel" for="exportExcel" value="Exportar en excel" trackMouse="true" />
-                               <h4 class="colorLetra" style="font-weight: bold;display: inline-block !important;" >
-                                   Total reporte: #{fn:length(cronogramaController.listaReporteTiempo)}
-                               </h4>
-                           </f:facet>
-                   <p:column filterBy="#{incidente.idCronogramaMantenimientos}" width="100" filterMatchMode="contains">
-                       <f:facet name="header"># Ticket:</f:facet>
-                       <h:outputText value="#{incidente.idCronogramaMantenimientos}MC-C" style="font-weight: bold"/>
-                   </p:column>
-                   <p:column filterBy="#{incidente.idComputador.codigoComputador}" filterMatchMode="contains">
-                       <f:facet name="header">Service tag o (S/N)</f:facet>
-                       <h:outputText value="#{incidente.idComputador.codigoComputador.toUpperCase()}"/>
-                   </p:column>
-                   <p:column filterBy="#{incidente.idComputador.idUsuario}" filterMatchMode="contains">
-                       <f:facet name="header">Responsable del equipo</f:facet>
-                       <h:outputText value="#{incidente.idComputador.idUsuario.toString()}"/><br></br><br></br>
-                            <h:outputText value="#{incidente.nombreUsuarioReporte.toUpperCase()}"/>
-                   </p:column>
-                   <p:column filterMatchMode="contains">
-                       <f:facet name="header">Telefono usuario del reporte</f:facet>
-                       <h:outputText value="#{incidente.telefono}"/>
-                   </p:column>
-                   <p:column>
-                       <f:facet name="header">Fecha del reporte</f:facet>
-                       <h:outputText value="#{incidente.fechaProgMantenimiento}">
-                          <f:convertDateTime pattern="MMMM dd, yyyy"/>
-                       </h:outputText>
-                   </p:column>
-                   <p:column>
-                       <f:facet name="header">Fecha del diagnóstico</f:facet>
-                       <h:outputText value="#{incidente.fechaDiagnostico}">
-                          <f:convertDateTime pattern="MMMM dd, yyyy "/>
-                       </h:outputText>
+                    <f:facet name="header">
+                        <h:commandLink id="exportExcel">
+                            <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                            <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                            target="incidenteTable" fileName="inventario" />
+                        </h:commandLink>
+                        <p:tooltip id="descripcion-botonExcel" for="exportExcel" value="Exportar en excel" trackMouse="true" />
+                        <h4 class="colorLetra" style="font-weight: bold;display: inline-block !important;" >
+                            Total reporte: #{fn:length(cronogramaController.listaReporteTiempo2)}
+                        </h4>
+                    </f:facet>
+                    <p:column filterBy="#{incidente.idCronogramaMantenimientos.idCronogramaMantenimientos}" width="100" filterMatchMode="contains">
+                        <f:facet name="header"># Ticket:</f:facet>
+                        <h:outputText value="#{incidente.idCronogramaMantenimientos.idCronogramaMantenimientos}MC-C" style="font-weight: bold"/>
+                    </p:column>
+                    <p:column filterBy="#{incidente.idCronogramaMantenimientos.idComputador.codigoComputador}" filterMatchMode="contains">
+                        <f:facet name="header">Service tag o (S/N)</f:facet>
+                        <h:outputText value="#{incidente.idCronogramaMantenimientos.idComputador.codigoComputador.toUpperCase()}"/>
+                    </p:column>
+                    <p:column filterBy="#{incidente.idCronogramaMantenimientos.idComputador.idUsuario}" filterMatchMode="contains">
+                        <f:facet name="header">Responsable del equipo</f:facet>
+                        <h:outputText value="#{incidente.idCronogramaMantenimientos.idComputador.idUsuario.toString()}"/><br></br><br></br>
+                        <h:outputText value="#{incidente.idCronogramaMantenimientos.nombreUsuarioReporte.toUpperCase()}"/>
+                    </p:column>
+                    <p:column filterMatchMode="contains">
+                        <f:facet name="header">Telefono usuario del reporte</f:facet>
+                        <h:outputText value="#{incidente.idCronogramaMantenimientos.telefono}"/>
                     </p:column>
                     <p:column>
-                       <f:facet name="header">Dias transcurridos para el diagnóstico</f:facet>
-                       <h:outputText value="#{incidente.diasDiagnostico}">
-                       </h:outputText>
-                   </p:column>
-                   <p:column>
-                       <f:facet name="header">Fecha de la valoración</f:facet>
-                       <h:outputText value="#{incidente.fechaValoracion}">
-                          <f:convertDateTime pattern="MMMM dd, yyyy "/>
-                       </h:outputText>
-                   </p:column>
-                   <p:column>
-                       <f:facet name="header">Dias transcurridos para la valoración</f:facet>
-                       <h:outputText value="#{incidente.diasValoracion}">
-                       </h:outputText>
-                   </p:column>
-                  
+                        <f:facet name="header">Fecha del reporte</f:facet>
+                        <h:outputText value="#{incidente.idCronogramaMantenimientos.fechaProgMantenimiento}">
+                            <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Fecha del diagnóstico</f:facet>
+                        <h:outputText value="#{incidente.idCronogramaMantenimientos.fechaDiagnostico}">
+                            <f:convertDateTime pattern="MMMM dd, yyyy "/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Dias transcurridos para el diagnóstico</f:facet>
+                        <h:outputText value="#{incidente.idCronogramaMantenimientos.diasDiagnostico}">
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Fecha de la valoración</f:facet>
+                        <h:outputText value="#{incidente.idCronogramaMantenimientos.fechaValoracion}">
+                            <f:convertDateTime pattern="MMMM dd, yyyy "/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Dias transcurridos para la valoración</f:facet>
+                        <h:outputText value="#{incidente.idCronogramaMantenimientos.diasValoracion}">
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Tipo de diagnostico </f:facet>
+                        <h:outputText value="#{incidente.idTipoDiagnostico.toString()}">
+                        </h:outputText>
+                    </p:column>
+
+
+
                 </p:dataTable>
             </h:form>
         </ui:define>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Crear cargo</ui:define>        
+        <ui:define name="body">
+            <h:form id="formulario-crearFuncion">
+                <p:growl id="msgs3" />
+                <h:outputText class="help-block" value="Ingresa los datos del cargo:"/>
+                <div class="panel panel-primary">
+                    <div class="panel-heading" style="border-radius: 0"><h4 class="letra-panelDescriEdu">4. Funciones</h4></div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <h:panelGroup id="agregar-funcion">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-12 form-group" >
+                                                <h:outputLabel value="Cargos:" />
+                                                <p:selectOneMenu style="width: 100%"
+                                                                 id="cargos"
+                                                                 converter="cargosConverter"
+                                                                 value="#{MaeFuncionController.cargosActual}">
+                                                    <f:selectItem itemDisabled="true" itemLabel="Seleccionar uno.." />
+                                                    <f:selectItems value="#{cargosController.listaCargos}" var="cargos" itemValue="#{cargos}"/> 
+                                                    <f:ajax execute="@this" render="cargosMessage"/>
+                                                </p:selectOneMenu>
+                                            </div>
+
+                                            <div class="col-md-12 form-group">
+                                                <h:outputLabel value="Tipo de Función:"/>
+                                                <p:selectOneMenu  style="width: 100%"
+                                                                  id="idFuncion" 
+                                                                  converter="tipoFuncionConverter"
+                                                                  value="#{MaeFuncionController.maeFuncionActual.idTipoFuncion}">
+                                                    <f:selectItem  itemDisabled="true" itemLabel="Selecciona uno..."/>
+                                                    <f:selectItems value="#{tipoFuncionController.listaTipoFuncion}" var="funcion" itemValue="#{funcion}"/>
+                                                    <f:ajax execute="@this" render="idFuncionMessage"/>
+                                                </p:selectOneMenu>
+                                            </div>
+
+
+                                            <div class="col-md-12 form-group">
+                                                <h:outputLabel value="Nombre de la función"  />
+                                                <h:inputText  class="form-control" 
+                                                              id="nombreFuncion" 
+                                                              value="#{MaeFuncionController.maeFuncionActual.nombre}" 
+                                                              >
+                                                    <f:ajax execute="@this" render="nombreMessage"/>
+                                                </h:inputText>
+                                            </div>
+                                            <div class="col-md-12 form-group">
+                                                <h:outputLabel value="Accion:"  />
+                                                <h:inputText  class="form-control" 
+                                                              id="cargoInputText" 
+                                                              value="#{MaeFuncionController.maeFuncionActual.accionFuncion}" 
+                                                              >
+                                                    <f:ajax execute="@this" render="cargoMessage"/>
+                                                </h:inputText>
+                                            </div>
+                                            <div class="col-md-12 form-group">
+                                                <h:outputLabel value="Objeto:"  />
+                                                <h:inputText  class="form-control" 
+                                                              id="ObjetoInputText" 
+                                                              value="#{MaeFuncionController.maeFuncionActual.objetoFuncion}" 
+                                                              >
+                                                    <f:ajax execute="@this" render="ObjetoMessage"/>
+                                                </h:inputText>
+                                            </div>
+                                            <div class="col-md-12 form-group">
+                                                <h:outputLabel value="Condicion:"  />
+                                                <h:inputText  class="form-control" 
+                                                              id="codicionInputText" 
+                                                              value="#{MaeFuncionController.maeFuncionActual.condicionFuncion}" 
+                                                              >
+                                                    <f:ajax execute="@this" render="cargoMessage"/>
+                                                    <f:validateLength maximum="85"/>
+                                                </h:inputText>
+                                                <p:message id="codicionInputMessage" for="codicionInputText" styleClass="error"/>
+                                            </div>
+
+                                            <div class="col-md-12 form-group" style="    position: relative;    right: 0%;">
+                                                <h:outputLabel value="RACI" />
+                                                <p:selectCheckboxMenu id="herramientas"
+                                                                      value="#{MaeFuncionController.maeFuncionActual.raciList}" 
+                                                                      label="Seleccionar"
+                                                                      style="width: 100%"
+                                                                      filter="true"
+                                                                      filterMatchMode="contains"
+                                                                      converter="raciConverter">
+                                                    <f:selectItems value="#{raciController.listaRaci}" var="raci" itemValue="#{Raci}"/>
+                                                </p:selectCheckboxMenu>
+                                            </div>
+
+                                            <div class="col-md-12" style="    position: relative;    left: 28%;    width: 100%;">
+                                                <img class="img-responsive" src="../../../resources/images/raciRoles.jpg" alt="raci"/>
+                                            </div>                                                
+
+                                        </div>
+                                        <div class="col-md-3 form-group" style="position: relative;left: 35%">
+                                            <h:commandButton class="btn btn-primary btn-block" 
+                                                             action="#{MaeFuncionController.add()}" 
+                                                             style="margin-top: 25px"
+                                                             value="Agregar Función">
+                                                <f:ajax execute="@this idFuncion responsable aprobador consultado informado responsable aprobador consultado informado herramientas" 
+                                                        render="agregar-funcion"/>
+                                            </h:commandButton>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <h:panelGroup id="actualizar">
+                                    <p:dataTable id="tablaFuncion" class="table table-striped table-bordered"
+                                                 value="#{MaeFuncionController.listaMaeFuncionActual}" emptyMessage="No se encontraron registros"
+                                                 var="funcion"  >
+                                        <p:column width="100" headerText="Nombre de la funcion">
+                                            <h:outputText value="#{funcion.nombre.toUpperCase()}"/>
+                                        </p:column>
+                                        <p:column width="100"  headerText="Accion de la funcion">
+                                            <h:outputText value="#{funcion.accionFuncion}"/>
+                                        </p:column>
+                                        <p:column width="100" headerText="Objeto de la funcion">
+                                            <h:outputText value="#{funcion.objetoFuncion}"/>
+                                        </p:column>
+                                        <p:column width="100" headerText="Condicion de la funcion">
+                                            <h:outputText value="#{funcion.condicionFuncion}"/>
+                                        </p:column>
+                                        <p:column width="50">
+                                            <p:commandButton icon="ui-icon-trash" 
+                                                             id="eliminar" 
+                                                             action="#{MaeFuncionController.delete() }"
+                                                             process="@this" 
+                                                             update="tablaFuncion formulario-crearFuncion:actualizar ">
+                                                <f:setPropertyActionListener value="#{funcion}" 
+                                                                             target="#{MaeFuncionController.maeFuncionActual}"/>
+                                            </p:commandButton>
+                                        </p:column>
+
+                                    </p:dataTable> 
+                                </h:panelGroup>
+
+
+                            </h:panelGroup>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row"> 
+                    <div class="container-fluid col-sm-4 form-group">
+                        <h:commandButton type="buttom" class="btn btn-primary btn-block" 
+                                         value="Guardar" 
+                                         action="#{ActividadController.prepareCreate()}"> 
+                        </h:commandButton>
+                    </div>
+                    <div class="container-fluid col-sm-4 form-group">
+                        <h:button class="btn btn-danger btn-block" 
+                                  value="Volver atras" 
+                                  outcome="create2"> 
+                        </h:button>
+                    </div>
+                    <div class="container-fluid col-sm-4 form-group">
+                        <h:button class="btn btn-orange btn-block" 
+                                  value="Cancelar" 
+                                  outcome="list"> 
+                        </h:button>
+                    </div>
+                </div>
+
+            </h:form>
+
+
+        </ui:define>
+    </ui:composition>
+</html>
+

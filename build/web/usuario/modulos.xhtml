@@ -97,10 +97,35 @@
                             <div class="item-overlay top"></div>
                         </div>
                     </div>
+
+
                     <div class="col-md-4 col-lg-3" jsf:rendered="#{loginController.noCambiarContra}">
                         <div class="itemZoom img-bordered" >
                             <h:commandLink action="#{loginController.preparePaginaBiblioteca}">                               
                                 <img class="img-responsive" src="#{request.contextPath}/resources/images/modulos/Bibliotecas22.png"/>
+
+                            </h:commandLink>
+                            <div class="item-overlay top"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-lg-3" jsf:rendered="#{ loginController.adminCalidad || loginController.adminCalidoso ||loginController.admin || loginController.jefe || loginController.noCambiarContra}">
+                        <div class="itemZoom img-bordered" >
+                            <h:commandLink action="#{loginController.preparePaginaManual()}">                               
+                                <img class="img-responsive" src="#{request.contextPath}/resources/images/modulos/manual3.png"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cargosController.usuarioActual}"/>
+
+                            </h:commandLink>
+                            <div class="item-overlay top"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-lg-3" jsf:rendered="#{ loginController.adminCalidad || loginController.adminCalidoso ||loginController.admin || loginController.jefe || loginController.noCambiarContra}">
+                        <div class="itemZoom img-bordered" >
+
+                            <h:commandLink action="#{loginController.preparePaginaPestel()}">                               
+                                <img class="img-responsive" src="#{request.contextPath}/resources/images/modulos/PESTEL.png"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{procesosController.usuarioActual}"/>
 
                             </h:commandLink>
                             <div class="item-overlay top"></div>

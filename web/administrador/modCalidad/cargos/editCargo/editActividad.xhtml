@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Asignar actividades a la función del cargo</ui:define>        
+        <ui:define name="body" >
+            <h:form id="formulario">
+                <p:growl id="panel"></p:growl>
+                <h:outputText class="help-block" value="Ingresa las actividades del cargo:"></h:outputText>
+                <div class="panel panel-primary">
+                    <div class="panel-heading" style="border-radius: 0"><h4 class="letra-panelDescriEdu">5. Actividades</h4></div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <h:panelGroup id="agregar-actividad" >
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p:separator />
+                                            <div class="col-md-12">
+
+
+                                                <h3>SELECCIONA TU FUNCION</h3>
+
+                                                <div  class="col-md-6 form-group" >    
+                                                    <h:outputLabel value="Filtro por Cargos Para las Funciones:"  />
+                                                    <p:selectOneMenu id="idCargos"
+                                                                     value="#{MaeFuncionController.cargosActual}"
+                                                                     converter="cargosConverter"
+                                                                     style="width: 100%; border: none;">
+                                                        <f:selectItem itemDisabled="true"  itemLabel="--Seleccionar--"/>
+                                                        <!-- este ajax se configura para actualizar el select siguiente dependiendo del cargo -->
+                                                        <p:ajax listener="#{MaeFuncionController.listaPorTipoDeMaeFuncion()}" update="funcion"/> 
+                                                        <!-- este ajax se configura para actualizar el select siguiente dependiendo del cargo -->
+                                                        <f:selectItems value="#{cargosController.listaCargos}" var="cargos" itemValue="#{cargos}" />  
+                                                        <f:ajax execute="@this" render="idCargosMessage funciones"/>
+                                                    </p:selectOneMenu>
+                                                    <p:message id="idCargosMessage" for="idCargos" styleClass="error"/>
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <h:outputLabel value="Funciones"/>
+                                                    <p:selectOneMenu style="width: 100%"
+                                                                     converter="maeFuncionConverter"
+                                                                     id="funcion"
+                                                                     value="#{ActividadController.actividadActual.idMaeFuncion}">
+                                                        <f:selectItem itemDisabled="true"  itemLabel="Seleccionar uno.." />
+                                                        <f:selectItems value="#{MaeFuncionController.listaMaeFuncionTipo}" var="funcion" itemValue="#{Funcion}"/> 
+                                                        <f:ajax execute="@this" render="cargosMessage"/>
+                                                    </p:selectOneMenu>
+                                                    <p:message id="funcionMessage" for="funcion" styleClass="error"/>
+                                                </div>
+                                            </div>
+                                            <p:separator />
+
+                                            <div class="form-group" >    
+                                                <h:outputLabel value="Cargos Para la Actividad:"  />
+                                                <p:selectOneMenu id="idCargosAc"
+                                                                 value="#{ActividadController.cargosActual }"
+                                                                 converter="cargosConverter"
+                                                                 style="width: 100%; border: none;">
+                                                    <f:selectItem itemDisabled="true"  itemLabel="--Seleccionar--"/>
+                                                    <f:selectItems value="#{cargosController.listaCargos}" var="cargosA" itemValue="#{cargos}" />  
+                                                </p:selectOneMenu>
+                                                <p:message id="idCargosAcMessage" for="idCargosAc" styleClass="error"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <h:outputLabel value="Periodicidad"/>
+
+                                                <p:selectOneMenu style="width: 100%"
+                                                                 converter="periodicidadConverter"
+                                                                 id="periodicidad"
+                                                                 value="#{ActividadController.actividadActual.idPeriodicidad}">
+                                                    <f:selectItem itemDisabled="true"  itemLabel="Seleccionar uno.." />
+                                                    <f:selectItems value="#{periodicidadController.listaMaePeriodicidad}" var="periodicidad" itemValue="#{MaePeriodicidad}"/> 
+                                                    <f:ajax execute="@this" render="periodicidadMessage"/>
+                                                </p:selectOneMenu>
+                                                <p:message id="periodicidadMessage" for="periodicidad" styleClass="error"/>
+                                            </div>
+                                            <div class="form-group" style="    position: relative;    right: 0%;">
+                                                <h:outputLabel value="Herramientas:" />
+                                                <p:selectCheckboxMenu id="herramientas"
+                                                                      value="#{ActividadController.actividadActual.maeHerramientaList}" 
+                                                                      label="Seleccionar"
+                                                                      style="width: 100%"
+                                                                      filter="true"
+                                                                      filterMatchMode="contains"
+                                                                      converter="maeHerramientaConverter">
+                                                    <f:selectItems value="#{MaeHerramientaController.listaMaeHerramienta}" var="herramienta" itemValue="#{maeHerramienta}"/>
+                                                </p:selectCheckboxMenu>
+                                            </div>
+                                            <div class="form-group">
+                                                <h:outputLabel value="Nombre de la Actividad"  />
+                                                <h:inputText  class="form-control" 
+                                                              id="nombreActividad" 
+                                                              value="#{ActividadController.actividadActual.nombre}">
+                                                    <f:ajax execute="@this" render="nombreActividadMessage"/>
+                                                </h:inputText>
+                                            </div>
+                                            <div class="form-group">
+                                                <h:outputLabel value="acción de la función"  />
+                                                <h:inputText  class="form-control" 
+                                                              id="accionActividad" 
+                                                              value="#{ActividadController.actividadActual.accion}" >
+                                                    <f:ajax execute="@this" render="accionActividadMessage"/>
+                                                </h:inputText>
+                                            </div>
+                                            <div class="form-group">
+                                                <h:outputLabel value="Proposito de la actividad"  />
+                                                <h:inputText  class="form-control" 
+                                                              id="PropositoActividad" 
+                                                              value="#{ActividadController.actividadActual.propositoActividad}">
+                                                    <f:ajax execute="@this" render="PropositoActividadMessage"/>
+                                                </h:inputText>
+                                            </div>
+                                            <div class="form-group">
+                                                <h:outputLabel value="condición de la Actividad "  />
+                                                <h:inputText  class="form-control" 
+                                                              id="condicionActividad" 
+                                                              value="#{ActividadController.actividadActual.condicionActividad}" >
+                                                    <f:ajax execute="@this" render="condicionActividadMessage"/>
+                                                    <f:validateLength maximum="85"/>
+                                                </h:inputText>
+                                            </div>
+                                            <div class="col-md-6 form-group" style="position: relative;left: 20%">
+                                                <h:commandButton class="btn btn-primary btn-block" 
+                                                                 action="#{ActividadController.add()}" 
+                                                                 value="Agregar Actividad">
+                                                    <f:ajax execute="@this idCargosAc idCargos funcion periodicidad herramientas nombreActividad accionActividad PropositoActividad condicionActividad " 
+                                                            render="agregar-actividad"/>
+                                                </h:commandButton>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <h:panelGroup id="itemsGroup">
+                                    <p:dataGrid  emptyMessage="No se encontraron registros" value="#{ActividadController.listaActividadActual}" var="item" columns="3" layout="grid"
+                                                 rows="12" paginator="true" id="tablaFuncion" 
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="6,12,16" >
+                                        <f:facet name="header">
+                                            Actividades
+                                        </f:facet>
+                                        <p:panel header="Funcion: #{item.idMaeFuncion.toString()}" >
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <h:outputText value="Periodicidad: " style="font-weight: bold"/>
+                                                    <h:outputText value="#{item.idPeriodicidad}" />
+                                                    <br></br>
+                                                    <h:outputText value="Nombre de la Actividad: " style="font-weight: bold"/>
+                                                    <h:outputText value="#{item.nombre}" >
+                                                        <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                                    </h:outputText>
+                                                    <br></br>
+                                                    <h:outputText value="Accion de la Actividad " style="font-weight: bold;padding: 3% !important;"/>
+                                                    <h:outputText value="#{item.accion}">
+                                                        <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                                    </h:outputText>
+                                                    <br></br>
+                                                    <h:outputText value="Herramientas de la Actividad" style="font-weight: bold"/>
+                                                    <p:dataList styleClass="dataList" value="#{item.maeHerramientaList}" var="herramienta" emptyMessage="No tiene auditores asignados">
+                                                        <h:outputText value="#{herramienta.toString()}"/>
+                                                    </p:dataList>
+                                                    <h:commandButton value="Quitar"  class="btn btn-primary" action="#{ActividadController.deleteActividad}">
+                                                        <f:ajax execute="@this" render="tablaFuncion formulario-crearFuncion:actualizar "/>
+                                                        <f:setPropertyActionListener value="#{item}" target="#{ActividadController.actividadActual }"/>
+                                                    </h:commandButton>
+
+                                                </div>
+                                            </div>
+                                        </p:panel>
+                                    </p:dataGrid>
+                                </h:panelGroup>
+                                <h:panelGroup>
+                                    <div class="row" style="margin-top: 3% "> 
+                                        <div class="container-fluid col-sm-6 form-group">
+                                            <h:commandButton type="buttom" class="btn btn-primary btn-block" 
+                                                             value="Terminar" 
+                                                             action="#{cargosController.prepareEdit()}"> 
+                                            </h:commandButton>
+                                        </div>
+                    <div class="container-fluid col-sm-6 form-group">
+                        <h:commandButton class="btn btn-orange btn-block" 
+                                  value="Cancelar" 
+                                  action="#{cargosController.prepareEdit()}"> 
+                        </h:commandButton>
+                    </div>
+                                    </div>
+                                </h:panelGroup>
+                            </h:panelGroup>  
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+
+
+
+

@@ -116,7 +116,7 @@ and open the template in the editor.
                                         <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
 
                                     </h:commandLink>
-                                    
+
 
                                 </li>
 
@@ -144,115 +144,47 @@ and open the template in the editor.
         <ui:define name="body">
             <p:growl id="growl" showDetail="true" life="5000" />
             <h:form id="formulario">
+
+                <h:panelGroup id="itemsGroup">
+                    <p:dataGrid  emptyMessage="No se encontraron registros" value="#{reservaLibrosController.reservaLibActual}" var="item" columns="3" layout="grid"
+                                 rows="12" paginator="true" id="tablaFuncion" 
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="6,12,16" >
+                        <f:facet name="header">
+                            Subprocesos a evaluar
+                        </f:facet>
+                        <p:panel header="Usuario Prestamo #{item.idUsuarioPrestamo.toString()}" >
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h:outputText value="Fecha inicio del prestamo " style="font-weight: bold"/>
+                                    <h:outputText value="#{item.fechaInicioPrestamo}" >
+                                        <f:convertDateTime pattern="MMMM dd, yyyy"/>
+
+                                    </h:outputText>
+
+                                    <br></br>
+                                    <h:outputText value="Fecha final del prestamo " style="font-weight: bold"/>
+                                    <h:outputText value="#{item.fechaFinPrestamo}" >
+                                        <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                    </h:outputText>
+                                    <br></br>
+
+                                    <h:outputText value="Grado del Estudiante: " style="font-weight: bold"/>
+                                    <h:outputText value="#{item.idGrado.grado}" >
+                                        <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                    </h:outputText>
+                                    <br></br>
+
+                                    <h:outputText value="Libro o Libros Prestados " style="font-weight: bold"/>
+                                    <p:dataList styleClass="dataList" value="#{item.libroList}" var="libros" emptyMessage="No tiene auditores asignados">
+                                        <h:outputText value="#{libros.toString()}"/>
+                                    </p:dataList>
+                                </div>
+                            </div>
+                        </p:panel>
+                    </p:dataGrid>
+                </h:panelGroup>
                 <h:panelGroup>
-
-                    <p:outputPanel>
-                        <div class="col-md-6 ">
-                            <h:outputLabel value="codigo del Libro N°1" />
-                            <input placeholder="codigo" class="form-control" jsf:id="cod1" disabled="true" jsf:value="#{reservaLibrosController.reservaLibActual.idLib1.codigo}"
-                                   type="text">
-                            </input>
-                        </div>
-                    </p:outputPanel>
-
-                    <p:outputPanel>
-                        <div class="col-md-6 ">
-                            <h:outputLabel value="Titulo del Libro N°1:" />
-                            <p:inputText class="form-control" id="tituloLibro" value="#{reservaLibrosController.reservaLibActual.idLib1.tituloLibro}"
-                                         disabled="true">
-                                <f:ajax execute="@this" render="tituloLibroMessage" />
-                            </p:inputText>
-                        </div>
-                    </p:outputPanel>
-
-                    <p:outputPanel rendered="#{reservaLibrosController.reservaLibActual.idLib2 != null}">
-                        <div class="col-md-6 ">
-                            <h:outputLabel value="codigo del Libro N°2" />
-                            <input placeholder="codigo" class="form-control" jsf:id="cod2" disabled="true" jsf:value="#{reservaLibrosController.reservaLibActual.idLib2.codigo}"
-                                   type="text">
-                            </input>
-                            <p:message id="codMessage" for="titulo" styleClass="error" />
-                        </div>
-                    </p:outputPanel>
-
-                    <p:outputPanel rendered="#{reservaLibrosController.reservaLibActual.idLib2 != null}">
-                        <div class="col-md-6 " >
-                            <h:outputLabel value="titulo del Libro N°2" />
-                            <input placeholder="Autor" class="form-control" jsf:id="titulo" disabled="true" jsf:value="#{reservaLibrosController.reservaLibActual.idLib2.tituloLibro}"
-                                   type="text">
-                            </input>
-                            <p:message id="tituloMessage" for="titulo" styleClass="error" />
-                        </div>
-                    </p:outputPanel>
-
-
-
-                    <p:outputPanel rendered="#{reservaLibrosController.trabajador || (reservaLibrosController.estudiante)}">
-
-                        <div class="col-md-6 " >
-                            <h:outputLabel value="Usurio Prestamo:" />
-                            <input placeholder="Autor" class="form-control" jsf:id="usuarioR" disabled="true" jsf:value="#{reservaLibrosController.reservaLibActual.idUsuarioPrestamo.toString()}"
-                                   type="text">
-                            </input>
-                            <p:message id="usuarioRMessage" for="titulo" styleClass="error" />
-                        </div>
-                    </p:outputPanel>
-
-
-
-                    <p:outputPanel rendered="#{reservaLibrosController.egresado}">
-
-                        <div class="col-md-6 " >
-                            <h:outputLabel value="Usurio Prestamo:" />
-                            <input placeholder="Usuario" class="form-control" jsf:id="usuarioE" disabled="true" jsf:value="#{reservaLibrosController.reservaLibActual.nombreEgresado}"
-                                   type="text"
-                                   jsf:rendered="#{reservaLibrosController.egresado}">
-                            </input>
-                            <p:message id="usuarioEMessage" for="titulo" styleClass="error" />
-                        </div>
-                    </p:outputPanel>
-
-                    <p:outputPanel rendered="#{reservaLibrosController.egresado}">
-
-                        <div class="col-md-6"  >
-                            <h:outputLabel value="Email Egresado:" />
-                            <input placeholder="Autor" class="form-control" jsf:id="emailE" disabled="true" jsf:value="#{reservaLibrosController.reservaLibActual.apellidoEgresado}"
-                                   type="text">
-                            </input>
-                            <p:message id="emailEMessage" for="titulo" styleClass="error" />
-                        </div>
-                    </p:outputPanel>
-
-                    <p:outputPanel rendered="#{reservaLibrosController.egresado}">
-
-                        <div class="col-md-6 ">
-                            <h:outputLabel value="Año Egresado:" />
-                            <input placeholder="Autor" class="form-control" jsf:id="añoE" disabled="true" jsf:value="#{reservaLibrosController.reservaLibActual.añoEgresado}"
-                                   type="text">
-                            </input>
-                            <p:message id="añoEMessage" for="titulo" styleClass="error" />
-                        </div>
-                    </p:outputPanel >
-
-                    <p:outputPanel rendered="#{reservaLibrosController.estudiante}">
-                        <div class="col-md-6 form-group">
-                            <h:outputLabel value="grado:" />
-                            <input placeholder="Autor" class="form-control" jsf:id="grado" disabled="true" jsf:value="#{reservaLibrosController.reservaLibActual.gradoEstudiante}"
-                                   type="text">
-                            </input>
-                            <p:message id="gradoRMessage" for="titulo" styleClass="error" />
-                        </div>
-                    </p:outputPanel>
-
-                    <p:outputPanel rendered="#{reservaLibrosController.trabajador}">
-                        <div class="col-md-6 form-group">
-                            <h:outputLabel value="Cargo:" />
-                            <input placeholder="Autor" class="form-control" jsf:id="cargo" disabled="true" jsf:value="#{reservaLibrosController.reservaLibActual.idUsuarioPrestamo.idCargo.toString()}"
-                                   type="text">
-                            </input>
-                            <p:message id="cargoMessage" for="titulo" styleClass="error" />
-                        </div>
-                    </p:outputPanel>
 
                     <div class="col-md-12 form-group" style=" margin-top: 5px !important;">
                         <h:outputLabel value="Estado De la Reserva: " />

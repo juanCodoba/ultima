@@ -348,7 +348,7 @@ public class AuPlanAuditoriaController implements Serializable {
 
     public void deleteProcesoAuditar() {
         try {
-            getAspectoEvaluarFacade().remove(aspectoEvaluarActual);
+            getProcesoEvaluadoFacade().remove(procesoEvaluadoActual);
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro Eliminado", "El Registro fue eliminado correctamente");
             RequestContext.getCurrentInstance().showMessageInDialog(message);
             recargarLista();

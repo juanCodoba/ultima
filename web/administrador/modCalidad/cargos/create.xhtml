@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Crear cargo</ui:define>        
+        <ui:define name="body">
+            <h:form id="formulario-crearCargo">
+                <p:growl id="msgs" />
+                <h:outputText class="help-block" value="Ingresa los datos del cargo:"/>
+                <div class="panel panel-primary">
+                    <div class="panel-heading" style="border-radius: 0"><h4 class="letra-panelDescriEdu">1. Identificación del Cargo</h4></div>
+                    <div class="panel-body">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <h:outputLabel value="Creacion del codigo inteligente de cargo:"  /> 
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 form-group" >
+                                    <h:outputLabel value="Area:"  />
+                                    <p:selectOneMenu class="cargoReporta"
+                                                     id="area" 
+                                                     filter="true" style="width: 100%"
+                                                     value="#{cargosController.cargosActual.idArea}" 
+                                                     >
+                                        <f:ajax execute="@this" render="areaMessage"/>
+                                        <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                        <f:selectItems value="#{areaController.listaArea}" var="AreaResposable" itemValue="#{Area}"/>
+                                    </p:selectOneMenu>
+                                    <p:message id="areaMessage" for="area" styleClass="error"/>
+                                </div>
+                                <div class="col-md-4 form-group" > 
+                                    <h:outputLabel value="Tipo de cargo:"  />
+                                    <p:selectOneMenu class="cargoReporta"
+                                                     converter="tipoCargoConverter"
+                                                     id="TipoCargo" 
+                                                     filter="true" style="width: 100%"
+                                                     value="#{cargosController.cargosActual.idTipoCargo}" >
+                                        <f:ajax execute="@this" render="subProcesoMessage"/>
+                                        <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                        <f:selectItems value="#{tipoCargoController.listaTipoCargo}" var="AreaResposable" itemValue="#{TipoCargo}"/>
+                                    </p:selectOneMenu>
+                                    <p:message id="TipoCargoMessage" for="TipoCargo" styleClass="error"/>
+                                </div>
+                                <div class="col-md-4 form-group" >
+                                    <h:outputLabel value="Tipo de Proceso:"  />
+                                    <p:selectOneMenu class="cargoReporta"
+                                                     converter="nivelCargoConverter"
+
+                                                     id="NivelCargo" 
+                                                     filter="true" style="width: 100%"
+                                                     value="#{cargosController.cargosActual.idNivelCargo}" >
+                                        <f:ajax execute="@this" render="subProcesoMessage"/>
+                                        <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                        <f:selectItems value="#{nivelCargoController.listaNivelCargo}" var="AreaResposable" itemValue="#{NivelCargo}"/>
+                                    </p:selectOneMenu>
+                                    <p:message id="codTipoMessage" for="NivelCargo" styleClass="error"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel value="Nombre del cargo:"  />
+                                <h:inputText  class="form-control" 
+                                              id="cargoInputText" 
+                                              value="#{cargosController.cargosActual.nombreCargo}">
+                                    <f:ajax execute="@this" render="cargoMessage"/>
+                                </h:inputText>
+                                <p:message id="cargoMessage" for="cargoInputText" styleClass="error"/>
+                            </div>
+                        </div> 
+                        <div>
+
+                            <div class="col-md-12 form-group">
+                                <h:outputLabel value="Personas en el cargo:"  />
+                                <h:inputText  class="form-control" 
+                                              id="cargoInputText23" 
+                                              value="#{cargosController.cargosActual.usuarioEnCargo}">
+                                    <f:ajax execute="@this" render="cargoInputText23Message"/>
+                                </h:inputText>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="col-md-12 form-group">
+                                <h:outputLabel value="Personas A cargo:"  />
+                                <h:inputText  class="form-control" 
+                                              id="cargoInputText3" 
+                                              value="#{cargosController.cargosActual.usuarioAcargo}">
+                                    <f:ajax execute="@this" render="cargoInputText3Message"/>
+                                </h:inputText>
+                            </div>
+                        </div>
+
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <h:outputLabel value="Subproceso:" />
+                                <div class="form-group">  
+                                    <p:selectOneMenu class="cargoReporta"
+                                                     id="subProceso" 
+                                                     filter="true" style="width: 100%"
+                                                     value="#{cargosController.cargosActual.idSubproceso}"
+                                                     converter="subprocesoConverter"
+                                                     >
+                                        <f:ajax execute="@this" render="subProcesoMessage"/>
+                                        <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                        <f:selectItems value="#{subprocesosController.listaSubProcesosTotal}" var="cargoResponsable" itemValue="#{cargoResponsable}"/>
+                                    </p:selectOneMenu>
+                                    <p:message id="subProcesoMessage" for="subProceso" styleClass="error"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <h:outputLabel value="A quien le reporta:" />
+                                <div class="form-group">  
+                                    <p:selectOneMenu class="cargoReporta"
+                                                     id="cargoResponsable" 
+                                                     converter="cargosConverter"
+                                                     filter="true" style="width: 100%"
+                                                     value="#{cargosController.cargosActual.idCargoResponsable}" >
+                                        <f:ajax execute="@this" render="cargoResponsableMessage"/>
+                                        <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                        <f:selectItems value="#{cargosController.listaCargos}" var="cargoResponsable" itemValue="#{cargoResponsable}"/>
+                                    </p:selectOneMenu>
+                                    <p:message id="cargoResponsableMessage" for="cargoResponsable" styleClass="error"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <h:outputLabel value="Asignar profesiograma:" />
+                                <div class="form-group">  
+                                    <p:selectOneMenu class="profesiograma"
+                                                     converter="profesiogramaConverter"
+                                                     id="idProfesiograma" 
+                                                     filter="true" style="width: 100%"
+                                                     value="#{cargosController.cargosActual.idProfesiograma}" >
+                                        <f:ajax execute="@this" render="idProfesiogramaMessage"/>
+                                        <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                        <f:selectItems value="#{ProfesiogramaController.listaProfesiograma}" var="idProfesiograma" itemValue="#{Profesiograma}"/>
+                                    </p:selectOneMenu>
+                                    <p:message id="idProfesiogramaMessage" for="idProfesiograma" styleClass="error"/>
+                                </div>
+                            </div>
+                        </div>          
+                    </div>
+                </div>                
+                <div class="row">
+                    <div class="container-fluid col-sm-4 form-group">
+                        <h:commandButton class="btn btn-primary btn-block" 
+                                         value="Guardar" 
+                                         action="#{cargosController.add}"> 
+
+                        </h:commandButton>
+                    </div>
+                    <div class="container-fluid col-sm-4 form-group">
+                        <h:commandButton class="btn btn-primary btn-block" 
+                                         value="Siguiente" 
+                                         action="create2"> 
+                            <f:ajax execute="@this " 
+                                    render="#{requisitosController.prepareCreate()}"/>
+
+                        </h:commandButton>
+                    </div>
+                    <div class="container-fluid col-sm-4 form-group">
+                        <h:button class="btn btn-orange btn-block" 
+                                  value="Cancelar" 
+                                  outcome="list"> 
+                        </h:button >
+                    </div>
+
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

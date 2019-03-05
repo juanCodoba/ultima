@@ -46,6 +46,13 @@ public class CronogramaMantenimientosFacade extends AbstractFacade<CronogramaMan
         q.setParameter("idTipoMantenimiento", tipoMantenimiento);
         return q.getResultList();
     }
+        public List<CronogramaMantenimientos> consultaCronogramaTipoPendienteCuatro(EstadoCronograma estado){
+        Query q= getEntityManager().createNamedQuery("CronogramaMantenimientos.findByEstadoTipoMantenimientoCuatro");
+        q.setParameter("estadoMantenimiento", estado);
+        return q.getResultList();
+    }
+    
+    
      public List<CronogramaMantenimientos> consultaCronogramaAnual(Date fecha){
         Query q= getEntityManager().createNamedQuery("CronogramaMantenimientos.findByFechaProgMantenimiento");
         q.setParameter("fechaProgMantenimiento", fecha);
@@ -60,6 +67,11 @@ public class CronogramaMantenimientosFacade extends AbstractFacade<CronogramaMan
         Query q= getEntityManager().createNamedQuery("CronogramaMantenimientos.findByTipoTotalPrev");
         return q.getResultList();
     }
+        public List<CronogramaMantenimientos> consultaTotalCR(){
+        Query q= getEntityManager().createNamedQuery("CronogramaMantenimientos.findByEstadoTipoMantenimientoListado");
+        return q.getResultList();
+    }
+    
     public List<CronogramaMantenimientos> consultaTotalTipoCorre(){
         Query q= getEntityManager().createNamedQuery("CronogramaMantenimientos.findByTipoTotalCorre");
         return q.getResultList();

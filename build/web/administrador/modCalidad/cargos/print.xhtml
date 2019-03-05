@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <div style=" text-align: center">
+                <div style="width: 670px; border: 1px solid black">
+                    <div style="width: 100px; display: inline-block">
+                        <img jsf:library="images" jsf:name="logocfip.png" style="width: 80px; height: 80px; margin-top: 10px; margin-left: 5px"/>
+                    </div>
+                    <div style="width: 400px; display: inline-block; padding: 0px; vertical-align: top">
+                        <p style="padding: 0; margin-top: 25px; font-size: 0.9em; font-weight: bold">
+                            CENTRO DE FORMACIÓN INTEGRAL PROVIDENCIA
+                        </p>
+                        <p style="padding: 0; margin-top: 0px; vertical-align: top; font-size: 0.9em; font-weight: bold">
+                            MANUAL DE CARGOS
+                        </p>
+                    </div>
+                    <div style="width: 100px; display: inline-block;padding: 0px; vertical-align: top">
+                        <div style="margin-top: 15px !important; ">
+                            <h:outputText style="padding: 0; 
+                                          font-size: 0.9em; 
+                                          font-weight: bold"
+                                          value="GR-MA-01"/>
+                        </div>
+                        <div style="margin-top: 3px !important; ">
+                            <h:outputText style="padding: 0; 
+                                          font-size: 0.9em; 
+                                          font-weight: bold"
+                                          value="VERSIÓN 7"/>
+                        </div>
+                        <div style="margin-top: 3px !important; ">
+                            <h:outputText style="padding: 0; 
+                                          font-size: 0.9em; 
+                                          font-weight: bold"
+                                          value="#{cargosController.fechaManual}"> 
+                                <f:convertDateTime pattern="YYYY-MM-DD"/>
+                            </h:outputText>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="font-size: 0.9em; text-align: justify; margin-top: 2em">
+                       
+                <p style="font-weight: bold">
+                   1.   OBJETIVO
+               </p>
+               <p>
+                   Determinar los requisitos mínimos y funciones de los cargos del Centro de Formación Integral Providencia
+                   comprendidos en la estructura organizacional.
+               </p>
+                <p style="font-weight: bold">
+                   2.   ALCANCE
+               </p>
+               <p>
+                   Aplica para todos los cargos de la estructura Organizacional del Centro de Formación Integral Providencia y
+                   es de estricto cumplimiento de quienes la conforman
+               </p>
+                <p style="font-weight: bold">
+                   3.   DESCRIPCIÓN GENERAL 
+               </p>
+               <p>
+                   Se describen los requisitos mínimos de educación, experiencia y formación (hace relación a la inducción
+                   general y especifica) y adicionalmente, se incluyen otros conocimientos como requisitos, los cuales se
+                   tienen en cuenta para la elaboración del plan de formación en caso que no se cumplan. El nivel de
+                   responsabilidad y las Competencias Organizacionales que le aplican a cada cargo.
+               </p>
+                <p style="font-weight: bold">
+                   4.   ESTRUCTURA ORGANIZACIONAL
+               </p>
+                <div>
+                    <img jsf:library="images" jsf:name="organigrama.jpg" width="700"/>
+                </div>
+            </div>
+            <div style="margin-top:15em">
+                 <p style="font-weight: bold">
+                        5.   PERFIL DEL CARGO
+                 </p>
+                <div style="width: 670px;border: 1px solid black; background: #e5e5e5; color: black">
+                    <p style="font-weight: bold; margin: 3px 20px; ">
+                        1.   IDENTIFICACIÓN DEL CARGO
+                    </p>
+                </div>
+                <div style="width: 670px;border: 1px solid black; margin-top: 3px; ">
+                    <div style="width: 400px; display: inline-block">
+                        <div style="width: 130px; display: inline-block; margin-left: 25px; margin-top: 10px">
+                            <h:outputLabel style="font-weight: bold" value="Nombre del cargo:"/> 
+                        </div>
+                        <div style="width: 230px; 
+                                    display: inline-block;
+                                    margin-top: 10px; 
+                                    border-bottom: 1px solid black;
+                                    padding: 3px;
+                                    text-align: center; ">
+                            <h:outputText style="text-align: center" value="#{cargosController.cargosActual.nombreCargo.toUpperCase()}"/>
+                        </div>
+                    </div>
+                    <div style="width: 200px; display: inline-block">
+                        <div style="width: 55px; display: inline-block; margin-left: 25px; margin-top: 10px">
+                            <h:outputLabel style="font-weight: bold" value="Codigo:"/> 
+                        </div>
+                        <div style="width: 80px; 
+                                    display: inline-block;
+                                    margin-top: 10px; 
+                                    border-bottom: 1px solid black;
+                                    padding: 3px;
+                                    text-align: center; ">
+                            <h:outputText style="text-align: center" value="#{cargosController.cargosActual.idCargo}"/>
+                        </div>
+                    </div>
+                    <div style="width: 500px">
+                        <div style="width: 130px; display: inline-block; margin-left: 25px; margin-top: 5px;">
+                            <h:outputLabel style="width: 150px; font-weight: bold" value="A quien le repora:"/>
+                        </div>
+                        <div style="width: 230px; 
+                                    display: inline-block;
+                                    margin-top: 5px; 
+                                    border-bottom: 1px solid black;
+                                    padding: 3px;
+                                    text-align: center; ">
+                            <h:outputLabel style="text-align: center" value="#{cargosController.cargosActual.idCargoResponsable.nombreCargo}"/>
+                        </div>   
+                    </div>
+                    <div style="width: 500px">
+                        <div style="width: 130px; display: inline-block; margin-left: 25px; margin-top: 5px; margin-bottom: 10px">
+                            <h:outputLabel style="width: 150px; font-weight: bold" value="proceso:"/>
+                        </div>
+                        <div style="width: 230px; 
+                                    display: inline-block;
+                                    margin-top: 5px; 
+                                    border-bottom: 1px solid black;
+                                    padding: 3px;
+                                    text-align: center;
+                                    margin-bottom: 10px">
+                            <h:outputLabel style="text-align: center" value="#{cargosController.cargosActual.idSubproceso.idProceso.nombreProceso}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top:1em">
+                <div style="width: 670px; border: 1px solid black; background: #e5e5e5; color: black">
+                    <p style="font-weight: bold; margin: 3px 20px; ">
+                        2.   REQUISITOS MÍNIMOS
+                    </p>
+                </div>
+                <h:dataTable width="670px"
+                             style="margin-top: 3px; border-collapse: collapse !important"
+                             value="#{cargosController.cargosActual.requisitoList}"
+                             var="item" 
+                             cellspacing="10" 
+                             cellpadding="10" 
+                             border="1">
+                    <h:column>
+                        <h:outputText style="font-weight: bold; text-align: center" value="#{item.idMaeTipoRequisito.nombre}"/>
+                    </h:column>
+                    <h:column>
+                        <h:outputText value="#{item.descripcion}"/>
+                    </h:column>
+                     <h:column>
+                         <h:outputText value="#{item.nivelHabilidad}"/>
+                    </h:column>
+                </h:dataTable>
+            </div>
+        </h:form>
+    </h:body>
+</html>
+

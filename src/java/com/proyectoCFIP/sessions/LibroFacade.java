@@ -8,6 +8,7 @@ package com.proyectoCFIP.sessions;
 import com.proyectoCFIP.entities.EstadoLibro;
 import com.proyectoCFIP.entities.Genero;
 import com.proyectoCFIP.entities.Libro;
+import com.proyectoCFIP.entities.TipoLibro;
 import com.proyectoCFIP.entities.TipoMantenimiento;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -57,7 +58,13 @@ public class LibroFacade extends AbstractFacade<Libro> {
 
         return q.getResultList();
     }
-
+    
+    public List<Libro> consultaIdTipoLibro(TipoLibro idTipoLibro) {
+        Query q = getEntityManager().createNamedQuery("Libro.findByIdTipoLibro");
+        q.setParameter("idTipoLibro", idTipoLibro);
+        return q.getResultList();
+    }      
+        
     public List<Libro> consultaTodos() {
         Query q = getEntityManager().createNamedQuery("Libro.findByTotalDisponibilidad");
         return q.getResultList();

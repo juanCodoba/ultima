@@ -126,11 +126,12 @@ and open the template in the editor.
                         <div class="form-group">
                             <h:outputLabel value="Cargo que desempeña:" />
                             <p:selectOneMenu id="idCargoSeccion"
+                                             converter="cargosConverter"
                                              style="width: 100%"
                                              value="#{usuarioController.usuarioActual.idCargo}"
                                              filter="true" filterMatchMode="contains">
                                 <f:selectItem itemLabel="Ninguno" />
-                                <f:selectItems value="#{usuarioController.listaCargosSelectOne}" var="cargos" itemValue="#{cargos}"/>  
+                                <f:selectItems value="#{cargosController.listaCargos}" var="cargos" itemValue="#{cargos}"/>  
                             </p:selectOneMenu>
                         </div>
                         <p:separator />

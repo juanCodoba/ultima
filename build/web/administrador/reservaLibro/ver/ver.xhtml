@@ -24,80 +24,39 @@ and open the template in the editor.
                                   style="font-size: 1em !important; padding: 5px; left: 75%"
                                   outcome="/administrador/reservaLibro/listar/listarRe"/>
                     </div>
-                    <div class="col-md-12">
-                        <div class="col-md-6 form-group">
-                            <h:outputLabel class=" help-block" value="Titulo Del Libro N°1:"/>
-                            <div class="form-control-static">
-                                <h:outputLabel value=" #{reservaLibrosController.reservaLibActual.idLib1.tituloLibro.toUpperCase()}" style="font-weight: bold" />
-                            </div>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <h:outputLabel class=" help-block" value="Autor Del Libro N°1:"/>
-                            <div class="form-control-static">
-                                <h:outputLabel value="#{reservaLibrosController.reservaLibActual.idLib1.autor.toUpperCase()}" style="font-weight: bold" />
-                            </div>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <h:outputLabel class=" help-block" value="Genero Del Libro N°1: "/>
-                            <div class="form-control-static">
-                                <h:outputLabel value="#{reservaLibrosController.reservaLibActual.idLib1.idGenero.nombre.toUpperCase()}" style="font-weight: bold" />
-                            </div>
-                        </div>
+                    <h:panelGroup id="itemsGroup">
+                        <p:dataGrid  emptyMessage="No se encontraron registros" value="#{reservaLibrosController.reservaLibActual}" var="item" columns="3" layout="grid"
+                                     rows="12" paginator="true" id="tablaFuncion" 
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="6,12,16" >
+                            <f:facet name="header">
+                                Subprocesos a evaluar
+                            </f:facet>
+                            <p:panel header="Usuario Prestamo #{item.idUsuarioPrestamo.toString()}" >
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h:outputText value="Fecha inicio del prestamo " style="font-weight: bold"/>
+                                        <h:outputText value="#{item.fechaInicioPrestamo}" >
+                                            <f:convertDateTime pattern="MMMM dd, yyyy"/>
 
-                        <div class="col-md-6 form-group" jsf:rendered="#{reservaLibrosController.estudiante || (reservaLibrosController.trabajador) || (reservaLibrosController.autonoma) || (reservaLibrosController.tecnico) }">
-                            <h:outputLabel class=" help-block" value="Usuario Prestamo: "/>
-                            <div class="form-control-static">
-                                <h:outputLabel value="#{reservaLibrosController.reservaLibActual.idUsuarioPrestamo.toString().toUpperCase()}" style="font-weight: bold" />
-                            </div>
-                        </div>
+                                        </h:outputText>
 
-                        <div class="col-md-6 form-group" jsf:rendered="#{reservaLibrosController.egresado}">
-                            <h:outputLabel class=" help-block" value="Usuario Prestamo: "/>
-                            <div class="form-control-static">
-                                <h:outputLabel value="#{reservaLibrosController.reservaLibActual.nombreEgresado.toString().toUpperCase()}" style="font-weight: bold" />
-                            </div>
-                        </div>
-                        <div class="col-md-6 form-group" jsf:rendered="#{reservaLibrosController.estudiante}">
-                            <h:outputLabel class=" help-block" value="Grado Estudiante: "/>
-                            <div class="form-control-static">
-                                <h:outputLabel value="#{reservaLibrosController.reservaLibActual.gradoEstudiante}" style="font-weight: bold" />
-                            </div>
-                        </div>
-                        <div class="col-md-6 form-group" jsf:rendered="#{reservaLibrosController.egresado}">
-                            <h:outputLabel class=" help-block" value="email del egresado: "/>
-                            <div class="form-control-static">
-                                <h:outputLabel value="#{reservaLibrosController.reservaLibActual.apellidoEgresado.toString().toUpperCase()}" style="font-weight: bold" />
-                            </div>
-                        </div>
-                        <div class="col-md-6 form-group" jsf:rendered="#{reservaLibrosController.egresado}">
-                            <h:outputLabel class=" help-block" value="Año Egresado: "/>
-                            <div class="form-control-static">
-                                <h:outputLabel value="#{reservaLibrosController.reservaLibActual.añoEgresado.toString().toUpperCase()}" style="font-weight: bold" />
-                            </div>
-                        </div>
+                                        <br></br>
+                                        <h:outputText value="Fecha final del prestamo " style="font-weight: bold"/>
+                                        <h:outputText value="#{item.fechaFinPrestamo}" >
+                                            <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                        </h:outputText>
+                                        <br></br>
 
-                        <div class="col-md-6 form-group" jsf:rendered="#{reservaLibrosController.reservaLibActual.idLib2 != null}">
-                            <h:outputLabel class=" help-block" value="Titulo Del Libro N°2:"/>
-                            <div class="form-control-static">
-                                <h:outputLabel value=" #{reservaLibrosController.reservaLibActual.idLib2.tituloLibro.toUpperCase()}" style="font-weight: bold" />
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 form-group" jsf:rendered="#{reservaLibrosController.reservaLibActual.idLib2 != null}">
-                            <h:outputLabel class=" help-block" value="Autor Del Libro N°2:"/>
-                            <div class="form-control-static">
-                                <h:outputLabel value=" #{reservaLibrosController.reservaLibActual.idLib2.autor.toUpperCase()}" style="font-weight: bold" />
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 form-group" jsf:rendered="#{reservaLibrosController.reservaLibActual.idLib2 != null}">
-                            <h:outputLabel class=" help-block" value="Genero Del Libro N°2:"/>
-                            <div class="form-control-static">
-                                <h:outputLabel value=" #{reservaLibrosController.reservaLibActual.idLib2.idGenero.nombre.toUpperCase()}" style="font-weight: bold" />
-                            </div>
-                        </div>
-
-                    </div>
+                                        <h:outputText value="Libro o Libros Prestados " style="font-weight: bold"/>
+                                        <p:dataList styleClass="dataList" value="#{item.libroList}" var="libros" emptyMessage="No tiene auditores asignados">
+                                            <h:outputText value="#{libros.toString()}"/>
+                                        </p:dataList>
+                                    </div>
+                                </div>
+                            </p:panel>
+                        </p:dataGrid>
+                    </h:panelGroup>
                 </div>
             </h:form>
         </ui:define>

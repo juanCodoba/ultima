@@ -4,7 +4,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
     <ui:composition template="/template/plantilla.xhtml">
         <ui:define name="menu">
             <h:form id="menu-principal">
@@ -34,13 +35,48 @@
                             </h:commandLink>
                         </li>
                         <li>
-                              <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
+                            <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
                                            rendered="#{loginController.adminCalidoso}">
                                 <i class="fa fa-spinner" aria-hidden="true"></i>
                                 <span>Administrar Acciones</span>
                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{calidadPlanAccionController.usuarioActual}"/>
                             </h:commandLink>
                         </li>
+
+                        <li class="treeview" jsf:rendered="#{loginController.adminCalidoso}" >
+                            <a href="#"><i class="fa fa-calendar"></i> <span>Profesiograma </span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+
+                                <li>
+                                    <h:commandLink class="btn-block btn btn-menuCalidad" value="Subir profesiograma " action="#{ProfesiogramaController.prepareCreate()}">
+                                    </h:commandLink> 
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li class="treeview" jsf:rendered="#{loginController.adminCalidoso}" >
+                            <a href="#"><i class="fa fa-calendar"></i> <span>Herramientas del Cargo</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+
+                                <li>
+                                    <h:commandLink class="btn-block btn btn-menuCalidad" value="crear una nueva herramienta " action="#{MaeHerramientaController.prepareCreate()}">
+                                    </h:commandLink> 
+                                </li>
+
+                            </ul>
+                        </li>
+
+
+
+
                         <li>
                             <h:commandLink action="#{calidadGestionConocimientoController.prepareListAdmin}"
                                            rendered="#{loginController.adminCalidoso}">
@@ -50,12 +86,38 @@
                         </li>
                     </h:panelGroup>
                     <p:separator rendered="#{loginController.adminCalidoso}"/>
+
                     <li style="margin-top: 20px" class="active">
-                            <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
-                                <i class="fa fa-dashboard"></i> 
-                                <span>Principal</span>
-                            </h:commandLink>
-                        </li>
+                        <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
+                            <i class="fa fa-dashboard"></i> 
+                            <span>Principal</span>
+                        </h:commandLink>
+                    </li>
+
+                    <li class="treeview" jsf:rendered="#{loginController.adminCalidad || loginController.adminCalidoso || loginController.jefe || loginController.admin}" >
+                        <a href="#"><i class="fa fa-calendar"></i> <span>Manejo de Cargos</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+
+                            <li>
+                                <h:commandLink class="btn-block btn btn-menuEdificios" value="Lista de cargos" action="#{cargosController.list}">
+                                    <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cargosController.usuarioActual}"/>
+                                </h:commandLink>
+                            </li>
+
+                            <li>
+                                <h:commandLink class="btn-block btn btn-menuCalidad" value="Crear un cargo" action="#{cargosController.prepareCreate}">
+                                    <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cargosController.usuarioActual}"/>
+                                </h:commandLink> 
+                            </li>
+
+                        </ul>
+                    </li>
+
+
                     <li>
                         <h:commandLink action="#{formatosController.prepareListUser}">
                             <i class="fa fa-file"></i>
@@ -146,7 +208,7 @@
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                 <div class="itemZoom img-bordered">
+                                <div class="itemZoom img-bordered">
                                     <h:commandLink action="#{formatosController.subGesAdemica}">
                                         <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/gestionAcademica.png"/>
                                     </h:commandLink>   
@@ -255,7 +317,7 @@
                                     <div class="item-overlay top"></div>
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-2">
                                 <div class="itemZoom img-bordered">
                                     <h:commandLink action="#{formatosController.subContratacion}">
@@ -321,7 +383,7 @@
                     <div class="col-md-12">
                         <div class="panel-procesosApoyo row">
                             <h4>Proceso de Apoyo - Financiero</h4>
-                             <div class="col-md-2">
+                            <div class="col-md-2">
                                 <div class="itemZoom img-bordered">
                                     <h:commandLink action="#{formatosController.subCostos}">
                                         <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/costos.png"/>
@@ -329,7 +391,7 @@
                                     <div class="item-overlay top"></div>
                                 </div>
                             </div>       
-                             <div class="col-md-2">
+                            <div class="col-md-2">
                                 <div class="itemZoom img-bordered">
                                     <h:commandLink action="#{formatosController.subFinanciero}">
                                         <img class="img-responsive" src="#{request.contextPath}/resources/images/calidad/financiero.png"/>

@@ -13,6 +13,7 @@ import com.proyectoCFIP.entities.CalidadAccionImplementar;
 import com.proyectoCFIP.entities.CalidadCausa;
 import com.proyectoCFIP.entities.CalidadPlanAccion;
 import com.proyectoCFIP.entities.CalidadSeguimientoAccion;
+import com.proyectoCFIP.entities.Subprocesos;
 import com.proyectoCFIP.entities.Usuario;
 import com.proyectoCFIP.sessions.AuAspectoEvaluarFacade;
 import com.proyectoCFIP.sessions.AuPlanAuditoriaFacade;
@@ -60,33 +61,35 @@ public class CalidadPlanAccionController implements Serializable {
     private CalidadCausa causaActual;
     private CalidadSeguimientoAccion seguimientoAccionActual;
     private CalidadAccionImplementar accionImplementarActual;
-    
+    private Subprocesos suprocesoActual;
+
+    private List<Subprocesos> listaSuprocesoActual;
+
     private List<CalidadPlanAccion> listaPlanAccionActual;
     private List<CalidadCausa> listaCausaActual;
     private List<CalidadSeguimientoAccion> listaSeguimientoAccionActual;
     private List<CalidadAccionImplementar> listaAccionImplementarActual;
     private List<CalidadSeguimientoAccion> listaSeguimientoSinCerrar;
-    
+
     private Usuario usuarioActual;
-    
-    
-     @EJB
+
+    @EJB
     private AuPlanAuditoriaFacade planAuditoriaFacade;
     private AuPlanAuditoria planAuditoriaActual;
     private List<AuPlanAuditoria> listaPlanAuditoria;
-    
+
     @EJB
     private AuProcesoEvaluadoFacade procesoEvaluadoFacade;
     private AuProcesoEvaluado procesoEvaluadoActual;
     private AuProcesoEvaluado procesoEvaluadoActualAspecto;
     private List<AuProcesoEvaluado> listaProcesoEvaluado;
-    
+
     @EJB
     private AuAspectoEvaluarFacade aspectoEvaluarFacade;
     private AuAspectoEvaluar aspectoEvaluarActual;
     private List<AuAspectoEvaluar> listaAspectoEvaluar;
     private List<AuAspectoEvaluar> listaAspectoEvaluarTotal;
-    
+
     public CalidadPlanAccionController() {
     }
 
@@ -129,12 +132,15 @@ public class CalidadPlanAccionController implements Serializable {
     public void setPlanAccionActual(CalidadPlanAccion planAccionActual) {
         this.planAccionActual = planAccionActual;
     }
+
     public List<CalidadPlanAccion> getListaPlanAccionActualAdmin() {
         return listaPlanAccionActual = getPlanAccionFacade().ordenarAccion();
     }
+
     public List<CalidadPlanAccion> getListaPlanAccionActual() {
         return listaPlanAccionActual = getPlanAccionFacade().ordenarAccion();
     }
+
     public void setListaPlanAccionActual(List<CalidadPlanAccion> listaPlanAccionActual) {
         this.listaPlanAccionActual = listaPlanAccionActual;
     }
@@ -182,9 +188,11 @@ public class CalidadPlanAccionController implements Serializable {
     public List<CalidadAccionImplementar> getListaAccionImplementarActual() {
         return listaAccionImplementarActual;
     }
+
     public List<CalidadAccionImplementar> getListaAccionImplementarTotal() {
         return getAccionImplementarActualFacade().findAll();
-    }   
+    }
+
     public void setListaAccionImplementarActual(List<CalidadAccionImplementar> listaAccionImplementarActual) {
         this.listaAccionImplementarActual = listaAccionImplementarActual;
     }
@@ -285,8 +293,22 @@ public class CalidadPlanAccionController implements Serializable {
         this.listaAspectoEvaluarTotal = listaAspectoEvaluarTotal;
     }
 
-    
-    
+    public Subprocesos getSuprocesoActual() {
+        return suprocesoActual;
+    }
+
+    public void setSuprocesoActual(Subprocesos suprocesoActual) {
+        this.suprocesoActual = suprocesoActual;
+    }
+
+    public List<Subprocesos> getListaSuprocesoActual() {
+        return listaSuprocesoActual;
+    }
+
+    public void setListaSuprocesoActual(List<Subprocesos> listaSuprocesoActual) {
+        this.listaSuprocesoActual = listaSuprocesoActual;
+    }
+
     public Usuario getUsuarioActual() {
         return usuarioActual;
     }
@@ -294,87 +316,102 @@ public class CalidadPlanAccionController implements Serializable {
     public void setUsuarioActual(Usuario usuarioActual) {
         this.usuarioActual = usuarioActual;
     }
-    public String prepareView(){
-        listaCausaActual= planAccionActual.getCalidadCausaList();
+
+    public String prepareView() {
+        listaCausaActual = planAccionActual.getCalidadCausaList();
         listaAccionImplementarActual = planAccionActual.getCalidadAccionImplementarList();
         return "/usuario/modCalidad/accionMejora/verAccion";
     }
-    public String prepareViewAdmin(){
-        listaCausaActual= planAccionActual.getCalidadCausaList();
+
+    public String prepareViewAdmin() {
+        listaCausaActual = planAccionActual.getCalidadCausaList();
         listaAccionImplementarActual = planAccionActual.getCalidadAccionImplementarList();
         return "/administrador/modCalidad/accionMejora/verAccion";
-    }    
-    public String prepareCreate(){
+    }
+
+    public String prepareCreate() {
         causaActual = new CalidadCausa();
         accionImplementarActual = new CalidadAccionImplementar();
         planAccionActual = new CalidadPlanAccion();
         listaAccionImplementarActual = new ArrayList<>();
         listaCausaActual = new ArrayList<>();
-        if(aspectoEvaluarActual != null){
-           planAccionActual.setIdSubproceso(aspectoEvaluarActual.getIdAuProcesoEvaluado().getIdSubproceso());
-           planAccionActual.setResponsable(aspectoEvaluarActual.getIdAuProcesoEvaluado().getIdAuditado());
-           planAccionActual.setIdAuAspectoEvaluar(aspectoEvaluarActual);
-           planAccionActual.setIdPlanAuditoria(planAuditoriaActual);
-           planAccionActual.setOrigenAccion(planAuditoriaActual.getTipoAuditoria());
+
+        if (aspectoEvaluarActual != null) {
+            planAccionActual.setIdSubproceso(aspectoEvaluarActual.getIdAuProcesoEvaluado().getIdSubproceso());
+            planAccionActual.setResponsable(aspectoEvaluarActual.getIdAuProcesoEvaluado().getIdAuditado());
+            planAccionActual.setIdAuAspectoEvaluar(aspectoEvaluarActual);
+            planAccionActual.setIdPlanAuditoria(planAuditoriaActual);
+            planAccionActual.setOrigenAccion(planAuditoriaActual.getTipoAuditoria());
         }
         return "/usuario/modCalidad/accionMejora/crearAccion";
     }
-    public String prepareCreateAuditoria(){
+
+    public String prepareCreateAuditoria() {
         causaActual = new CalidadCausa();
         accionImplementarActual = new CalidadAccionImplementar();
         planAccionActual = new CalidadPlanAccion();
         listaAccionImplementarActual = new ArrayList<>();
         listaCausaActual = new ArrayList<>();
-        if(aspectoEvaluarActual != null){
-           planAccionActual.setIdSubproceso(aspectoEvaluarActual.getIdAuProcesoEvaluado().getIdSubproceso());
-           planAccionActual.setResponsable(aspectoEvaluarActual.getIdAuProcesoEvaluado().getIdAuditado());
-           planAccionActual.setIdAuAspectoEvaluar(aspectoEvaluarActual);
-           planAccionActual.setIdPlanAuditoria(planAuditoriaActual);
-           planAccionActual.setOrigenAccion(planAuditoriaActual.getTipoAuditoria());
+
+        if (aspectoEvaluarActual != null) {
+            planAccionActual.setIdSubproceso(aspectoEvaluarActual.getIdAuProcesoEvaluado().getIdSubproceso());
+            planAccionActual.setResponsable(aspectoEvaluarActual.getIdAuProcesoEvaluado().getIdAuditado());
+            planAccionActual.setIdAuAspectoEvaluar(aspectoEvaluarActual);
+            planAccionActual.setIdPlanAuditoria(planAuditoriaActual);
+            planAccionActual.setOrigenAccion(planAuditoriaActual.getTipoAuditoria());
         }
         return "/administrador/modAuditoria/planAuditoria/crearAccion";
     }
-    public String prepareEdit(){
+
+    public String prepareEdit() {
         causaActual = new CalidadCausa();
         accionImplementarActual = new CalidadAccionImplementar();
-        listaCausaActual= planAccionActual.getCalidadCausaList();
+        listaCausaActual = planAccionActual.getCalidadCausaList();
         listaAccionImplementarActual = planAccionActual.getCalidadAccionImplementarList();
         return "/administrador/modCalidad/accionMejora/editarAccion";
     }
-    public String prepareAdminEdit(){
+
+    public String prepareAdminEdit() {
         causaActual = new CalidadCausa();
+        suprocesoActual = new Subprocesos();
+
         accionImplementarActual = new CalidadAccionImplementar();
-        listaCausaActual= planAccionActual.getCalidadCausaList();
+        listaCausaActual = planAccionActual.getCalidadCausaList();
         listaAccionImplementarActual = planAccionActual.getCalidadAccionImplementarList();
         return "/administrador/modCalidad/accionMejora/adminAccion";
     }
-    public String list(){
+
+    public String list() {
         return "/usuario/modCalidad/accionMejora/listaAccion";
     }
-    public String listAdmin(){
+
+    public String listAdmin() {
         return "/administrador/modCalidad/accionMejora/listaAccion";
     }
-    public String view(){
+
+    public String view() {
         return "";
     }
-    public String add(){
+
+    public String add() {
         try {
-            if(listaCausaActual.isEmpty()){
+            if (listaCausaActual.isEmpty()) {
                 addErrorMessage("Plan de acción no creado", "No contiene causas");
                 return null;
-            }if(listaAccionImplementarActual.isEmpty()){
+            }
+            if (listaAccionImplementarActual.isEmpty()) {
                 addErrorMessage("Plan de acción no creado", "No contiene acciones a implementar");
                 return null;
-            }else{
+            } else {
                 planAccionActual.setResponsable(usuarioActual);
                 planAccionActual.setEstadoPlan("abierto");
                 planAccionActual.setFechaAnalisis(new Date());
                 planAccionActual.setCalidadCausaList(listaCausaActual);
                 planAccionActual.setCalidadAccionImplementarList(listaAccionImplementarActual);
                 getPlanAccionFacade().create(planAccionActual);
-                addSuccessMessage("Plan de acción creado", "El plan de acción fue creado con consecutivo No. "+ planAccionActual.getIdPlanAccion());
-                sendMailRegistroTec();
-                sendMailRegistroUser();
+                addSuccessMessage("Plan de acción creado", "El plan de acción fue creado con consecutivo No. " + planAccionActual.getIdPlanAccion());
+                //sendMailRegistroTec();
+                //sendMailRegistroUser();
                 return "/usuario/modCalidad/accionMejora/listaAccion";
             }
         } catch (Exception e) {
@@ -382,21 +419,23 @@ public class CalidadPlanAccionController implements Serializable {
             return null;
         }
     }
-    public String addAuditoria(){
+
+    public String addAuditoria() {
         try {
-            if(listaCausaActual.isEmpty()){
+            if (listaCausaActual.isEmpty()) {
                 addErrorMessage("Plan de acción no creado", "No contiene causas");
                 return null;
-            }if(listaAccionImplementarActual.isEmpty()){
+            }
+            if (listaAccionImplementarActual.isEmpty()) {
                 addErrorMessage("Plan de acción no creado", "No contiene acciones a implementar");
                 return null;
-            }else{
+            } else {
                 planAccionActual.setEstadoPlan("abierto");
                 planAccionActual.setFechaAnalisis(new Date());
                 planAccionActual.setCalidadCausaList(listaCausaActual);
                 planAccionActual.setCalidadAccionImplementarList(listaAccionImplementarActual);
                 getPlanAccionFacade().create(planAccionActual);
-                addSuccessMessage("Plan de acción creado", "El plan de acción fue creado con consecutivo No. "+ planAccionActual.getIdPlanAccion());
+                addSuccessMessage("Plan de acción creado", "El plan de acción fue creado con consecutivo No. " + planAccionActual.getIdPlanAccion());
                 sendMailRegistroTec();
                 sendMailRegistroUser();
                 return "/usuario/modCalidad/accionMejora/listaAccion";
@@ -406,121 +445,134 @@ public class CalidadPlanAccionController implements Serializable {
             return null;
         }
     }
-    public String delete(){
-       return ""; 
+
+    public String delete() {
+        return "";
     }
-    public String adminUpdate(){
+
+    public String adminUpdate() {
         try {
             planAccionActual.setFechaCierre(new Date());
             planAccionActual.setRevisor(usuarioActual.toString());
             getPlanAccionFacade().edit(planAccionActual);
-            addSuccessMessage("Plan de acción editado", "El plan de acción de mejora fue editado con numero No. "+ planAccionActual.getIdPlanAccion());
+            addSuccessMessage("Plan de acción editado", "El plan de acción de mejora fue editado con numero No. " + planAccionActual.getIdPlanAccion());
             return "/administrador/modCalidad/accionMejora/listaAccion";
-        }catch (Exception e) {
+        } catch (Exception e) {
             addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
             return null;
         }
     }
-    public String update(){
+
+    public String update() {
         try {
-            if(listaCausaActual.isEmpty()){
+            if (listaCausaActual.isEmpty()) {
                 addErrorMessage("Plan de acción no creado", "No contiene causas");
                 return null;
-            }if(listaAccionImplementarActual.isEmpty()){
+            }
+            if (listaAccionImplementarActual.isEmpty()) {
                 addErrorMessage("Plan de acción no creado", "No contiene acciones a implementar");
                 return null;
-            }else{
+            } else {
                 planAccionActual.setCalidadCausaList(listaCausaActual);
                 planAccionActual.setCalidadAccionImplementarList(listaAccionImplementarActual);
                 getPlanAccionFacade().edit(planAccionActual);
-                addSuccessMessage("Plan de acción editado", "El plan de acción de mejora fue editado con numero No. "+ planAccionActual.getIdPlanAccion());
+                addSuccessMessage("Plan de acción editado", "El plan de acción de mejora fue editado con numero No. " + planAccionActual.getIdPlanAccion());
                 return "/administrador/modCalidad/accionMejora/listaAccion";
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
             return null;
         }
     }
-    
-    public void addCausa(){
+
+    public void addCausa() {
         try {
             getCausaActualFacade().create(causaActual);
             listaCausaActual.add(causaActual);
             causaActual = new CalidadCausa();
-            addSuccessMessage("Causa creada","La causa fue creada"); 
+            addSuccessMessage("Causa creada", "La causa fue creada");
         } catch (Exception e) {
-            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage()); 
+            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
         }
     }
-    public void prepareSeguimiento(){
+
+    public void prepareSeguimiento() {
         seguimientoAccionActual = new CalidadSeguimientoAccion();
     }
-    public void listSeguimiento(){
+
+    public void listSeguimiento() {
         listaSeguimientoAccionActual = new ArrayList<>();
     }
-    public String prepareListaSeguimientoSinCerrar(){
+
+    public String prepareListaSeguimientoSinCerrar() {
         return "listaSeguimientos";
     }
-    public String prepareListaAccionesImplemetar(){
+
+    public String prepareListaAccionesImplemetar() {
         return "listaAccionesImplementar";
     }
-    public void addSeguimiento(){
+
+    public void addSeguimiento() {
         try {
             getSeguimientoAccionActual().setIdAccionImplementar(accionImplementarActual);
             getSeguimientoAccionActualFacade().create(seguimientoAccionActual);
             seguimientoAccionActual = new CalidadSeguimientoAccion();
-            addSuccessMessage("Seguimiento creado","El seguimiento fue creado");
-            } catch (Exception e) {
-            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage()); 
+            addSuccessMessage("Seguimiento creado", "El seguimiento fue creado");
+        } catch (Exception e) {
+            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
         }
     }
-    public void updateSeguimiento(){
+
+    public void updateSeguimiento() {
         try {
             getSeguimientoAccionActualFacade().edit(seguimientoAccionActual);
             seguimientoAccionActual = new CalidadSeguimientoAccion();
-            addSuccessMessage("Seguimiento editado","El seguimiento fue editado");
-            } catch (Exception e) {
-            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage()); 
+            addSuccessMessage("Seguimiento editado", "El seguimiento fue editado");
+        } catch (Exception e) {
+            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
         }
     }
-    public void deleteCausa(){
+
+    public void deleteCausa() {
         try {
             listaCausaActual.remove(causaActual);
-            addSuccessMessage("Causa eliminada","La causa fue eliminada"); 
+            addSuccessMessage("Causa eliminada", "La causa fue eliminada");
         } catch (Exception e) {
-            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage()); 
+            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
         }
     }
-      public void addAccion(){
+
+    public void addAccion() {
         try {
             getAccionImplementarActualFacade().create(accionImplementarActual);
             listaAccionImplementarActual.add(accionImplementarActual);
             accionImplementarActual = new CalidadAccionImplementar();
-            addSuccessMessage("Acción creada","La acción fue creada"); 
+            addSuccessMessage("Acción creada", "La acción fue creada");
         } catch (Exception e) {
-            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage()); 
+            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
         }
     }
-      public void deleteAccion(){
+
+    public void deleteAccion() {
         try {
             listaAccionImplementarActual.remove(accionImplementarActual);
-            addSuccessMessage("Acción eliminada","La acción fue eliminada"); 
+            addSuccessMessage("Acción eliminada", "La acción fue eliminada");
         } catch (Exception e) {
-            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage()); 
+            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
         }
     }
-    public void deleteSeguimiento(){
+
+    public void deleteSeguimiento() {
         try {
             listaSeguimientoAccionActual.remove(seguimientoAccionActual);
-            addSuccessMessage("Seguimiento eliminado","El seguimiento fue eliminado"); 
+            addSuccessMessage("Seguimiento eliminado", "El seguimiento fue eliminado");
         } catch (Exception e) {
-            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage()); 
+            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
         }
     }
-    
-    
+
     //Envio de correo
-     private void sendMail(String to, String subject, String body) {
+    private void sendMail(String to, String subject, String body) {
         try {
             emailBean.sendMail(to, subject, body);
             JsfUtil.addSuccessMessage("Mensaje Enviado Exitosamente");
@@ -528,15 +580,16 @@ public class CalidadPlanAccionController implements Serializable {
             JsfUtil.addErrorMessage("Error sending message " + ex.getClass().getName());
         }
     }
+
     private void sendMailRegistroTec() {
-        String subject = " PLAN DE ACCIÓN CREADO CON CONSECUTIVO No."+ planAccionActual.getIdPlanAccion();
+        String subject = " PLAN DE ACCIÓN CREADO CON CONSECUTIVO No." + planAccionActual.getIdPlanAccion();
         StringBuilder mensaje = new StringBuilder();
         mensaje.append("CONSECUTIVO No. ");
         mensaje.append(planAccionActual.getIdPlanAccion());
         mensaje.append("\nRESPONSABLE: ");
         mensaje.append(planAccionActual.getResponsable().toString().toUpperCase());
         mensaje.append("\nSUBPROCESO: ");
-        mensaje.append(planAccionActual.getIdSubproceso().getNombreSubproceso().toUpperCase());
+//        mensaje.append(planAccionActual.getIdSubproceso().getNombreSubproceso().toUpperCase());
         mensaje.append("\nNOMBRE DEL PLAN DE ACCIÓN: ");
         mensaje.append(planAccionActual.getTituloPlan().toUpperCase());
         mensaje.append("\nFECHA DEL ANALISIS: ");
@@ -546,17 +599,18 @@ public class CalidadPlanAccionController implements Serializable {
         mensaje.append("\nTIPO DE ACCIÓN : ");
         mensaje.append(planAccionActual.getTipoPlan().toUpperCase());
         mensaje.append("\n\nTodos los Derechos Reservados www.cfiprovidencia.com © 2017.");
-        sendMail("luis.cabal@cfiprovidencia.com "+" "+" claudia.canar@cfiprovidencia.com "+" "+" nathalia.yusti@cfiprovidencia.com "+" "+"vivian.calero@cfiprovidencia.com", subject, mensaje.toString());  
+        sendMail("luis.cabal@cfiprovidencia.com " + " " + " claudia.canar@cfiprovidencia.com " + " " + " nathalia.yusti@cfiprovidencia.com " + " " + "vivian.calero@cfiprovidencia.com", subject, mensaje.toString());
     }
+
     private void sendMailRegistroUser() {
-        String subject = "SU PLAN DE ACCIÓN FUE CREADO CON CONSECUTIVO No."+ planAccionActual.getIdPlanAccion();
+        String subject = "SU PLAN DE ACCIÓN FUE CREADO CON CONSECUTIVO No." + planAccionActual.getIdPlanAccion();
         StringBuilder mensaje = new StringBuilder();
         mensaje.append("CONSECUTIVO No. ");
         mensaje.append(planAccionActual.getIdPlanAccion());
         mensaje.append("\nRESPONSABLE: ");
         mensaje.append(planAccionActual.getResponsable().toString().toUpperCase());
         mensaje.append("\nSUBPROCESO: ");
-        mensaje.append(planAccionActual.getIdSubproceso().getNombreSubproceso().toUpperCase());
+//        mensaje.append(planAccionActual.getIdSubproceso().getNombreSubproceso().toUpperCase());
         mensaje.append("\nNOMBRE DEL PLAN DE ACCIÓN: ");
         mensaje.append(planAccionActual.getTituloPlan().toUpperCase());
         mensaje.append("\nFECHA DEL ANALISIS: ");
@@ -567,27 +621,29 @@ public class CalidadPlanAccionController implements Serializable {
         mensaje.append(planAccionActual.getTipoPlan().toUpperCase());
         mensaje.append("\n\nPRONTO UNO DE NUESTROS FUNCIONARIOS ESTARA REALIZANDO LOS SEGUIMIENTOS RESPECTIVOS.");
         mensaje.append("\n\nTodos los Derechos Reservados www.cfiprovidencia.com © 2017.");
-        sendMail(planAccionActual.getResponsable().getCorreoUsuario(), subject, mensaje.toString());  
+        sendMail(planAccionActual.getResponsable().getCorreoUsuario(), subject, mensaje.toString());
     }
-    
-    
-    
-    public void onRowToggle(ToggleEvent event){
+
+    public void onRowToggle(ToggleEvent event) {
         seguimientoAccionActual = (CalidadSeguimientoAccion) event.getComponent().getAttributes().get("item");
     }
+
     private void addErrorMessage(String title, String msg) {
         FacesMessage facesMsg
                 = new FacesMessage(FacesMessage.SEVERITY_ERROR, title, msg);
         FacesContext.getCurrentInstance().addMessage(null, facesMsg);
     }
+
     private void addSuccessMessage(String title, String msg) {
         FacesMessage facesMsg
                 = new FacesMessage(FacesMessage.SEVERITY_INFO, title, msg);
         FacesContext.getCurrentInstance().addMessage("successInfo", facesMsg);
     }
+
     public CalidadPlanAccion getCalidadPlanAccion(java.lang.Integer id) {
         return getPlanAccionFacade().find(id);
     }
+
     @FacesConverter(forClass = CalidadPlanAccion.class)
     public static class CalidadPlanAccionControllerConverter implements Converter {
 

@@ -22,6 +22,7 @@ import com.proyectoCFIP.entities.Idea;
 import com.proyectoCFIP.entities.Libro;
 import com.proyectoCFIP.entities.OtroDispositivo;
 import com.proyectoCFIP.entities.Procesos;
+import com.proyectoCFIP.entities.ReporteSiesa;
 import com.proyectoCFIP.entities.ReservaLibrosBiblioteca;
 import com.proyectoCFIP.entities.Roles;
 import com.proyectoCFIP.entities.SolicitudEdificio;
@@ -32,7 +33,7 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-09T14:16:32")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-26T10:36:43")
 @StaticMetamodel(Usuario.class)
 public class Usuario_ { 
 
@@ -40,6 +41,7 @@ public class Usuario_ {
     public static volatile ListAttribute<Usuario, CambioRegistro> cambioRegistroList;
     public static volatile ListAttribute<Usuario, DiagnosticoManteDispositivo> diagnosticoManteDispositivoList;
     public static volatile SingularAttribute<Usuario, Integer> idUsuario;
+    public static volatile ListAttribute<Usuario, ReporteSiesa> reporteSiesaList;
     public static volatile ListAttribute<Usuario, CronogramaAnual> cronogramaAnualList;
     public static volatile ListAttribute<Usuario, CronogramaMantenimientos> cronogramaMantenimientosList;
     public static volatile ListAttribute<Usuario, CronogramaActividadesEdificios> cronogramaActividadesEdificiosList;

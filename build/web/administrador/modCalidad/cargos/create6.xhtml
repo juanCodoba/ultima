@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+
+        <ui:define name="title">Crear nuevo manual</ui:define>        
+        <ui:define name="body">
+            <h:form id="formulario-crearManual" enctype="multipart/form-data">
+                <h:outputText class="help-block" value="Ingresa los datos del formato:"/>
+
+                <div class="form-group">
+                    <h:outputLabel value="Proceso:" />
+
+
+                    <h:selectOneMenu id="divPanel" class="form-control"  value="#{ProfesiogramaController.profesiogramaActual.idTipoProfesiograma}">
+                        <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+
+                        <f:selectItems value="#{tipoProfesiogramaController.listaTipoProfesiograma}" var="idProfesiograma" itemValue="#{tipoProfesiograma}"/>  
+                    </h:selectOneMenu>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel value="Descripcion del profesiograma:"  />
+                    <input placeholder="Nombre" class="form-control" jsf:id="manualInputText" jsf:value="#{ProfesiogramaController.profesiogramaActual.descripcion}" 
+                           type="text" required="true"
+                           jsf:validatorMessage="El nombre del manual no puede tener ningún tipo de símbolo ni acento"
+                           jsf:requiredMessage="Por favor ingrese el nombre del formato">
+                        <f:ajax execute="@this" render="manualMessage"/>
+                        <f:validateRegex pattern="[a-zA-Z 1234567890]*"/>
+                    </input>
+                    <p:message id="manualMessage" for="manualInputText" styleClass="error"/>
+                </div>  
+
+
+
+                <div class="form-group" >
+                    <h:outputLabel value="Cargar manual:"/>
+                    <p:fileUpload  cancelLabel="Cancelar" uploadLabel="Cargar Profesiograma" label="Examinar" mode="advanced" auto="true"  fileLimit="1" invalidFileMessage="Solo se aceptan archivos con formato pdf"
+                                   fileLimitMessage="Solo se puede cargar un documento" allowTypes="/(\.|\/)(pdf)$/" fileUploadListener="#{ProfesiogramaController.cargarFichaLogo}"/>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <p:commandButton class="btn btn-primary btn-block"
+                                         ajax="false"
+                                         value="Guardar"
+                                         action="#{ProfesiogramaController.add()}"
+                                         onclick="onSubmitButton();"/>
+                    </div>
+                    <div class="col-sm-6 form-group">    
+                        <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="/usuario/modCalidad/cargos/list"/>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

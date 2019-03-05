@@ -10,7 +10,7 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-09T14:16:32")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-26T10:36:43")
 @StaticMetamodel(ManualSiesa.class)
 public class ManualSiesa_ { 
 
@@ -20,7 +20,7 @@ public class ManualSiesa_ {
     public static volatile SingularAttribute<ManualSiesa, Integer> idManualSiesa;
     public static volatile SingularAttribute<ManualSiesa, Usuario> idUsuario;
     public static volatile SingularAttribute<ManualSiesa, Date> fechaActualizacion;
-    public static volatile SingularAttribute<ManualSiesa, byte[]> manual;
+    public static volatile SingularAttribute<ManualSiesa, String> manual;
     public static volatile SingularAttribute<ManualSiesa, String> nombre;
     public static volatile SingularAttribute<ManualSiesa, Double> version;
     public static volatile SingularAttribute<ManualSiesa, Suit> idSuit;

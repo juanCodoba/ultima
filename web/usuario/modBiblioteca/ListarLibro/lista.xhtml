@@ -202,6 +202,10 @@ and open the template in the editor.
                             <f:facet name="header">Editorial</f:facet>
                             <h:outputText style="font-weight: bold; font-size: 1.2em;" value="#{item.editorial}"/>
                         </p:column>
+                        <p:column filterBy="#{item.idTipoLibro}" width="110" filterMatchMode="contains">
+                            <f:facet name="header">Tipo de Libro</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1.2em;" value="#{item.idTipoLibro.descripcion}"/>
+                        </p:column>
                         <p:column filterBy="#{item.idGenero}" width="110" filterMatchMode="contains">
                             <f:facet name="header">Genero</f:facet>
                             <h:outputText style="font-weight: bold; font-size: 1.2em;" value="#{item.idGenero.nombre}"/>
@@ -228,13 +232,21 @@ and open the template in the editor.
                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}"/>
                                 <f:setPropertyActionListener value="#{item}" target="#{LibroController.libroActual}"/>
                             </p:commandButton>
-                            <p:tooltip id="editar-li" for="pincel" value="Editar Libro" trackMouse="true" />
+                            <p:tooltip id="edit" for="pincel" value="Editar Libro" trackMouse="true" />
 
                             <p:commandButton  icon="fa fa-medkit" id="pinceld" ajax="false" action="#{LibroController.prepareCreateMan()}" >
                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}"/>
                                 <f:setPropertyActionListener value="#{item}" target="#{LibroController.libroActual}"/>
                             </p:commandButton>
                             <p:tooltip id="mantenimiento-li" for="pinceld" value="Generar Mantenimiento" trackMouse="true" />
+
+                            <h:commandLink id="verDocumento" class="btn btn-sm btn-primary" target="_blank" style="margin: 5px; color: white" actionListener="#{LibroController.prepareDocumento}" action="#{LibroController.obtenerDocumento}">
+                                <span class="fa fa-download"/>
+                                <f:attribute name="documentos" value="#{item}" />
+                                <f:setPropertyActionListener value="#{item}" target="#{LibroController.libroActual}"/>
+                            </h:commandLink>
+                            <p:tooltip id="mantenimiento-li-2" for="verDocumento" value="Descargar pdf" trackMouse="true" />
+
 
                         </p:column>
 

@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="64e4b911-823f-419e-88e9-13b9244ba46e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fechaInicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select libro.titulo_libro, reserva_libros_biblioteca_has_libro.id_libro,genero.nombre,reserva_libros_biblioteca.fecha_inicio_prestamo,
+count(reserva_libros_biblioteca_has_libro.id_libro) as total
+from reserva_libros_biblioteca_has_libro  inner join libro on reserva_libros_biblioteca_has_libro.id_libro = libro.id_libro inner join genero
+on libro.id_genero = genero.id_genero inner join reserva_libros_biblioteca on
+reserva_libros_biblioteca_has_libro.id_reserva_libros = reserva_libros_biblioteca.id_reserva_libros
+
+ and fecha_inicio_prestamo between $P{fechaInicio} and  $P{fechaFin}  group by id_libro]]>
+	</queryString>
+	<field name="titulo_libro" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_libro" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_inicio_prestamo" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total" class="java.lang.Long"/>
+	<variable name="total_1" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="89" splitType="Stretch">
+			<rectangle>
+				<reportElement x="2" y="0" width="800" height="87" uuid="741258c6-b4e5-4c6f-a51f-055ef82e3466"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="2" y="34" width="802" height="24" uuid="471e9aa2-d4ff-4476-bc17-099290b48427"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INDICADOR DE GESTION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="0" width="800" height="34" uuid="c08c2b12-e006-4425-ab5f-27f9c2cb7cee"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROCESO DE BIBLIOTECA]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="662" y="18" width="140" height="16" uuid="0b778567-45dc-428c-941c-9127533e2d9b"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="124" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="77" width="175" height="30" backcolor="#CCCCFF" uuid="350d3199-4558-4627-b521-794ef9ae6978"/>
+				<box leftPadding="20">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RESPONSABLE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="608" y="73" width="193" height="32" uuid="f7cf7318-d9ad-44d8-9780-016764f345b7"/>
+				<box leftPadding="10">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BIBLIOTECARIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="609" y="43" width="192" height="30" uuid="b8050b4e-c820-4eaa-b893-1346df9aed49"/>
+				<box leftPadding="10">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BIBLIOTECA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="456" y="0" width="153" height="43" backcolor="#CCCCFF" uuid="ea9b0cfd-d0bc-48c7-a523-17951309219a"/>
+				<box leftPadding="20">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FORMULA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="43" width="175" height="34" backcolor="#CCCCFF" uuid="c8dd354a-91a4-4dd7-bc0d-e0625c083a51"/>
+				<box leftPadding="20">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PERIODO ANALIZADO : ]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="175" y="43" width="280" height="30" uuid="a3113a1c-72b9-4e16-bbdc-9fc2467d2b2f"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="456" y="73" width="152" height="32" backcolor="#CCCCFF" uuid="eaa902f7-31aa-43cf-8f2b-079c8b91a758"/>
+				<box leftPadding="20">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CARGO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="609" y="0" width="192" height="43" uuid="b69f64c0-6936-48af-9492-005578d73f41"/>
+				<box leftPadding="10">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NUM/ TOTAL DE PRESTAMOS DURANTE 3 MESES ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="456" y="41" width="153" height="32" backcolor="#CCCCFF" uuid="5a389239-b806-4ce1-bfbe-daf584864bb8"/>
+				<box leftPadding="20">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROCESO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="456" height="43" backcolor="#CCCCFF" uuid="52eb39f9-d40d-4a63-b5c0-d5b1ce50dc31"/>
+				<box leftPadding="20">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INDICADOR:  Libro mas prestado durante los meses analizados]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="175" y="53" width="100" height="20" uuid="403a8f56-3f48-487f-b176-12a91a198943"/>
+				<textFieldExpression><![CDATA[$P{fechaInicio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="275" y="53" width="76" height="20" uuid="a99d6fd8-8720-4076-a56d-051fd90ff31f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[hasta el]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="351" y="53" width="100" height="20" uuid="582cdc48-756d-4a71-9f6b-edc18384342f"/>
+				<textFieldExpression><![CDATA[$P{fechaFin}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="175" y="73" width="281" height="34" uuid="6b75efd9-bfde-4c31-9185-3506c5cab5e4"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="175" y="73" width="233" height="27" uuid="78a1cdee-73b1-4285-9bb5-0829ca0c2eb9"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ANGELICA BARREIRO]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="662" y="14" width="129" height="27" forecolor="#000000" backcolor="#CCCCFF" uuid="66e292ce-fdbe-461e-8071-c9480edba85a"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="12" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="20" y="14" width="174" height="27" forecolor="#000000" backcolor="#CCCCFF" uuid="0f5ceecd-23e1-4204-bfc3-0458db38f459"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="12" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="274" y="14" width="273" height="27" forecolor="#000000" backcolor="#CCCCFF" uuid="94162c78-f9d2-43d9-bf81-2c94fcff08b6"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="12" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="38" y="21" width="100" height="20" uuid="5159fcae-ce04-4cac-b080-d173d89f3e1b"/>
+				<text><![CDATA[titulo_libro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="318" y="21" width="100" height="20" uuid="4fccd8d7-2845-458b-8d3d-f89bb28eea75"/>
+				<text><![CDATA[Genero]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="674" y="21" width="100" height="20" uuid="36ca2f83-4209-42ad-a4a0-468130830f52"/>
+				<text><![CDATA[total de prestamos]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<textField>
+				<reportElement x="20" y="0" width="190" height="20" uuid="c3ec6cc5-9f93-4ac6-9c60-aa5c924bf7ba"/>
+				<textFieldExpression><![CDATA[$F{titulo_libro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="318" y="0" width="100" height="20" uuid="d5948cea-f2f9-4af7-95ef-55de7e9ea1bc"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="674" y="0" width="100" height="20" uuid="4e0d756a-723c-47eb-a41e-b903a60b2edd"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement x="737" y="24" width="74" height="20" uuid="6c7387fb-6a6a-468d-bbe2-724a42776926"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="547" y="24" width="189" height="20" uuid="f212a46a-4267-4b23-8b87-cc69c27b2a3c"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="376" y="24" width="100" height="20" uuid="d98eefa5-ee47-44e0-84b9-793cdd8554c5"/>
+				<textFieldExpression><![CDATA[$P{fechaFin}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="-1" width="293" height="20" uuid="64123782-92ab-495f-8536-ef433922dc4a"/>
+				<textElement markup="none">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SAINT - SISTEMA ADMINISTRATIVO INTEGRADO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="24" width="224" height="20" uuid="66629bcc-0fbf-4f59-b558-e46284b0d5a3"/>
+				<textElement markup="none">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Indicador de los reportes generados entre el]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="237" y="24" width="100" height="20" uuid="13461fb1-f842-4157-8e54-394e12f8589d"/>
+				<textFieldExpression><![CDATA[$P{fechaInicio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="337" y="24" width="39" height="20" uuid="5f32c178-9ece-44d2-9edf-63593d4467ef"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[hasta el]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="37" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="451" splitType="Stretch">
+			<staticText>
+				<reportElement x="303" y="0" width="235" height="20" uuid="5773edb3-fdda-42f9-bf82-d0923c9627e8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL DE PRESTAMOS DURANTE EL MES ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="337" y="36" width="160" height="39" backcolor="#CCCCFF" uuid="aaccc586-bc86-4289-91e4-44cd2bcbbe78"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SOLICITUDES PRESTAMOS]]></text>
+			</staticText>
+			<rectangle radius="10">
+				<reportElement x="337" y="60" width="160" height="55" uuid="21e647c7-4de3-4157-90ee-4a9773f0e282"/>
+			</rectangle>
+			<textField>
+				<reportElement x="388" y="75" width="68" height="20" uuid="15766a63-84fc-4d92-aadd-7714ba683b37"/>
+				<textFieldExpression><![CDATA[$V{total_1}]]></textFieldExpression>
+			</textField>
+			<stackedBar3DChart>
+				<chart>
+					<reportElement x="2" y="130" width="800" height="321" uuid="526652c9-cb6e-463b-b6f5-c958f9af90f3"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{titulo_libro}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{id_libro}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{total}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</stackedBar3DChart>
+		</band>
+	</summary>
+</jasperReport>

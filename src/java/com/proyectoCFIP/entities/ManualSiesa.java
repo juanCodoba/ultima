@@ -71,6 +71,7 @@ public class ManualSiesa implements Serializable {
     @Size(max = 100)
     @Column(name = "descripcion")
     private String descripcion;
+    @Size(max = 1000000)
 
     @Column(name = "manual")
     private String manual;

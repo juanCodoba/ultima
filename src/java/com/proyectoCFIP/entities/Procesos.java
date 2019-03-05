@@ -35,11 +35,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "procesos")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Procesos.findAll", query = "SELECT p FROM Procesos p"),
+    @NamedQuery(name = "Procesos.findAll", query = "SELECT p FROM Procesos p ORDER BY p.idProceso DESC"),
     @NamedQuery(name = "Procesos.findByIdProceso", query = "SELECT p FROM Procesos p WHERE p.idProceso = :idProceso"),
+    @NamedQuery(name = "Procesos.findByIdUsuario", query = "SELECT p FROM Procesos p WHERE p.idUsuario = :idUsuario"),
     @NamedQuery(name = "Procesos.findByNombreProceso", query = "SELECT p FROM Procesos p WHERE p.nombreProceso = :nombreProceso")})
 public class Procesos implements Serializable {
-
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -63,7 +63,17 @@ public class Procesos implements Serializable {
     private List<Formatos> formatosList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProceso")
     private List<Subprocesos> subprocesosList;
-    
+    @JoinColumn(name = "id_macro_procesos", referencedColumnName = "id_macro_procesos")
+    @ManyToOne(optional = false)
+    private Macroprocesos idMacroprocesos;
+
+    @JoinColumn(name = "responsable", referencedColumnName = "id_usuario")
+    @ManyToOne(optional = true)
+    private Usuario idUsuario;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProceso")
+    private List<Factores> FactoresList;
+
     public Procesos() {
     }
 
@@ -91,7 +101,7 @@ public class Procesos implements Serializable {
     public void setNombreProceso(String nombreProceso) {
         this.nombreProceso = nombreProceso;
     }
-    
+
     @XmlTransient
     public List<Usuario> getUsuarioList() {
         return usuarioList;
@@ -153,6 +163,30 @@ public class Procesos implements Serializable {
         return getNombreProceso().toUpperCase();
     }
 
+    public Macroprocesos getIdMacroprocesos() {
+        return idMacroprocesos;
+    }
 
+    public void setIdMacroprocesos(Macroprocesos idMacroprocesos) {
+        this.idMacroprocesos = idMacroprocesos;
+    }
+
+    public List<Factores> getFactoresList() {
+        return FactoresList;
+    }
+
+    public void setFactoresList(List<Factores> FactoresList) {
+        this.FactoresList = FactoresList;
+    }
+
+    public Usuario getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Usuario idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    
     
 }

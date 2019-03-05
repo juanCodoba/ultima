@@ -102,10 +102,6 @@
                                 </div>
                             </div>
                         </f:facet>
-                        <p:column filterBy="#{item.idFtFichaTecnica}" width="110" filterMatchMode="contains">
-                            <f:facet name="header">Cod. Ficha</f:facet>
-                            <h:outputText style="font-weight: bold" value="#{item.idFtFichaTecnica}FTEC"/>
-                        </p:column>
                         <p:column filterBy="#{item.idItem}" width="110" filterMatchMode="contains">
                             <f:facet name="header">Cod del item/OPM</f:facet>
                             <h:outputText style="font-weight: bold; font-size: 1.2em; color:red" value="#{item.idItem}"/>
@@ -115,23 +111,19 @@
                             <f:facet name="header">Tipo De Ficha</f:facet>
                             <h:outputText style="font-weight: bold; font-size: 1.2em; color:red" value="#{item.idTipoFicha.nombreFicha}"/>
                         </p:column>
-
-                        <p:column  filterMatchMode="contains">
-                            <f:facet name="header">Nombre Cliente</f:facet>
-                            <h:outputText style="font-weight: bold; font-size: 1em;" value="#{item.idFtCliente.nombre}"/>
-                        </p:column>
                         <p:column  filterBy="#{item.idFtCategoria.descripcion}"  filterMatchMode="contains">
                             <f:facet name="header">Tipo De Prenda</f:facet>
                             <h:outputText style="font-weight: bold; font-size: 1em;" value="#{item.idFtCategoria.descripcion}"/>
                         </p:column>
-                        <p:column  filterMatchMode="contains">
-                            <f:facet name="header">Nit cliente</f:facet>
-                            <h:outputText style="font-weight: bold; font-size: 1em;" value="#{item.idFtCliente.idFtCliente}"/>
+                        <p:column filterBy="#{item.idFtCliente.nombre}" filterMatchMode="contains">
+                            <f:facet name="header">Cliente</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1em;" value="#{item.idFtCliente.nombre}"/>
                         </p:column>
-                        <p:column  filterBy="#{item.descripcionCorta}"  filterMatchMode="contains">
-                            <f:facet name="header">Descripción prenda</f:facet>
+                        <p:column filterBy="#{item.descripcionCorta}" filterMatchMode="contains">
+                            <f:facet name="header">Descripcion Corta</f:facet>
                             <h:outputText style="font-weight: bold; font-size: 1em;" value="#{item.descripcionCorta}"/>
                         </p:column>
+
                         <p:column>
                             <f:facet name="header">Fecha de modificación</f:facet>
                             <h:outputText value="#{item.fechaModificacion}">
@@ -162,6 +154,14 @@
                                 <f:setPropertyActionListener value="#{item}" target="#{ftFichaTecnica.fichaTecnicaActual}"/>
                             </p:commandButton>
                             <p:tooltip id="descripcion-duplicado" for="duplicado" value="Crear duplicado" trackMouse="true" />
+                            <p:commandButton id="descargar-c" icon="ui-icon-document" 
+                                             rendered="#{loginController.fichaTecnicaDESA}" action="#{ftFichaTecnica.createFichaPDFCliente}"
+                                             onclick="target = '_blank';PF('descargar').hide();"
+                                             ajax="false">
+                                <f:setPropertyActionListener value="#{item}" target="#{ftFichaTecnica.fichaTecnicaActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-pdf-cliente" for="descargar-c" value="Ver Pdf Para El Cliente" trackMouse="true" />
+
                             <p:commandButton rendered="#{loginController.fichaTecnicaDESA}" id="boton-delete"  icon="ui-icon-trash" action="#{ftFichaTecnica.delete}"
                                              process="@this" update="formList">
                                 <p:confirm header="Confirmación" message="¿Esta seguro que desea eliminar el registro?" icon="ui-icon-alert" />
@@ -272,7 +272,10 @@
                                 <p:commandButton id="boton-ver" value="Editar" style="width: 100%; height: 50px" icon="fa fa-edit" 
                                                  action="#{ftFichaTecnica.prepareEdit}"
                                                  ajax="false">
+                                    <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{ftFichaTecnica.usuarioActual}"/>
+
                                 </p:commandButton>
+
                             </div>
                         </div>
                     </p:dialog>

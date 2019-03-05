@@ -40,6 +40,10 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Area implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idArea")
     private List<Seccion> seccionList;
+    
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idArea")
+    private List<Cargos> cargosList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -127,5 +131,14 @@ public class Area implements Serializable {
     public void setSeccionList(List<Seccion> seccionList) {
         this.seccionList = seccionList;
     }
+
+    public List<Cargos> getCargosList() {
+        return cargosList;
+    }
+
+    public void setCargosList(List<Cargos> cargosList) {
+        this.cargosList = cargosList;
+    }
+    
     
 }

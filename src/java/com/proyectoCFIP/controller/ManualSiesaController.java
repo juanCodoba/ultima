@@ -230,8 +230,8 @@ public class ManualSiesaController implements Serializable {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
 
         
-            String newFileName = "\\\\172.16.0.241\\Volume_1\\03siesaERP\\" + manualSiesaActual.getIdSuit().getNombreSuit()+"\\" + "-" +manualSiesaActual.getNombre() + ".pdf";
-            //String newFileName = "/root/alojamientoFichasImg//02FICHASTECNICAS//" + manualSiesaActual.getNombre().toUpperCase() + "\\" + manualSiesaActual.getCodigo() + "-manual.pdf";
+            //String newFileName = "\\\\172.16.0.241\\Volume_1\\03siesaERP\\" + manualSiesaActual.getIdSuit().getNombreSuit()+"\\" + "-" +manualSiesaActual.getNombre() + ".pdf";
+            String newFileName = "/root/alojamientoFichasImg//02FICHASTECNICAS//" + manualSiesaActual.getIdSuit().getNombreSuit() + "\\" + manualSiesaActual.getNombre() + "-manual.pdf";
 
             manualSiesaActual.setManual(newFileName);
             FileImageOutputStream imageOutput;

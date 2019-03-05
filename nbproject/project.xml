@@ -80,10 +80,6 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.jasperreports-javaflow-6.1.0.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-                <library dirs="200">
                     <file>${file.reference.jcommon-1.0.23.jar-1}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>

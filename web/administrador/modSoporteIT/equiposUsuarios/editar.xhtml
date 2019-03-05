@@ -147,7 +147,8 @@
                         <p:selectOneMenu id="idProcesoSeccion"
                                          style="width: 100%; border: none;"
                                          value="#{equiposUsuariosController.sistemasEquiposUsuariosActual.idSubproceso}"
-                                         filter="true" filterMatchMode="contains">
+                                         filter="true" filterMatchMode="contains
+                                         " converter="subprocesoConverter">
                                 <f:selectItem itemLabel="Ninguno" />
                                 <f:selectItems value="#{subprocesosController.listaSubProcesosTotal}" var="proceso" itemValue="#{proceso}"/>  
                         </p:selectOneMenu>

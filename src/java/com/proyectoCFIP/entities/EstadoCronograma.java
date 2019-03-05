@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "EstadoCronograma.findAll", query = "SELECT e FROM EstadoCronograma e"),
     @NamedQuery(name = "EstadoCronograma.findByIdEstado", query = "SELECT e FROM EstadoCronograma e WHERE e.idEstado = :idEstado"),
+    @NamedQuery(name = "EstadoCronograma.findByIdEstadoDos", query = "SELECT e FROM EstadoCronograma e WHERE e.idEstado = 3 OR e.idEstado = 4"),
     @NamedQuery(name = "EstadoCronograma.findByNombreEstado", query = "SELECT e FROM EstadoCronograma e WHERE e.nombreEstado = :nombreEstado")})
 public class EstadoCronograma implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstadoCronograma")
@@ -110,7 +111,7 @@ public class EstadoCronograma implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.EstadoCronograma[ idEstado=" + idEstado + " ]";
+        return getNombreEstado();
     }
 
     @XmlTransient

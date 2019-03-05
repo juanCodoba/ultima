@@ -285,6 +285,12 @@ public class FtFichaTecnica implements Serializable {
     @Size(max = 600)
     @Column(name = "cotilla")
     private String cotilla;
+    
+        @Size(max = 600)
+    @Column(name = "lista_materiales")
+    private String listaMateriales;
+    
+    
 
     public FtFichaTecnica() {
     }
@@ -849,6 +855,14 @@ public class FtFichaTecnica implements Serializable {
 
     public void setCotilla(String cotilla) {
         this.cotilla = cotilla;
+    }
+
+    public String getListaMateriales() {
+        return listaMateriales;
+    }
+
+    public void setListaMateriales(String listaMateriales) {
+        this.listaMateriales = listaMateriales;
     }
 
     

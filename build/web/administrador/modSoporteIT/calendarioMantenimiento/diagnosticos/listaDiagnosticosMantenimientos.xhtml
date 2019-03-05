@@ -34,30 +34,30 @@
                         </li>
                         <li class="active">
                             <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
-                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
                                 <i class="fa fa-calendar"></i> 
                                 <span>Calendario mantenimientos</span>
                             </h:commandLink>
                         </li>
                         <li class="treeview">
-                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
-                            <span class="pull-right-container">
-                              <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                          </a>
-                          <ul class="treeview-menu">
-                            <li>
-                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
-                                     <span>Preventivos</span>
-                                </h:commandLink>
-                            </li>
-                            <li>
-                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
-                                     <span>Correctivos</span>
-                                </h:commandLink>
-                            </li>
-                          </ul>
+                            <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                        <span>Preventivos</span>
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                        <span>Correctivos</span>
+                                    </h:commandLink>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <h:commandLink action="#{reporteSiesaController.prepareListReportes}">
@@ -97,13 +97,13 @@
             <p:growl id="growl" showDetail="true" life="2000"/>
             <h:form>
                 <nav class="navbar navbar-inverse" role="navigation">
-                     <div class="navbar-header">
+                    <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse"
                                 data-target=".navbar-ex1-collapse">
-                          <span class="sr-only">Desplegar navegación</span>
-                          <span class="icon-bar"></span>
-                          <span class="icon-bar"></span>
-                          <span class="icon-bar"></span>
+                            <span class="sr-only">Desplegar navegación</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
                         </button>
                     </div>
                     <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -113,11 +113,11 @@
                                     <i class="fa fa-calendar"></i>
                                     <span>Cronograma de mantenimientos</span>
                                 </p:commandLink>
-                             </li>
+                            </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                  <i class="fa fa-wrench"></i>
-                                  Mantenimientos sin diagnostico<b class="caret"></b>
+                                    <i class="fa fa-wrench"></i>
+                                    Mantenimientos sin diagnostico<b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
@@ -146,14 +146,14 @@
                             </li>
                             <li>
                                 <p:commandLink ajax="false" action="#{computadorController.prepareViewProgramar}">
-                                <i class="fa fa-edit"/>
+                                    <i class="fa fa-edit"/>
                                     <span>Programar mantenimiento tecnológico</span>
                                 </p:commandLink>
                             </li>
                             <li class="dropdown active">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                  <i class="fa fa-wrench"></i>
-                                  Historial de Diagnósticos<b class="caret"></b>
+                                    <i class="fa fa-wrench"></i>
+                                    Historial de Diagnósticos<b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
@@ -176,90 +176,77 @@
                 </nav>
             </h:form>
             <h:form id="solucionFormList">
-                <p:outputPanel id="solucionTablePanel">
-                    <p:dataTable value="#{cronogramaController.listaDiagnosticoMantenimiento}" var="diagnosticos"
-                                 rows="100" id="incidenteTable" 
-                                 paginator="true" scrollable="true" scrollWidth="1250"
-                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="100,150,250">
-                            <f:facet name="header">
-                                    <h:commandLink id="exportExcel">
-                                        <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
-                                        <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
-                                                target="incidenteTable" fileName="inventario" />
-                                    </h:commandLink>
-                                    <p:tooltip id="descripcion-botonExcel" for="exportExcel" value="Exportar en excel" trackMouse="true" />
-                                <h4 class="colorLetra" style="font-weight: bold; display: inline-block !important;" >
-                                    Total computadores diagnosticados: #{fn:length(cronogramaController.listaDiagnosticoMantenimiento)} de 
-                                    #{fn:length(cronogramaController.listaCronogramaMantenimientos)}
-                                </h4>
-                            </f:facet>
+                <p:dataTable value="#{cronogramaController.listaDiagnosticoMantenimiento}" var="diagnosticos"
+                             rows="100" id="incidenteTable" 
+                             paginator="true" scrollable="true" scrollWidth="1250"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="100,150,250"
+                             style="width: 100%">
+                    <f:facet name="header">
+                        <h:commandLink id="exportExcel">
+                            <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                            <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                            target="incidenteTable" fileName="inventario" />
+                        </h:commandLink>
+                        <p:tooltip id="descripcion-botonExcel" for="exportExcel" value="Exportar en excel" trackMouse="true" />
+                        <h4 class="colorLetra" style="font-weight: bold; display: inline-block !important;" >
+                            Total computadores diagnosticados: #{fn:length(cronogramaController.listaDiagnosticoMantenimiento)} de 
+                            #{fn:length(cronogramaController.listaCronogramaMantenimientos)}
+                        </h4>
+                    </f:facet>
 
-                        <p:column filterBy="#{diagnosticos.idMantenimiento}" filterMatchMode="contains" width="110">
-                            <f:facet name="header">Codigo diagnostico:</f:facet>
-                            <h:outputText value="#{diagnosticos.idMantenimiento}DIAG-M" style="font-weight: bold"/>
-                        </p:column>
-                        <p:column filterBy="#{diagnosticos.idCronogramaMantenimientos.idCronogramaMantenimientos}" filterMatchMode="contains" width="110">
-                            <f:facet name="header">Ticket</f:facet>
-                            <h:outputText value="#{diagnosticos.idCronogramaMantenimientos.idCronogramaMantenimientos}MCP" style="font-weight: bold"/>
-                        </p:column>
-                        <p:column width="100" filterBy="#{diagnosticos.idCronogramaMantenimientos.idComputador.codigoComputador}" filterMatchMode="contains">
-                            <f:facet name="header">Service tag o (S/N) del equipo</f:facet>
-                            <h:outputText value="#{diagnosticos.idCronogramaMantenimientos.idComputador.codigoComputador.toUpperCase()}"/>
-                        </p:column>
-                        <p:column width="200" filterBy="#{diagnosticos.idCronogramaMantenimientos.idComputador.idUsuario.toString()}" filterMatchMode="contains">
-                            <f:facet name="header">Responsable del equipo</f:facet>
-                            <h:outputText value="#{diagnosticos.idCronogramaMantenimientos.idComputador.idUsuario.toString()}"/><br></br><br></br>
-                            <h:outputText value="#{diagnosticos.idCronogramaMantenimientos.nombreUsuarioReporte.toUpperCase()}"/>
-                        </p:column>
-                        <p:column width="100" filterBy="#{diagnosticos.idCronogramaMantenimientos.idComputador.idSeccion.nombreSeccion}" filterMatchMode="contains">
-                            <f:facet name="header">Sección</f:facet>
-                            <h:outputText value="#{diagnosticos.idCronogramaMantenimientos.idComputador.idSeccion.nombreSeccion.toUpperCase()}"/>
-                        </p:column>
-                        <p:column width="100" filterBy="#{diagnosticos.idCronogramaMantenimientos.idTipoMantenimiento.nombreTipoMantenimiento}" filterMatchMode="contains">
-                            <f:facet name="header">Tipo Mantenimiento</f:facet>
-                            <h:outputText value="#{diagnosticos.idCronogramaMantenimientos.idTipoMantenimiento.nombreTipoMantenimiento.toUpperCase()}"/>
-                        </p:column>
-                        <p:column width="100">
-                            <f:facet  name="header">Fecha Reporte</f:facet>
-                            <h:outputText value="#{diagnosticos.idCronogramaMantenimientos.fechaInicioMantenimiento}">
-                                <f:convertDateTime pattern="dd/MMM/yyyy"/>
-                            </h:outputText>
-                        </p:column> 
-                        <p:column width="300" filterBy="#{diagnosticos.idCronogramaMantenimientos.descripcionProblema}" filterMatchMode="contains">
-                            <f:facet name="header">Descripción del problema reportado por el usuario</f:facet>
-                            <h:outputText value="#{diagnosticos.idCronogramaMantenimientos.descripcionProblema.toUpperCase()}"/>
-                        </p:column>
-                        <p:column width="300" filterMatchMode="contains" filterBy="#{diagnosticos.revision}">
-                            <f:facet name="header">Revisión</f:facet>
-                            <h:outputText value="#{diagnosticos.revision.toUpperCase()}"/>
-                        </p:column>
-                        <p:column width="100">
-                            <f:facet  name="header">Fecha Revisión</f:facet>
-                            <h:outputText value="#{diagnosticos.fechaRevision}">
-                                <f:convertDateTime pattern="dd/MMM/yyyy"/>
-                            </h:outputText>
-                        </p:column> 
-                        <p:column width="300" filterBy="#{diagnosticos.diagnostico}" filterMatchMode="contains">
-                            <f:facet name="header">Diagnostico</f:facet>
-                            <h:outputText value="#{diagnosticos.diagnostico.toUpperCase()}"/>
-                        </p:column>
-                        <p:column width="100">
-                            <f:facet name="header">Fecha Entrega del equipo</f:facet>
-                            <h:outputText value="#{diagnosticos.fechaEntrega}">
-                                <f:convertDateTime pattern="dd/MMM/yyyy"/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column width="150" filterBy="#{diagnosticos.idTipoDiagnostico.nombre}" filterMatchMode="contains">
-                            <f:facet name="header">Tipo de diagnostico</f:facet>
-                            <h:outputText value="#{diagnosticos.idTipoDiagnostico.toString()}"/>
-                        </p:column>
-                        <p:column width="100" filterBy="#{diagnosticos.tecnicoResponsable}" filterMatchMode="contains">
-                            <f:facet name="header">Tecnico que atendio el caso</f:facet>
-                            <h:outputText value="#{diagnosticos.tecnicoResponsable.toString().toUpperCase()}"/>
-                        </p:column>
-                    </p:dataTable>
-                </p:outputPanel>
+                    <p:column filterBy="#{diagnosticos.idMantenimiento}" filterMatchMode="contains" width="110">
+                        <f:facet name="header">Codigo diagnostico:</f:facet>
+                        <h:outputText value="#{diagnosticos.idMantenimiento}DIAG-M" style="font-weight: bold"/>
+                    </p:column>
+                    <p:column filterBy="#{diagnosticos.idCronogramaMantenimientos.idCronogramaMantenimientos}" filterMatchMode="contains" width="110">
+                        <f:facet name="header">Ticket</f:facet>
+                        <h:outputText value="#{diagnosticos.idCronogramaMantenimientos.idCronogramaMantenimientos}MCP" style="font-weight: bold"/>
+                    </p:column>
+                    <p:column width="100" filterBy="#{diagnosticos.idCronogramaMantenimientos.idComputador.codigoComputador}" filterMatchMode="contains">
+                        <f:facet name="header">Service tag o (S/N) del equipo</f:facet>
+                        <h:outputText value="#{diagnosticos.idCronogramaMantenimientos.idComputador.codigoComputador.toUpperCase()}"/>
+                    </p:column>
+                    <p:column width="200" filterBy="#{diagnosticos.idCronogramaMantenimientos.idComputador.idUsuario.toString()}" filterMatchMode="contains">
+                        <f:facet name="header">Responsable del equipo</f:facet>
+                        <h:outputText value="#{diagnosticos.idCronogramaMantenimientos.idComputador.idUsuario.toString()}"/><br></br><br></br>
+                        <h:outputText value="#{diagnosticos.idCronogramaMantenimientos.nombreUsuarioReporte.toUpperCase()}"/>
+                    </p:column>
+                    <p:column width="100" filterBy="#{diagnosticos.idCronogramaMantenimientos.idComputador.idSeccion.nombreSeccion}" filterMatchMode="contains">
+                        <f:facet name="header">Sección</f:facet>
+                        <h:outputText value="#{diagnosticos.idCronogramaMantenimientos.idComputador.idSeccion.nombreSeccion.toUpperCase()}"/>
+                    </p:column>
+                    <p:column width="100" filterBy="#{diagnosticos.idCronogramaMantenimientos.idTipoMantenimiento.nombreTipoMantenimiento}" filterMatchMode="contains">
+                        <f:facet name="header">Tipo Mantenimiento</f:facet>
+                        <h:outputText value="#{diagnosticos.idCronogramaMantenimientos.idTipoMantenimiento.nombreTipoMantenimiento.toUpperCase()}"/>
+                    </p:column>
+                    <p:column width="100">
+                        <f:facet  name="header">Fecha Reporte</f:facet>
+                        <h:outputText value="#{diagnosticos.idCronogramaMantenimientos.fechaInicioMantenimiento}">
+                            <f:convertDateTime pattern="dd/MMM/yyyy"/>
+                        </h:outputText>
+                    </p:column> 
+                    <p:column width="300" filterMatchMode="contains" filterBy="#{diagnosticos.revision}">
+                        <f:facet name="header">Revisión</f:facet>
+                        <h:outputText value="#{diagnosticos.revision.toUpperCase()}"/>
+                    </p:column>
+
+                    <p:column width="300" filterMatchMode="contains" filterBy="#{diagnosticos.revision}">
+                        <f:facet name="header">Fecha de Revisión</f:facet>
+                        <h:outputText value="#{diagnosticos.fechaRevision}">
+                            <f:convertDateTime pattern="dd/MMM/yyyy"/>
+
+                        </h:outputText>
+                    </p:column>
+                    <p:column width="150" filterBy="#{diagnosticos.idTipoDiagnostico.nombre}" filterMatchMode="contains">
+                        <f:facet name="header">Tipo de diagnostico</f:facet>
+                        <h:outputText value="#{diagnosticos.idTipoDiagnostico.toString()}"/>
+                    </p:column>
+                    <p:column width="100" filterBy="#{diagnosticos.tecnicoResponsable}" filterMatchMode="contains">
+                        <f:facet name="header">Tecnico que atendio el caso</f:facet>
+                        <h:outputText value="#{diagnosticos.tecnicoResponsable.toString().toUpperCase()}"/>
+                    </p:column>
+                </p:dataTable>
             </h:form>
         </ui:define>
     </ui:composition>

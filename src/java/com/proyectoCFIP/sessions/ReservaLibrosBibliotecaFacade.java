@@ -55,6 +55,13 @@ public class ReservaLibrosBibliotecaFacade extends AbstractFacade<ReservaLibrosB
         Query q = getEntityManager().createNamedQuery("ReservaLibrosBiblioteca.estadoFalse");
         return q.getResultList();
     }
+    
+    public List<ReservaLibrosBiblioteca> contarTotalPorUser(Usuario IdUsuarioPrestamo){
+        
+        Query query = em.createNamedQuery("ReservaLibrosBiblioteca.totalPrestamoPorPers");
+        query.setParameter("idUsuarioPrestamo", IdUsuarioPrestamo);
+        return query.getResultList();
+    }
 
 //    public List<ReservaLibrosBiblioteca> consultaCronogramaBibliotecario() {
 //        Query q = getEntityManager().createNamedQuery("ReservaLibrosBiblioteca.findByBibliotecario");
@@ -121,19 +128,19 @@ public class ReservaLibrosBibliotecaFacade extends AbstractFacade<ReservaLibrosB
         return q.getResultList();
     }
 
-    public List<ReservaLibrosBiblioteca> consultaTiP(Date fecha1, Date fecha2) {
-        Query q = getEntityManager().createNamedQuery("ReservaLibrosBiblioteca.findByIdLib1");
-        q.setParameter("fecha1", fecha1);
-        q.setParameter("fecha2", fecha2);
-        return q.getResultList();
-    }
-
-    public List<ReservaLibrosBiblioteca> consultaTiP2(Date fecha1, Date fecha2) {
-        Query q = getEntityManager().createNamedQuery("ReservaLibrosBiblioteca.findByIdLib2");
-        q.setParameter("fecha1", fecha1);
-        q.setParameter("fecha2", fecha2);
-        return q.getResultList();
-    }
+//    public List<ReservaLibrosBiblioteca> consultaTiP(Date fecha1, Date fecha2) {
+//        Query q = getEntityManager().createNamedQuery("ReservaLibrosBiblioteca.findByIdLib1");
+//        q.setParameter("fecha1", fecha1);
+//        q.setParameter("fecha2", fecha2);
+//        return q.getResultList();
+//    }
+//
+//    public List<ReservaLibrosBiblioteca> consultaTiP2(Date fecha1, Date fecha2) {
+//        Query q = getEntityManager().createNamedQuery("ReservaLibrosBiblioteca.findByIdLib2");
+//        q.setParameter("fecha1", fecha1);
+//        q.setParameter("fecha2", fecha2);
+//        return q.getResultList();
+//    }
 
 //    public String consultaEstudiante() throws SQLException {
 //        Query q = em.createNativeQuery("select nombre_usuario,apellido_usuario,id_usuario_prestamo, COUNT(id_usuario_prestamo) as total from reserva_libros_biblioteca \n"
@@ -143,6 +150,19 @@ public class ReservaLibrosBibliotecaFacade extends AbstractFacade<ReservaLibrosB
 //    }
     public List<ReservaLibrosBiblioteca> consultaReporteCorrectivoTiempo(Date fecha1, Date fecha2) {
         Query q = getEntityManager().createNamedQuery("ReservaLibrosBiblioteca.finbyIndicador");
+        q.setParameter("fecha1", fecha1);
+        q.setParameter("fecha2", fecha2);
+        return q.getResultList();
+    }
+        public List<ReservaLibrosBiblioteca> consultaReporteCorrectivoTiempo2(Date fecha1, Date fecha2) {
+        Query q = getEntityManager().createNamedQuery("ReservaLibrosBiblioteca.finbyIndicador1");
+        q.setParameter("fecha1", fecha1);
+        q.setParameter("fecha2", fecha2);
+        return q.getResultList();
+    }
+    
+        public List<ReservaLibrosBiblioteca> consultaReporteCorrectivoTiempo1(Date fecha1, Date fecha2) {
+        Query q = getEntityManager().createNamedQuery("ReservaLibrosBiblioteca.findByIdUsuarioPrestamo");
         q.setParameter("fecha1", fecha1);
         q.setParameter("fecha2", fecha2);
         return q.getResultList();

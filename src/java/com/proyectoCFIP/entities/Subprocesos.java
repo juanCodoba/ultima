@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -50,9 +51,14 @@ public class Subprocesos implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSubproceso")
     private List<CalidadPlanAccion> calidadPlanAccionList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSubprocesoApoyoUno")
+    private List<CalidadPlanAccion> calidadPlanAccionUnoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSubprocesoApoyoDos")
+    private List<CalidadPlanAccion> calidadPlanAccionDosList;
 
-  
-   
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSubproceso")
+    private List<Cargos> cargosList;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -63,15 +69,20 @@ public class Subprocesos implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "nombre_subproceso")
     private String nombreSubproceso;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSubproceso")
     private List<Documentos> documentosList;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSubproceso")
     private List<Formatos> formatosList;
+
     @JoinColumn(name = "id_proceso", referencedColumnName = "id_proceso")
     @ManyToOne(optional = false)
     private Procesos idProceso;
-    
-   public Subprocesos() {
+
+
+
+    public Subprocesos() {
     }
 
     public Subprocesos(Integer idSubproceso) {
@@ -90,7 +101,6 @@ public class Subprocesos implements Serializable {
     public void setIdSubproceso(Integer idSubproceso) {
         this.idSubproceso = idSubproceso;
     }
-
 
     public String getNombreSubproceso() {
         return nombreSubproceso;
@@ -125,6 +135,7 @@ public class Subprocesos implements Serializable {
     public void setIdProceso(Procesos idProceso) {
         this.idProceso = idProceso;
     }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -144,6 +155,7 @@ public class Subprocesos implements Serializable {
         }
         return true;
     }
+
     @Override
     public String toString() {
         return getNombreSubproceso().toUpperCase();
@@ -185,5 +197,31 @@ public class Subprocesos implements Serializable {
         this.calidadGestionConocimientoList = calidadGestionConocimientoList;
     }
 
+    public List<Cargos> getCargosList() {
+        return cargosList;
+    }
+
+    public void setCargosList(List<Cargos> cargosList) {
+        this.cargosList = cargosList;
+    }
+
+
+
+    public List<CalidadPlanAccion> getCalidadPlanAccionUnoList() {
+        return calidadPlanAccionUnoList;
+    }
+
+    public void setCalidadPlanAccionUnoList(List<CalidadPlanAccion> calidadPlanAccionUnoList) {
+        this.calidadPlanAccionUnoList = calidadPlanAccionUnoList;
+    }
+
+    public List<CalidadPlanAccion> getCalidadPlanAccionDosList() {
+        return calidadPlanAccionDosList;
+    }
+
+    public void setCalidadPlanAccionDosList(List<CalidadPlanAccion> calidadPlanAccionDosList) {
+        this.calidadPlanAccionDosList = calidadPlanAccionDosList;
+    }
     
+
 }

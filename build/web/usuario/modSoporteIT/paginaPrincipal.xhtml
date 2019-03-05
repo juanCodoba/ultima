@@ -37,30 +37,36 @@ and open the template in the editor.
                         </li>
                         <li>
                             <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
-                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
                                 <i class="fa fa-calendar"></i> 
                                 <span>Calendario mantenimientos</span>
                             </h:commandLink>
                         </li>
                         <li class="treeview">
-                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
-                            <span class="pull-right-container">
-                              <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                          </a>
-                          <ul class="treeview-menu">
-                            <li>
-                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
-                                     <span>Preventivos</span>
-                                </h:commandLink>
-                            </li>
-                            <li>
-                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
-                                     <span>Correctivos</span>
-                                </h:commandLink>
-                            </li>
-                          </ul>
+                            <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                        <span>Preventivos</span>
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                        <span>Correctivos</span>
+                                    </h:commandLink>
+
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{cronogramaController.prepareViewMantenimientosRT}">
+                                        <span>Revisados</span>
+                                    </h:commandLink>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <h:commandLink action="#{reporteSiesaController.prepareListReportes}">

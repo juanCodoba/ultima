@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,8 +19,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -41,7 +46,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ReservaLibrosBiblioteca.findByFechaInicioPrestamo", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.fechaInicioPrestamo = :fechaInicioPrestamo ORDER BY  r.idReservaLibros  ASC"),
     @NamedQuery(name = "ReservaLibrosBiblioteca.findByFechaFinPrestamo", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.fechaFinPrestamo = :fechaFinPrestamo ORDER BY  r.idReservaLibros  ASC"),
     @NamedQuery(name = "ReservaLibrosBiblioteca.findByUsuario", query = "SELECT COUNT(r.idUsuarioPrestamo) FROM ReservaLibrosBiblioteca r WHERE r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2  ORDER BY  r.idReservaLibros  ASC "),
-    @NamedQuery(name = "ReservaLibrosBiblioteca.estado", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE  r.idLib1.idEstadoLibro.idEstadoLibro  <=3 AND r.idLib2.idEstadoLibro.idEstadoLibro <=3 ORDER BY  r.idReservaLibros  ASC"),
+//    @NamedQuery(name = "ReservaLibrosBiblioteca.estado", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE  r.idLib1.idEstadoLibro.idEstadoLibro  <=3 AND r.idLib2.idEstadoLibro.idEstadoLibro <=3 ORDER BY  r.idReservaLibros  ASC"),
     @NamedQuery(name = "ReservaLibrosBiblioteca.estadoTrue", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.activo = true ORDER BY  r.idReservaLibros  ASC"),
     @NamedQuery(name = "ReservaLibrosBiblioteca.estadoFalse", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.activo = false ORDER BY  r.idReservaLibros  ASC"),
     @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdTipoEstudiante", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.idTipoEstudiante = :idTipoEstudiante order by r.idReservaLibros ASC "),
@@ -49,13 +54,23 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdTipoTrabajador", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.idTipoEstudiante.idTipoEstudiante = 4   AND r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 order by r.idReservaLibros ASC "),
     @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdTipoDocente", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.idTipoEstudiante.idTipoEstudiante = 6 AND r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 order by r.idReservaLibros ASC "),
     @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdTipo1Es", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.idTipoEstudiante.idTipoEstudiante = 1 AND r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 order by r.idReservaLibros ASC "),
-    @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdLib1", query = "SELECT r.idLib1 FROM ReservaLibrosBiblioteca r where r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2  order by r.idReservaLibros  ASC "),
-    @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdLib2", query = "SELECT r.idLib2 FROM ReservaLibrosBiblioteca r where r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 AND r.idLib2 != null  order by r.idReservaLibros ASC  "),
+//    @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdLib1", query = "SELECT r.idLib1 FROM ReservaLibrosBiblioteca r where r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2  order by r.idReservaLibros  ASC "),
+//    @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdLib2", query = "SELECT r.idLib2 FROM ReservaLibrosBiblioteca r where r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 AND r.idLib2 != null  order by r.idReservaLibros ASC  "),
     @NamedQuery(name = "ReservaLibrosBiblioteca.finbyIndicador", query = "SELECT r FROM ReservaLibrosBiblioteca r where r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 order by r.idReservaLibros ASC"),
+    @NamedQuery(name = "ReservaLibrosBiblioteca.finbyIndicador1", query = "SELECT r.idUsuarioPrestamo.nombreUsuario,r.idUsuarioPrestamo.apellidoUsuario  FROM ReservaLibrosBiblioteca r where r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 order by r.idReservaLibros ASC"),
+
     @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdUsuarioPrestamo", query = "SELECT r FROM ReservaLibrosBiblioteca r where  r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2  GROUP BY r.idUsuarioPrestamo "),
     @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdUsuarioPrestamo1", query = "SELECT COUNT(r) as total FROM ReservaLibrosBiblioteca r where r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 GROUP BY r.idUsuarioPrestamo "),
 
     @NamedQuery(name = "ReservaLibrosBiblioteca.findByBibliotecario", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.idBibliotecario.idUsuario = 223 ORDER BY  r.idReservaLibros  ASC")})
+
+@NamedNativeQueries({
+    @NamedNativeQuery(
+            name = "ReservaLibrosBiblioteca.totalPrestamoPorPers",
+            query = "select nombre_usuario,apellido_usuario,id_usuario_prestamo, COUNT(id_usuario_prestamo) from reserva_libros_biblioteca inner join usuario on reserva_libros_biblioteca.id_usuario_prestamo = usuario.id_usuario AND reserva_libros_biblioteca.fecha_inicio_prestamo BETWEEN #fecha1 AND #fecha2 GROUP BY id_usuario_prestamo ;"
+    )
+
+})
 
 public class ReservaLibrosBiblioteca implements Serializable {
 
@@ -82,13 +97,11 @@ public class ReservaLibrosBiblioteca implements Serializable {
     @ManyToOne(optional = false)
     private Usuario idUsuarioPrestamo;
 
-    @JoinColumn(name = "id_libro_1", referencedColumnName = "id_libro")
-    @ManyToOne
-    private Libro idLib1;
-
-    @JoinColumn(name = "id_libro_2", referencedColumnName = "id_libro")
-    @ManyToOne
-    private Libro idLib2;
+    @JoinTable(name = "reserva_libros_biblioteca_has_libro", joinColumns = {
+        @JoinColumn(name = "id_reserva_libros", referencedColumnName = "id_reserva_libros")}, inverseJoinColumns = {
+        @JoinColumn(name = "id_libro", referencedColumnName = "id_libro")})
+    @ManyToMany
+    private List<Libro> libroList;
 
     @Lob
     @Size(max = 2147483647)
@@ -102,18 +115,13 @@ public class ReservaLibrosBiblioteca implements Serializable {
     @Column(name = "activo")
     private Boolean activo;
 
-    @Column(name = "estado_libro_uno")
-    private Boolean estadoUsuarioReservas;
-
-    @Column(name = "estado_libro_dos")
-    private Boolean estadoUsuarioReservasCompletMe;
-
-    @Column(name = "estado_libro_tres")
-    private Boolean sinPreserva;
-
     @JoinColumn(name = "id_tipo_estudiante", referencedColumnName = "id_tipo_estudiante")
     @ManyToOne(optional = true)
     private TipoEstudiante idTipoEstudiante;
+
+    @JoinColumn(name = "id_grado", referencedColumnName = "id_grado")
+    @ManyToOne(optional = true)
+    private Grado idGrado;
 
     @Lob
     @Size(max = 100)
@@ -146,14 +154,11 @@ public class ReservaLibrosBiblioteca implements Serializable {
         this.fechaFinPrestamo = fechaFinPrestamo;
         this.idBibliotecario = idBibliotecario;
         this.idUsuarioPrestamo = idUsuarioPrestamo;
-        this.idLib1 = idLib1;
-        this.idLib2 = idLib2;
+
         this.observacionesLib = observacionesLib;
         this.gradoEstudiante = gradoEstudiante;
         this.activo = activo;
-        this.estadoUsuarioReservas = estadoUsuarioReservas;
-        this.estadoUsuarioReservasCompletMe = estadoUsuarioReservasCompletMe;
-        this.sinPreserva = sinPreserva;
+
         this.idTipoEstudiante = idTipoEstudiante;
         this.nombreEgresado = nombreEgresado;
         this.apellidoEgresado = apellidoEgresado;
@@ -200,22 +205,6 @@ public class ReservaLibrosBiblioteca implements Serializable {
         this.idUsuarioPrestamo = idUsuarioPrestamo;
     }
 
-    public Libro getIdLib1() {
-        return idLib1;
-    }
-
-    public void setIdLib1(Libro idLib1) {
-        this.idLib1 = idLib1;
-    }
-
-    public Libro getIdLib2() {
-        return idLib2;
-    }
-
-    public void setIdLib2(Libro idLib2) {
-        this.idLib2 = idLib2;
-    }
-
     public String getObservacionesLib() {
         return observacionesLib;
     }
@@ -238,30 +227,6 @@ public class ReservaLibrosBiblioteca implements Serializable {
 
     public void setActivo(Boolean activo) {
         this.activo = activo;
-    }
-
-    public Boolean getEstadoUsuarioReservas() {
-        return estadoUsuarioReservas;
-    }
-
-    public void setEstadoUsuarioReservas(Boolean estadoUsuarioReservas) {
-        this.estadoUsuarioReservas = estadoUsuarioReservas;
-    }
-
-    public Boolean getEstadoUsuarioReservasCompletMe() {
-        return estadoUsuarioReservasCompletMe;
-    }
-
-    public void setEstadoUsuarioReservasCompletMe(Boolean estadoUsuarioReservasCompletMe) {
-        this.estadoUsuarioReservasCompletMe = estadoUsuarioReservasCompletMe;
-    }
-
-    public Boolean getSinPreserva() {
-        return sinPreserva;
-    }
-
-    public void setSinPreserva(Boolean sinPreserva) {
-        this.sinPreserva = sinPreserva;
     }
 
     public TipoEstudiante getIdTipoEstudiante() {
@@ -367,5 +332,28 @@ public class ReservaLibrosBiblioteca implements Serializable {
         }
         return diffDays;
     }
+
+    public long getTotal() {
+        long total = 0;
+        return total;
+    }
+
+    public List<Libro> getLibroList() {
+        return libroList;
+    }
+
+    public void setLibroList(List<Libro> libroList) {
+        this.libroList = libroList;
+    }
+
+    public Grado getIdGrado() {
+        return idGrado;
+    }
+
+    public void setIdGrado(Grado idGrado) {
+        this.idGrado = idGrado;
+    }
+    
+    
 
 }

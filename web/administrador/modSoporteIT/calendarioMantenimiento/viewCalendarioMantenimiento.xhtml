@@ -57,6 +57,11 @@
                                         <span>Correctivos</span>
                                     </h:commandLink>
                                 </li>
+                                <li>
+                                    <h:commandLink action="#{cronogramaController.prepareViewMantenimientosRT}">
+                                        <span>Revisados</span>
+                                    </h:commandLink>
+                                </li>
                             </ul>
                         </li>
                         <li>
@@ -133,6 +138,15 @@
                                             <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
                                             <i class="fa fa-exclamation-triangle"/>
                                             <span>Mantenimientos correctivos</span>
+                                        </p:commandLink>  
+                                    </li>
+                                    <li class="divider"></li>
+
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaController.prepareViewMantenimientosRT}">
+                                            <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                            <i class="fa fa-exclamation-triangle"/>
+                                            <span>Mantenimientos Revisados</span>
                                         </p:commandLink>  
                                     </li>
                                     <li class="divider"></li>
@@ -216,6 +230,17 @@
                                     <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
                                 </p:commandButton>
                             </div>
+
+                            <div class="container-fluid form-group">
+                                <p:commandButton ajax="false" 
+                                                 style="font-size: 1.1em !important;padding: 2px; width: 100%"
+                                                 icon="fa fa-bell-o"
+                                                 value="Mantenimientos en revisión sin diagnóstico"
+                                                 action="#{cronogramaController.prepareViewMantenimientosRT()}">
+                                    <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                </p:commandButton>
+                            </div>
+
                             <div class="container-fluid form-group">
                                 <p:commandButton ajax="false"
                                                  style="font-size: 1.1em !important;padding: 2px; width: 100%"
@@ -239,7 +264,7 @@
                             </p>
                         </div>                              
                     </div>   
-                    <div class="col-md-5">
+                    <div class="col-md-3">
                         <div class="col-md-2" style="width: 25px; height: 20px;background: lightcoral ; border: 1px solid black;"/>
                         <div class="col-md-10">
                             <p style="font-size: 1em; font-weight: bold; margin-top: .5em">
@@ -247,7 +272,7 @@
                             </p>
                         </div>                              
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="col-md-2" style="width: 25px; height: 20px;background: #7a869d !important ; border: 1px solid black;"/>
                         <div class="col-md-10">
                             <p style="font-size: 1em; font-weight: bold; margin-top: .5em">
@@ -255,6 +280,15 @@
                             </p>
                         </div>                              
                     </div> 
+                    <div class="col-md-3">
+                        <div class="col-md-2" style="width: 25px; height: 20px;background: #fdcd169c !important ; border: 1px solid black;"/>
+                        <div class="col-md-10">
+                            <p style="font-size: 1em; font-weight: bold; margin-top: .5em">
+                                Equipos en revisión
+                            </p>
+                        </div>                              
+                    </div> 
+
 
                 </div>
             </div>
@@ -285,6 +319,21 @@
             <style type="text/css">
                 .value {
                     width: 900px;
+                }
+
+                .MANTENIMIENTO_REVISADO, .MANTENIMIENTO_REVISADO .fc-event-skin, .MANTENIMIENTO_REVISADO a{
+                    background: #fdcd169c !important; 
+                    color: black !important;
+                    padding: 10px 0!important;
+                    border-radius: 0px !important;
+                    font-size: 0.7em !important;
+                }
+
+                .MANTENIMIENTO_REVISADO:hover{
+                    background: #e2ff02 !important; 
+                    color: white !important;
+                    padding: 10px 0!important;
+                    border-radius: 0px !important;
                 }
             </style>
         </ui:define>

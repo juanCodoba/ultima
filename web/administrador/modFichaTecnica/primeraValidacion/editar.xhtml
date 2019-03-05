@@ -20,25 +20,24 @@
                             </h:commandLink>
                         </li>
                         <li>
-                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftFichaTecnica.prepareCreate}">
+                            <h:commandLink action="#{ftFichaTecnica.prepareCreate}">
                                 <i class="fa fa-file"></i>
                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{ftFichaTecnica.usuarioActual}"/>
                                 <span>Crear ficha técnica</span>
                             </h:commandLink>
                         </li>
-                        <li>
+                        <li class="active">
                             <h:commandLink action="#{ftFichaTecnica.prepareListDesarrollo}">
                                 <i class="fa fa-camera-retro"></i> 
                                 <span>Fichas en desarrollo</span>
                             </h:commandLink>
                         </li>
-                        <li class="active">
-                            <h:commandLink action="#{ftFichaTecnica.prepareListPrimeraValidacion}">
+                        <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftFichaTecnica.prepareListPrimeraValidacion}">
                                 <i class="fa fa-check"></i> 
                                 <span>Primera Validación</span>
                             </h:commandLink>
                         </li>
-
                         <li>
                             <h:commandLink rendered="#{loginController.fichaTecnicaSCAM}" action="#{ftFichaTecnica.prepareListSolicitudesModificacionTodas}">
                                 <i class="fa fa-cogs"></i> 
@@ -51,6 +50,12 @@
                                 <span>Clientes</span>
                             </h:commandLink>
                         </li>
+                        <li  class="active">
+                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftCategoriaController.listaCategoria}">
+                                <i class="fa fa-user"></i>
+                                <span>Categoria</span>
+                            </h:commandLink>
+                        </li>
                     </h:panelGroup>   
                     <li>
                         <h:commandLink action="/usuario/modulos">
@@ -61,7 +66,7 @@
                 </ul>
             </h:form>
         </ui:define>
-        <ui:define name="title">Editar estado de la ficha técnica</ui:define>        
+        <ui:define name="title">Editar ficha técnica</ui:define>        
         <ui:define name="body">
             <p:growl id="growl" showDetail="true" life="5000"/>
             <h:form id="formulario-crearFicha">
@@ -73,6 +78,7 @@
                                          required="true"
                                          requiredMessage="Ingrese el nombre del cliente"
                                          value="#{ftFichaTecnica.fichaTecnicaActual.idFtCliente}"
+                                         disabled="true"
                                          filter="true" filterMatchMode="contains">
                             <f:selectItem itemLabel="Seleccionar uno.." />
                             <f:selectItems value="#{ftClienteController.listaCliente}" var="cliente" itemValue="#{cliente}"/> 
@@ -84,34 +90,17 @@
                     <div class="form-group col-md-12">
                         <h:outputLabel value="Tipo de Ficha" />
                         <p:selectOneMenu style="width: 100%"
-                                         id="prendaT1"
+                                         id="prendaT11"
                                          value="#{ftFichaTecnica.fichaTecnicaActual.idTipoFicha}">
                             <p:ajax listener="#{ftFichaTecnica.llenarListaTipoFic}" />  
-                            <f:ajax execute="@this" render="prendaT1Message fichaPartes2 fichaPartes1 prueba12 prueba1" />
+                            <f:ajax execute="@this" render="prendaT1Message fichaPartes2 fichaPartes1 prueba12 prueba1 fichaPartes23 fichaPartes232 editor1 editor2" />
                             <f:selectItem itemLabel="Seleccionar uno.." />
 
                             <f:selectItems value="#{ftTipoFichaController.listaTipoF}" var="tipoFicha" itemValue="#{tipoFicha}"/> 
                         </p:selectOneMenu>
                         <p:message id="prendaT10Message" for="cliente" styleClass="error"/>
                     </div>
-                    <h:panelGroup id="fichaPartes1"  >
-                        <div class="form-group col-md-12">
-                            <h:outputLabel value="Tipo de Prenda" rendered="#{ftFichaTecnica.fichaN}" />
-                            <p:selectOneMenu style="width: 100%"
-                                             id="prendaT161"
-                                             requiredMessage="Ingrese El Tipo De Prenda "
-                                             rendered="#{ftFichaTecnica.fichaN}"
-                                             value="#{ftFichaTecnica.fichaTecnicaActual.idFtCategoria}">                        
-                                <p:ajax listener="#{ftFichaTecnica.llenarListaTipo}" />  
-                                <f:ajax execute="@this" render="clienteMessage "/>
-                                <f:selectItems value="#{ftCategoriaController.listaCategoria}" var="categoria" itemValue="#{categoria}"/> 
-                            </p:selectOneMenu>
-                            <p:message id="prendaT161Message" for="cliente" styleClass="error"/>
-                        </div>
-
-
-                    </h:panelGroup>
-                   <h:panelGroup id="fichaPartes2"  >
+                    <h:panelGroup id="fichaPartes2"  >
                         <div class="form-group col-md-12">
                             <h:outputLabel value="Tipo de Prenda" rendered="#{ftFichaTecnica.fichaO}" />
                             <p:selectOneMenu style="width: 100%"
@@ -143,6 +132,25 @@
                             <p:message id="prendaT160Message" for="cliente" styleClass="error"/>
                         </div>
                     </h:panelGroup>
+                    <h:panelGroup id="fichaPartes23"  >
+                        <div class="form-group col-md-12">
+                            <h:outputLabel value="Tipo de Prenda" rendered="#{ftFichaTecnica.fichaN}" />
+                            <p:selectOneMenu style="width: 100%"
+                                             id="fichaPartes232"
+                                             rendered="#{ftFichaTecnica.fichaN}"
+                                             disabled="true"
+                                             value="#{ftFichaTecnica.fichaTecnicaActual.idFtCategoria}">                        
+                                <p:ajax listener="#{ftFichaTecnica.llenarListaTipo}" />  
+                                <f:ajax execute="@this" render="clienteMessage 
+
+                                        "/>
+                                <f:selectItems value="#{ftCategoriaController.listaCategoria}" var="categoria" itemValue="#{categoria}"/> 
+                            </p:selectOneMenu>
+                            <p:message id="fichaPartes232Message" for="cliente" styleClass="error"/>
+                        </div>
+                    </h:panelGroup>
+
+
                     <h:panelGroup id="camisaAdminOper"  >                        
                         <div class="col-md-6">
                             <p:outputPanel id="prueba1">
@@ -152,6 +160,7 @@
                                                   id="item"
                                                   rendered="#{ftFichaTecnica.fichaO}"
                                                   requiredMessage="Ingrese el codigo del Item"
+                                                  disabled="true"
                                                   value="#{ftFichaTecnica.fichaTecnicaActual.idItem}">
                                         <f:ajax execute="@this" render="itemMessage"/>
                                     </p:inputText>
@@ -192,10 +201,10 @@
 
                             <p:outputPanel id="genero">
                                 <div class="form-group">
-                                    <h:outputLabel value="Genero:" rendered="#{ ftFichaTecnica.camibuso || (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal) }"    />
+                                    <h:outputLabel value="Genero:" rendered="#{ftFichaTecnica.fichaN ||( ftFichaTecnica.camibuso) || (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal) }"    />
                                     <p:selectOneMenu style="width: 100%"
                                                      id="prendaT1161"
-                                                     rendered="#{ ftFichaTecnica.camibuso || (ftFichaTecnica.cofia)  || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal) }"            
+                                                     rendered="#{ftFichaTecnica.fichaN ||  (ftFichaTecnica.camibuso) || (ftFichaTecnica.cofia)  || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal) }"            
                                                      value="#{ftFichaTecnica.fichaTecnicaActual.genero}">
                                         <f:selectItem itemLabel="Selecciona uno..." itemValue="Selecciona uno..."  />   
                                         <f:selectItem itemLabel="Masculino" itemValue="Masculino" />   
@@ -232,13 +241,13 @@
 
                             <p:outputPanel id="pretina">
                                 <div class="form-group">
-                                    <h:outputLabel value="Pretina:" rendered="#{ftFichaTecnica.pantalonAdmin  || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)  }"    />
+                                    <h:outputLabel value="Pretina:" rendered="#{ ftFichaTecnica.fichaN || (ftFichaTecnica.pantalonAdmin)  || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)  }"    />
                                     <input placeholder="Pretina: " 
                                            class="form-control"
                                            requiredMessage="Ingrese la descripción de la pretina "
                                            jsf:id="pretinas"
                                            value="#{ftFichaTecnica.fichaTecnicaActual.pretina }" 
-                                           rendered="#{ftFichaTecnica.pantalonAdmin  || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)  }"             
+                                           rendered="#{ftFichaTecnica.fichaN || (ftFichaTecnica.pantalonAdmin)  || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)  }"             
                                            type="text" >
                                     </input>
                                     <p:message id="pretinaMessage" for="descripcionCorta" styleClass="error"/>
@@ -297,7 +306,7 @@
                                            class="form-control"
                                            requiredMessage="Ingrese la descripción del pasador"
                                            jsf:id="pasadores1"
-                                           value="#{ftFichaTecnica.fichaTecnicaActual.pasadores }" 
+                                           value="#{ftFichaTecnica.fichaTecnicaActual.pasadores}" 
                                            rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)  }"           
                                            type="text" >
                                     </input>
@@ -382,13 +391,13 @@
 
                             <p:outputPanel id="puñosCam">
                                 <div class="form-group">
-                                    <h:outputLabel value="Puños :" rendered="#{ftFichaTecnica.camibuso}"  />
+                                    <h:outputLabel value="Puños :" rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper) || (ftFichaTecnica.batola)}"  />
                                     <input placeholder="Puños : " 
                                            class="form-control"
                                            requiredMessage="Ingrese la descripción del puño  "
                                            jsf:id="cuello-puño-cam"
-                                           value="#{ftFichaTecnica.fichaTecnicaActual.cuello }" 
-                                           rendered="#{ftFichaTecnica.camibuso}"             
+                                           value="#{ftFichaTecnica.fichaTecnicaActual.puños}" 
+                                           rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper) || (ftFichaTecnica.batola)}"             
                                            type="text" >
                                     </input>
                                     <p:message id="cpuñosCamMessage" for="descripcionCorta" styleClass="error"/>
@@ -502,12 +511,12 @@
                             </p:outputPanel>
                             <p:outputPanel id="botones1">
                                 <div class="form-group">
-                                    <h:outputLabel value="Boton:" rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper)  }"    />
-                                    <input placeholder="Boton " 
+                                    <h:outputLabel value="Ajuste del Frente:" rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper)  }"    />
+                                    <input placeholder="Ajuste del frente " 
                                            class="form-control"
                                            requiredMessage="Ingrese la descripción del boton"
                                            jsf:id="boton1"
-                                           value="#{ftFichaTecnica.fichaTecnicaActual.boton }" 
+                                           value="#{ftFichaTecnica.fichaTecnicaActual.ajusteFrente }" 
                                            rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper) }"
                                            type="text" >
                                     </input>
@@ -636,7 +645,7 @@
                                            class="form-control"
                                            requiredMessage="Ingrese la descripción del las mangas "
                                            jsf:id="Mangasov"
-                                           value="#{ftFichaTecnica.fichaTecnicaActual.mangas  }" 
+                                           value="#{ftFichaTecnica.fichaTecnicaActual.mangas}" 
                                            rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta)|| (ftFichaTecnica.overol)  }"           
                                            type="text" >
                                     </input>
@@ -659,20 +668,7 @@
                                 </div>  
                             </p:outputPanel>
 
-                            <p:outputPanel id="tirosLaterales">
-                                <div class="form-group">
-                                    <h:outputLabel value="Tiros y Laterales:"  rendered="#{ftFichaTecnica.overol }"   />
-                                    <input placeholder="Tiros y Laterales: " 
-                                           class="form-control"
-                                           requiredMessage="Ingrese la descripción del lso tiros y laterales "
-                                           jsf:id="tiros-laterales"
-                                           value="#{ftFichaTecnica.fichaTecnicaActual.tirosLaterales }" 
-                                           rendered="#{ftFichaTecnica.overol }"        
-                                           type="text" >
-                                    </input>
-                                    <p:message id="tiros-lateralesMessage" for="descripcionCorta" styleClass="error"/>
-                                </div>  
-                            </p:outputPanel>
+
 
                             <p:outputPanel id="aberturasCam">
                                 <div class="form-group">
@@ -737,13 +733,13 @@
 
                             <p:outputPanel id="mangaBat">
                                 <div class="form-group">
-                                    <h:outputLabel value="Mangas:" rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper ) || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)}"   />
+                                    <h:outputLabel value="Mangas:" rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper )   || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)}"   />
                                     <input placeholder="Mangas:" 
                                            class="form-control"
                                            requiredMessage="Ingrese la descripción del las mangas "
                                            jsf:id="Mangasbat"
                                            value="#{ftFichaTecnica.fichaTecnicaActual.mangas  }" 
-                                           rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper ) || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)}"         
+                                           rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper )  || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)}"         
                                            type="text" >
                                     </input>
                                     <p:message id="mangasBatMessage" for="descripcionCorta" styleClass="error"/>
@@ -1117,13 +1113,13 @@
 
                             <p:outputPanel id="prelavado">
                                 <div class="form-group">
-                                    <h:outputLabel value="Prelavado:" rendered="#{ftFichaTecnica.camisaOper }" />
+                                    <h:outputLabel value="Prelavado:" rendered="#{ftFichaTecnica.camisaOper || (ftFichaTecnica.camisa) }" />
                                     <input placeholder="Prelavado: " 
                                            class="form-control"
                                            requiredMessage="Ingrese la descripción del prelavado "
                                            jsf:id="Prelavado"
                                            value="#{ftFichaTecnica.fichaTecnicaActual.prelavado }" 
-                                           rendered="#{ftFichaTecnica.camisaOper}"
+                                           rendered="#{ftFichaTecnica.camisaOper || (ftFichaTecnica.camisa) }"
                                            type="text" >
                                     </input>
                                     <p:message id="prelavadoMessage" for="descripcionCorta" styleClass="error"/>
@@ -1168,25 +1164,25 @@
                             </div>
 
                             <div class="form-group">
-                                <h:outputLabel value="Descripción del Planchado:"  />
-                                <textarea placeholder="descripcion del Planchado" 
-                                          class="form-control"
-                                          jsf:id="descripcionPlanchado"
-                                          jsf:value="#{ftFichaTecnica.fichaTecnicaActual.planchado}" 
-                                          type="text" style="height: 50px">
-                                </textarea>
-                                <p:message id="descripcionPlanchadoMessage" for="descripcionPlanchado" styleClass="error"/>
+                                <h:outputLabel value="Descripcion del planchado:" />
+                                <p:selectOneMenu style="width: 100%" 
+                                                 id="desPla" 
+                                                 value="#{ftFichaTecnica.fichaTecnicaActual.planchado}"
+                                                 filter="true" filterMatchMode="contains">
+                                    <f:selectItem itemLabel="Si lo requiere" itemValue="Si lo requiere"/>
+                                    <f:ajax execute="@this" render="desPlaMessage"/>
+                                </p:selectOneMenu>
                             </div>
 
                             <div class="form-group">
-                                <h:outputLabel value="Descripción del Empaque:"   />
-                                <textarea placeholder="descripcion del Empaque" 
-                                          class="form-control"
-                                          jsf:id="descripcionEmpaque"
-                                          jsf:value="#{ftFichaTecnica.fichaTecnicaActual.empaque}" 
-                                          type="text" style="height: 50px">
-                                </textarea>
-                                <p:message id="descripcionEmpaqueMessage" for="descripcionPlanchado" styleClass="error"/>
+                                <h:outputLabel value="Descripcion del empaque:" />
+                                <p:selectOneMenu style="width: 100%" 
+                                                 id="desEmp" 
+                                                 value="#{ftFichaTecnica.fichaTecnicaActual.empaque}"
+                                                 filter="true" filterMatchMode="contains">
+                                    <f:selectItem itemLabel="Como lo requiera el cliente" itemValue="Como lo requiera el cliente"/>
+                                    <f:ajax execute="@this" render="desEmpMessage"/>
+                                </p:selectOneMenu>
                             </div>
 
                             <p:outputPanel id="ojales">
@@ -1221,13 +1217,13 @@
 
                             <p:outputPanel id="presillas">
                                 <div class="form-group">
-                                    <h:outputLabel value="Presillas:" rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper) || (ftFichaTecnica.camibuso) ||(ftFichaTecnica.batola) || (ftFichaTecnica.overol) || (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal) }" />
+                                    <h:outputLabel value="Presillas:" rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper) || (ftFichaTecnica.camibuso) ||(ftFichaTecnica.batola) || (ftFichaTecnica.overol) || (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal) || (ftFichaTecnica.jean) || (ftFichaTecnica.pantalonAdmin) || (ftFichaTecnica.pantalonOper)  }" />
                                     <input placeholder="Presillas: " 
                                            class="form-control"
                                            requiredMessage="Ingrese la descripción de la presilla"
                                            jsf:id="presilla"
                                            value="#{ftFichaTecnica.fichaTecnicaActual.presillas }" 
-                                           rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper) || (ftFichaTecnica.camibuso) ||(ftFichaTecnica.batola) || (ftFichaTecnica.overol) || (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal)}"
+                                           rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper) || (ftFichaTecnica.camibuso) ||(ftFichaTecnica.batola) || (ftFichaTecnica.overol) || (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal) || (ftFichaTecnica.jean) || (ftFichaTecnica.pantalonAdmin) || (ftFichaTecnica.pantalonOper) }"
                                            type="text" >
                                     </input>
                                     <p:message id="presillasMessage" for="descripcionCorta" styleClass="error"/>
@@ -1236,13 +1232,13 @@
 
                             <p:outputPanel id="puntadas">
                                 <div class="form-group">
-                                    <h:outputLabel value="Puntadas:" rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper) || (ftFichaTecnica.camibuso) || (ftFichaTecnica.overol) || (ftFichaTecnica.pantalonAdmin) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)|| (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal)}"   />
+                                    <h:outputLabel value="Puntadas:" rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper) || (ftFichaTecnica.camibuso) || (ftFichaTecnica.overol) || (ftFichaTecnica.pantalonAdmin) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)|| (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal) || (ftFichaTecnica.batola)}"   />
                                     <input placeholder="Puntadas: " 
                                            class="form-control"
                                            requiredMessage="Ingrese la descripción de la Puntadas"
                                            jsf:id="puntadas1"
                                            value="#{ftFichaTecnica.fichaTecnicaActual.puntadas }" 
-                                           rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper) || (ftFichaTecnica.camibuso)  || (ftFichaTecnica.overol) || (ftFichaTecnica.pantalonAdmin) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)|| (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal)}"
+                                           rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper) || (ftFichaTecnica.camibuso)  || (ftFichaTecnica.overol) || (ftFichaTecnica.pantalonAdmin) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)|| (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal) || (ftFichaTecnica.batola)}"
                                            type="text" >
                                     </input>
                                     <p:message id="puntadasMessage" for="descripcionCorta" styleClass="error"/>
@@ -1251,13 +1247,13 @@
 
                             <p:outputPanel id="prelavado2">
                                 <div class="form-group">
-                                    <h:outputLabel value="Prelavado:"  rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean) }" />
+                                    <h:outputLabel value="Prelavado:"  rendered="#{ftFichaTecnica.slackOper || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean) }" />
                                     <input placeholder="Prelavado: " 
                                            class="form-control"
                                            requiredMessage="Ingrese la descripción del prelavado "
                                            jsf:id="Prelavado2"
                                            value="#{ftFichaTecnica.fichaTecnicaActual.prelavado }" 
-                                           rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean) }"
+                                           rendered="#{ftFichaTecnica.slackOper || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean) }"
                                            type="text" >
                                     </input>
                                     <p:message id="prelavado2Message" for="descripcionCorta" styleClass="error"/>
@@ -1292,16 +1288,22 @@
                                 <p:message id="descripcionLargaMessage" for="descripcionLarga" styleClass="error"/>
                             </div>
 
-                            <div class="form-group">
-                                <h:outputLabel value="Cuadro de medidas:"  />
+           
+                            <div class="form-group"                 
+                                 >
+                                <h:outputLabel value="Medidas"  />
                                 <textarea class="form-control"
                                           id="editor1"
                                           jsf:value="#{ftFichaTecnica.fichaTecnicaActual.medidas}">
                                 </textarea>
                             </div>
 
+
                         </div>
                     </h:panelGroup >
+
+
+
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-8 form-group">
@@ -1474,6 +1476,9 @@
                             </div> 
                         </div>
 
+
+
+
                         <div class="form-group">
                             <h:outputLabel value="Estado de la ficha:" />
                             <p:selectOneMenu style="width: 100%" 
@@ -1481,13 +1486,11 @@
                                              value="#{ftFichaTecnica.fichaTecnicaActual.estado}"
                                              filter="true" filterMatchMode="contains">
                                 <f:selectItem itemLabel="EN DESARROLLO" itemValue="DESARROLLO"/>
-                                <f:selectItem itemLabel="PRIMERA VALIDACIÓN" itemValue="PRIMERA VALIDACION"/> 
-                                <f:selectItem itemLabel="TERMINADO" itemValue="TERMINADO
+                                <f:selectItem itemLabel="PRIMERA VALIDACION" itemValue="PRIMERA VALIDACION"/> 
+                                <f:selectItem itemLabel="TERMINADO" itemValue="TERMINADO"/> 
 
-                                              "/> 
                                 <f:ajax execute="@this" render="estadoMessage"/>
                             </p:selectOneMenu>
-                            <p:message id="estadoMessage" for="estado" styleClass="error"/>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Observaciones:"  />
@@ -1526,18 +1529,18 @@
                                 </p:column>
                             </p:dataTable> 
                         </div>
-                        <div class="row">
-                            <div class="col-sm-6 form-group">
-                                <p:commandButton class="btn btn-primary btn-block"
-                                                 ajax="false"
-                                                 value="Editar"
-                                                 action="#{ftFichaTecnica.update}"
-                                                 onclick="onSubmitButton();"/>
-                            </div>
-                            <div class="col-sm-6 form-group">    
-                                <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="/usuario/modFichaTecnica/lista"/>
-                            </div>
-                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <p:commandButton class="btn btn-primary btn-block"
+                                         ajax="false"
+                                         value="Editar"
+                                         action="#{ftFichaTecnica.update}"
+                                         onclick="onSubmitButton();"/>
+                    </div>
+                    <div class="col-sm-6 form-group">    
+                        <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="/usuario/modFichaTecnica/lista"/>
                     </div>
                 </div>
             </h:form>

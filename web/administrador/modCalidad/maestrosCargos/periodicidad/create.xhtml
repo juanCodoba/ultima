@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Crear periodicidad</ui:define>        
+        <ui:define name="body">
+            <h:form id="formulario-crearPeriodicidad">
+                <p:growl id="msgs" />
+                <h:outputText class="help-block" value="Ingresa los datos de la periodicidad:"/>
+                <div class="form-group">
+                    <h:outputLabel value="Descripción"  />
+                    <textarea placeholder="Nombre" class="form-control" jsf:id="formatoInputText" jsf:value="#{maePeriodicidadController.maePeriodicidadActual.nombre}" 
+                                 type="text" required="true"
+                                 jsf:validatorMessage="La función no puede contener mas de 85 caracteres"
+                                 jsf:requiredMessage="Por favor ingrese el nombre del formato">
+                                 <f:ajax execute="@this" render="formatoMessage"/>
+                                 <f:validateLength maximum="85"/>
+                    </textarea>
+                    <p:message id="formatoMessage" for="formatoInputText" styleClass="error"/>
+                </div> 
+                <div class="row">
+                    <div class="container-fluid col-sm-4 form-group">
+                        <p:commandButton class="btn btn-primary btn-block" value="Guardar" action="#{maePeriodicidadController.add}">
+                            <f:ajax execute="@this formulario-crearTipoHerramienta" render="formulario-crearPeriodicidad"/>
+                        </p:commandButton>
+                    </div>
+                    <div class="container-fluid col-sm-4 form-group">
+                        <h:button class="btn btn-block" style="background: darkorange; color: white"  value="Cancelar" outcome="list"/>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

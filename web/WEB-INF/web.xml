@@ -15,7 +15,7 @@
     </servlet-mapping>
     <session-config>
         <session-timeout>
-            100
+            60
         </session-timeout>
     </session-config>
     <welcome-file-list>
@@ -69,7 +69,7 @@
         <web-resource-collection>
             <web-resource-name>Admin-areaCalidoso</web-resource-name>
             <description/>
-            <url-pattern>/faces/Calidoso/*</url-pattern>
+            <url-pattern>/faces/administrador/modCalidad/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description>A los administradores del calidoso se les debe permitir acceder a este recurso</description>
@@ -81,7 +81,7 @@
         <web-resource-collection>
             <web-resource-name>Admin-areaCalidad</web-resource-name>
             <description/>
-            <url-pattern>/faces/Calidad/*</url-pattern>
+            <url-pattern>/faces/administrador/modCalidad/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description>A los administradores de calidad se les debe permitir acceder a este recurso</description>
@@ -105,7 +105,7 @@
         <web-resource-collection>
             <web-resource-name>admin-areaMantenimiento</web-resource-name>
             <description/>
-            <url-pattern>/faces/Edificios/*</url-pattern>
+            <url-pattern>/faces/administrador/modManteEdificios/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description>A los administradores de mantenimientos se les debe permitir acceder a este recurso</description>
@@ -117,7 +117,7 @@
         <web-resource-collection>
             <web-resource-name>admin-areaSaludOcupacional</web-resource-name>
             <description/>
-            <url-pattern>/faces/User/*</url-pattern>
+            <url-pattern>/faces/administrador/modSaludOcupacional/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description>A los administradores de salud ocupacional se les debe permitir acceder a este recurso</description>
@@ -160,32 +160,54 @@
             <description>BIBLIOTEC</description>
             <url-pattern>/faces/administrador/modBiblioteca/*</url-pattern>
         </web-resource-collection>
-        <web-resource-collection>
-            <web-resource-name>RESERVA</web-resource-name>
-            <description>RESERVA </description>
-            <url-pattern>/faces/administrador/reservaLibro/*</url-pattern>
-        </web-resource-collection>
         <auth-constraint>
             <description>Permitir Ingresar al modulo</description>
             <role-name>BIBLIOTEC</role-name>
         </auth-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>area-auditor</display-name>
+        <display-name>mod-pestal</display-name>
         <web-resource-collection>
-            <web-resource-name>auditor</web-resource-name>
-            <description>auditor</description>
-            <url-pattern>/faces/administrador/modAuditoria/*</url-pattern>
+            <web-resource-name>JEFE</web-resource-name>
+            <description>modulo pestal</description>
+            <url-pattern>/faces/usuario/modPestel/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <description>permitir ingresar </description>
-            <role-name>AUD</role-name>
-            <role-name>AUDITORI</role-name>
+            <description>pestal</description>
+            <role-name>JEFE</role-name>
+            <role-name>ADMINCDAD</role-name>
+            <role-name>ADMINCDOSO</role-name>
+            <role-name>ADMIN</role-name>
         </auth-constraint>
-        <user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>admin-pestel</display-name>
+        <web-resource-collection>
+            <web-resource-name>pestel</web-resource-name>
+            <description>prueba</description>
+            <url-pattern>/faces/administrador/modPestel/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>prueba</description>
+            <role-name>ADMINCDAD</role-name>
+            <role-name>ADMINCDOSO</role-name>
+            <role-name>AUD</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>admin-manual-cargos</display-name>
+        <web-resource-collection>
+            <web-resource-name>admin</web-resource-name>
+            <description>administracion</description>
+            <url-pattern>/faces/administrador/modCalidad/cargos/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
             <description/>
-            <transport-guarantee>NONE</transport-guarantee>
-        </user-data-constraint>
+            <role-name>ADMIN</role-name>
+            <role-name>ADMINCDAD</role-name>
+            <role-name>ADMINCDOSO</role-name>
+            <role-name>JEFE</role-name>
+        </auth-constraint>
     </security-constraint>
     <login-config>
         <auth-method>FORM</auth-method>
@@ -288,8 +310,11 @@
         <role-name>BIBLIOTEC</role-name>
     </security-role>
     <security-role>
-        <description>Auditor interno
-</description>
+        <description>Usuario Auditor</description>
         <role-name>AUDITORI</role-name>
+    </security-role>
+    <security-role>
+        <description>Usuario Jefe</description>
+        <role-name>JEFE</role-name>
     </security-role>
 </web-app>

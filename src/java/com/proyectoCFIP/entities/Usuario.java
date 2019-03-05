@@ -68,6 +68,8 @@ public class Usuario implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<AuPlanAuditoria> auPlanAuditoriaList;
 
+    @OneToMany(mappedBy = "idResponsableCargo")
+    private List<Cargos> cargoList;
     @OneToMany(mappedBy = "elaborado")
     private List<FtFichaTecnica> ftFichaTecnicaList;
     @OneToMany(mappedBy = "aprobo")
@@ -93,6 +95,9 @@ public class Usuario implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuarioPrestamo")
     private List<ReservaLibrosBiblioteca> idUsuarioPrestamoList;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    private List<Procesos> procesoList;
 
     @Basic(optional = false)
     @NotNull
@@ -550,7 +555,22 @@ public class Usuario implements Serializable {
     public void setReporteSiesaList(List<ReporteSiesa> reporteSiesaList) {
         this.reporteSiesaList = reporteSiesaList;
     }
-    
-    
 
+    public List<Procesos> getProcesoList() {
+        return procesoList;
+    }
+
+    public void setProcesoList(List<Procesos> procesoList) {
+        this.procesoList = procesoList;
+    }
+
+    public List<Cargos> getCargoList() {
+        return cargoList;
+    }
+
+    public void setCargoList(List<Cargos> cargoList) {
+        this.cargoList = cargoList;
+    }
+
+    
 }

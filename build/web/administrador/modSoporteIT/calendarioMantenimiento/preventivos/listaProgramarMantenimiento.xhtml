@@ -34,30 +34,35 @@
                         </li>
                         <li class="active">
                             <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
-                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
                                 <i class="fa fa-calendar"></i> 
                                 <span>Calendario mantenimientos</span>
                             </h:commandLink>
                         </li>
                         <li class="treeview">
-                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
-                            <span class="pull-right-container">
-                              <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                          </a>
-                          <ul class="treeview-menu">
-                            <li>
-                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
-                                     <span>Preventivos</span>
-                                </h:commandLink>
-                            </li>
-                            <li>
-                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
-                                     <span>Correctivos</span>
-                                </h:commandLink>
-                            </li>
-                          </ul>
+                            <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                        <span>Preventivos</span>
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                        <span>Correctivos</span>
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink action="#{cronogramaController.prepareViewMantenimientosRT}">
+                                        <span>Revisados</span>
+                                    </h:commandLink>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <h:commandLink action="#{reporteSiesaController.prepareListReportes}">
@@ -97,13 +102,13 @@
             <p:growl id="growl" showDetail="true" life="2000"/>
             <h:form>
                 <nav class="navbar navbar-inverse" role="navigation">
-                     <div class="navbar-header">
+                    <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse"
                                 data-target=".navbar-ex1-collapse">
-                          <span class="sr-only">Desplegar navegación</span>
-                          <span class="icon-bar"></span>
-                          <span class="icon-bar"></span>
-                          <span class="icon-bar"></span>
+                            <span class="sr-only">Desplegar navegación</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
                         </button>
                     </div>
                     <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -113,11 +118,11 @@
                                     <i class="fa fa-calendar"></i>
                                     <span>Cronograma de mantenimientos</span>
                                 </p:commandLink>
-                             </li>
+                            </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                  <i class="fa fa-wrench"></i>
-                                  Mantenimientos sin diagnostico<b class="caret"></b>
+                                    <i class="fa fa-wrench"></i>
+                                    Mantenimientos sin diagnostico<b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
@@ -136,6 +141,15 @@
                                         </p:commandLink>  
                                     </li>
                                     <li class="divider"></li>
+
+                                    <li>
+                                        <p:commandLink ajax="false" action="#{cronogramaController.prepareViewMantenimientosRT}">
+                                            <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                            <i class="fa fa-exclamation-triangle"/>
+                                            <span>Mantenimientos Revisados</span>
+                                        </p:commandLink>  
+                                    </li>
+                                    <li class="divider"></li>
                                     <li>
                                         <p:commandLink ajax="false" action="#{reporteSiesaController.prepareListErroresSinDiag}">
                                             <i class="fa fa-bug"/>
@@ -146,14 +160,14 @@
                             </li>
                             <li class="active">
                                 <p:commandLink ajax="false" action="#{computadorController.prepareViewProgramar}">
-                                <i class="fa fa-edit"/>
+                                    <i class="fa fa-edit"/>
                                     <span>Programar mantenimiento tecnológico</span>
                                 </p:commandLink>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                  <i class="fa fa-wrench"></i>
-                                  Historial de Diagnósticos<b class="caret"></b>
+                                    <i class="fa fa-wrench"></i>
+                                    Historial de Diagnósticos<b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
@@ -234,18 +248,18 @@
                             <p:column>
                                 <f:facet name="header">Fecha de Inicio del mantenimiento</f:facet>
                                 <h:outputText value="#{mantenimiento.fechaInicioMantenimiento}">
-                                   <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                    <f:convertDateTime pattern="MMMM dd, yyyy"/>
                                 </h:outputText>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">Hora de Inicio del mantenimiento</f:facet>
                                 <h:outputText value="#{mantenimiento.horaMantenimiento}">
-                                   <f:convertDateTime pattern="HH:mm a"/>
+                                    <f:convertDateTime pattern="HH:mm a"/>
                                 </h:outputText>
                             </p:column>
                             <p:column width="60">
                                 <p:commandButton  id="boton-delete"  icon="ui-icon-trash" action="#{cronogramaController.deleteCronograma}"
-                                             process="@this" update="inventarioFormList">
+                                                  process="@this" update="inventarioFormList">
                                     <f:setPropertyActionListener value="#{mantenimiento}" target="#{cronogramaController.cronogramaMantenimientosActual}"/>
                                 </p:commandButton>
                                 <p:tooltip id="descripcion-delete" for="boton-delete" value="eliminar" trackMouse="true"/>

@@ -122,7 +122,8 @@
                             <h:outputLabel value="Proceso:"  />
                             <h:selectOneMenu class="form-control" id="idSelectProceso" required="true"
                                              value="#{formatosController.formatosActual.idProceso}"
-                                             requiredMessage="Por favor ingrese el proceso al que pertenece el formato">
+                                             requiredMessage="Por favor ingrese el proceso al que pertenece el formato"
+                                             >
                                     <f:selectItem itemLabel="Seleccionar uno.." />
                                     <f:selectItems value="#{procesosController.listaProcesos}" var="procesos" itemValue="#{procesos}"/>  
                                     <p:ajax listener="#{formatosController.llenarLista}" update="divPanel"/>  
@@ -134,7 +135,7 @@
                     <div class="form-group col-md-6">
                         <div class="form-group">
                             <h:outputLabel value="Subproceso:" />
-                            <h:selectOneMenu id="divPanel" class="form-control"  value="#{formatosController.formatosActual.idSubproceso}">
+                            <h:selectOneMenu id="divPanel" class="form-control"  value="#{formatosController.formatosActual.idSubproceso}" converter="subprocesoConverter">
                                     <f:selectItems value="#{formatosController.listaPorProcesos}" var="subprocesos" itemValue="#{subprocesos}"/>  
                             </h:selectOneMenu>
                         </div>

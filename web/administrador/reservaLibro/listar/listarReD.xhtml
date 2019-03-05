@@ -191,26 +191,14 @@ and open the template in the editor.
                                 <f:convertDateTime pattern="MMMM dd, YYYY "/>
                             </h:outputText>
                         </p:column>
-                        <p:column filterBy="#{item.idLib1.tituloLibro}" width="110" filterMatchMode="contains">
-                            <f:facet name="header">Titulo Del Libro 1</f:facet>
-                            <h:outputText style="font-weight: bold; font-size: 1.2em;" value="#{item.idLib1.tituloLibro}"/>
-                        </p:column>
-                        <p:column filterBy="#{item.idLib2.tituloLibro}" width="110" filterMatchMode="contains">
-                            <f:facet name="header">Titulo Del Libro 2</f:facet>
-                            <h:outputText style="font-weight: bold; font-size: 1.2em;" value="#{item.idLib2.tituloLibro}"/>
-                        </p:column>
-                        <p:column filterBy="#{item.idLib1.idGenero.nombre}" width="110" filterMatchMode="contains">
-                            <f:facet name="header">Genero</f:facet>
-                            <h:outputText style="font-weight: bold; font-size: 1.2em;" value="#{item.idLib1.idGenero.nombre}"/>
-                        </p:column>
                         <p:column filterBy="#{item.idUsuarioPrestamo.toString()}" width="110" filterMatchMode="contains">
                             <f:facet name="header">Usuario Prestamo</f:facet>
                             <h:outputText style="font-weight: bold; font-size: 1.2em;" value="#{item.idUsuarioPrestamo.toString().toUpperCase()}"/>
                         </p:column>
 
-                        <p:column filterBy="#{item.gradoEstudiante}" width="110" filterMatchMode="contains">
+                        <p:column filterBy="#{item.idGrado.grado}" width="110" filterMatchMode="contains">
                             <f:facet name="header">Grado Estudiante</f:facet>
-                            <h:outputText style="font-weight: bold; font-size: 1.2em;" value="#{item.gradoEstudiante}"/>
+                            <h:outputText style="font-weight: bold; font-size: 1.2em;" value="#{item.idGrado.grado}"/>
                         </p:column>
                         <p:column filterBy="#{item.idBibliotecario.nombreUsuario}" width="110" filterMatchMode="contains">
                             <f:facet name="header">Bibliotecario</f:facet>

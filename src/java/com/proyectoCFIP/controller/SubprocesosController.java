@@ -74,7 +74,7 @@ public class SubprocesosController implements Serializable{
         return getSubprocesosFacade().find(id);
     }
     
-    @FacesConverter(forClass = Subprocesos.class)
+    @FacesConverter(forClass = Subprocesos.class,value = "subprocesoConverter")
     public static class SubprocesosControllerConverter implements Converter {
 
         @Override

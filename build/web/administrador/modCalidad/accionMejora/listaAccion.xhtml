@@ -7,7 +7,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:fn="http://java.sun.com/jsp/jstl/functions">
     <ui:composition template="/template/plantilla.xhtml">
-         <ui:define name="menu">
+        <ui:define name="menu">
             <h:form id="menu-principal">
                 <ul class="sidebar-menu">
                     <h:panelGroup rendered="#{loginController.adminCalidoso}">
@@ -35,7 +35,7 @@
                             </h:commandLink>
                         </li>
                         <li class="active">
-                              <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
+                            <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
                                            rendered="#{loginController.adminCalidoso}">
                                 <i class="fa fa-spinner" aria-hidden="true"></i>
                                 <span>Administrar Acciones</span>
@@ -52,11 +52,11 @@
                     </h:panelGroup>
                     <p:separator rendered="#{loginController.adminCalidoso}"/>
                     <li style="margin-top: 20px">
-                            <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
-                                <i class="fa fa-dashboard"></i> 
-                                <span>Principal</span>
-                            </h:commandLink>
-                        </li>
+                        <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
+                            <i class="fa fa-dashboard"></i> 
+                            <span>Principal</span>
+                        </h:commandLink>
+                    </li>
                     <li>
                         <h:commandLink action="#{formatosController.prepareListUser}">
                             <i class="fa fa-file"></i>
@@ -115,48 +115,48 @@
             <h:form id="documentosFormList">
                 <p:outputPanel id="documentosTablePanel">
                     <p:dataTable value="#{calidadPlanAccionController.listaPlanAccionActualAdmin}" var="item"
-                                     rows="20" paginator="true" id="acciones"
-                                     rowStyleClass="#{item.estadoPlan eq 'abierto' ? 'color3': item.estadoPlan eq 'cerrado' ? 'color1':null}"
-                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                     rowsPerPageTemplate="20, 100, 150" emptyMessage="No se encontraron formatos con el criterio dado">
-                            <f:facet name="header">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-1">
-                                            <p:button icon="fa fa-arrow-left"
-                                                    value="Volver" 
-                                                    style="font-size: 1.2em !important; padding: 5px; left: 0"
-                                                    outcome="/usuario/modCalidad/paginaPrincipal"/>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <h4 class="colorLetra" style="font-weight: bold" >
-                                                Total acciones de mejora: #{fn:length(calidadPlanAccionController.listaPlanAccionActual)}
-                                            </h4>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <p:commandButton icon="fa fa-file"
-                                                             ajax="false"
-                                                    value="Seguimientos sin cerrar" 
-                                                    style="font-size: 1.2em !important; padding: 5px; left: 0"
-                                                    action="#{calidadPlanAccionController.prepareListaSeguimientoSinCerrar}"/>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <p:commandButton icon="fa fa-file"
-                                                             ajax="false"
-                                                    value="Acciones a implementar" 
-                                                    style="font-size: 1.2em !important; padding: 5px; left: 0"
-                                                    action="#{calidadPlanAccionController.prepareListaAccionesImplemetar}"/>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <h:commandLink id="exportExcel">
-                                                <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
-                                                <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
-                                                        target="acciones" fileName="inventario" />
-                                            </h:commandLink>
-                                        </div>
+                                 rows="20" paginator="true" id="acciones"
+                                 rowStyleClass="#{item.estadoPlan eq 'abierto' ? 'color3': item.estadoPlan eq 'cerrado' ? 'color1':null}"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="20, 100, 150" emptyMessage="No se encontraron formatos con el criterio dado">
+                        <f:facet name="header">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <p:button icon="fa fa-arrow-left"
+                                                  value="Volver" 
+                                                  style="font-size: 1.2em !important; padding: 5px; left: 0"
+                                                  outcome="/usuario/modCalidad/paginaPrincipal"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h4 class="colorLetra" style="font-weight: bold" >
+                                            Total acciones de mejora: #{fn:length(calidadPlanAccionController.listaPlanAccionActual)}
+                                        </h4>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p:commandButton icon="fa fa-file"
+                                                         ajax="false"
+                                                         value="Seguimientos sin cerrar" 
+                                                         style="font-size: 1.2em !important; padding: 5px; left: 0"
+                                                         action="#{calidadPlanAccionController.prepareListaSeguimientoSinCerrar}"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p:commandButton icon="fa fa-file"
+                                                         ajax="false"
+                                                         value="Acciones a implementar" 
+                                                         style="font-size: 1.2em !important; padding: 5px; left: 0"
+                                                         action="#{calidadPlanAccionController.prepareListaAccionesImplemetar}"/>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <h:commandLink id="exportExcel">
+                                            <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                            <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                                            target="acciones" fileName="inventario" />
+                                        </h:commandLink>
                                     </div>
                                 </div>
-                            </f:facet>
+                            </div>
+                        </f:facet>
                         <p:column filterMatchMode="contains" filterBy="#{item.fechaAñoString}" sortBy="#{item.fechaAñoString}" width="70">
                             <f:facet name="header">Filtrar por año</f:facet>
                             <h:outputText value="#{item.fechaAñoString}">
@@ -169,10 +169,6 @@
                             <f:facet name="header">Cód</f:facet>
                             <h:outputText  style="font-weight: bold; text-align: center" value="#{item.idPlanAccion}"/>
                         </p:column>
-                        <p:column filterBy="#{item.idSubproceso.nombreSubproceso}" filterMatchMode="contains">
-                            <f:facet name="header">Subproceso</f:facet>
-                            <h:outputText value="#{item.idSubproceso.nombreSubproceso.toUpperCase()}"/>
-                        </p:column>
                         <p:column filterBy="#{item.tituloPlan}" filterMatchMode="contains">
                             <f:facet name="header">Nombre del plan</f:facet>
                             <h:outputText value="#{item.tituloPlan.toUpperCase()}"/>
@@ -181,11 +177,24 @@
                             <f:facet name="header">Responsable</f:facet>
                             <h:outputText value="#{item.responsable.toString().toUpperCase()}"/>
                         </p:column>
-                        
+
                         <p:column filterBy="#{item.tipoPlan}" filterMatchMode="contains">
                             <f:facet name="header">Tipo de acción</f:facet>
                             <h:outputText value="#{item.tipoPlan.toUpperCase()}"/>
                         </p:column>
+                        <p:column filterBy="#{item.idSubproceso.nombreSubproceso}" filterMatchMode="contains">
+                            <f:facet name="header">Proceso Responsable</f:facet>
+                            <h:outputText value="#{item.idSubproceso.nombreSubproceso.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.idSubprocesoApoyoUno.nombreSubproceso.toUpperCase()}" filterMatchMode="contains">
+                            <f:facet name="header">Proceso de Apoyo 1 </f:facet>
+                            <h:outputText value="#{item.idSubprocesoApoyoUno.nombreSubproceso.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.idSubprocesoApoyoDos.nombreSubproceso.toUpperCase()}" filterMatchMode="contains">
+                            <f:facet name="header">Proceso de apoyo 2</f:facet>
+                            <h:outputText value="#{item.idSubprocesoApoyoDos.nombreSubproceso.toUpperCase()}"/>
+                        </p:column>
+
                         <p:column>
                             <f:facet name="header">Fecha de creación</f:facet>
                             <h:outputText value="#{item.fechaAnalisis}">
@@ -220,7 +229,7 @@
                                            action="#{calidadPlanAccionController.prepareAdminEdit}"
                                            rendered="#{loginController.adminCalidoso}"
                                            class="btn btn-primary" style="color: white; margin-left: 3px">
-                                 <i class="fa fa-wrench" aria-hidden="true"></i>
+                                <i class="fa fa-wrench" aria-hidden="true"></i>
                                 <f:attribute name="item" value="#{item}"/>
                                 <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.planAccionActual}"/>
                             </h:commandLink>

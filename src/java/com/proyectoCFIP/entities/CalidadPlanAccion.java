@@ -39,17 +39,17 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "calidad_plan_accion")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "CalidadPlanAccion.findAll", query = "SELECT c FROM CalidadPlanAccion c ORDER BY c.idPlanAccion DESC")
-    , @NamedQuery(name = "CalidadPlanAccion.findByIdPlanAccion", query = "SELECT c FROM CalidadPlanAccion c WHERE c.idPlanAccion = :idPlanAccion")
-    , @NamedQuery(name = "CalidadPlanAccion.findByResponsable", query = "SELECT c FROM CalidadPlanAccion c WHERE c.responsable = :responsable")
-    , @NamedQuery(name = "CalidadPlanAccion.findByFechaAnalisis", query = "SELECT c FROM CalidadPlanAccion c WHERE c.fechaAnalisis = :fechaAnalisis")
-    , @NamedQuery(name = "CalidadPlanAccion.findByTipoPlan", query = "SELECT c FROM CalidadPlanAccion c WHERE c.tipoPlan = :tipoPlan")
-    , @NamedQuery(name = "CalidadPlanAccion.findByOrigenAccion", query = "SELECT c FROM CalidadPlanAccion c WHERE c.origenAccion = :origenAccion")
-    , @NamedQuery(name = "CalidadPlanAccion.findByObservacionGeneral", query = "SELECT c FROM CalidadPlanAccion c WHERE c.observacionGeneral = :observacionGeneral")
-    , @NamedQuery(name = "CalidadPlanAccion.findByEstadoPlan", query = "SELECT c FROM CalidadPlanAccion c WHERE c.estadoPlan = :estadoPlan")
-    , @NamedQuery(name = "CalidadPlanAccion.findByCriterio1", query = "SELECT c FROM CalidadPlanAccion c WHERE c.criterio1 = :criterio1")
-    , @NamedQuery(name = "CalidadPlanAccion.findByCriterio2", query = "SELECT c FROM CalidadPlanAccion c WHERE c.criterio2 = :criterio2")
-    , @NamedQuery(name = "CalidadPlanAccion.findByAccionEficaz", query = "SELECT c FROM CalidadPlanAccion c WHERE c.accionEficaz = :accionEficaz")})
+    @NamedQuery(name = "CalidadPlanAccion.findAll", query = "SELECT c FROM CalidadPlanAccion c ORDER BY c.idPlanAccion DESC"),
+    @NamedQuery(name = "CalidadPlanAccion.findByIdPlanAccion", query = "SELECT c FROM CalidadPlanAccion c WHERE c.idPlanAccion = :idPlanAccion"),
+    @NamedQuery(name = "CalidadPlanAccion.findByResponsable", query = "SELECT c FROM CalidadPlanAccion c WHERE c.responsable = :responsable"),
+    @NamedQuery(name = "CalidadPlanAccion.findByFechaAnalisis", query = "SELECT c FROM CalidadPlanAccion c WHERE c.fechaAnalisis = :fechaAnalisis"),
+    @NamedQuery(name = "CalidadPlanAccion.findByTipoPlan", query = "SELECT c FROM CalidadPlanAccion c WHERE c.tipoPlan = :tipoPlan"),
+    @NamedQuery(name = "CalidadPlanAccion.findByOrigenAccion", query = "SELECT c FROM CalidadPlanAccion c WHERE c.origenAccion = :origenAccion"),
+    @NamedQuery(name = "CalidadPlanAccion.findByObservacionGeneral", query = "SELECT c FROM CalidadPlanAccion c WHERE c.observacionGeneral = :observacionGeneral"),
+    @NamedQuery(name = "CalidadPlanAccion.findByEstadoPlan", query = "SELECT c FROM CalidadPlanAccion c WHERE c.estadoPlan = :estadoPlan"),
+    @NamedQuery(name = "CalidadPlanAccion.findByCriterio1", query = "SELECT c FROM CalidadPlanAccion c WHERE c.criterio1 = :criterio1"),
+    @NamedQuery(name = "CalidadPlanAccion.findByCriterio2", query = "SELECT c FROM CalidadPlanAccion c WHERE c.criterio2 = :criterio2"),
+    @NamedQuery(name = "CalidadPlanAccion.findByAccionEficaz", query = "SELECT c FROM CalidadPlanAccion c WHERE c.accionEficaz = :accionEficaz")})
 public class CalidadPlanAccion implements Serializable {
 
     @JoinColumn(name = "id_au_aspecto_evaluar", referencedColumnName = "id_au_aspecto_evaluar")
@@ -123,10 +123,19 @@ public class CalidadPlanAccion implements Serializable {
         @JoinColumn(name = "id_accion_implementar", referencedColumnName = "id_accion_implementar")})
     @ManyToMany
     private List<CalidadAccionImplementar> calidadAccionImplementarList;
-    
+
     @JoinColumn(name = "id_subproceso", referencedColumnName = "id_subproceso")
     @ManyToOne(optional = false)
     private Subprocesos idSubproceso;
+
+    @JoinColumn(name = "id_subproceso_apoyo_uno", referencedColumnName = "id_subproceso")
+    @ManyToOne(optional = false)
+    private Subprocesos idSubprocesoApoyoUno;
+
+    @JoinColumn(name = "id_subproceso_apoyo_dos", referencedColumnName = "id_subproceso")
+    @ManyToOne(optional = false)
+    private Subprocesos idSubprocesoApoyoDos;
+
     @JoinTable(name = "plan_accion_has_causa", joinColumns = {
         @JoinColumn(name = "id_plan_accion", referencedColumnName = "id_plan_accion")}, inverseJoinColumns = {
         @JoinColumn(name = "id_causa", referencedColumnName = "id_causa")})
@@ -155,7 +164,6 @@ public class CalidadPlanAccion implements Serializable {
     public void setIdPlanAccion(Integer idPlanAccion) {
         this.idPlanAccion = idPlanAccion;
     }
-
 
     public Date getFechaAnalisis() {
         return fechaAnalisis;
@@ -247,22 +255,17 @@ public class CalidadPlanAccion implements Serializable {
     }
 
     @XmlTransient
-   public List<CalidadCausa> getCalidadCausaList() {
+    public List<CalidadCausa> getCalidadCausaList() {
         return calidadCausaList;
     }
 
     public void setCalidadCausaList(List<CalidadCausa> calidadCausaList) {
         this.calidadCausaList = calidadCausaList;
     }
-    
-    
-    
 
     public Subprocesos getIdSubproceso() {
         return idSubproceso;
     }
-
-    
 
     public void setIdSubproceso(Subprocesos idSubproceso) {
         this.idSubproceso = idSubproceso;
@@ -290,7 +293,7 @@ public class CalidadPlanAccion implements Serializable {
 
     @Override
     public String toString() {
-        return getIdPlanAccion()+" | "+getTituloPlan();
+        return getIdPlanAccion() + " | " + getTituloPlan();
     }
 
     public String getRevisor() {
@@ -324,16 +327,18 @@ public class CalidadPlanAccion implements Serializable {
     public void setTituloPlan(String tituloPlan) {
         this.tituloPlan = tituloPlan;
     }
+
     public String getFechaAñoString() {
         String convertido;
         DateFormat fecha = new SimpleDateFormat("yyyy");
-	convertido = fecha.format(fechaAnalisis);
+        convertido = fecha.format(fechaAnalisis);
         return convertido;
     }
+
     public String getFechaMesString() {
         String convertido;
         DateFormat fecha = new SimpleDateFormat("MMMM");
-	convertido = fecha.format(fechaAnalisis);
+        convertido = fecha.format(fechaAnalisis);
         return convertido;
     }
 
@@ -352,4 +357,23 @@ public class CalidadPlanAccion implements Serializable {
     public void setIdPlanAuditoria(AuPlanAuditoria idPlanAuditoria) {
         this.idPlanAuditoria = idPlanAuditoria;
     }
+
+    public Subprocesos getIdSubprocesoApoyoUno() {
+        return idSubprocesoApoyoUno;
+    }
+
+    public void setIdSubprocesoApoyoUno(Subprocesos idSubprocesoApoyoUno) {
+        this.idSubprocesoApoyoUno = idSubprocesoApoyoUno;
+    }
+
+    public Subprocesos getIdSubprocesoApoyoDos() {
+        return idSubprocesoApoyoDos;
+    }
+
+    public void setIdSubprocesoApoyoDos(Subprocesos idSubprocesoApoyoDos) {
+        this.idSubprocesoApoyoDos = idSubprocesoApoyoDos;
+    }
+    
+    
+
 }

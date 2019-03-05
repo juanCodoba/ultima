@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Listado maestro de tipo Requisito</ui:define>   
+         <ui:define name="button">
+            <h:form id="documentosFormBotones">
+                <div class="container-fluid col-sm-4 form-group">
+                   <h:button class="btn btn-warning btn-block" style="background: darkorange; color: white" value="Pagina principal" outcome="/User/calidad/paginaPrincipalCalidad"/>
+                </div>
+                <div class="container-fluid col-sm-4 form-group">
+                    <h:commandButton class="btn btn-primary btn-block" value="Crear Tipo de Requisito" action="#{maeTipoRequisitoController.prepareCreate}" />
+                </div>
+            </h:form>
+        </ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form id="documentosFormList">
+                <p:outputPanel id="documentosTablePanel">
+                    <p:dataTable value="#{requisitosController.listaRequisito}" var="tipoRequisito"
+                                 rows="10" id="documentosTable"  widgetVar="formatosTable"
+                                 paginator="true" stickyHeader="true" scrollable="true" filteredValue="#{requisitosController.listaRequisito}"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+                        <f:facet name="header">
+                            <h:commandLink id="exportExcel">
+                                    <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                    <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                            target="documentosTable" fileName="inventario" />
+                                </h:commandLink>
+                                <p:tooltip id="descripcion-botonExcel" for="exportExcel" value="Exportar en excel" trackMouse="true" />
+                                <h4 class="colorLetra" style="font-weight: bold; display: inline-block !important;" >
+                                   Total de Requisitos #{fn:length(requisitosController.listaRequisito)}
+                                </h4>
+                                <div class="input-group" style="margin-top: 1em; margin-bottom: 1em">
+                                    <div class="input-group-addon"><span>Buscar:</span></div>
+                                    <p:inputText id="globalFilter" onkeyup="PF('formatosTable').filter()"  placeholder="Buscar en toda la tabla"/>  
+                                </div>
+                        </f:facet>
+                        <p:column filterBy="#{tipoRequisito.idRequisito}" filterMatchMode="contains" width="200" >
+                            <f:facet name="header">Código del requisito</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{tipoRequisito.idRequisito}"/>
+                        </p:column>
+                        <p:column filterBy="#{tipoRequisito.idMaeTipoRequisito.nombre}" filterMatchMode="contains" width="400">
+                            <f:facet name="header">Nombre el tipo de Requisito</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{tipoRequisito.idMaeTipoRequisito.nombre}"/>
+                        </p:column>
+                        
+                        <p:column filterBy="#{tipoRequisito.idCargo.nombreCargo}" filterMatchMode="contains" width="100" priority="3">
+                            <f:facet name="header">Cargo asignado</f:facet>
+                            <h:outputText value="#{tipoRequisito.idCargo.nombreCargo}"/>
+                        </p:column>
+                        <p:column width="50">
+                            <p:commandButton ajax="false" id="boton-edit"  icon="ui-icon-pencil" action="#{requisitosController.prepareEdit}">
+                                <f:setPropertyActionListener value="#{tipoRequisito}" target="#{requisitosController.requisitoActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-edit" for="boton-edit" value="Editar formato" trackMouse="true"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -163,9 +163,13 @@ public class LoginController implements Serializable {
     public boolean isBibliotecario() {
         return getRequest().isUserInRole("BIBLIOTEC");
     }
-    
-        public boolean isAuditorInterno() {
+
+    public boolean isAuditorInterno() {
         return getRequest().isUserInRole("AUDITORI");
+    }
+
+    public boolean isJefe() {
+        return getRequest().isUserInRole("JEFE");
     }
 
     public String login() {
@@ -257,7 +261,6 @@ public class LoginController implements Serializable {
         return "/usuario/modFichaTecnica/lista";
     }
 
-
     public String preparePaginaAuditoria() {
         //FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se puede ingresar a este modulo", "Este modulo se encuentra desactivado por el momento");
         //RequestContext.getCurrentInstance().showMessageInDialog(message);
@@ -270,7 +273,21 @@ public class LoginController implements Serializable {
 //        return null;
         return "modBiblioteca/ListarLibro/lista";
     }
-
+    public String preparePaginaManual() {
+//        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se puede ingresar a este modulo", "Este modulo se encuentra desactivado por el momento");
+//        RequestContext.getCurrentInstance().showMessageInDialog(message);
+//        return null;
+        return "modCalidad/cargos/list";
+    }
+    
+        public String preparePaginaPestel() {
+//        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se puede ingresar a este modulo", "Este modulo se encuentra desactivado por el momento");
+//        RequestContext.getCurrentInstance().showMessageInDialog(message);
+//        return null;
+        return "modPestel/list";
+    }
+    
+    
     public String preparePaginaMasHerramientas() {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Acceso Denegado", "Modulo no disponible");
         RequestContext.getCurrentInstance().showMessageInDialog(message);
@@ -289,8 +306,6 @@ public class LoginController implements Serializable {
 //            return "/usuario/modSoporteSiesa/paginaPrincipal";
 
     }
-    
-    
 
     public String preparePaginaEdificios() {
         return "/usuario/modManteEdificios/paginaPrincipal";

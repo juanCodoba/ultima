@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Editar el requsito</ui:define>        
+        <ui:define name="body">
+            <h:form id="formulario-crearTipoRequisito">
+                <p:growl id="msgs" />
+                <h:outputText class="help-block" value="Ingresa los datos del tipo de requisito"/>
+                <div class="form-group">
+                    <h:outputLabel value="Descripción de la modificación"  />
+                    <textarea placeholder="descripcion" class="form-control" jsf:id="descripcionInputText" jsf:value="#{requisitosController.requisitoActual.descripcion}" 
+                              type="text" required="true"
+                              jsf:validatorMessage="La función no puede contener mas de 85 caracteres"
+                              jsf:requiredMessage="Por favor ingrese el nombre del formato">
+                        <f:ajax execute="@this" render="descripcionMessage"/>
+                        <f:validateLength maximum="85"/>
+                    </textarea>
+                    <p:message id="descripcionMessage" for="descripcionInputText" styleClass="error"/>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Nivel de Educación:"  />
+                    <textarea placeholder="nivel de educación" class="form-control" jsf:id="formatoInputText" jsf:value="#{requisitosController.requisitoActual.educacion}" 
+                              type="text" required="true"
+                              jsf:validatorMessage="La función no puede contener mas de 85 caracteres"
+                              jsf:requiredMessage="Por favor ingrese el nombre del formato">
+                        <f:ajax execute="@this" render="formatoMessage"/>
+                        <f:validateLength maximum="85"/>
+                    </textarea>
+                    <p:message id="formatoMessage" for="formatoInputText" styleClass="error"/>
+                </div>   
+                <div class="form-group">
+                    <h:outputLabel value="Nivel de Formación:"  />
+                    <textarea placeholder="Nombre" class="form-control" jsf:id="formatoInputText1" jsf:value="#{requisitosController.requisitoActual.formacion}" 
+                              type="text" required="true"
+                              jsf:validatorMessage="La función no puede contener mas de 85 caracteres"
+                              jsf:requiredMessage="Por favor ingrese el nombre del formato">
+                        <f:ajax execute="@this" render="formato3Message"/>
+                        <f:validateLength maximum="85"/>
+                    </textarea>
+                    <p:message id="formato3Message" for="formatoInputText" styleClass="error"/>
+                </div> 
+
+                <div class="form-group">
+                    <h:outputLabel value="Otros Conociminetos:"  />
+                    <textarea placeholder="otros conocimientos" class="form-control" jsf:id="formatoInputText2" jsf:value="#{requisitosController.requisitoActual.otrosConocimientos}" 
+                              type="text" required="true"
+                              jsf:validatorMessage="La función no puede contener mas de 85 caracteres"
+                              jsf:requiredMessage="Por favor ingrese el nombre del formato">
+                        <f:ajax execute="@this" render="formato1Message"/>
+                        <f:validateLength maximum="85"/>
+                    </textarea>
+                    <p:message id="formato1Message" for="formatoInputText2" styleClass="error"/>
+                </div> 
+                
+                                <div class="form-group">
+                    <h:outputLabel value="Nivel de Formación:"  />
+                    <textarea placeholder="Nombre" class="form-control" jsf:id="formatoInputText3" jsf:value="#{requisitosController.requisitoActual.experiencia}" 
+                              type="text" required="true"
+                              jsf:validatorMessage="La función no puede contener mas de 85 caracteres"
+                              jsf:requiredMessage="Por favor ingrese el nombre del formato">
+                        <f:ajax execute="@this" render="formato2Message"/>
+                        <f:validateLength maximum="85"/>
+                    </textarea>
+                    <p:message id="formato2Message" for="formatoInputText3" styleClass="error"/>
+                </div> 
+
+
+                <div class="row">
+                    <div class="container-fluid col-sm-4 form-group">
+                        <p:commandButton class="btn btn-primary btn-block" value="Guardar" action="#{requisitosController.editRequisito()}">
+                        </p:commandButton>
+                    </div>
+                    <div class="container-fluid col-sm-4 form-group">
+                        <h:button class="btn btn-block" style="background: darkorange; color: white"  value="Cancelar" outcome="list"/>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

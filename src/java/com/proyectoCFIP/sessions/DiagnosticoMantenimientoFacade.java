@@ -8,6 +8,7 @@ package com.proyectoCFIP.sessions;
 import com.proyectoCFIP.entities.Computador;
 import com.proyectoCFIP.entities.CronogramaMantenimientos;
 import com.proyectoCFIP.entities.DiagnosticoMantenimiento;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -20,6 +21,7 @@ import javax.persistence.Query;
  */
 @Stateless
 public class DiagnosticoMantenimientoFacade extends AbstractFacade<DiagnosticoMantenimiento> {
+
     @PersistenceContext(unitName = "ProyectoV2CFIPPU")
     private EntityManager em;
 
@@ -31,22 +33,34 @@ public class DiagnosticoMantenimientoFacade extends AbstractFacade<DiagnosticoMa
     public DiagnosticoMantenimientoFacade() {
         super(DiagnosticoMantenimiento.class);
     }
-    public List<DiagnosticoMantenimiento> consultaDiagnostico(Computador computador){
-        Query q= getEntityManager().createNamedQuery("DiagnosticoMantenimiento.findByIdComputador");
+
+    public List<DiagnosticoMantenimiento> consultaDiagnostico(Computador computador) {
+        Query q = getEntityManager().createNamedQuery("DiagnosticoMantenimiento.findByIdComputador");
         q.setParameter("idComputador", computador);
         return q.getResultList();
     }
-      
-    public List<DiagnosticoMantenimiento> consultaTicket (CronogramaMantenimientos crono){
-        Query q= getEntityManager().createNamedQuery("DiagnosticoMantenimiento.findByTicket");
+
+    public List<DiagnosticoMantenimiento> consultaTicket(CronogramaMantenimientos crono) {
+        Query q = getEntityManager().createNamedQuery("DiagnosticoMantenimiento.findByTicket");
         q.setParameter("idCronogramaMantenimientos", crono);
         return q.getResultList();
     }
-    
-     public List<DiagnosticoMantenimiento> diagnosticosTotales (){
-        Query q= getEntityManager().createNamedQuery("DiagnosticoMantenimiento.findByDiagnosticosTotales");
+
+    public List<DiagnosticoMantenimiento> diagnosticosTotales() {
+        Query q = getEntityManager().createNamedQuery("DiagnosticoMantenimiento.findByDiagnosticosTotales");
         return q.getResultList();
     }
-   
+
+    public List<DiagnosticoMantenimiento> consultaTotalCR() {
+        Query q = getEntityManager().createNamedQuery("DiagnosticoMantenimiento.findByIdCronograma");
+        return q.getResultList();
+    }
+
+        public List<DiagnosticoMantenimiento> consultaReporteCorrectivoTiempo(Date fecha1, Date fecha2 ){
+        Query q= getEntityManager().createNamedQuery("DiagnosticoMantenimiento.findByReporteTiempoCorrectivo");
+        q.setParameter("fecha1", fecha1);
+        q.setParameter("fecha2", fecha2);
+        return q.getResultList();
+    }
     
 }

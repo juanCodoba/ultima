@@ -34,7 +34,7 @@
                             </h:commandLink>
                         </li>
                         <li class="active">
-                              <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
+                            <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
                                            rendered="#{loginController.adminCalidoso}">
                                 <i class="fa fa-spinner" aria-hidden="true"></i>
                                 <span>Administrar Acciones</span>
@@ -51,11 +51,11 @@
                     </h:panelGroup>
                     <p:separator rendered="#{loginController.adminCalidoso}"/>
                     <li style="margin-top: 20px">
-                            <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
-                                <i class="fa fa-dashboard"></i> 
-                                <span>Principal</span>
-                            </h:commandLink>
-                        </li>
+                        <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
+                            <i class="fa fa-dashboard"></i> 
+                            <span>Principal</span>
+                        </h:commandLink>
+                    </li>
                     <li>
                         <h:commandLink action="#{formatosController.prepareListUser}">
                             <i class="fa fa-file"></i>
@@ -115,11 +115,11 @@
                     <h:panelGroup id="encabezado">
                         <div class="col-md-6 form-group">
                             <h:outputLabel value="Acción N°: " />
-                               
+
                             <h:outputText style="font-weight: bold; color: red" value=" #{calidadPlanAccionController.planAccionActual.idPlanAccion} ">
                             </h:outputText>
                         </div>
-                        
+
                         <div class="col-md-6 form-group">
                             <h:outputLabel value="Fecha análisis: " />
                             <span> </span>
@@ -128,7 +128,7 @@
                             </h:outputText>
                         </div>
                         <div class="col-md-6 form-group">
-                            <h:outputLabel value="Proceso:" />
+                            <h:outputLabel value="Proceso Responsable:" />
                             <h:outputText style="font-weight: bold;" value=" #{calidadPlanAccionController.planAccionActual.idSubproceso.idProceso.nombreProceso}">
                             </h:outputText>
                             <span> | </span>
@@ -136,11 +136,28 @@
                             </h:outputText>
                         </div>
                         <div class="col-md-6 form-group">
+                            <h:outputLabel value="Proceso de  Apoyo 1:" />
+                            <h:outputText style="font-weight: bold;" value=" #{calidadPlanAccionController.planAccionActual.idSubprocesoApoyoUno.idProceso.nombreProceso}">
+                            </h:outputText>
+                            <span> | </span>
+                            <h:outputText style="font-weight: bold;" id="divPanel2" value="#{calidadPlanAccionController.planAccionActual.idSubprocesoApoyoUno.nombreSubproceso}">
+                            </h:outputText>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <h:outputLabel value="Proceso de Apoyo 2:" />
+                            <h:outputText style="font-weight: bold;" value=" #{calidadPlanAccionController.planAccionActual.idSubprocesoApoyoDos.idProceso.nombreProceso}">
+                            </h:outputText>
+                            <span> | </span>
+                            <h:outputText style="font-weight: bold;" id="divPanel3" value="#{calidadPlanAccionController.planAccionActual.idSubprocesoApoyoDos.nombreSubproceso}">
+                            </h:outputText>
+                        </div>
+
+                        <div class="col-md-6 form-group">
                             <h:outputLabel value="Responsable: " />
                             <h:outputText style="font-weight: bold" value=" #{calidadPlanAccionController.planAccionActual.responsable.toString()}">
                             </h:outputText>
                         </div>
-                          <div class="col-md-12 form-group">
+                        <div class="col-md-12 form-group">
                             <h:outputLabel value="Nombre del plan de acción:"  />
                             <h:outputText id="nombre" class="form-control"
                                           value="#{calidadPlanAccionController.planAccionActual.tituloPlan}">
@@ -165,7 +182,10 @@
                                           value="#{calidadPlanAccionController.planAccionActual.tipoPlan}">
                             </h:outputText>
                         </div>
-                        
+
+
+
+
                     </h:panelGroup>
                 </div>
             </h:form>
@@ -231,12 +251,12 @@
                 <p:dialog widgetVar="dlg1" header="Seguimiento a las acciones" width="500">
                     <h:panelGroup id="panelSeguimiento">
                         <div class="form-group">
-                             <h:outputLabel value="Responsable del seguimiento:"  />
-                             <p:inputText placeholder="" 
-                                        class="form-control" 
-                                        id="observacion" 
-                                        value="#{calidadPlanAccionController.seguimientoAccionActual.responsable}"> 
-                                    <f:ajax execute="@this" render="descripcionMessage"/>
+                            <h:outputLabel value="Responsable del seguimiento:"  />
+                            <p:inputText placeholder="" 
+                                         class="form-control" 
+                                         id="observacion" 
+                                         value="#{calidadPlanAccionController.seguimientoAccionActual.responsable}"> 
+                                <f:ajax execute="@this" render="descripcionMessage"/>
                             </p:inputText>
                             <p:message id="observacionMessage" for="observacion" styleClass="error"/>
                         </div>
@@ -255,9 +275,9 @@
                                 <f:ajax onevent="dlg1.hide()" execute="@this" render=":formSeguimiento:panelSeguimiento"/>
                             </p:commandButton>
                             <p:commandButton styleClass="btn btn-danger btn-block" 
-                                      value="Cancelar" 
-                                      oncomplete="PF('dlg1').hide();"
-                                      process="@this"/>
+                                             value="Cancelar" 
+                                             oncomplete="PF('dlg1').hide();"
+                                             process="@this"/>
                         </div>
                     </h:panelGroup>
                 </p:dialog>
@@ -265,52 +285,52 @@
             <h:form id="formListaSeguimiento">
                 <p:dialog widgetVar="dlg2" header="Lista de seguimientos a las acciones" width="800" modal="true">
                     <h:panelGroup id="listaSeguimiento" style="font-size: 1.3em">
-                          <p:dataTable value="#{calidadPlanAccionController.listaSeguimientoAccionActual}"
-                                        var="seguimiento">
-                               <p:column width="300">
-                                   <f:facet name="header">
-                                       Resultado del seguimiento
-                                   </f:facet>
-                                   <h:outputText value="#{seguimiento.resultado}"/>
-                               </p:column>
-                               <p:column>
-                                   <f:facet name="header">
-                                       Fecha del seguimeinto
-                                   </f:facet>
-                                   <h:outputText value="#{seguimiento.fecha}">
-                                       <f:convertDateTime pattern="MMMM dd, yyyy"/>
-                                   </h:outputText>
-                               </p:column>
-                               <p:column>
-                                   <f:facet name="header">
-                                       Responsable del seguimeinto
-                                   </f:facet>
-                                   <h:outputText value="#{seguimiento.responsable}"/>
-                               </p:column>
-                               <p:column>
-                                   <f:facet name="header">
-                                       Estado
-                                   </f:facet>
-                                   <h:outputText value="#{seguimiento.estado.toUpperCase()}"/>
-                               </p:column>
-                            </p:dataTable>
+                        <p:dataTable value="#{calidadPlanAccionController.listaSeguimientoAccionActual}"
+                                     var="seguimiento">
+                            <p:column width="300">
+                                <f:facet name="header">
+                                    Resultado del seguimiento
+                                </f:facet>
+                                <h:outputText value="#{seguimiento.resultado}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    Fecha del seguimeinto
+                                </f:facet>
+                                <h:outputText value="#{seguimiento.fecha}">
+                                    <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    Responsable del seguimeinto
+                                </f:facet>
+                                <h:outputText value="#{seguimiento.responsable}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    Estado
+                                </f:facet>
+                                <h:outputText value="#{seguimiento.estado.toUpperCase()}"/>
+                            </p:column>
+                        </p:dataTable>
                     </h:panelGroup>
                 </p:dialog>
             </h:form>
-              <h:form id="editarSeguimiento">
+            <h:form id="editarSeguimiento">
                 <p:dialog widgetVar="dlg3" header="Seguimiento a las acciones" width="800">
                     <h:panelGroup id="editarSeguimiento">
                         <div class="form-group">
-                             <h:outputLabel value="Resultado del seguimiento:"  />
-                             <p:inputTextarea placeholder="" 
-                                        class="form-control" 
-                                        id="observacion" 
-                                        value="#{calidadPlanAccionController.seguimientoAccionActual.resultado}"> 
-                                    <f:ajax execute="@this" render="descripcionMessage"/>
+                            <h:outputLabel value="Resultado del seguimiento:"  />
+                            <p:inputTextarea placeholder="" 
+                                             class="form-control" 
+                                             id="observacion" 
+                                             value="#{calidadPlanAccionController.seguimientoAccionActual.resultado}"> 
+                                <f:ajax execute="@this" render="descripcionMessage"/>
                             </p:inputTextarea>
                             <p:message id="observacionMessage" for="observacion" styleClass="error"/>
                         </div>
-                         <div class="form-group col-md-3">
+                        <div class="form-group col-md-3">
                             <h:outputLabel class="letra-form" value="Estado:"/>
                             <p:selectOneButton value="#{calidadPlanAccionController.seguimientoAccionActual.estado}"
                                                style="width: 100%">
@@ -318,7 +338,7 @@
                                 <f:selectItem itemLabel="CERRADO" itemValue="cerrado" />
                             </p:selectOneButton> 
                         </div>
-                        
+
                         <div class="">
                             <p:commandButton styleClass="btn btn-primary btn-block" 
                                              value="Editar seguimiento"
@@ -327,9 +347,9 @@
                                 <f:ajax onevent="dlg3.hide()" execute="@this" render=":formSeguimiento:panelSeguimiento"/>
                             </p:commandButton>
                             <p:commandButton styleClass="btn btn-danger btn-block" 
-                                      value="Cancelar" 
-                                      oncomplete="PF('dlg3').hide();"
-                                      process="@this"/>
+                                             value="Cancelar" 
+                                             oncomplete="PF('dlg3').hide();"
+                                             process="@this"/>
                         </div>
                     </h:panelGroup>
                 </p:dialog>
@@ -343,38 +363,38 @@
                                 <div class=" form-group">
                                     <h:outputLabel value="Observaciones generales:"  />
                                     <h:outputText class="form-control"
-                                                    style="height: 100px;" 
-                                                    value="#{calidadPlanAccionController.planAccionActual.observacionGeneral}"> 
+                                                  style="height: 100px;" 
+                                                  value="#{calidadPlanAccionController.planAccionActual.observacionGeneral}"> 
                                     </h:outputText>
                                 </div>
-                               <table class="table table-striped">
+                                <table class="table table-striped">
                                     <thead class="thead-inverse">
-                                      <tr>
-                                        <th>#</th>
-                                        <th>Preguntas</th>
-                                        <th>Criterio</th>
-                                        <th></th>
-                                      </tr>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Preguntas</th>
+                                            <th>Criterio</th>
+                                            <th></th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                      <tr>
-                                        <th scope="row">1</th>
-                                        <td>¿La no conformidad real ó potencial se ha presentado en los últimos 6 meses por la misma causa?</td>
-                                        <td>Si es afirmativa: No es eficaz</td>
-                                        <td style="width: 140px">
-                                            <h:outputText style="font-weight: bold; color: red" value="#{calidadPlanAccionController.planAccionActual.criterio1}"/>
-                                        </td>
-                                      </tr>
-                                      <tr>
-                                        <th scope="row">2</th>
-                                        <td>¿Considera que con la acción implementada es poco probable que se presente la no conformidad en el futuro?</td>
-                                        <td>Si es negativa: No es eficaz</td>
-                                        <td>
-                                            <h:outputText style="font-weight: bold; color: red" value="#{calidadPlanAccionController.planAccionActual.criterio2}"/>
-                                        </td>
-                                      </tr>
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>¿La no conformidad real ó potencial se ha presentado en los últimos 6 meses por la misma causa?</td>
+                                            <td>Si es afirmativa: No es eficaz</td>
+                                            <td style="width: 140px">
+                                                <h:outputText style="font-weight: bold; color: red" value="#{calidadPlanAccionController.planAccionActual.criterio1}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">2</th>
+                                            <td>¿Considera que con la acción implementada es poco probable que se presente la no conformidad en el futuro?</td>
+                                            <td>Si es negativa: No es eficaz</td>
+                                            <td>
+                                                <h:outputText style="font-weight: bold; color: red" value="#{calidadPlanAccionController.planAccionActual.criterio2}"/>
+                                            </td>
+                                        </tr>
                                     </tbody>
-                                  </table>
+                                </table>
                             </h:panelGroup>
                         </h:panelGroup>
                         <div class="form-group col-md-3">

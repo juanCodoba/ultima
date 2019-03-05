@@ -101,13 +101,6 @@
                             </div>
                         </f:facet>
 
-
-
-
-                        <p:column filterBy="#{item.idFtFichaTecnica}" width="110" filterMatchMode="contains">
-                            <f:facet name="header">Cod. Ficha</f:facet>
-                            <h:outputText style="font-weight: bold" value="#{item.idFtFichaTecnica}FTEC"/>
-                        </p:column>
                         <p:column filterBy="#{item.idItem}" width="110" filterMatchMode="contains">
                             <f:facet name="header">Cod del item/OPM</f:facet>
                             <h:outputText style="font-weight: bold; font-size: 1.2em; color:red" value="#{item.idItem}"/>
@@ -117,18 +110,14 @@
                             <f:facet name="header">Tipo De Ficha</f:facet>
                             <h:outputText style="font-weight: bold; font-size: 1.2em; color:red" value="#{item.idTipoFicha.nombreFicha}"/>
                         </p:column>
-                        <p:column filterBy="#{item.idFtCliente.nombre}" filterMatchMode="contains">
-                            <f:facet name="header">Nombre Cliente</f:facet>
-                            <h:outputText style="font-weight: bold; font-size: 1em;" value="#{item.idFtCliente.nombre}"/>
-                        </p:column>
 
                         <p:column filterBy="#{item.idFtCategoria.descripcion}" filterMatchMode="contains">
                             <f:facet name="header">Tipo de Prenda</f:facet>
                             <h:outputText style="font-weight: bold; font-size: 1em;" value="#{item.idFtCategoria.descripcion}"/>
                         </p:column>
                         <p:column filterBy="#{item.idFtCliente.idFtCliente}" filterMatchMode="contains">
-                            <f:facet name="header">Nit cliente</f:facet>
-                            <h:outputText style="font-weight: bold; font-size: 1em;" value="#{item.idFtCliente.idFtCliente}"/>
+                            <f:facet name="header"> cliente</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1em;" value="#{item.idFtCliente.nombre}"/>
                         </p:column>
                         <p:column filterBy="#{item.descripcionCorta}" filterMatchMode="contains">
                             <f:facet name="header">Descripción prenda</f:facet>

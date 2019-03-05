@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6184bc20-8a26-490b-a0f4-be41e6f5fd64">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="7"/>
+	<queryString>
+		<![CDATA[SELECT * FROM proyectocfip.cargos inner join mae_funcion on mae_funcion.id_cargo = cargos.id_cargo
+inner join actividad on actividad.id_mae_funcion = mae_funcion.id_mae_funcion where cargos.id_cargo = 10177;]]>
+	</queryString>
+	<field name="id_cargo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre_cargo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_cargo_responsable" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_subproceso" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_area" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_tipo_cargo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_nivel_cargo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_profesiograma" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_mae_funcion" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="estado" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="responsable" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="aprobado" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="consultado" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="informado" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="importancia" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="accion_funcion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="objeto_funcion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="condicion_funcion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_tipo_funcion" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_actividad" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="accion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="orden" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_mae_periodicidad" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="proposito_actividad" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="condicion_actividad" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="78" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="45" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="284" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="41" width="283" height="23" uuid="91b9e721-ef74-4768-b610-7e54dd14c154"/>
+			</frame>
+			<rectangle>
+				<reportElement x="0" y="0" width="408" height="259" uuid="9511a4f0-bf87-4cb8-9767-ddbf6f0b0387"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="41" width="283" height="23" uuid="13eb2cb2-10b6-42d2-b255-cb2cc11b5356"/>
+			</rectangle>
+			<textField>
+				<reportElement x="0" y="41" width="121" height="23" uuid="e3881877-38b3-4c33-be3d-52450525e86a"/>
+				<textFieldExpression><![CDATA[Acción de la Función:]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="121" y="41" width="162" height="23" uuid="a9aa3a4c-88d2-42b9-b4da-5f25766bb46a"/>
+				<textFieldExpression><![CDATA[$F{accion_funcion}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="1" width="359" height="20" uuid="7ec8e828-857f-4381-a86e-9cdc48753f28"/>
+			</rectangle>
+			<textField>
+				<reportElement x="0" y="0" width="111" height="20" uuid="93ae476f-5574-4db0-9d25-244cd01e1d79"/>
+				<textFieldExpression><![CDATA[Nombre de la Función:]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="111" y="1" width="248" height="20" uuid="fa41ef75-e21d-4051-9d9b-49c620bf9d2d"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="408" y="0" width="394" height="259" uuid="92fbadec-b28c-4066-93ee-1d5bdcee10be"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="80" width="283" height="23" uuid="264a365d-5062-495c-a36d-82b503c4f878"/>
+			</rectangle>
+			<textField>
+				<reportElement x="121" y="83" width="162" height="20" uuid="ef2b39ea-5c57-4cc5-be4a-96693d42cbed"/>
+				<textFieldExpression><![CDATA[$F{objeto_funcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="83" width="121" height="20" uuid="ebcea02d-adc1-4fc4-9781-72f73ada6547"/>
+				<textFieldExpression><![CDATA[Objeto de la Función:]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="119" width="283" height="21" uuid="29ab6edd-8fc5-41b2-8e26-7511077dfcfc"/>
+			</rectangle>
+			<textField>
+				<reportElement x="131" y="120" width="152" height="20" uuid="73e0673f-7e13-44d9-8de3-f6b836cd0064"/>
+				<textFieldExpression><![CDATA[$F{condicion_funcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="120" width="131" height="20" uuid="12b2906e-4a74-45bc-a6c6-9f4d622debf2"/>
+				<textFieldExpression><![CDATA[Condición de la Función:]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="172" width="84" height="20" uuid="d8a22bef-a9f7-46c3-8bfe-16140f085bba"/>
+				<textFieldExpression><![CDATA[$F{responsable}==Boolean.TRUE?"Si":"No"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="121" y="172" width="100" height="20" uuid="5162f4ea-edd6-462f-9360-674a429ef2a7"/>
+				<textFieldExpression><![CDATA[$F{aprobado}==Boolean.TRUE?"Si":"No"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="239" width="100" height="20" uuid="bcfa1ae0-dc50-4090-9e34-7ca9ad3aa416"/>
+				<textFieldExpression><![CDATA[$F{consultado}==Boolean.TRUE?"Si":"No"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="121" y="239" width="100" height="20" uuid="1b4ec8d9-f315-4e2e-991c-c32d55ac6407"/>
+				<textFieldExpression><![CDATA[$F{informado}==Boolean.TRUE?"Si":"No"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="120" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="217" y="0" width="100" height="20" uuid="94035253-7760-4a7c-8086-498ef15885e8"/>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

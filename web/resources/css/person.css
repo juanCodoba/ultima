@@ -479,6 +479,7 @@ ui-datatable ui-column-filter1{
     padding: 10px 0!important;
     border-radius: 0px !important;
 }
+
 .MANTENIMIENTO_CORRECTIVO_Y_PREVENTIVO, .MANTENIMIENTO_CORRECTIVO_Y_PREVENTIVO .fc-event-skin, .CORRECTIVO_Y_PREVENTIVO a{
     background: darkorange !important; 
     color: white;
@@ -499,6 +500,22 @@ ui-datatable ui-column-filter1{
     padding: 10px 0!important;
     border-radius: 0px !important;
 }
+
+.MANTENIMIENTO_REVISION, .MANTENIMIENTO_REVISION .fc-event-skin, .MANTENIMIENTO_REVISION a{
+    background: lightcoral !important; 
+    color: black !important;
+    padding: 10px 0!important;
+    border-radius: 0px !important;
+    font-size: 0.7em;
+}
+
+.MANTENIMIENTO_REVISION:hover{
+    background: greenyellow !important; 
+    color: white !important;
+    padding: 10px 0!important;
+    border-radius: 0px !important;
+}
+
 .SOLICITUD_CANCELADA{
     background: lightgray !important; 
     color: black !important;
@@ -926,6 +943,20 @@ form-group{
     margin-bottom: 8px !important;
 }
 
+.MANTENIMIENTO_REVISADO, .MANTENIMIENTO_REVISADO .fc-event-skin, .MANTENIMIENTO_REVISADO a{
+    background: #ffe600 !important; 
+    color: black !important;
+    padding: 10px 0!important;
+    border-radius: 0px !important;
+    font-size: 0.7em !important;
+}
+
+.MANTENIMIENTO_REVISADO:hover{
+    background: #14d0cc !important; 
+    color: white !important;
+    padding: 10px 0!important;
+    border-radius: 0px !important;
+}
 
 
 @media only screen and (min-width: 1220px) {

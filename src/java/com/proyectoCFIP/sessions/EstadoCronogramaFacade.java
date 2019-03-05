@@ -5,10 +5,13 @@
  */
 package com.proyectoCFIP.sessions;
 
+import com.proyectoCFIP.entities.CronogramaMantenimientos;
 import com.proyectoCFIP.entities.EstadoCronograma;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -16,6 +19,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class EstadoCronogramaFacade extends AbstractFacade<EstadoCronograma> {
+
     @PersistenceContext(unitName = "ProyectoV2CFIPPU")
     private EntityManager em;
 
@@ -27,5 +31,10 @@ public class EstadoCronogramaFacade extends AbstractFacade<EstadoCronograma> {
     public EstadoCronogramaFacade() {
         super(EstadoCronograma.class);
     }
-    
+
+    public List<EstadoCronograma> consultaTotalCR() {
+        Query q = getEntityManager().createNamedQuery("EstadoCronograma.findByIdEstadoDos");
+        return q.getResultList();
+    }
+
 }

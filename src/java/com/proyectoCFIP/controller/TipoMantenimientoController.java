@@ -137,7 +137,7 @@ public class TipoMantenimientoController {
         return getTipoMantenimientoFacade().find(id);
     }
     
-    @FacesConverter(forClass = TipoMantenimiento.class)
+    @FacesConverter(forClass = TipoMantenimiento.class,value = "tipoMantenimientoConverter")
     public static class TipoMantenimientoControllerConverter implements Converter {
 
         @Override

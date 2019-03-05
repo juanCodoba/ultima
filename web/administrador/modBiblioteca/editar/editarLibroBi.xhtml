@@ -111,8 +111,8 @@ and open the template in the editor.
                                         <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
 
                                     </h:commandLink>
-                                    
-                                                                        <li>
+
+                                    <li>
                                         <h:commandLink action="#{ReporteBibliotecaController.prepareCreate()}" rendered="#{loginController.bibliotecario}">
                                             <span>Usuarios con mora</span>
                                             <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{ReporteBibliotecaController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
@@ -173,6 +173,7 @@ and open the template in the editor.
                         <p:message id="prendaTMessage" for="prendaT" styleClass="error"/>
                     </div>
 
+
                     <div class=" col-md-12 form-group">    
                         <h:outputLabel value="Estado del Libro:" />
                         <p:selectOneMenu id="idTipoUsuario"
@@ -196,6 +197,16 @@ and open the template in the editor.
                                 <f:ajax execute="@this" render="tituloLibroMessage"/>
                             </p:inputText>
                             <p:message id="tituloLibroMessage" for="tituloLibro" styleClass="error"/>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel value="Url del Libro:" rendered="#{LibroController.digital}" />
+                            <p:inputText  class="form-control"
+                                          id="tituloLibr2o"
+                                          rendered="#{LibroController.digital}"
+                                          value="#{LibroController.libroActual.urlLibro}">
+                                <f:ajax execute="@this" render="tituloLibr2oMessage"/>
+                            </p:inputText>
+                            <p:message id="tituloLibr2oMessage" for="tituloLibr2o" styleClass="error"/>
                         </div>
 
 

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Asignar actividades a la función del cargo</ui:define>        
+        <ui:define name="body" >
+            <h:form id="formulario">
+                <p:growl id="panel"></p:growl>
+                <h:outputText class="help-block" value="Ingresa las actividades del cargo:"></h:outputText>
+                <div class="panel panel-primary">
+                    <div class="panel-heading" style="border-radius: 0"><h4 class="letra-panelDescriEdu">2. Requisitos y habilidades</h4></div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="container">
+                                <div class="col-md-12">
+                                    <h:panelGroup id="principal">
+                                        <div  class="form-group">    
+                                            <h:outputLabel value="Tipo de Herramienta:" />
+                                            <p:selectOneMenu id="idCargos"
+                                                             value="#{MaeHerramientaController.maeHerramientaActual.idMaeTipoHerramienta }"
+                                                             converter="maeTipoHerrConverter"
+                                                             style="width: 100%; border: none;"
+
+                                                             >
+                                                <f:selectItem itemValue="#{null}" itemLabel="--Seleccionar--"/>
+
+                                                <f:selectItems value="#{tipoHerramientaController.listaMaeTipoHerramienta}" var="TipoHerramienta" itemValue="#{MaeTipoHerramienta}" />  
+                                                <f:ajax execute="@this" render="idCargosMessage funciones"/>
+                                            </p:selectOneMenu>
+                                            <p:message id="idCargosMessage" for="idCargos" styleClass="error"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <h:outputLabel value="Nombre de la Actividad"  />
+                                            <h:inputText  class="form-control" 
+                                                          id="nombreActividad" 
+                                                          value="#{MaeHerramientaController.maeHerramientaActual.nombre}" 
+                                                          required="true"
+                                                          >
+                                                <f:ajax execute="@this" render="nombreActividadMessage"/>
+                                            </h:inputText>
+                                        </div>
+                                        <div class="form-group">
+                                            <h:outputLabel value="acción de la función"  />
+                                            <h:inputText  class="form-control" 
+                                                          id="accionActividad" 
+                                                          value="#{MaeHerramientaController.maeHerramientaActual.llamado}" 
+                                                          required="true"
+                                                          validatorMessage="El nombre de la funcion no puede contener mas de 85 caracteres"
+                                                          requiredMessage="Por favor ingrese el nombre de la funcion">
+                                                <f:ajax execute="@this" render="accionActividadMessage"/>
+                                            </h:inputText>
+                                        </div>
+
+
+
+                                        <div class="col-md-6 form-group" style="left: 16%;position: relative">
+                                            <h:commandButton class="btn btn-primary btn-block" 
+                                                             action="#{MaeHerramientaController.add()}" 
+                                                             style="margin-top: 25px;left: 20%;position: relative" value="Agregar Herramientas">
+                                                <f:ajax execute="@this " 
+                                                        render="crear-actividad"/>
+                                            </h:commandButton>
+                                        </div> 
+
+
+                                    </h:panelGroup>  
+                                </div>  
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row"> 
+                    <div class="container-fluid col-sm-4 form-group">
+                        <h:commandButton type="buttom" class="btn btn-primary btn-block" 
+                                         value="Guardar" 
+                                         action="#{cargosController.list}"> 
+                        </h:commandButton>
+                    </div>
+                    <div class="container-fluid col-sm-4 form-group">
+                        <h:button class="btn btn-danger btn-block" 
+                                  value="Volver atras" 
+                                  outcome="create3"> 
+                        </h:button>
+                    </div>
+                    <div class="container-fluid col-sm-4 form-group">
+                        <h:button class="btn btn-orange btn-block" 
+                                  value="Cancelar" 
+                                  outcome="list"> 
+                        </h:button>
+                    </div>
+                </div>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

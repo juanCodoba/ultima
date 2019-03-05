@@ -10,14 +10,6 @@
             </bookmark>
         </file>
         <file>
-            <url>web/usuario/modFichaTecnica/fileCliente.xhtml</url>
-            <bookmark id="1">
-                <name/>
-                <line>241</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
             <url>web/administrador/modSoporteIT/inventarioTecnologico/crearEquipo.xhtml</url>
             <bookmark id="3">
                 <name/>
@@ -33,11 +25,31 @@
                 <key/>
             </bookmark>
         </file>
+        <file>
+            <url>web/usuario/modFichaTecnica/fileCliente.xhtml</url>
+            <bookmark id="1">
+                <name/>
+                <line>241</line>
+                <key/>
+            </bookmark>
+        </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/controller/ReservaLibrosController.java</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modBiblioteca/indicadoresGestion/crearIndGestion.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/controller/LoginController.java</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modPestel/create2.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modPestel/edit.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modPestel/list.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modPestel/verGlobal.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/entities/Factores.java</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/usuario/modPestel/list.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modPestel/editFactores.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/sessions/FactoresFacade.java</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/usuario/modCalidad/cargos/list.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/AccessDenied.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/usuario/modCalidad/accionMejora/crearAccion.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/controller/FactorController.java</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/controller/ProcesosController.java</file>
         </group>
     </open-files>
 </project-private>

@@ -2,52 +2,41 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="prueba" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a4b7e3d-1ccb-4868-a9a8-a56e172b4154">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="40"/>
-	<parameter name="fecha_inicio" class="java.util.Date">
+	<property name="ireport.y" value="90"/>
+	<property name="net.sf.jasperreports.chart.pie.ignore.duplicated.key" value="true"/>
+	<parameter name="fechaInicio" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="fecha_fin" class="java.util.Date">
+	<parameter name="fechaFin" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select nombre_usuario,
-apellido_usuario,
-id_usuario_prestamo,
-fecha_inicio_prestamo,
-COUNT(id_usuario_prestamo) as total from reserva_libros_biblioteca ,
-usuario where
-reserva_libros_biblioteca.id_usuario_prestamo = usuario.id_usuario
-and reserva_libros_biblioteca.fecha_inicio_prestamo
-between $P{fecha_inicio} and $P{fecha_fin}
-
-GROUP BY id_usuario_prestamo ;]]>
+		<![CDATA[select usuario.nombre_usuario as nombreUsuario,
+usuario.apellido_usuario as apellidoUsuario,
+ proyectocfip.reserva_libros_biblioteca.id_usuario_prestamo as idUsuarioPrestamo,
+count(proyectocfip.reserva_libros_biblioteca.id_usuario_prestamo) as total from reserva_libros_biblioteca inner join usuario on reserva_libros_biblioteca.id_usuario_prestamo = usuario.id_usuario
+ and reserva_libros_biblioteca.fecha_inicio_prestamo BETWEEN $P{fechaInicio} AND $P{fechaFin} GROUP BY id_usuario_prestamo ;]]>
 	</queryString>
-	<field name="nombre_usuario" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="apellido_usuario" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="id_usuario_prestamo" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="fecha_inicio_prestamo" class="java.sql.Timestamp">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+	<field name="nombreUsuario" class="java.lang.String"/>
+	<field name="apellidoUsuario" class="java.lang.String"/>
+	<field name="idUsuarioPrestamo" class="java.lang.Integer"/>
 	<field name="total" class="java.lang.Long"/>
 	<variable name="id_usuario_prestamo_1" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{id_usuario_prestamo}]]></variableExpression>
+		<variableExpression><![CDATA[]]></variableExpression>
 	</variable>
-	<variable name="total_1" class="java.lang.Long" calculation="Sum">
+	<variable name="COUNT(id_usuario_prestamo)_1" class="java.lang.Long" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="COUNT(id_usuario_prestamo)_2" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="total_1" class="java.lang.Long" resetType="Column" calculation="Sum">
 		<variableExpression><![CDATA[$F{total}]]></variableExpression>
 	</variable>
-	<variable name="total_2" class="java.lang.Long" resetType="Column" calculation="Sum">
+	<variable name="total_2" class="java.lang.Long" calculation="Sum">
 		<variableExpression><![CDATA[$F{total}]]></variableExpression>
 	</variable>
 	<variable name="total_3" class="java.lang.Long" calculation="Sum">
-		<variableExpression><![CDATA[$F{total}]]></variableExpression>
-	</variable>
-	<variable name="total_4" class="java.lang.Long" calculation="Sum">
 		<variableExpression><![CDATA[$F{total}]]></variableExpression>
 	</variable>
 	<background>
@@ -172,7 +161,7 @@ GROUP BY id_usuario_prestamo ;]]>
 				<text><![CDATA[NUM/ TOTAL DE PRESTAMOS DURANTE 3 MESES ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="216" y="91" width="233" height="27" uuid="1ba75d9c-8e48-46e5-b310-f5c193b8e079"/>
+				<reportElement x="176" y="91" width="233" height="27" uuid="1ba75d9c-8e48-46e5-b310-f5c193b8e079"/>
 				<textElement verticalAlignment="Middle" markup="none">
 					<font size="10" isBold="true"/>
 				</textElement>
@@ -228,15 +217,15 @@ GROUP BY id_usuario_prestamo ;]]>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[INDICADOR:  PRESTAMOS DUANTE 3 MESES ]]></text>
+				<text><![CDATA[INDICADOR:  Libro mas prestado durante los meses analizados]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="176" y="66" width="100" height="20" uuid="c073a406-b876-4529-a8c4-ddf9dcdb5f51"/>
-				<textFieldExpression><![CDATA[$P{fecha_inicio}]]></textFieldExpression>
+				<reportElement x="176" y="66" width="100" height="20" uuid="802faee9-df08-446f-a563-b081eebce159"/>
+				<textFieldExpression><![CDATA[$P{fechaInicio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="352" y="66" width="100" height="20" uuid="0011302e-7c4a-431c-b187-a53b6abfe49b"/>
-				<textFieldExpression><![CDATA[$P{fecha_fin}]]></textFieldExpression>
+				<reportElement x="356" y="66" width="100" height="20" uuid="c72bd3ad-400d-423d-a5fe-17ad46e87634"/>
+				<textFieldExpression><![CDATA[$P{fechaFin}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -303,21 +292,21 @@ GROUP BY id_usuario_prestamo ;]]>
 	</columnHeader>
 	<detail>
 		<band height="35" splitType="Stretch">
-			<textField>
-				<reportElement x="92" y="0" width="100" height="20" uuid="9d7d5db5-8ef5-46f7-ab48-e2030eef7009"/>
-				<textFieldExpression><![CDATA[$F{nombre_usuario}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="391" y="0" width="100" height="20" uuid="33ace109-df3a-4268-bec5-c2b3a7046827"/>
-				<textFieldExpression><![CDATA[$F{apellido_usuario}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="659" y="0" width="100" height="20" uuid="c6b05e03-d828-41f9-9e14-480d38ae040c"/>
-				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
-			</textField>
 			<line>
 				<reportElement x="2" y="30" width="802" height="1" uuid="099f5f60-af01-4063-929f-ac5d04756f4b"/>
 			</line>
+			<textField>
+				<reportElement x="92" y="10" width="100" height="20" uuid="b5db1907-e6c1-456b-a19e-d48246706069"/>
+				<textFieldExpression><![CDATA[$F{nombreUsuario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="391" y="5" width="100" height="20" uuid="ef853bc2-a439-4790-bb1d-46a1e2ade767"/>
+				<textFieldExpression><![CDATA[$F{apellidoUsuario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="659" y="5" width="100" height="20" uuid="a73251bd-8073-44f7-a931-654da80e3528"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
@@ -359,24 +348,13 @@ GROUP BY id_usuario_prestamo ;]]>
 				</textElement>
 				<text><![CDATA[Total ]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="293" y="0" width="35" height="20" uuid="9544492d-a445-4ccb-93e4-2593212828c4"/>
-				<textElement verticalAlignment="Middle" markup="none">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Total ]]></text>
-			</staticText>
 			<textField>
-				<reportElement x="328" y="5" width="63" height="15" uuid="2c2d753c-1410-453e-82e4-c38ff30aa6bd"/>
-				<textFieldExpression><![CDATA[$V{total_4}]]></textFieldExpression>
+				<reportElement x="228" y="25" width="100" height="20" uuid="2572ae8c-35b6-4084-aa37-552ddd6a8631"/>
+				<textFieldExpression><![CDATA[$P{fechaInicio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="228" y="25" width="100" height="20" uuid="6ffca10b-aa8b-4498-9dbc-0d74e5ff545e"/>
-				<textFieldExpression><![CDATA[$P{fecha_inicio}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="367" y="25" width="100" height="20" uuid="f6fece16-a81d-4145-bbec-b959d07c9f2c"/>
-				<textFieldExpression><![CDATA[$P{fecha_fin}]]></textFieldExpression>
+				<reportElement x="367" y="25" width="100" height="20" uuid="bb2fb453-656a-4828-b7b7-1ca5b6cc5517"/>
+				<textFieldExpression><![CDATA[$P{fechaFin}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>
@@ -384,16 +362,16 @@ GROUP BY id_usuario_prestamo ;]]>
 		<band height="38" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band height="474" splitType="Stretch">
+		<band height="493" splitType="Stretch">
 			<staticText>
-				<reportElement x="256" y="0" width="235" height="20" uuid="7f58f293-ad71-46ff-a53a-9347925427c6"/>
+				<reportElement x="289" y="0" width="235" height="20" uuid="7f58f293-ad71-46ff-a53a-9347925427c6"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[OPORTUNIDAD DEL SERVICIO]]></text>
+				<text><![CDATA[TOTAL DE PRESTAMOS DURANTE EL MES ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="289" y="36" width="160" height="39" backcolor="#CCCCFF" uuid="c8c7ca3b-093f-4c92-a8f0-67f83ceaa72f"/>
+				<reportElement mode="Opaque" x="328" y="36" width="160" height="39" backcolor="#CCCCFF" uuid="c8c7ca3b-093f-4c92-a8f0-67f83ceaa72f"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -406,30 +384,25 @@ GROUP BY id_usuario_prestamo ;]]>
 				</textElement>
 				<text><![CDATA[SOLICITUDES PRESTAMOS]]></text>
 			</staticText>
+			<rectangle radius="10">
+				<reportElement x="328" y="75" width="160" height="55" uuid="a4ccaa99-e94b-4ff8-ae7d-fceb7b9ea54e"/>
+			</rectangle>
 			<textField>
-				<reportElement x="289" y="75" width="160" height="50" uuid="d9fa244f-41f2-448a-aeb4-3dbe94f30f1a"/>
-				<box>
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
-				</textElement>
+				<reportElement x="356" y="95" width="100" height="20" uuid="5f2d9296-2837-4d95-8271-3ff538ee50d2"/>
+				<textFieldExpression><![CDATA[$V{total_2}]]></textFieldExpression>
 			</textField>
+			<elementGroup/>
 			<stackedBarChart>
 				<chart>
-					<reportElement x="2" y="130" width="802" height="344" uuid="7d952205-6220-4138-a7dd-33f4a764087b"/>
+					<reportElement x="1" y="158" width="803" height="335" uuid="39962a27-4822-429a-ad07-5b31610095b6"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
 					<categorySeries>
-						<seriesExpression><![CDATA[$F{nombre_usuario}]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{id_usuario_prestamo}]]></categoryExpression>
+						<seriesExpression><![CDATA[$F{nombreUsuario} + $F{apellidoUsuario}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{idUsuarioPrestamo}]]></categoryExpression>
 						<valueExpression><![CDATA[$F{total}]]></valueExpression>
 					</categorySeries>
 				</categoryDataset>
@@ -444,10 +417,6 @@ GROUP BY id_usuario_prestamo ;]]>
 					</valueAxisFormat>
 				</barPlot>
 			</stackedBarChart>
-			<textField>
-				<reportElement x="317" y="88" width="100" height="20" uuid="ed53fce5-1677-48f1-99ad-e2e122309dea"/>
-				<textFieldExpression><![CDATA[$V{total_3}]]></textFieldExpression>
-			</textField>
 		</band>
 	</summary>
 </jasperReport>

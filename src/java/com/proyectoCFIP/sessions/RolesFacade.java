@@ -31,7 +31,7 @@ public class RolesFacade extends AbstractFacade<Roles> {
     }
     public List<Roles> consultaRol(){
         Query q= getEntityManager().createNamedQuery("Roles.findAll");
-        q.setMaxResults(18);
+        q.setMaxResults(19);
         return q.getResultList();
     }
     public List<Roles> consultaRolCalidad(){

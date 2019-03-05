@@ -5,7 +5,9 @@
  */
 package com.proyectoCFIP.sessions;
 
+import com.proyectoCFIP.entities.Computador;
 import com.proyectoCFIP.entities.Procesos;
+import com.proyectoCFIP.entities.Usuario;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -18,6 +20,7 @@ import javax.persistence.Query;
  */
 @Stateless
 public class ProcesosFacade extends AbstractFacade<Procesos> {
+
     @PersistenceContext(unitName = "ProyectoV2CFIPPU")
     private EntityManager em;
 
@@ -29,5 +32,11 @@ public class ProcesosFacade extends AbstractFacade<Procesos> {
     public ProcesosFacade() {
         super(Procesos.class);
     }
-    
+
+    public List<Procesos> consultaUsuario(Usuario usuario) {
+        Query q = getEntityManager().createNamedQuery("Procesos.findByIdUsuario");
+        q.setParameter("idUsuario", usuario);
+        return q.getResultList();
+    }
+
 }

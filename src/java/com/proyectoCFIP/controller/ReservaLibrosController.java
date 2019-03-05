@@ -14,11 +14,17 @@ import com.proyectoCFIP.sessions.EmailSessionBean;
 import com.proyectoCFIP.sessions.EstadoLibroFacade;
 import com.proyectoCFIP.sessions.LibroFacade;
 import com.proyectoCFIP.sessions.ReservaLibrosBibliotecaFacade;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,22 +38,38 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.faces.event.ActionEvent;
+import javax.faces.validator.FacesValidator;
+import javax.faces.validator.Validator;
+import javax.faces.validator.ValidatorException;
 import javax.mail.MessagingException;
 import javax.naming.NamingException;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JRDesignQuery;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import org.primefaces.component.selectcheckboxmenu.SelectCheckboxMenu;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -80,6 +102,7 @@ public class ReservaLibrosController implements Serializable {
 
     private Date fechaParametro1;
     private Date fechaParametro2;
+    private long total;
 
     public ReservaLibrosController() {
     }
@@ -241,19 +264,28 @@ public class ReservaLibrosController implements Serializable {
         return listaReservaLib = getReservaLibrosBibliotecaFacade().consultaTipoTrabajador(getFechaParametro1(), getFechaParametro2());
     }
 
-    public List<ReservaLibrosBiblioteca> llenardIdLib1() {
-        listaReservaLib = new ArrayList<>();
-        return listaReservaLib = getReservaLibrosBibliotecaFacade().consultaTiP(getFechaParametro1(), getFechaParametro2());
-    }
-
-    public List<ReservaLibrosBiblioteca> llenardIdLib2() {
-        listaReservaLib = new ArrayList<>();
-        return listaReservaLib = getReservaLibrosBibliotecaFacade().consultaTiP2(getFechaParametro1(), getFechaParametro2());
-    }
-
+//    public List<ReservaLibrosBiblioteca> llenardIdLib1() {
+//        listaReservaLib = new ArrayList<>();
+//        return listaReservaLib = getReservaLibrosBibliotecaFacade().consultaTiP(getFechaParametro1(), getFechaParametro2());
+//    }
+//
+//    public List<ReservaLibrosBiblioteca> llenardIdLib2() {
+//        listaReservaLib = new ArrayList<>();
+//        return listaReservaLib = getReservaLibrosBibliotecaFacade().consultaTiP2(getFechaParametro1(), getFechaParametro2());
+//    }
     public List<ReservaLibrosBiblioteca> getListaReporteTiempo() {
         listaReservaLib = new ArrayList<>();
         return listaReservaLib = getReservaLibrosBibliotecaFacade().consultaReporteCorrectivoTiempo(getFechaParametro1(), getFechaParametro2());
+    }
+
+    public List<ReservaLibrosBiblioteca> getListaReporteTiempo1() {
+        listaReservaLib = new ArrayList<>();
+        return listaReservaLib = getReservaLibrosBibliotecaFacade().consultaReporteCorrectivoTiempo1(getFechaParametro1(), getFechaParametro2());
+    }
+
+    public List<ReservaLibrosBiblioteca> getListaReporteTiempo2() {
+        listaReservaLib = new ArrayList<>();
+        return listaReservaLib = getReservaLibrosBibliotecaFacade().consultaReporteCorrectivoTiempo2(getFechaParametro1(), getFechaParametro2());
     }
 
     public List<ReservaLibrosBiblioteca> getListaUsuarioDelMes() {
@@ -319,6 +351,14 @@ public class ReservaLibrosController implements Serializable {
         this.fechaParametro2 = fechaParametro2;
     }
 
+    public long getTotal() {
+        return total;
+    }
+
+    public void setTotal(long total) {
+        this.total = total;
+    }
+
     public String prepareEdit() {
         return "/administrador/reservaLibro/editar/editar";
     }
@@ -374,40 +414,42 @@ public class ReservaLibrosController implements Serializable {
         return formateador.format(ahora);
     }
 
-    private void sendMailAdd2() {
-
-        String subject = "NUEVO PRESTAMO, ENTERATE DE ESTA NUEVA ACTUALIZACION EN TUS PRESTAMOS  ";
-        StringBuilder mensaje = new StringBuilder();
-
-        mensaje.append("\nCod Libro N°1: ");
-        mensaje.append(reservaLibActual.getIdLib1().getCodigo()).append("LET-CAÑ");
-
-        mensaje.append("\nCod Libro N°2: ");
-        mensaje.append(reservaLibActual.getIdLib2().getCodigo()).append("LET-CAÑ");
-
-        mensaje.append("\nTitulo del Libro N°1: ");
-        mensaje.append(reservaLibActual.getIdLib1().getTituloLibro());
-        mensaje.append("\nTitulo del Libro N°2: ");
-        mensaje.append(reservaLibActual.getIdLib2().getTituloLibro());
-
-        mensaje.append("\n\nTodos los Derechos Reservados www.cfiprovidencia.com © 2017.");
-        sendMail("juan.cordoba@cfiprovidencia.com " + " angelica.barreiro@cfiprovidencia.com " + "sistemas@cfiprovidencia.com", subject, mensaje.toString());
-
-    }
-
+//    private void sendMailAdd2() {
+//
+//        String subject = "NUEVO PRESTAMO, ENTERATE DE ESTA NUEVA ACTUALIZACION EN TUS PRESTAMOS  ";
+//        StringBuilder mensaje = new StringBuilder();
+//
+//        mensaje.append("\nCod Libro N°1: ");
+//        mensaje.append(reservaLibActual.getIdLib1().getCodigo()).append("LET-CAÑ");
+//
+//        mensaje.append("\nCod Libro N°2: ");
+//        mensaje.append(reservaLibActual.getIdLib2().getCodigo()).append("LET-CAÑ");
+//
+//        mensaje.append("\nTitulo del Libro N°1: ");
+//        mensaje.append(reservaLibActual.getIdLib1().getTituloLibro());
+//        mensaje.append("\nTitulo del Libro N°2: ");
+//        mensaje.append(reservaLibActual.getIdLib2().getTituloLibro());
+//
+//        mensaje.append("\n\nTodos los Derechos Reservados www.cfiprovidencia.com © 2017.");
+//        sendMail("juan.cordoba@cfiprovidencia.com " + " angelica.barreiro@cfiprovidencia.com " + "sistemas@cfiprovidencia.com", subject, mensaje.toString());
+//
+//    }
     private void sendMailAdd3() {
 
         String subject = "NUEVO PRESTAMO, ENTERATE DE ESTA NUEVA ACTUALIZACION EN TUS PRESTAMOS  ";
         StringBuilder mensaje = new StringBuilder();
 
-        mensaje.append("\nCod Libro N°1: ");
-        mensaje.append(reservaLibActual.getIdLib1().getCodigo()).append("LET-CAÑ");
+        mensaje.append("\nUsuario al cual se le presto: ");
+        mensaje.append(reservaLibActual.getIdUsuarioPrestamo().toString());
 
-        mensaje.append("\nTitulo del Libro N°1: ");
-        mensaje.append(reservaLibActual.getIdLib1().getTituloLibro());
+        mensaje.append("\nGrado del Estudiante: ");
+        mensaje.append(reservaLibActual.getIdGrado());
+
+        mensaje.append("\nTitulo o tutulos reservados");
+        mensaje.append(reservaLibActual.getLibroList());
 
         mensaje.append("\n\nTodos los Derechos Reservados www.cfiprovidencia.com © 2017.");
-        sendMail("juan.cordoba@cfiprovidencia.com " + " angelica.barreiro@cfiprovidencia.com " + "sistemas@cfiprovidencia.com", subject, mensaje.toString());
+        sendMail("juan.cordoba@cfiprovidencia.com " + " angelica.barreiro@cfiprovidencia.com ", subject, mensaje.toString());
 
     }
 
@@ -423,21 +465,21 @@ public class ReservaLibrosController implements Serializable {
     public String add() {
 
         try {
-            if (reservaLibActual.getIdLib2() == null) {
-                sendMailAdd3();
-                recargarLista();
-            } else if (reservaLibActual.getIdLib1() != null || reservaLibActual.getIdLib2() != null) {
-                sendMailAdd2();
-                recargarLista();
-            } else {
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al crear el prestamo", "no se pudo crear el prestamo");
-                RequestContext.getCurrentInstance().showMessageInDialog(message);
-                return "/usuario/modBiblioteca/ListarLibro/lista";
-            }
+//            if (reservaLibActual.getIdLib2() == null) {
+//                sendMailAdd3();
+//                recargarLista();
+//            } else if (reservaLibActual.getIdLib1() != null || reservaLibActual.getIdLib2() != null) {
+//                sendMailAdd2();
+//                recargarLista();
+//            } else {
+//                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al crear el prestamo", "no se pudo crear el prestamo");
+//                RequestContext.getCurrentInstance().showMessageInDialog(message);
+//                return "/usuario/modBiblioteca/ListarLibro/lista";
+//            }
             reservaLibActual.setIdBibliotecario(usuarioActual);
             reservaLibActual.setActivo(Boolean.TRUE);
-            reservaLibActual.setEstadoUsuarioReservas(Boolean.TRUE);
             getReservaLibrosBibliotecaFacade().create(reservaLibActual);
+            sendMailAdd3();
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "prestamo creado", "EL Prestamo fue creado satisfactoriamente");
             RequestContext.getCurrentInstance().showMessageInDialog(message);
         } catch (Exception e) {
@@ -488,6 +530,7 @@ public class ReservaLibrosController implements Serializable {
             return "/usuario/modBiblioteca/ListarLibro/lista";
         }
     }
+
     private void addErrorMessage(String title, String msg) {
         FacesMessage facesMsg
                 = new FacesMessage(FacesMessage.SEVERITY_ERROR, title, msg);
@@ -498,6 +541,26 @@ public class ReservaLibrosController implements Serializable {
         FacesMessage facesMsg
                 = new FacesMessage(FacesMessage.SEVERITY_INFO, title, msg);
         FacesContext.getCurrentInstance().addMessage("successInfo", facesMsg);
+    }
+
+    @FacesValidator("limitCheckboxMenuValidator")
+    public static class reservaLibrosLimitCheckboxMenuValidator implements Validator {
+
+        @Override
+        public void validate(FacesContext context, UIComponent component,
+                Object value) throws ValidatorException {
+            //get limit
+            Integer minLimit = Integer.parseInt((String) component.getAttributes().get("minLimit"));
+            SelectCheckboxMenu myComponent = (SelectCheckboxMenu) component;
+
+            if (((String[]) myComponent.getSubmittedValue()).length > minLimit) {
+                FacesMessage msg
+                        = new FacesMessage("Limit failed",
+                                "Min selection must be " + minLimit);
+                msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+                throw new ValidatorException(msg);
+            }
+        }
     }
 
     @FacesConverter(forClass = ReservaLibrosBiblioteca.class)
@@ -541,80 +604,207 @@ public class ReservaLibrosController implements Serializable {
 
     JasperPrint jasperPrint;
 
-    public void initReport() throws JRException {
-        setFechaParametro1(getFechaParametro1());
-        setFechaParametro2(getFechaParametro2());
-        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+//    public class ConexionMySQL {
+//
+//        // Librería de MySQL
+//        public String driver = "com.mysql.jdbc.Driver";
+//
+//        // Nombre de la base de datos
+//        public String database = "proyectocfip";
+//
+//        // Host
+//        public String hostname = "localhost";
+//
+//        // Puerto
+//        public String port = "3306";
+//
+//        // Ruta de nuestra base de datos (desactivamos el uso de SSL con "?useSSL=false")
+//        public String url = "jdbc:mysql://localhost:3306/proyectocfip?zeroDateTimeBehavior=convertToNull";
+//
+//        // Nombre de usuario
+//        public String username = "root";
+//
+//        // Clave de usuario
+//        public String password = "1234";
+//
+//        public Connection conectarMySQL() throws SQLException {
+//            Connection conn = null;
+//
+//            try {
+//                Class.forName(driver);
+//                conn = DriverManager.getConnection(url, username, password);
+//            } catch (ClassNotFoundException | SQLException e) {
+//                e.printStackTrace();
+//            }
+//
+//            return conn;
+//        }
+//
+//    }
+    public class ConexionMySQL {
 
-        Map parametros = new HashMap();
-        parametros.put("fecha_inicio", fechaParametro1);
-        parametros.put("fecha_fin", fechaParametro2);
+        // Librería de MySQL
+        public String driver = "com.mysql.jdbc.Driver";
 
-        JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(getListaReporteTiempo());
-        String reportPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/reporteBiblioteca.jasper");
-        jasperPrint = JasperFillManager.fillReport(reportPath, parametros, beanCollectionDataSource);
+        // Nombre de la base de datos
+        public String database = "proyectocfip";
+
+        // Host
+        public String hostname = "localhost";
+
+        // Puerto
+        public String port = "3306";
+
+        // Ruta de nuestra base de datos (desactivamos el uso de SSL con "?useSSL=false")
+        public String url = "jdbc:mysql://localhost:3306/proyectocfip?zeroDateTimeBehavior=convertToNull";
+
+        // Nombre de usuario
+        public String username = "root";
+
+        // Clave de usuario
+        public String password = "cfiprovidencia1";
+
+        public Connection conectarMySQL() throws SQLException {
+            Connection conn = null;
+
+            try {
+                Class.forName(driver);
+                conn = DriverManager.getConnection(url, username, password);
+            } catch (ClassNotFoundException | SQLException e) {
+                e.printStackTrace();
+            }
+
+            return conn;
+        }
+
     }
 
-    // indicadores correctivos
-    public void PDF(ActionEvent actionEvent) throws JRException, IOException {
-        initReport();
-        HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-        httpServletResponse.addHeader("Content-disposition", "attachment; filename=IndicadorEstudiantes.pdf");
-        ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();       
-        JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
-        FacesContext.getCurrentInstance().responseComplete();
-        
+    public void printPO(ActionEvent actionEvent) throws JRException, IOException {
+
+        try {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+            HashMap parametros = new HashMap();
+            parametros.put("fechaInicio", fechaParametro1);
+            parametros.put("fechaFin", fechaParametro2);
+            ConexionMySQL SQL = new ConexionMySQL();
+            Connection conn = SQL.conectarMySQL();
+
+            String report = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/reporteBiblioteca.jasper");
+
+            HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            httpServletResponse.addHeader("Content-disposition", "attachment; filename=IndicadorEstudiantes.pdf");
+
+            jasperPrint = JasperFillManager.fillReport(report, parametros, conn);
+            ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+            FacesContext.getCurrentInstance().responseComplete();
+
+        } catch (Exception e) {
+            addErrorMessage("Error Al Editar " + e.getClass().getName(), "Message: " + e.getMessage());
+        }
     }
 
-    public void DOCX(ActionEvent actionEvent) throws JRException, IOException {
-        initReport();
-        HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-        httpServletResponse.addHeader("Content-disposition", "attachment; filename=IndicadorEstudiantes.docx");
-        ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
-        JRDocxExporter docxExporter = new JRDocxExporter();
-        docxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-        docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
-        docxExporter.setParameter(JRDocxExporterParameter.OUTPUT_STREAM, servletOutputStream);
-        docxExporter.exportReport();
+    public void printLibM(ActionEvent actionEvent) throws JRException, IOException {
+
+        try {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+            HashMap parametros = new HashMap();
+            parametros.put("fechaInicio", fechaParametro1);
+            parametros.put("fechaFin", fechaParametro2);
+            ConexionMySQL SQL = new ConexionMySQL();
+            Connection conn = SQL.conectarMySQL();
+
+            String report = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/libroMasLeido.jasper");
+
+            HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            httpServletResponse.addHeader("Content-disposition", "attachment; filename=IndicadorLibros.pdf");
+
+            jasperPrint = JasperFillManager.fillReport(report, parametros, conn);
+            ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+            FacesContext.getCurrentInstance().responseComplete();
+
+        } catch (Exception e) {
+            addErrorMessage("Error Al Editar " + e.getClass().getName(), "Message: " + e.getMessage());
+        }
     }
 
-    public void XLSX(ActionEvent actionEvent) throws JRException, IOException {
-        initReport();
-        HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-        httpServletResponse.addHeader("Content-disposition", "attachment; filename=IndicadorEstudiantes.xlsx");
-        ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
-        JRXlsxExporter docxExporter = new JRXlsxExporter();
-        docxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-        docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
-        docxExporter.exportReport();
+    public void printGrados(ActionEvent actionEvent) throws JRException, IOException {
+
+        try {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+            HashMap parametros = new HashMap();
+            parametros.put("fechaInicio", fechaParametro1);
+            parametros.put("fechaFin", fechaParametro2);
+            ConexionMySQL SQL = new ConexionMySQL();
+            Connection conn = SQL.conectarMySQL();
+
+            String report = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/grados.jasper");
+
+            HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            httpServletResponse.addHeader("Content-disposition", "attachment; filename=IndicadorLibros.pdf");
+
+            jasperPrint = JasperFillManager.fillReport(report, parametros, conn);
+            ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+            FacesContext.getCurrentInstance().responseComplete();
+
+        } catch (Exception e) {
+            addErrorMessage("Error Al Editar " + e.getClass().getName(), "Message: " + e.getMessage());
+        }
     }
 
-    public void ODT(ActionEvent actionEvent) throws JRException, IOException {
-        initReport();
-        HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-        httpServletResponse.addHeader("Content-disposition", "attachment; filename=IndicadorEstudiantes.odt");
-        ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
-        JROdtExporter docxExporter = new JROdtExporter();
-        docxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-        docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
-        docxExporter.exportReport();
-    }
-
-    public void PPT(ActionEvent actionEvent) throws JRException, IOException {
-        initReport();
-        HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-        httpServletResponse.addHeader("Content-disposition", "attachment; filename=IndicadorEstudiantes.pptx");
-        ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
-        JRPptxExporter docxExporter = new JRPptxExporter();
-        docxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-        docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
-        docxExporter.exportReport();
-    }
-
-    public void indicadorMensaje() {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Acceso Denegado", "Se debe cumplir los mantenimientos preventivos de diciembre para poder generar el indicador");
-        RequestContext.getCurrentInstance().showMessageInDialog(message);
-
-    }
-
+//    public void DOCX(ActionEvent actionEvent) throws JRException, IOException {
+//        initReport();
+//        HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+//        httpServletResponse.addHeader("Content-disposition", "attachment; filename=IndicadorEstudiantes.docx");
+//        ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+//        JRDocxExporter docxExporter = new JRDocxExporter();
+//        docxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+//        docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
+//        docxExporter.setParameter(JRDocxExporterParameter.OUTPUT_STREAM, servletOutputStream);
+//        docxExporter.exportReport();
+//    }
+//
+//    public void XLSX(ActionEvent actionEvent) throws JRException, IOException {
+//        initReport();
+//        HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+//        httpServletResponse.addHeader("Content-disposition", "attachment; filename=IndicadorEstudiantes.xlsx");
+//        ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+//        JRXlsxExporter docxExporter = new JRXlsxExporter();
+//        docxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+//        docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
+//        docxExporter.exportReport();
+//    }
+//
+//    public void ODT(ActionEvent actionEvent) throws JRException, IOException {
+//        initReport();
+//        HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+//        httpServletResponse.addHeader("Content-disposition", "attachment; filename=IndicadorEstudiantes.odt");
+//        ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+//        JROdtExporter docxExporter = new JROdtExporter();
+//        docxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+//        docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
+//        docxExporter.exportReport();
+//    }
+//
+//    public void PPT(ActionEvent actionEvent) throws JRException, IOException {
+//        initReport();
+//        HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+//        httpServletResponse.addHeader("Content-disposition", "attachment; filename=IndicadorEstudiantes.pptx");
+//        ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+//        JRPptxExporter docxExporter = new JRPptxExporter();
+//        docxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+//        docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
+//        docxExporter.exportReport();
+//    }
+//
+//    public void indicadorMensaje() {
+//        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Acceso Denegado", "Se debe cumplir los mantenimientos preventivos de diciembre para poder generar el indicador");
+//        RequestContext.getCurrentInstance().showMessageInDialog(message);
+//
+//    }
 }

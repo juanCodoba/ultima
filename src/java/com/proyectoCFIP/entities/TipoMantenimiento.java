@@ -140,7 +140,7 @@ public class TipoMantenimiento implements Serializable {
 
     @Override
     public String toString() {
-        return getNombreTipoMantenimiento().toUpperCase();
+        return getIdTipoMantenimiento() + "-"+ getNombreTipoMantenimiento().toUpperCase();
     }
 
     @XmlTransient

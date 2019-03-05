@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Crear cargo</ui:define>        
+        <ui:define name="body">
+            <h:form id="formulario-crearRequisito">
+                <p:growl id="msgs2" />
+                <h:outputText class="help-block" value="Ingresa los datos del cargo:"/>
+                <div class="panel panel-primary">
+                    <div class="panel-heading" style="border-radius: 0"><h4 class="letra-panelDescriEdu">2. Requisitos y habilidades</h4></div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <h:panelGroup id="agregar-requisito">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <div class="col-md-12 form-group">
+                                                <h:outputLabel value="Cargos:" />
+                                                <div class="form-group">  
+                                                    <p:selectOneMenu  style="width: 100% !important"
+                                                                      id="cargos" 
+                                                                      converter="cargosConverter"
+                                                                      value="#{requisitosController.cargosActual}">
+                                                        <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                                        <f:selectItems value="#{cargosController.listaCargos}" 
+                                                                       var="cargos"
+                                                                       itemValue="#{Cargos}"/>  
+                                                        <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+                                                    </p:selectOneMenu>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 form-group">
+                                                <h:outputLabel value="Nivel de educación "  />
+                                                <p:selectOneMenu  style="width: 100% !important"
+                                                                  id="educacion" 
+                                                                  value="#{requisitosController.requisitoActual.educacion}">
+                                                    <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                                    <f:selectItem 
+                                                        itemLabel="Profesional en carreras administrativas o financieras, Preferiblemente 
+                                                        con especialización en ciencias administrativas, financieras o afines. "  
+
+                                                        itemValue="Profesional en carreras administrativas o financieras, Preferiblemente 
+                                                        con especialización en ciencias administrativas, financieras o afines. "                                                                  
+                                                        />                                                   
+                                                    <f:selectItem
+                                                        itemLabel="Ingeniero industrial, carreras administrativas o a fines."
+                                                        itemValue="Ingeniero industrial, carreras administrativas o a fines."/>
+                                                    <f:selectItem 
+                                                        itemLabel="Contador Público con matricula profesional."
+                                                        itemValue="Contador Público con matricula profesional."/>
+
+                                                    />
+                                                    <f:selectItem 
+                                                        itemLabel="Profesional  en contabilidad o carreras afines."
+
+                                                        itemValue="Profesional  en contabilidad o carreras afines."/>
+                                                    <f:selectItem 
+                                                        itemLabel="Técnico o estudiante de contaduría."
+
+                                                        itemValue="Técnico o estudiante de contaduría."/>
+                                                    <f:selectItem 
+                                                        itemLabel="Profesional, en contabilidad o carreras afines"
+
+                                                        itemValue="Profesional, en contabilidad o carreras afines"/>
+                                                    <f:selectItem 
+                                                        itemLabel="Técnico o Tecnólogo en contabilidad o estudiante de carreras Administrativas"
+
+                                                        itemValue="Técnico o Tecnólogo en contabilidad o estudiante de carreras Administrativas"/>
+                                                    <f:selectItem 
+                                                        itemLabel="Estudiante o tecnólogo de Contaduría"
+
+                                                        itemValue="Estudiante o tecnólogo de Contaduría"/>
+                                                    <f:selectItem 
+                                                        itemLabel="Licenciado en Ciencias de la Educación o profesional en carrera administrativas. "
+
+                                                        itemValue="Licenciado en Ciencias de la Educación o profesional en carrera administrativas. "/>
+                                                    <f:selectItem 
+                                                        itemLabel="Profesional en Ingenierías, carreras Administrativas o afines."
+
+                                                        itemValue="Profesional en Ingenierías, carreras Administrativas o afines."/>
+                                                    <f:selectItem 
+                                                        itemLabel="Estudiante ò Técnico  en carreras administrativas o afines."
+
+                                                        itemValue="Estudiante ò Técnico  en carreras administrativas o afines."/>
+                                                    <f:selectItem 
+                                                        itemLabel="Profesional en Administración, Ingeniería Industrial o carreras afines."
+
+                                                        itemValue="Profesional en Administración, Ingeniería Industrial o carreras afines."/>
+                                                    <f:selectItem 
+                                                        itemLabel="Profesional en Seguridad y Salud en el trabajo con licencia en SST o profesional en otras áreas con especialización en SST"
+
+                                                        itemValue="Profesional en Seguridad y Salud en el trabajo con licencia en SST o profesional en otras áreas con especialización en SST"/>
+                                                    <f:selectItem 
+                                                        itemLabel="Bachillerato completo  "
+
+                                                        itemValue="Bachillerato completo  "/>
+                                                    <f:selectItem 
+                                                        itemLabel="Bachiller   "
+
+                                                        itemValue="Bachiller"/>
+                                                    <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+                                                </p:selectOneMenu>
+                                                <p:message id="educacionMessage" for="educacion" styleClass="error"/>
+                                            </div>
+                                            <div class="col-md-12 form-group">
+                                                <h:outputLabel value="Nivel de Formación: "  />
+                                                <p:selectOneMenu  style="width: 100% !important"
+                                                                  id="formacion" 
+                                                                  value="#{requisitosController.requisitoActual.formacion}">
+                                                    <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                                    <f:selectItem 
+                                                        itemLabel="Inducción general y Específica. (Ver Documento de Inducción) y Específica (Ver Documento de Inducción)"
+                                                        itemValue="Inducción general y Específica. (Ver Documento de Inducción) y Específica (Ver Documento de Inducción)"/>                                                   
+                                                    <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+                                                </p:selectOneMenu>
+                                                <p:message id="formacionMessage" for="formacion" styleClass="error"/>
+                                            </div>
+                                            <div class="col-md-12 form-group">
+                                                <h:outputLabel value="Experiencia Laboral: "  />
+                                                <p:selectOneMenu  style="width: 100% !important"
+                                                                  id="experiencia" 
+                                                                  value="#{requisitosController.requisitoActual.experiencia}">
+                                                    <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                                    <f:selectItem 
+                                                        itemLabel="Mínimo 5 Años desempeñando cargos  gerenciales o directivos."
+                                                        itemValue="Mínimo 5 Años desempeñando cargos  gerenciales o directivos."/> 
+                                                    <f:selectItem 
+                                                        itemLabel="Mínimo 5 Años desempeñando cargos similares"
+                                                        itemValue="Mínimo 5 Años desempeñando cargos similares"/>   
+                                                    <f:selectItem 
+                                                        itemLabel="Mínima de dos (2) años en cargos afines."
+                                                        itemValue="Mínima de dos (2) años en cargos afines."/>   
+                                                    <f:selectItem 
+                                                        itemLabel="Experiencia mínima de 1 año en cargos afines."
+                                                        itemValue="Experiencia mínima de 1 año en cargos afines."/>   
+                                                    <f:selectItem 
+                                                        itemLabel="Experiencia 6 meses en  cargos afines."
+                                                        itemValue="Experiencia 6 meses en  cargos afines."/> 
+                                                    <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+                                                </p:selectOneMenu>
+                                                <p:message id="experienciaMessage" for="experiencia" styleClass="error"/>
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <h:outputLabel value="Otros Conocimientos: "  />
+                                                <textarea   placeholder="Otros Conocimientos:"
+                                                            class="form-control"
+                                                            jsf:id="conoci"
+                                                            jsf:value="#{requisitosController.requisitoActual.otrosConocimientos}" 
+                                                            type="text"
+                                                            jsf:requiredMessage="Por favor ingrese el nievel de formacion">
+                                                </textarea>
+                                                <p:message id="conociMessage" for="conoci" styleClass="error"/>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-3 form-group" style="position: relative;left: 5%">
+                                            <div class="form-group">
+                                                <h:commandButton class="btn btn-primary btn-block" style="margin-top:20px; height: 3em"
+                                                                 action="#{requisitosController.add}"
+                                                                 value="Agregar Requisito" 
+                                                                 >
+                                                    <f:ajax execute="@this idFuncion nombreFuncion accionF ObjetoF condicionF herramientas conoci" 
+                                                            render="agregar-requisito"/>
+
+                                                        
+                                                </h:commandButton>
+                                            </div>
+
+                                        </div>
+                                    </div>  
+                                </div>
+                                <h:panelGroup id="actualizar">
+                                    <p:dataTable id="tablaFuncion" class="table table-striped table-bordered"
+                                                 value="#{requisitosController.listaRequisitoActual}" emptyMessage="No se encontraron registros"
+                                                 var="requisito"  >
+                                        <p:column width="100" headerText="Educación">
+                                            <h:outputText value="#{requisito.educacion}"/>
+                                        </p:column>
+                                        <p:column width="100" headerText="Nivel de Formación">
+                                            <h:outputText value="#{requisito.formacion}"/>
+                                        </p:column>
+                                        <p:column width="100" headerText="Otros Conocimientos">
+                                            <h:outputText value="#{requisito.otrosConocimientos}"/>
+                                        </p:column>
+                                        <p:column width="100" headerText="Nivel de Experiencia">
+                                            <h:outputText value="#{requisito.experiencia}"/>
+                                        </p:column>
+                                        <p:column width="50">
+                                            <p:commandButton icon="ui-icon-trash" 
+                                                             id="eliminar" 
+                                                             action="#{requisitosController.deleteRequisitoLista()}"
+                                                             process="@this" 
+                                                             update="tablaFuncion">
+                                                <f:setPropertyActionListener value="#{requisito}" 
+                                                                             target="#{requisitosController.requisitoActual}"/>
+                                            </p:commandButton>
+                                        </p:column>
+                                    </p:dataTable> 
+                                </h:panelGroup>
+
+                            </h:panelGroup>
+
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="row"> 
+                    <div class="container-fluid col-sm-6 form-group">
+                        <h:commandButton type="buttom" class="btn btn-primary btn-block" 
+                                         value="Siguiente" 
+                                         action="#{habilidadController.prepareCreate()}"> 
+                        </h:commandButton>
+                    </div>
+                    <div class="container-fluid col-sm-6 form-group">
+                        <h:button class="btn btn-orange btn-block" 
+                                  value="Cancelar" 
+                                  outcome="list"> 
+                        </h:button>
+                    </div>
+                </div>
+
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+</html>
+

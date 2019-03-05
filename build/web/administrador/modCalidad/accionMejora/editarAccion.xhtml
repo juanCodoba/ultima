@@ -36,7 +36,7 @@
                             </h:commandLink>
                         </li>
                         <li class="active">
-                              <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
+                            <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
                                            rendered="#{loginController.adminCalidoso}">
                                 <i class="fa fa-spinner" aria-hidden="true"></i>
                                 <span>Administrar Acciones</span>
@@ -53,11 +53,11 @@
                     </h:panelGroup>
                     <p:separator rendered="#{loginController.adminCalidoso}"/>
                     <li style="margin-top: 20px">
-                            <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
-                                <i class="fa fa-dashboard"></i> 
-                                <span>Principal</span>
-                            </h:commandLink>
-                        </li>
+                        <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
+                            <i class="fa fa-dashboard"></i> 
+                            <span>Principal</span>
+                        </h:commandLink>
+                    </li>
                     <li>
                         <h:commandLink action="#{formatosController.prepareListUser}">
                             <i class="fa fa-file"></i>
@@ -118,20 +118,45 @@
                     <h:panelGroup id="encabezado">
                         <div class="col-md-12 form-group">
                             <h:outputLabel value="Subproceso:" />
-                            <p:selectOneMenu id="divPanel" style="width: 100%" filter="true" filterMatchMode="contains" value="#{calidadPlanAccionController.planAccionActual.idSubproceso}">
+                            <p:selectOneMenu id="divPanel" style="width: 100%" filter="true" filterMatchMode="contains"
+                                             converter="subprocesoConverter"
+
+                                             value="#{calidadPlanAccionController.planAccionActual.idSubproceso}">
                                 <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
                                 <f:selectItems value="#{subprocesosController.listaSubprocesosSelectOne}" var="subprocesos" itemValue="#{subprocesos}"/>  
                             </p:selectOneMenu>
                         </div>
                         <div class="col-md-12 form-group">
+                            <h:outputLabel value="Subproceso de Apoyo Número uno:" />
+                            <p:selectOneMenu id="divPanel1" style="width: 100%" filter="true" 
+                                             converter="subprocesoConverter"
+                                             filterMatchMode="contains" value="#{calidadPlanAccionController.planAccionActual.idSubprocesoApoyoUno}">
+                                <f:selectItem itemLabel="Seleccionar uno..."  itemDisabled="true"/>
+                                <f:selectItems value="#{subprocesosController.listaSubprocesosSelectOne}" var="subprocesos" itemValue="#{subprocesos}"/>  
+                            </p:selectOneMenu>
+                        </div>
+
+
+                        <div class="col-md-12 form-group">
+                            <h:outputLabel value="Subproceso de Apoyo Número Dos:" />
+                            <p:selectOneMenu id="divPanel2" style="width: 100%" filter="true" 
+                                             converter="subprocesoConverter"
+                                             filterMatchMode="contains" value="#{calidadPlanAccionController.planAccionActual.idSubprocesoApoyoDos}">
+                                <f:selectItem itemLabel="Seleccionar uno..."  itemDisabled="true"/>
+                                <f:selectItems value="#{subprocesosController.listaSubprocesosSelectOne}" var="subprocesos" itemValue="#{subprocesos}"/>  
+                            </p:selectOneMenu>
+                        </div>
+
+
+                        <div class="col-md-12 form-group">
                             <h:outputLabel value="Nombre del plan de acción:"  />
                             <p:inputText placeholder="Título" 
-                                             class="form-control" 
-                                             id="titulo" 
-                                             value="#{calidadPlanAccionController.planAccionActual.tituloPlan}" 
+                                         class="form-control" 
+                                         id="titulo" 
+                                         value="#{calidadPlanAccionController.planAccionActual.tituloPlan}" 
                                          required="true"
                                          requiredMessage="Por favor ingrece el titulo">
-                                         <f:ajax execute="@this" render="descripcionMessage"/>
+                                <f:ajax execute="@this" render="descripcionMessage"/>
                             </p:inputText>
                             <p:message id="tituloMessage" for="titulo" styleClass="error"/>
                         </div>
@@ -141,17 +166,17 @@
                                              class="form-control" 
                                              id="descripcion" 
                                              value="#{calidadPlanAccionController.planAccionActual.descripcion}" 
-                                         required="true"
-                                         requiredMessage="Por favor ingrece la descripción de la NO conformidad">
-                                         <f:ajax execute="@this" render="descripcionMessage"/>
+                                             required="true"
+                                             requiredMessage="Por favor ingrece la descripción de la NO conformidad">
+                                <f:ajax execute="@this" render="descripcionMessage"/>
                             </p:inputTextarea>
                             <p:message id="descripcionMessage" for="descripcion" styleClass="error"/>
                         </div>
                         <div class="form-group col-md-6">
                             <h:outputLabel value="Origen de la acción de mejora:"  />
                             <p:selectOneMenu id="advanced" style="width: 100%"
-                                              value="#{calidadPlanAccionController.planAccionActual.origenAccion}"
-                                              filter="true" filterMatchMode="contains">
+                                             value="#{calidadPlanAccionController.planAccionActual.origenAccion}"
+                                             filter="true" filterMatchMode="contains">
                                 <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
                                 <f:selectItem itemLabel="Auditoria interna" itemValue="Auditoria interna" />
                                 <f:selectItem itemLabel="Revisión de indicadores" itemValue="Revisión de indicadores" />
@@ -166,7 +191,7 @@
                         <div class="form-group col-md-6">
                             <h:outputLabel value="Tipo de acción:"  />
                             <p:selectOneMenu id="tipo" style="width: 100%"
-                                              value="#{calidadPlanAccionController.planAccionActual.tipoPlan}">
+                                             value="#{calidadPlanAccionController.planAccionActual.tipoPlan}">
                                 <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
                                 <f:selectItem itemLabel="Acción correctiva" itemValue="Acción correctiva" />
                                 <f:selectItem itemLabel="Acción preventiva" itemValue="Acción preventiva" />
@@ -219,17 +244,17 @@
                                     <p:column headerText="Referencia" >
                                         <h:outputText value="#{item.descripcion}" style="font-weight: bold"/>
                                     </p:column>
-                                    
+
                                     <p:column width="50">
                                         <p:commandButton icon="ui-icon-trash" 
                                                          action="#{calidadPlanAccionController.deleteCausa}"
-                                                        process="@this" 
-                                                        update="tablaFuncion causa:agregarFuncion">
+                                                         process="@this" 
+                                                         update="tablaFuncion causa:agregarFuncion">
                                             <f:ajax execute="@this" render="idManual"/>
                                             <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.causaActual}"/>
                                         </p:commandButton>
-                                   </p:column>
-                               </p:dataTable>
+                                    </p:column>
+                                </p:dataTable>
                             </h:panelGroup>
                         </h:panelGroup>
                     </div>
@@ -252,16 +277,16 @@
                                 <div class="col-md-6 form-group">
                                     <h:outputLabel value="Responsable:"  />
                                     <p:inputText  style="width: 100%"
-                                                      id="responsable" 
-                                                      value="#{calidadPlanAccionController.accionImplementarActual.responsable}">
+                                                  id="responsable" 
+                                                  value="#{calidadPlanAccionController.accionImplementarActual.responsable}">
                                     </p:inputText>
                                     <p:message id="idManualMessage" for="responsable" styleClass="error"/>
                                 </div>
-                                 <div class="col-md-3 form-group">
+                                <div class="col-md-3 form-group">
                                     <h:outputLabel value="Fecha de Compromiso:"  />
                                     <p:calendar id="fecha" locale="es"
                                                 value="#{calidadPlanAccionController.accionImplementarActual.fecha}"
-                                          pattern="MMMM dd, yyyy"/>
+                                                pattern="MMMM dd, yyyy"/>
                                     <p:message id="fechaMessage" for="fecha" styleClass="error"/>
                                 </div>
                                 <div class="col-md-3 form-group">
@@ -289,13 +314,13 @@
                                     <p:column width="50">
                                         <p:commandButton icon="ui-icon-trash" 
                                                          action="#{calidadPlanAccionController.deleteAccion}"
-                                                        process="@this" 
-                                                        update="tablaFuncion acciones:agregarFuncion">
+                                                         process="@this" 
+                                                         update="tablaFuncion acciones:agregarFuncion">
                                             <f:ajax execute="@this" render="actividad responsable fecha"/>
                                             <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.accionImplementarActual}"/>
                                         </p:commandButton>
-                                   </p:column>
-                               </p:dataTable>
+                                    </p:column>
+                                </p:dataTable>
                             </h:panelGroup>
                         </h:panelGroup>
                     </div>

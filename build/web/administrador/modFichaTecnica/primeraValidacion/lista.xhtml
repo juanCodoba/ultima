@@ -95,10 +95,7 @@
                                 </div>
                             </div>
                         </f:facet>
-                        <p:column filterBy="#{item.idFtFichaTecnica}" width="110" filterMatchMode="contains">
-                            <f:facet name="header">Cod. Ficha</f:facet>
-                            <h:outputText style="font-weight: bold" value="#{item.idFtFichaTecnica}FTEC"/>
-                        </p:column>
+                        s
                         <p:column filterBy="#{item.idItem}" width="110" filterMatchMode="contains">
                             <f:facet name="header">Cod del item/OPM</f:facet>
                             <h:outputText style="font-weight: bold; font-size: 1.2em; color:red" value="#{item.idItem}"/>
@@ -108,20 +105,17 @@
                             <f:facet name="header">Tipo De Ficha</f:facet>
                             <h:outputText style="font-weight: bold; font-size: 1.2em; color:red" value="#{item.idTipoFicha.nombreFicha}"/>
                         </p:column>
-                        <p:column filterBy="#{item.idFtCliente.nombre}" filterMatchMode="contains">
-                            <f:facet name="header">Nombre Cliente</f:facet>
-                            <h:outputText style="font-weight: bold; font-size: 1em;" value="#{item.idFtCliente.nombre}"/>
-                        </p:column>
+
                         <p:column filterBy="#{item.idFtCategoria.descripcion}" filterMatchMode="contains">
                             <f:facet name="header">Tipo De Prenda</f:facet>
                             <h:outputText style="font-weight: bold; font-size: 1em;" value="#{item.idFtCategoria.descripcion}"/>
                         </p:column>
                         <p:column filterBy="#{item.idFtCliente.idFtCliente}" filterMatchMode="contains">
-                            <f:facet name="header">Nit cliente</f:facet>
-                            <h:outputText style="font-weight: bold; font-size: 1em;" value="#{item.idFtCliente.idFtCliente}"/>
+                            <f:facet name="header"> cliente</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1em;" value="#{item.idFtCliente.nombre}"/>
                         </p:column>
                         <p:column filterBy="#{item.descripcionCorta}" filterMatchMode="contains">
-                            <f:facet name="header">Descripción prenda</f:facet>
+                            <f:facet name="header">Descripcion Corta</f:facet>
                             <h:outputText style="font-weight: bold; font-size: 1em;" value="#{item.descripcionCorta}"/>
                         </p:column>
                         <p:column>
@@ -140,7 +134,7 @@
                         </p:column>
                         <p:column width="120">
 
-                            <p:commandButton rendered="#{loginController.fichaTecnicaDESA}" icon="ui-icon-pencil" id="actualizar" ajax="false" action="#{ftFichaTecnica.prepareEdit}" >
+                            <p:commandButton rendered="#{loginController.fichaTecnicaDESA || loginController.auditor}" icon="ui-icon-pencil" id="actualizar" ajax="false" action="#{ftFichaTecnica.prepareEdit}" >
                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{ftFichaTecnica.usuarioActual}"/>
                                 <f:setPropertyActionListener value="#{item}" target="#{ftFichaTecnica.fichaTecnicaActual}"/>
                             </p:commandButton>
@@ -160,7 +154,7 @@
 
 
                             <p:commandButton id="descargar-c" icon="ui-icon-document" 
-                                             rendered="#{loginController.fichaTecnicaPRINT}" action="#{ftFichaTecnica.createFichaPDFCliente}"
+                                             rendered="#{loginController.fichaTecnicaDESA}" action="#{ftFichaTecnica.createFichaPDFCliente}"
                                              onclick="target = '_blank';PF('descargar').hide();"
                                              ajax="false">
                                 <f:setPropertyActionListener value="#{item}" target="#{ftFichaTecnica.fichaTecnicaActual}"/>

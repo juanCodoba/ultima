@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminCalidoso}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+
+                        <!-- Optionally, you can add icons to the links -->
+
+                        <li style="margin-top: 20px" class="active">
+                            <h:commandLink action="/usuario/modPestel/list">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+
+
+                        <li jsf:rendered="#{loginController.adminCalidad || loginController.adminCalidoso ||loginController.admin || loginController.jefe}">
+                            <h:commandLink   action="#{factorController.prepareCreate()}">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                <span>Genera tu matriz</span>
+                            </h:commandLink> 
+                        </li>
+
+                        <li jsf:rendered="#{loginController.adminCalidad || loginController.adminCalidoso ||loginController.admin }">
+                            <h:commandLink action="/administrador/modPestel/list">
+                                <i class="fa fa-book"></i> 
+                                <span>Lista todos los Procesos</span>
+                            </h:commandLink>
+                        </li>
+
+                        <li jsf:rendered="#{loginController.adminCalidad || loginController.adminCalidoso ||loginController.admin || loginController.jefe}" >
+                            <h:commandLink   action="#{factorController.prepareAspectoGlobal()}" actionListener="#{factorController.listarGlobal()}" >
+                                <i class="fa fa-file" aria-hidden="true"></i>
+                                <span>Matriz Global</span>
+                            </h:commandLink> 
+                        </li>
+
+
+                        <li>
+                            <h:commandLink action="/usuario/modulos">
+                                <i class="fa fa-th"></i>
+                                <span>Modulos del sistema</span>
+                            </h:commandLink>
+                        </li>
+
+
+
+                    </h:panelGroup>
+
+                </ul>
+            </h:form>
+        </ui:define>
+
+        <ui:define name="title">Listado de cargos</ui:define>   
+        <ui:define name="button">
+            <h:form id="documentosFormBotones">
+                <div class="container-fluid col-sm-4 form-group">
+                    <h:button class="btn btn-warning btn-block" style="background: darkorange; color: white" value="Pagina principal" outcome="/User/calidad/paginaPrincipalCalidad"/>
+                </div>
+                <div class="container-fluid col-sm-4 form-group">
+                    <h:commandButton class="btn btn-primary btn-block" value="Crear cargo" action="#{cargosController.prepareCreate}" />
+                </div>
+            </h:form>
+        </ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="5000"/>
+            <h:form id="documentosFormList">
+                <p:outputPanel id="documentosTablePanel">
+                    <p:dataTable value="#{procesosController.listaProcesos}" var="cargo"
+                                 rows="50" id="documentosTable"  widgetVar="formatosTable"
+                                 paginator="true" stickyHeader="true" scrollable="true" filteredValue="#{formatosController.filtros}"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="20,50,100">
+                        <f:facet name="header">
+                            <h:commandLink id="exportExcel">
+                                <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                                target="documentosTable" fileName="inventario" />
+                            </h:commandLink>
+                            <p:tooltip id="descripcion-botonExcel" for="exportExcel" value="Exportar en excel" trackMouse="true" />
+                            <h4 class="colorLetra" style="font-weight: bold; display: inline-block !important;" >
+                                Total registros: #{fn:length(procesosController.listaProcesos)}
+                            </h4>
+                        </f:facet>
+                        <p:column filterBy="#{cargo.idProceso}" filterMatchMode="contains" width="100" >
+                            <f:facet name="header">Código del Proceso</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{cargo.idProceso}"/>
+                        </p:column>
+                        <p:column filterBy="#{cargo.nombreProceso.toUpperCase()}" filterMatchMode="contains">
+                            <f:facet name="header">Nombre del Proceso</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{cargo.nombreProceso.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{cargo.idUsuario.toString().toUpperCase()}" filterMatchMode="contains" priority="3">
+                            <f:facet name="header">Responsable del Proceso</f:facet>
+                            <h:outputText value="#{cargo.idUsuario.toString().toUpperCase()}"/>
+                        </p:column>
+                        <p:column width="150">
+                            <p:commandButton ajax="false" id="boton-edit"  icon="ui-icon-pencil" action="#{factorController.prepareEdit()}" actionListener="#{factorController.listardos()}" update="panel">                           
+                                <f:setPropertyActionListener value="#{cargo}" target="#{factorController.procesoActual}"/>
+                                <f:setPropertyActionListener value="#{cargo}" target="#{procesosController.procesosActual}"/>
+                                <f:setPropertyActionListener value="#{cargo}" target="#{usuarioController.procesoActual}"/>
+
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-edit" for="boton-edit" value="Editar formato" trackMouse="true"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
