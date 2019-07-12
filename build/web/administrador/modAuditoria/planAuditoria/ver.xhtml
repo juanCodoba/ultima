@@ -66,7 +66,7 @@
                         </div>
                         <div class="form-group col-md-12">
                             <h:outputLabel value="Tipo de auditoría:"  />
-                            <h:inputText class="form-control" disabled="true" value="#{auPlanAuditoriaController.planAuditoriaActual.idTipoAuditoria}">
+                            <h:inputText class="form-control" disabled="true" value="#{auPlanAuditoriaController.planAuditoriaActual.idTipoAuditoria.nombre}">
                             </h:inputText>
                         </div>
                         <div class="col-md-12 form-group">
@@ -108,10 +108,38 @@
                             </p:inputTextarea>
                             <p:message id="criterioMessage" for="criterio" styleClass="error"/>
                         </div>
+                        <div class="col-md-12 form-group">
+                            <h:outputLabel value="Estado de la Auditoria"  />
+                            <p:selectOneMenu id="cumplimiento" style="width: 100%" value="#{auPlanAuditoriaController.planAuditoriaActual.estado}">
+                                <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}" />
+                                <f:selectItem itemLabel="TR | TERMINADA" itemValue="TERMINADA" />
+                                <f:selectItem itemLabel="DS | DESARROLLO" itemValue="DESARROLLO" />
+                                <f:selectItem itemLabel="FI | FALTAN INFORMES" itemValue="FALTAN INFORMES" />
+
+                            </p:selectOneMenu>
+                        </div>
+
+                        <div class="col-md-12 form-group" jsf:rendered="#{loginController.auditor}" >
+                            <h:outputLabel value="Mes A Auditar"  style="display: block; position: relative; left: 13px;"/>
+                            <div class="col-md-2 form-group" style="    position: relative;   left: 20%;">
+                                <h:outputLabel value="Fecha Inicio:"  />
+                                <p:calendar id="fechaIAuditoria" locale="es"
+                                            value="#{auPlanAuditoriaController.planAuditoriaActual.fechaIAuditoria}"
+                                            pattern="MMMM dd, yyyy"/>
+                                <p:message id="fechaIAuditoriaMessage" for="fechaIAuditoria" styleClass="error"/>
+                            </div>
+                            <div class="col-md-2 form-group" style="    position: relative;    left: 40%;">
+                                <h:outputLabel value="Fecha Fin"  />
+                                <p:calendar id="fechaFAuditoria" locale="es"
+                                            value="#{auPlanAuditoriaController.planAuditoriaActual.fechafAuditoria}"
+                                            pattern="MMMM dd, yyyy"/>
+                                <p:message id="fechaFAuditoriaMessage" for="fechaFAuditoria" styleClass="error"/>
+                            </div>
+                        </div> 
                     </h:panelGroup>
                 </div>
-                <div style="position: absolute; bottom: 4em;  ">
-                    <div class="container row">
+                <div class="col-md-12" style="position: absolute; bottom: 4em;  ">
+                    <div class=" container row">
                         <div class="col-sm-12 form-group">
                             <h:outputLabel value="Link de acceso a los anexos de auditoria:"  />
                             <input placeholder="Acceso del documento" class="form-control" 
@@ -195,17 +223,6 @@
                                             <p:ajax listener="#{auPlanAuditoriaController.prepareConclusionesProceso}" update="conclusion" oncomplete="PF('dlg4').show();" />
                                         </h:commandButton>
 
-                                        <h:commandButton type="button" value="Ver aspectos " style="margin-left: 5px; margin-top: 2px;" class="btn btn-primary">
-                                            <f:attribute name="item" value="#{item}" />
-                                            <f:setPropertyActionListener value="#{item}" target="#{auPlanAuditoriaController.procesoEvaluadoActualAspecto}"/>
-                                            <p:ajax listener="#{auPlanAuditoriaController.prepareAspecto}" update=":formCreateVehiculo" oncomplete="PF('dlg2').show();" />
-                                        </h:commandButton>
-
-                                        <h:commandButton type="button" value="Generar aspectos " style="margin-left: 5px; margin-top: 2px;" class="btn btn-primary">
-                                            <f:attribute name="item" value="#{item}" />
-                                            <f:setPropertyActionListener value="#{item}" target="#{auPlanAuditoriaController.procesoEvaluadoActualAspecto}"/>
-                                            <p:ajax listener="#{auPlanAuditoriaController.prepareAspecto}" update=":formCreateVehiculo " oncomplete="PF('dlg5').show();" />
-                                        </h:commandButton>
                                     </div>
                                 </div>
                             </p:panel>
@@ -234,7 +251,7 @@
                                 <p:column headerText="Comentario" >
                                     <h:outputText value="#{item2.comentario}" style="font-weight: bold"/>
                                 </p:column>
-                                <p:column width="150" headerText="Estado" >
+                                <p:column width="100" headerText="Estado" >
                                     <h:outputText value="#{item2.estado}" style="font-weight: bold"/>
                                 </p:column>
                                 <p:column width="100">
@@ -252,8 +269,6 @@
                                                    action="#{calidadPlanAccionController.prepareCreateAuditoria}"
                                                    class="btn btn-primary" style="color: white; margin-left: 3px">
                                         <i class="fa fa-wrench" aria-hidden="true"></i>
-                                        <f:attribute name="item" value="#{item2}"/>
-                                        <f:setPropertyActionListener value="#{item2}" target="#{calidadPlanAccionController.aspectoEvaluarActual}"/>
                                     </h:commandLink>
                                     <p:tooltip for="admin" value="Acción de mejora"/>
                                 </p:column>
@@ -302,7 +317,7 @@
                         <div class="col-md-6 form-group">
                             <h:commandButton styleClass="boton-prime" 
                                              action="#{auPlanAuditoriaController.editarEstadoAspectoEvaluar}" 
-                                             value="Agregar">
+                                             value="editar">
                                 <p:ajax oncomplete="PF('dlg3').hide();"/>
                                 <f:ajax execute="@this cumplimiento comentario" 
                                         render="formCreateVehiculo:tablaFuncion"/>
@@ -349,7 +364,7 @@
                             </p:inputTextarea>
                         </div>
                     </div>
-                    <div class="col-md-12 form-group">
+                    <div class="col-md-6 form-group">
                         <p:commandButton styleClass="boton-prime" 
                                          icon="fa fa-save"
                                          action="#{auPlanAuditoriaController.addConclusionesProcesos}" 
@@ -358,7 +373,7 @@
                             <p:ajax oncomplete="PF('dlg4').hide();"/>
                         </p:commandButton> 
                     </div>
-                    <div class="col-md-12 form-group">
+                    <div class="col-md-6 form-group">
                         <p:commandButton styleClass="btn btn-danger btn-block" 
                                          value="Cerrar" 
                                          oncomplete="PF('dlg4').hide();"
@@ -375,7 +390,7 @@
                                 Ingresa los aspectos a evaluar de
                                 <h:outputLabel value=" #{auPlanAuditoriaController.procesoEvaluadoActualAspecto.idSubproceso.nombreSubproceso}"/>
                             </div>
-                            <div class="form-group">
+                            <div class="col-md-6 form-group">
                                 <h:outputLabel value="Requisito de norma (Opcional):"  />
                                 <p:inputText placeholder="Requisito" 
                                              class="form-control" 
@@ -386,7 +401,7 @@
                                 </p:inputText>
                                 <p:message id="requisitoMessage" for="requisito" styleClass="error"/>
                             </div>
-                            <div class="form-group">
+                            <div class="col-md-6 form-group">
                                 <h:outputLabel value="Aspecto a evaluar:"  />
                                 <p:inputText placeholder="Aspecto" 
                                              class="form-control" 
@@ -401,7 +416,7 @@
                         </div>
 
 
-                        <div class="col-md-12 form-group">
+                        <div class="col-md-6 form-group">
                             <p:commandButton styleClass="boton-prime" 
                                              icon="fa fa-save"
                                              action="#{auPlanAuditoriaController.addAspectoEvaluar}" 

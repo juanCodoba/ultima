@@ -21,7 +21,7 @@
             <url>src/java/com/proyectoCFIP/controller/FtFichaTecnicaController.java</url>
             <bookmark id="4">
                 <name/>
-                <line>1153</line>
+                <line>1161</line>
                 <key/>
             </bookmark>
         </file>
@@ -29,27 +29,26 @@
             <url>web/usuario/modFichaTecnica/fileCliente.xhtml</url>
             <bookmark id="1">
                 <name/>
-                <line>241</line>
+                <line>249</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/controller/LoginController.java</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modPestel/create2.xhtml</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modPestel/edit.xhtml</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modPestel/list.xhtml</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modPestel/verGlobal.xhtml</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/entities/Factores.java</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/usuario/modPestel/list.xhtml</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modPestel/editFactores.xhtml</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/sessions/FactoresFacade.java</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/usuario/modCalidad/cargos/list.xhtml</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/AccessDenied.xhtml</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/usuario/modCalidad/accionMejora/crearAccion.xhtml</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/controller/FactorController.java</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/controller/ProcesosController.java</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/controller/CalidadPlanAccionController.java</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/controller/FacturasSiesaController.java</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modFichaTecnica/novedades/lista.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modFichaTecnica/novedades/administrar.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/usuario/desayuno/list.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/entities/Facturado.java</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/usuario/desayuno/pendienteFacturar.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/usuario/desayuno/lista.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/controller/NovedadCotroller.java</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modFichaTecnica/novedades/crear.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modFichaTecnica/actiNovedades/crear.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/controller/ActividadNovedadCotroller.java</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/desayuno/create.xhtml</file>
         </group>
     </open-files>
 </project-private>

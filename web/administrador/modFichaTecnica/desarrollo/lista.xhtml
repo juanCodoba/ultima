@@ -14,7 +14,7 @@
                     <h:panelGroup >
                         <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
                         <!-- Optionally, you can add icons to the links -->
-                        <li>
+                        <li class="active">
                             <h:commandLink action="#{ftFichaTecnica.prepareListPrincipal}">
                                 <i class="fa fa-dashboard"></i> 
                                 <span>Principal</span>
@@ -27,20 +27,20 @@
                                 <span>Crear ficha técnica</span>
                             </h:commandLink>
                         </li>
-                        <li class="active">
-                            <h:commandLink  action="#{ftFichaTecnica.prepareListDesarrollo}">
+                        <li>
+                            <h:commandLink action="#{ftFichaTecnica.prepareListDesarrollo}">
                                 <i class="fa fa-camera-retro"></i> 
                                 <span>Fichas en desarrollo</span>
                             </h:commandLink>
                         </li>
                         <li>
-                            <h:commandLink  action="#{ftFichaTecnica.prepareListPrimeraValidacion}">
+                            <h:commandLink action="#{ftFichaTecnica.prepareListPrimeraValidacion}">
                                 <i class="fa fa-check"></i> 
                                 <span>Primera Validación</span>
                             </h:commandLink>
                         </li>
                         <li>
-                            <h:commandLink rendered="#{loginController.fichaTecnicaSCAM}" action="#{indicadorSaludOcupacionalController.prepareList}">
+                            <h:commandLink rendered="#{loginController.fichaTecnicaSCAM}" action="#{ftFichaTecnica.prepareListSolicitudesModificacionTodas}">
                                 <i class="fa fa-cogs"></i> 
                                 <span>Lista de solicitudes</span>
                             </h:commandLink>
@@ -51,11 +51,16 @@
                                 <span>Clientes</span>
                             </h:commandLink>
                         </li>
-
-                        <li  class="active">
-                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftCategoriaController.listaCategoria}">
+                        <li>
+                            <h:commandLink rendered="#{loginController.adminCalidad || loginController.adminCalidoso|| loginController.userDisn }" action="#{NovedadCotroller.prepareListNovedad()}">
                                 <i class="fa fa-user"></i>
-                                <span>Categoria</span>
+                                <span>Novedades</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.adminCalidad || loginController.adminCalidoso|| loginController.userDisn }" action="#{ActividadNovedadCotroller.prepareCreate()}">
+                                <i class="fa fa-user"></i>
+                                <span>Actividades</span>
                             </h:commandLink>
                         </li>
                     </h:panelGroup>   
@@ -155,7 +160,7 @@
                             </p:commandButton>
                             <p:tooltip id="descripcion-duplicado" for="duplicado" value="Crear duplicado" trackMouse="true" />
                             <p:commandButton id="descargar-c" icon="ui-icon-document" 
-                                             rendered="#{loginController.fichaTecnicaDESA}" action="#{ftFichaTecnica.createFichaPDFCliente}"
+                                             rendered="#{loginController.fichaTecnicaDESA || loginController.comercial}" action="#{ftFichaTecnica.createFichaPDFCliente}"
                                              onclick="target = '_blank';PF('descargar').hide();"
                                              ajax="false">
                                 <f:setPropertyActionListener value="#{item}" target="#{ftFichaTecnica.fichaTecnicaActual}"/>

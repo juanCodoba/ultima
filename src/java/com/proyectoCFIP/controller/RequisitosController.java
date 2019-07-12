@@ -125,10 +125,10 @@ public class RequisitosController implements Serializable {
 
     public void deleteRequisitoLista() {
         try {
-            getRequisitosFacade().remove(requisitoActual);
             listaRequisitoActual.remove(requisitoActual);
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro Eliminado", "El Registro fue eliminado correctamente");
             RequestContext.getCurrentInstance().showMessageInDialog(message);
+            recargarLista();
         } catch (Exception e) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Registro no se elimino", "El Registro no fue eliminado correctamente intentalo de nuevo!!");
             RequestContext.getCurrentInstance().showMessageInDialog(message);
@@ -208,6 +208,7 @@ public class RequisitosController implements Serializable {
     public void delete() {
         try {
             getRequisitosFacade().remove(requisitoActual);
+            listaRequisitoActual.remove(requisitoActual);
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro Eliminado", "El Registro fue eliminado correctamente");
             RequestContext.getCurrentInstance().showMessageInDialog(message);
         } catch (Exception e) {

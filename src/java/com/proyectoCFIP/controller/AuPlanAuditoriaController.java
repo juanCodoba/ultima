@@ -312,13 +312,11 @@ public class AuPlanAuditoriaController implements Serializable {
                 items.setIdPlanAuditoria(planAuditoriaActual);
                 items.setEstado(true);
                 getProcesoEvaluadoFacade().edit(items);
-
             }
             for (AuAspectoEvaluar items2 : listaAspectoEvaluarTotal) {
                 items2.setEstado("Sin auditar");
                 getAspectoEvaluarFacade().edit(items2);
             }
-
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Auditoria Generada  ", "La Auditoria fue generada correctamente");
             RequestContext.getCurrentInstance().showMessageInDialog(message);
             recargarLista();
@@ -348,13 +346,14 @@ public class AuPlanAuditoriaController implements Serializable {
 
     public void deleteProcesoAuditar() {
         try {
+            listaProcesoEvaluado.remove(procesoEvaluadoActual);
             getProcesoEvaluadoFacade().remove(procesoEvaluadoActual);
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro Eliminado", "El Registro fue eliminado correctamente");
             RequestContext.getCurrentInstance().showMessageInDialog(message);
             recargarLista();
         } catch (Exception e) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Registro no Eliminado", "El Registro no fue eliminado correctamente!!");
-            RequestContext.getCurrentInstance().showMessageInDialog(message);
+            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
+
         }
     }
 
@@ -380,9 +379,7 @@ public class AuPlanAuditoriaController implements Serializable {
             } else {
                 aspectoEvaluarActual.setEstado("CERRADO");
             }
-            aspectoEvaluarActual.setIdAuProcesoEvaluado(procesoEvaluadoActualAspecto);
             getAspectoEvaluarFacade().edit(aspectoEvaluarActual);
-            aspectoEvaluarActual = new AuAspectoEvaluar();
             addSuccessMessage("Item guardado", "Proceso a evaluar creado");
         } catch (Exception e) {
             addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
@@ -436,11 +433,7 @@ public class AuPlanAuditoriaController implements Serializable {
 
     public String prepareEditEstado() {
         try {
-            if (planAuditoriaActual.getInformeFinal().equals("") || planAuditoriaActual.getActaSocializacion().equals("")) {
-                planAuditoriaActual.setEstado("FALTAN INFORMES");
-            } else {
-                planAuditoriaActual.setEstado("TERMINADA");
-            }
+            //planAuditoriaActual.setEstado("TERMINADA");
             getPlanAuditoriaFacade().edit(planAuditoriaActual);
             recargarLista();
             return "/usuario/modAuditoria/planAuditoria/lista";

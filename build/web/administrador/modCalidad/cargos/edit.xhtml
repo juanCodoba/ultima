@@ -106,13 +106,13 @@ and open the template in the editor.
                                 </h:inputText>
                             </div>
                         </div>
-                        <div class="col-md-5">
-                            <div class="form-group">
+                        <div>
+                            <div class="col-md-6 form-group">
                                 <h:outputLabel value="Subproceso:" />
                                 <div class="form-group">  
                                     <p:selectOneMenu class="cargoReporta"
                                                      id="subProceso" 
-                                                     filter="true" style="width: 100%"
+                                                     filter="true" 
                                                      value="#{cargosController.cargosActual.idSubproceso}" 
                                                      converter="subprocesoConverter">
                                         <f:ajax execute="@this" render="subProcesoMessage"/>
@@ -123,14 +123,14 @@ and open the template in the editor.
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-7">
-                            <div class="form-group">
+                        <div >
+                            <div class="col-md-6 form-group">
                                 <h:outputLabel value="A quien le reporta:" />
                                 <div class="form-group">  
                                     <p:selectOneMenu class="cargoReporta"
                                                      id="cargoResponsable" 
                                                      converter="cargosConverter"
-                                                     filter="true" style="width: 100%"
+                                                     filter="true" 
                                                      value="#{cargosController.cargosActual.idCargoResponsable}" >
                                         <f:ajax execute="@this" render="cargoResponsableMessage"/>
                                         <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>

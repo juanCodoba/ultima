@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:composition template="/template/plantilla.xhtml">
+         <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminCalidoso}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="#{formatosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-excel-o"></i> 
+                                <span>Administrar Registros</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span>Administrar Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListPermiso}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-user"></i>
+                                <span>Permisos Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li class="active">
+                              <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-spinner" aria-hidden="true"></i>
+                                <span>Administrar Acciones</span>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{calidadPlanAccionController.usuarioActual}"/>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{calidadGestionConocimientoController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                                <span>Administrar Conocimiento</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+                    <p:separator rendered="#{loginController.adminCalidoso}"/>
+                    <li style="margin-top: 20px">
+                            <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                    <li>
+                        <h:commandLink action="#{formatosController.prepareListUser}">
+                            <i class="fa fa-file"></i>
+                            <span>Lista de registros</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{documentosController.prepareListUser}" rendered="#{loginController.userCaliadad}">
+                            <i class="fa fa-book"></i>
+                            <span>Lista de documentos</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadGestionConocimientoController.prepareList}">
+                            <i class="fa fa-lightbulb-o"></i>
+                            <span>Gestión del conocimiento</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/compromisosComite">
+                            <i class="fa fa-users"></i>
+                            <span>Compromisos del comité</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadPlanAccionController.list}">
+                            <i class="fa fa-cogs"></i>
+                            <span>Acciones de mejora</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/informacionCalidad">
+                            <i class="fa fa-question"></i>
+                            <span>¿Que es calidad?</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/horizonteInstitucional">
+                            <i class="fa fa fa-eye"></i>
+                            <span>Horizonte institucional</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Lista de seguimientos</ui:define>  
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form id="documentosFormList">
+                <p:outputPanel id="documentosTablePanel">
+                    <p:dataTable value="#{calidadPlanAccionController.listaSeguimientoSinCerrarCor}" var="item"
+                                     rows="100" paginator="true" id="acciones"
+                                     rowStyleClass="#{item.estado eq 'abierto' ? 'color3': item.estado eq 'cerrado' ? 'color1':null}"
+                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="100, 150" emptyMessage="No se encontraron seguimientos">
+                            <f:facet name="header">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p:button icon="fa fa-arrow-left"
+                                                    value="Volver" 
+                                                    style="font-size: 1.2em !important; padding: 5px; left: 0"
+                                                    outcome="listaAccion"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <h4 class="colorLetra" style="font-weight: bold" >
+                                                Total seguimientos: #{fn:length(calidadPlanAccionController.listaSeguimientoSinCerrarCor)}
+                                            </h4>
+                                        </div>
+                                        <div class="col-md-3">
+                                        </div>
+                                        <div class="col-md-1">
+                                            <h:commandLink id="exportExcel">
+                                                <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                                <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                                        target="acciones" fileName="inventario" />
+                                            </h:commandLink>
+                                        </div>
+                                    </div>
+                                </div>
+                            </f:facet>
+                        
+                        <p:column filterBy="#{item.idaccionCorrectiva.descripcion}" filterMatchMode="contains">
+                            <f:facet name="header">Acción a implementar</f:facet>
+                            <h:outputText value="#{item.idaccionCorrectiva.descripcion.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.idaccionCorrectiva.responsable}" filterMatchMode="contains">
+                            <f:facet name="header">Responsable de la acción</f:facet>
+                            <h:outputText value="#{item.idaccionCorrectiva.responsable.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.idaccionCorrectiva.fecha}" filterMatchMode="contains">
+                            <f:facet name="header">Fecha de la acción</f:facet>
+                            <h:outputText value="#{item.idaccionCorrectiva.fecha}">
+                                <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column filterBy="#{item.resultado}" filterMatchMode="contains">
+                            <f:facet name="header">Resultado del seguimiento</f:facet>
+                            <h:outputText value="#{item.resultado.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.fecha}" filterMatchMode="contains">
+                            <f:facet name="header">Fecha del seguimiento</f:facet>
+                            <h:outputText value="#{item.fecha}">
+                                <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column filterBy="#{item.responsable.toString()}" filterMatchMode="contains">
+                            <f:facet name="header">Responsable del seguimeinto</f:facet>
+                            <h:outputText value="#{item.responsable.toString().toUpperCase()}"/>
+                        </p:column>
+                        
+                        <p:column filterBy="#{item.estado}" filterMatchMode="contains">
+                            <f:facet name="header">Estado</f:facet>
+                            <h:outputText value="#{item.estado}"/>
+                        </p:column>
+                        <p:column width="60">
+                            <h:commandLink id="edit" class="btn btn-primary" style="color: white"> 
+                                <li class="fa fa-check-square-o"></li> 
+                                <p:ajax update="editarSeguimiento:editarSeguimiento" oncomplete="PF('dlg3').show();" />     
+                                <f:attribute name="item" value="#{item}"/>
+                                <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.seguimientoAccionActual}"/>
+                            </h:commandLink>
+                            <p:tooltip for="edit" value="Editar seguimiento"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+            <h:form id="editarSeguimiento">
+                <p:dialog widgetVar="dlg3" header="Seguimiento a las acciones" width="800">
+                    <h:panelGroup id="editarSeguimiento">
+                         <div class="form-group">
+                             <h:outputLabel value="Responsable del seguimiento:"  />
+                             <p:inputText placeholder="" 
+                                        class="form-control" 
+                                        id="responsableSeguimiento" 
+                                        value="#{calidadPlanAccionController.calidadSeguimientoCorrectivaActual.responsable}"> 
+                                    <f:ajax execute="@this" render="responsableSeguimientoMessage"/>
+                            </p:inputText>
+                            <p:message id="responsableSeguimientoMessage" for="responsableSeguimiento" styleClass="error"/>
+                        </div>
+                        <div class="form-group">
+                             <h:outputLabel value="Resultado del seguimiento:"  />
+                             <p:inputTextarea placeholder="" 
+                                        class="form-control" 
+                                        id="observacion" 
+                                        value="#{calidadPlanAccionController.calidadSeguimientoCorrectivaActual.resultado}"> 
+                                    <f:ajax execute="@this" render="descripcionMessage"/>
+                            </p:inputTextarea>
+                            <p:message id="observacionMessage" for="observacion" styleClass="error"/>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel value="Fecha seguimiento:"  />
+                            <p:calendar id="fecha" locale="es"
+                                        value="#{calidadPlanAccionController.calidadSeguimientoCorrectivaActual.fecha}"
+                                        pattern="MMMM dd, yyyy"/>
+                            <p:message id="fechaMessage" for="fecha" styleClass="error"/>
+                        </div>
+                         <div class="form-group col-md-3">
+                            <h:outputLabel class="letra-form" value="Estado:"/>
+                            <p:selectOneButton value="#{calidadPlanAccionController.calidadSeguimientoCorrectivaActual.estado}"
+                                               style="width: 100%">
+                                <f:selectItem itemLabel="ABIERTO " itemValue="abierto" />
+                                <f:selectItem itemLabel="CERRADO" itemValue="cerrado" />
+                            </p:selectOneButton> 
+                        </div>
+                        
+                        <div class="">
+                            <p:commandButton styleClass="btn btn-primary btn-block" 
+                                             value="Editar seguimiento"
+                                             update=":documentosFormList:documentosTablePanel"
+                                             action="#{calidadPlanAccionController.updateSeguimiento}">
+                                <f:ajax onevent="dlg3.hide()" execute="@this" render=":documentosFormList:documentosTablePanel"/>
+                            </p:commandButton>
+                            <p:commandButton styleClass="btn btn-danger btn-block" 
+                                      value="Cancelar" 
+                                      oncomplete="PF('dlg3').hide();"
+                                      process="@this"/>
+                        </div>
+                    </h:panelGroup>
+                </p:dialog>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

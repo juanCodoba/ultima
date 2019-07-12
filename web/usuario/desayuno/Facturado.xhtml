@@ -1,0 +1,362 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup>
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.userDesp}" class="active" action="/usuario/desayuno/list">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li >
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareList}">
+                                <i class="fa fa-check"></i> 
+                                <span>Clientes Facturados</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareDiaActual()}" actionListener="#{facturasSiesaController.listarModal()}" >
+                                <i class="fa fa-table"></i> 
+                                <span>Reporte dia Actual</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareDiario()}" actionListener="#{facturasSiesaController.listarModal()}" >
+                                <i class="fa fa-table"></i> 
+                                <span>Reporte diario</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareListPendiente()}">
+                                <i class="fa fa-exclamation-triangle"></i> 
+                                <span>Pendiente por Facturar</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.userDesp}" action="#{facturadoController.prepareCreate()}">
+                                <i class="fa fa-book"></i>
+                                <span>Crear nuevo Envio</span> 
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{facturadoController.usuarioActual}" rendered="#{loginController.admin}"/>
+
+                            </h:commandLink>
+                        </li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li >
+                            <h:commandLink action="/usuario/modulos">
+                                <i class="fa fa-th"></i>
+                                <span>Modulos del sistema</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">El Desayuno</ui:define>   
+        <ui:define name="title2">Aqui podras estar al tanto de lo facturado diariamente  </ui:define> 
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="5000"/>
+            <div class="row">
+                <h:form id="documentosFormList">
+                    <!--INICIO REPORTE DIA ANTERIOR -->
+                    <div class="col-xs-4">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading" >
+                                <h4 class="letra-panelDescriEdu">Ventas dia anterior <h:outputText value="#{facturasSiesaController.fecha3}">
+                                        <f:convertDateTime pattern="MMMM dd, yyyy" />
+
+                                    </h:outputText></h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <p:dataTable var="OpaloItems" value="#{facturasSiesaController.listaT350ReporteDiario}" widgetVar="carsTable"
+                                             emptyMessage="No cars found with given criteria" filteredValue="#{facturasSiesaController.listaT350ReporteDiario}">
+
+
+                                    <p:column sortBy="#{OpaloItems.descrip}" headerText="Unidad de Negocio">
+                                        <h:outputText value="#{OpaloItems.descrip}" />
+                                    </p:column>
+
+                                    <p:column sortBy="#{OpaloItems.total}" headerText="Total" style="    text-align: right;" >
+                                        <h:outputText value="#{OpaloItems.total}" style="text-align:right">
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </div>
+                            <div class="panel-body" style="width: 100%;     top: -2pc;    /* bottom: -51%; */    margin-bottom: -6%;    position: relative;">
+                                <p:dataTable var="opaloftdh" value="#{facturasSiesaController.listaT350ReporteAnteriorFTDH}" >
+                                    <p:column >
+                                        <h:outputText value="FTDH "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opaloftdh.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <div class="panel-body" style="width: 100%;     top: -2pc;    /* bottom: -51%; */    margin-bottom: -6%;    position: relative;">
+                                <p:dataTable var="opaloEXT" value="#{facturasSiesaController.listaT350ReporteAnteriorExt}" >
+                                    <p:column >
+                                        <h:outputText value="EXT. ACADEMICA "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opaloEXT.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+
+
+                            <div class="panel-body" style="width: 100%;     top: -2pc;    /* bottom: -51%; */    margin-bottom: -6%;    position: relative;">
+                                <p:dataTable var="opalo" value="#{facturasSiesaController.listaT350ReporteDiaAnterior}" >
+                                    <p:column >
+                                        <h:outputText value="TOTAL "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opalo.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FINAL REPORTE DIA ANTERIOR -->
+
+                    <!-- INICIO REPORTE CLIENTES CONFECCIONES -->
+                    <div class="col-xs-4">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading" >
+                                <h4 class="letra-panelDescriEdu">Reporte clientes facturados confecciones  </h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <p:dataTable var="opalo" value="#{facturasSiesaController.listaT350ReporteDiarioConfeccionesClientes}"
+                                             paginator="true" rows="4"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="5,10,15">
+                                    <p:column headerText="Unidad de negocio" >
+                                        <h:outputText value="#{opalo.cliente}" />
+                                    </p:column>
+                                    <p:column headerText="Total" style="    text-align: right;" >
+                                        <h:outputText value="#{opalo.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <div class="panel-body" style="width: 100%;     top: -2pc;    /* bottom: -51%; */    margin-bottom: -6%;    position: relative;">
+                                <p:dataTable var="opalo" value="#{facturasSiesaController.listaT350ReporteDiarioConfeccionesClientesTotal}" >
+                                    <p:column >
+                                        <h:outputText value="TOTAL "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opalo.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- FINAL REPORTE CLIENTES CONFECCIONES -->
+
+                    <!-- INICIO REPORTE CLIENTES BIGBAG -->
+                    <div class="col-xs-4">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading" >
+                                <h4 class="letra-panelDescriEdu">Clientes BIGBAG</h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <p:dataTable var="opalo" value="#{facturasSiesaController.listaT350ReporteDiarioBigBagClientes}" 
+                                             paginator="true" rows="4"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="5,10,15">
+                                    <p:column headerText="Unidad de negocio" >
+                                        <h:outputText value="#{opalo.cliente}" />
+                                    </p:column>
+                                    <p:column headerText="Total" style="    text-align: right;" >
+                                        <h:outputText value="#{opalo.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <div class="panel-body" style="width: 100%;     top: -2pc;    /* bottom: -51%; */    margin-bottom: -6%;    position: relative;">
+                                <p:dataTable var="opalo" value="#{facturasSiesaController.listaT350ReporteDiarioBigBagClientesTotal}" >
+                                    <p:column >
+                                        <h:outputText value="TOTAL "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opalo.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- FINAL REPORTE CLIENTES BIGBAG -->
+
+                    <!-- INICIO REPORTE CLIENTES EXT. ACADEMICA -->
+                    <div class="col-xs-4">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading" >
+                                <h4 class="letra-panelDescriEdu">Clientes Extención Academica</h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <p:dataTable var="OpaloItems" value="#{facturasSiesaController.listaT350ReporteAnteriorExtClientes}" widgetVar="carsTable"
+                                             emptyMessage="No cars found with given criteria" 
+                                             paginator="true"
+                                             rows="4"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="5,10,15">
+                                    <p:column sortBy="#{OpaloItems.cliente}" headerText="Unidad de Negocio">
+                                        <h:outputText value="#{OpaloItems.cliente}" />
+                                    </p:column>
+                                    <p:column sortBy="#{OpaloItems.total}" headerText="Total" style="    text-align: right;" >
+                                        <h:outputText value="#{OpaloItems.total}" style="text-align:right">
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <div class="panel-body" style="width: 100%;     top: -2pc;    /* bottom: -51%; */    margin-bottom: -6%;    position: relative;">
+                                <p:dataTable var="opaloEXT" value="#{facturasSiesaController.listaT350ReporteAnteriorExt}" >
+                                    <p:column >
+                                        <h:outputText value="EXT. ACADEMICA "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opaloEXT.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- FINAL REPORTE CLIENTES EXT. ACADEMICA -->
+
+                    <!-- INICIO REPORTE CLIENTES FTDH -->
+                    <div class="col-xs-4">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading" >
+                                <h4 class="letra-panelDescriEdu">Clientes FTDH </h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <p:dataTable var="OpaloItems" value="#{facturasSiesaController.listaT350ReporteAnteriorFTDHClientes}" widgetVar="carsTable"
+                                             emptyMessage="No cars found with given criteria"
+                                             paginator="true"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="5,10,15"
+                                             rows="4">
+                                    <p:column sortBy="#{OpaloItems.cliente}" headerText="Unidad de Negocio">
+                                        <h:outputText value="#{OpaloItems.cliente}" />
+                                    </p:column>
+                                    <p:column sortBy="#{OpaloItems.total}" headerText="Total" style="    text-align: right;" >
+                                        <h:outputText value="#{OpaloItems.total}" style="text-align:right">
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <div class="panel-body" style="width: 100%;     top: -2pc;    /* bottom: -51%; */    margin-bottom: -6%;    position: relative;">
+                                <p:dataTable var="opaloftdh" value="#{facturasSiesaController.listaT350ReporteAnteriorFTDH}" >
+                                    <p:column >
+                                        <h:outputText value="FTDH "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opaloftdh.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- FINAL REPORTE CLIENTES FTDH -->
+
+                    <!-- INICIO REPORTE CLIENTES TALLERES INDUSTRIALES -->
+                    <div class="col-xs-4">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading" >
+                                <h4 class="letra-panelDescriEdu">Clientes talleres industriales </h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <p:dataTable var="OpaloItems" 
+                                             value="#{facturasSiesaController.listaT350ReporteAnteriorTallerIndustrialClientes}"
+                                             widgetVar="carsTable"
+                                             emptyMessage="No cars found with given criteria"
+                                             paginator="true"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="5,10,15"
+                                             >
+                                    <p:column sortBy="#{OpaloItems.cliente}" headerText="Unidad de Negocio">
+                                        <h:outputText value="#{OpaloItems.descrip}" />
+                                    </p:column>
+                                    <p:column sortBy="#{OpaloItems.total}" headerText="Total" style="    text-align: right;" >
+                                        <h:outputText value="#{OpaloItems.total}" style="text-align:right">
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <div class="panel-body" style="width: 100%;     top: -2pc;    /* bottom: -51%; */    margin-bottom: -6%;    position: relative;">
+                                <p:dataTable var="opalo2" value="#{facturasSiesaController.listaT350ReporteAnteriorTallerIndustrialClientesTotal}" >
+                                    <p:column >
+                                        <h:outputText value="TOTAL "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opalo2.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- FINAL REPORTE CLIENTES TALLERES INDUSTRIALES -->
+
+
+
+
+                </h:form>
+            </div>
+
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+

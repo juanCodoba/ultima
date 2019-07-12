@@ -12,7 +12,7 @@
                 <ul class="sidebar-menu">
                     <h:panelGroup>
                         <!-- Optionally, you can add icons to the links -->
-                         <li style="margin-top: 20px">
+                        <li style="margin-top: 20px">
                             <h:commandLink action="/usuario/modAuditoria/planAuditoria/lista">
                                 <i class="fa fa-dashboard"></i> 
                                 <span>Principal</span>
@@ -100,21 +100,16 @@
                             <h:inputText class="form-control" disabled="true" value="#{calidadPlanAccionController.planAccionActual.responsable.toString()}">
                             </h:inputText>
                         </div>
-                        <div class="col-md-12 form-group">
-                            <h:outputLabel value="Origen del plan de acción:" />
-                            <h:inputText class="form-control" disabled="true" value="#{calidadPlanAccionController.planAccionActual.origenAccion}">
-                            </h:inputText>
-                        </div>
                         <p:separator></p:separator>
                         <div class="col-md-12 form-group">
                             <h:outputLabel value="Nombre del plan de acción:"  />
                             <p:inputText placeholder="Título" 
-                                             class="form-control" 
-                                             id="titulo" 
-                                             value="#{calidadPlanAccionController.planAccionActual.tituloPlan}" 
+                                         class="form-control" 
+                                         id="titulo" 
+                                         value="#{calidadPlanAccionController.planAccionActual.tituloPlan}" 
                                          required="true"
                                          requiredMessage="Por favor ingrece el titulo">
-                                         <f:ajax execute="@this" render="descripcionMessage"/>
+                                <f:ajax execute="@this" render="descripcionMessage"/>
                             </p:inputText>
                             <p:message id="tituloMessage" for="titulo" styleClass="error"/>
                         </div>
@@ -124,16 +119,32 @@
                                              class="form-control" 
                                              id="descripcion" 
                                              value="#{calidadPlanAccionController.planAccionActual.descripcion}" 
-                                         required="true"
-                                         requiredMessage="Por favor ingrece la descripción de la NO conformidad">
-                                         <f:ajax execute="@this" render="descripcionMessage"/>
+                                             required="true"
+                                             requiredMessage="Por favor ingrece la descripción de la NO conformidad">
+                                <f:ajax execute="@this" render="descripcionMessage"/>
                             </p:inputTextarea>
                             <p:message id="descripcionMessage" for="descripcion" styleClass="error"/>
                         </div>
                         <div class="form-group col-md-6">
+                            <h:outputLabel value="Origen de la acción de mejora:"  />
+                            <p:selectOneMenu id="advanced" style="width: 100%"
+                                             value="#{calidadPlanAccionController.planAccionActual.origenAccion}"
+                                             filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
+                                <f:selectItem itemLabel="Auditoria interna" itemValue="Auditoria interna" />
+                                <f:selectItem itemLabel="Revisión de indicadores" itemValue="Revisión de indicadores" />
+                                <f:selectItem itemLabel="Auditoria externa" itemValue="Auditoria externa" />
+                                <f:selectItem itemLabel="Revisión Dirección" itemValue="Revisión dirección" />
+                                <f:selectItem itemLabel="Servicio NO conforme" itemValue="Servicio NO conforme"/>
+                                <f:selectItem itemLabel="Queja" itemValue="Queja"/>
+                                <f:selectItem itemLabel="Gestión de riesgos" itemValue="Gestion de riesgos"/>
+                                <f:selectItem itemLabel="Requerimiento propio del proceso" itemValue="Requerimiento propio del proceso"/>
+                            </p:selectOneMenu>
+                        </div>
+                        <div class="form-group col-md-6">
                             <h:outputLabel value="Tipo de acción:"  />
                             <p:selectOneMenu id="tipo" style="width: 100%"
-                                              value="#{calidadPlanAccionController.planAccionActual.tipoPlan}">
+                                             value="#{calidadPlanAccionController.planAccionActual.tipoPlan}">
                                 <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
                                 <f:selectItem itemLabel="Acción correctiva" itemValue="Acción correctiva" />
                                 <f:selectItem itemLabel="Acción preventiva" itemValue="Acción preventiva" />
@@ -149,8 +160,11 @@
                                              ajax="false"
                                              icon="fa fa-save"
                                              process="@this crear-Form"
-                                             action="#{calidadPlanAccionController.addAuditoria}"
-                                             onclick="onSubmitButton();"/>
+                                             action="#{calidadPlanAccionController.addAuditoria()}"
+                                             onclick="onSubmitButton();">
+                                <f:ajax execute="@this" render="tipo descripcion titulo"/>
+                            </p:commandButton>
+
                         </div>
                         <div class="col-sm-5 form-group">    
                             <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="/usuario/modCalidad/accionMejora/listaAccion"/>
@@ -186,17 +200,17 @@
                                     <p:column headerText="Referencia" >
                                         <h:outputText value="#{item.descripcion}" style="font-weight: bold"/>
                                     </p:column>
-                                    
+
                                     <p:column width="50">
                                         <p:commandButton icon="ui-icon-trash" 
                                                          action="#{calidadPlanAccionController.deleteCausa}"
-                                                        process="@this" 
-                                                        update="tablaFuncion causa:agregarFuncion">
+                                                         process="@this" 
+                                                         update="tablaFuncion causa:agregarFuncion">
                                             <f:ajax execute="@this" render="idManual"/>
                                             <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.causaActual}"/>
                                         </p:commandButton>
-                                   </p:column>
-                               </p:dataTable>
+                                    </p:column>
+                                </p:dataTable>
                             </h:panelGroup>
                         </h:panelGroup>
                     </div>
@@ -219,16 +233,16 @@
                                 <div class="col-md-6 form-group">
                                     <h:outputLabel value="Responsable:"  />
                                     <p:inputText  style="width: 100%"
-                                                      id="responsable" 
-                                                      value="#{calidadPlanAccionController.accionImplementarActual.responsable}">
+                                                  id="responsable" 
+                                                  value="#{calidadPlanAccionController.accionImplementarActual.responsable}">
                                     </p:inputText>
                                     <p:message id="idManualMessage" for="responsable" styleClass="error"/>
                                 </div>
-                                 <div class="col-md-3 form-group">
+                                <div class="col-md-3 form-group">
                                     <h:outputLabel value="Fecha de Compromiso:"  />
                                     <p:calendar id="fecha" locale="es"
                                                 value="#{calidadPlanAccionController.accionImplementarActual.fecha}"
-                                          pattern="MMMM dd, yyyy"/>
+                                                pattern="MMMM dd, yyyy"/>
                                     <p:message id="fechaMessage" for="fecha" styleClass="error"/>
                                 </div>
                                 <div class="col-md-3 form-group">
@@ -256,13 +270,13 @@
                                     <p:column width="50">
                                         <p:commandButton icon="ui-icon-trash" 
                                                          action="#{calidadPlanAccionController.deleteAccion}"
-                                                        process="@this" 
-                                                        update="tablaFuncion acciones:agregarFuncion">
-                                            <f:ajax execute="@this" render="actividad responsable fecha"/>
+                                                         process="@this" 
+                                                         update="tablaFuncion acciones:agregarFuncion">
+                                            <f:ajax execute="@this" render="actividad responsable fecha "/>
                                             <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.accionImplementarActual}"/>
                                         </p:commandButton>
-                                   </p:column>
-                               </p:dataTable>
+                                    </p:column>
+                                </p:dataTable>
                             </h:panelGroup>
                         </h:panelGroup>
                     </div>

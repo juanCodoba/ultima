@@ -151,14 +151,15 @@ and open the template in the editor.
                                                 </p:selectOneMenu>
                                                 <p:message id="experienciaMessage" for="experiencia" styleClass="error"/>
                                             </div>
-                                            <div class="col-md-6 form-group">
+                                            <div class="col-md-12 form-group">
                                                 <h:outputLabel value="Otros Conocimientos: "  />
                                                 <textarea   placeholder="Otros Conocimientos:"
                                                             class="form-control"
                                                             jsf:id="conoci"
                                                             jsf:value="#{requisitosController.requisitoActual.otrosConocimientos}" 
                                                             type="text"
-                                                            jsf:requiredMessage="Por favor ingrese el nievel de formacion">
+                                                            jsf:requiredMessage="Por favor ingrese el nievel de formacion"
+                                                            style="resize:none;">
                                                 </textarea>
                                                 <p:message id="conociMessage" for="conoci" styleClass="error"/>
                                             </div>

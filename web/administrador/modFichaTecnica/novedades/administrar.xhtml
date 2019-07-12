@@ -1,0 +1,288 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup >
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li class="active">
+                            <h:commandLink action="#{ftFichaTecnica.prepareListPrincipal}">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftFichaTecnica.prepareCreate}">
+                                <i class="fa fa-file"></i>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{ftFichaTecnica.usuarioActual}"/>
+                                <span>Crear ficha técnica</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{ftFichaTecnica.prepareListDesarrollo}">
+                                <i class="fa fa-camera-retro"></i> 
+                                <span>Fichas en desarrollo</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{ftFichaTecnica.prepareListPrimeraValidacion}">
+                                <i class="fa fa-check"></i> 
+                                <span>Primera Validación</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaSCAM}" action="#{ftFichaTecnica.prepareListSolicitudesModificacionTodas}">
+                                <i class="fa fa-cogs"></i> 
+                                <span>Lista de solicitudes</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftClienteController.prepareList}">
+                                <i class="fa fa-user"></i>
+                                <span>Clientes</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.adminCalidad || loginController.adminCalidoso|| loginController.userDisn }" action="#{NovedadCotroller.prepareListNovedad()}">
+                                <i class="fa fa-user"></i>
+                                <span>Novedades</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.adminCalidad || loginController.adminCalidoso|| loginController.userDisn }" action="#{ActividadNovedadCotroller.prepareCreate()}">
+                                <i class="fa fa-user"></i>
+                                <span>Actividades</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Editar ficha técnica</ui:define>        
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="5000"/>
+            <h:form  id="formulario-crearFicha">
+                <div class="row">
+                    <h:panelGroup id="prueba">
+                        <div class="form-group col-md-12">
+                            <h:outputLabel value="Cliente:" />
+                            <p:selectOneMenu style="width: 100%"
+                                             id="cliente"
+                                             required="true"
+                                             requiredMessage="Ingrese el nombre del cliente"
+                                             value="#{NovedadCotroller.novedadActual.idFtCliente}"
+                                             filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="Seleccionar uno.." />
+                                <f:selectItems value="#{ftClienteController.listaCliente}" var="cliente" itemValue="#{cliente}"/> 
+                                <f:ajax execute="@this" render="clienteMessage"/>
+                            </p:selectOneMenu>
+                            <p:message id="clienteMessage" for="cliente" styleClass="error"/>
+                        </div>
+
+                        <div class="col-md-12 form-group" >
+                            <p:outputLabel value="Reporta a:" />
+                            <p:selectOneMenu id="auditado"
+                                             converter="usuarioConverter"
+                                             style="display: inherit; width: 100%"
+                                             filter="true"
+                                             filterMatchMode="contains"
+                                             value="#{NovedadCotroller.novedadActual.idUsuarioReporta}">
+                                <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
+                                <f:selectItems value="#{usuarioController.listaUsuariosEstado}" var="usuario"/>  
+                            </p:selectOneMenu>
+                            <p:message id="auditadoMessage" for="auditado" styleClass="error"/>
+                        </div>
+
+                        <p:outputPanel id="prueba1">
+                            <div class="col-md-6  form-group">
+                                <h:outputLabel value="Item:"  />
+                                <p:inputText  class="form-control"
+                                              id="item"
+                                              requiredMessage="Ingrese el codigo del Item"
+                                              value="#{NovedadCotroller.novedadActual.item}">
+                                    <f:ajax execute="@this" render="itemMessage"/>
+                                </p:inputText>
+                                <p:message id="itemMessage" for="item" styleClass="error"/>
+                            </div>
+
+                        </p:outputPanel>
+
+                        <p:outputPanel id="prueba12">
+                            <div class="col-md-6 form-group">
+                                <h:outputLabel value="OP:"  />
+                                <p:inputText  class="form-control"
+                                              id="item1"
+                                              requiredMessage="Ingrese el codigo del Item"
+                                              value="#{NovedadCotroller.novedadActual.op}">
+                                    <f:ajax execute="@this" render="itemMessage"/>
+                                </p:inputText>
+                                <p:message id="item1Message" for="item1" styleClass="error"/>
+                            </div>
+
+                        </p:outputPanel>
+
+                        <div  class=" col-md-12 form-group" >
+                            <h:outputLabel value="Descripción corta:"    />
+                            <textarea placeholder="descripcion logo" 
+                                      class="form-control"
+                                      jsf:id="descripcionLogo1"
+                                      jsf:value="#{NovedadCotroller.novedadActual.descripcionNovedad}" 
+                                      type="text" style="height: 50px">
+                            </textarea>
+                        </div>
+                        <div class="col-md-12 ">
+                            <div class="col-md-6">
+                                <h:outputLabel value="Frontal:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em"/>
+                                <div class="img-bordered"  style="text-align: center !important;">
+                                    <p:graphicImage style="cursor:pointer" cache="false" class="img-responsive" id="f" title="mi foto buhoos" value="#{NovedadCotroller.imgF}">
+                                    </p:graphicImage>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </h:panelGroup>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Estado de la novedad:"  />
+                    <p:selectOneMenu id="advanced" style="width: 100%"
+                                     value="#{NovedadCotroller.novedadActual.estado}"
+                                     filter="true" filterMatchMode="contains">
+                        <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
+                        <f:selectItem itemLabel="ABIERTO" itemValue="ABIERTO" rendered="#{loginController.adminCalidad || loginController.adminCalidoso}" />
+                        <f:selectItem itemLabel="CERRADO Y NO EFICAZ " itemValue="CERRADO Y NO EFICAZ" rendered="#{loginController.adminCalidad || loginController.adminCalidoso}"/>
+                        <f:selectItem itemLabel="CERRADO Y EFICAZ" itemValue="CERRADO Y EFICAZ" rendered="#{loginController.adminCalidad || loginController.adminCalidoso}"/>
+
+                    </p:selectOneMenu>
+                </div>
+                <div style="position: absolute; bottom: 3em  ">
+                    <div class="container row">
+                        <div class="col-md-6 form-group">
+                            <h:commandButton class="btn btn-primary btn-block"
+                                             value="Editar"
+                                             action="#{NovedadCotroller.editar()}"
+                                             >
+                                <f:ajax execute="@this cliente auditado item item1 descripcionLogo1 advanced" render="formulario-crearFicha"/>
+                            </h:commandButton>
+
+                        </div>
+                        <div class="col-md-6 form-group">    
+                            <h:commandButton class="btn btn-primary btn-block" style="background-color: orange; border-color: orange !important " value="Volver" action="lista"/>
+                        </div> 
+                    </div>
+                </div>
+            </h:form>
+
+            <h:form id="correctivas" style="margin-bottom: 5em">
+                <div class="panel panel-primary form-group"  style="border-radius: 0">
+                    <div class="panel-heading"  style="border-radius: 0"><h4 class="letra-panelDescriEdu">Correción</h4></div>
+                    <div class="panel-body">
+                        <h:panelGroup id="agregarAccionCor">
+
+                            <h:panelGroup id="itemsGroup">
+                                <p:dataTable  id="tablaFuncion" emptyMessage="No se encontraron registros" value="#{ActividadNovedadCotroller.listaPorTipoDeUsuario2}" var="item2">
+                                    <p:column headerText="Descripcion de la novedad" >
+                                        <h:outputText value="#{item2.descripcion}" style="font-weight: bold"/>
+                                    </p:column>
+                                    <p:column headerText="Responsable" >
+                                        <h:outputText value="#{item2.responsable}" style="font-weight: bold"/>
+                                    </p:column>
+                                    <p:column headerText="Fecha de compromiso" >
+                                        <h:outputText value="#{item2.fechaCorrecion}" style="font-weight: bold">
+                                            <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Estado de la Actividad" >
+                                        <h:outputText value="#{item2.estadoNoConformeDiseño}" style="font-weight: bold">
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column width="100">
+                                        <h:commandButton class="btn-primary" rendered="#{loginController.fichaTecnicaDESA}" value="act" id="actualizar" style="margin-left: 2px; margin-right: 2px" >
+                                            <f:setPropertyActionListener value="#{item2}" target="#{ActividadNovedadCotroller.actividadNovedadActual}"/>
+                                            <p:ajax listener="#{ActividadNovedadCotroller.prepareAspecto()}" update="formCreateVehiculo" oncomplete="PF('dlg2').show();" />
+                                        </h:commandButton>
+                                        <p:tooltip id="descripcion-botonActualizacion" for="actualizar" value="Actualizar documento" trackMouse="true" />
+
+                                    </p:column>
+                                </p:dataTable>
+                            </h:panelGroup>
+
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </h:form>
+            <p:dialog header="Lista de aspectos a evaluar" widgetVar="dlg2" minHeight="40" modal="true" width="50%">
+                <h:form id="formCreateVehiculo">
+                    <h:panelGroup id="agregarFuncion">
+                        <div class="container-fluid">
+                            <div class="form-group" style="margin-top: 2em">
+                                Actualiza la actividad de la novedad
+                                <h:outputLabel value=" #{ActividadNovedadCotroller.actividadNovedadActual.idNovedad}"/>
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel value="Requisito de norma (Opcional):"  />
+                                <p:inputText placeholder="Requisito" 
+                                             class="form-control" 
+                                             id="requisito" 
+                                             value="#{ActividadNovedadCotroller.actividadNovedadActual.descripcion}" 
+                                             requiredMessage="Por favor ingresar lo solicitado">
+                                    <f:ajax execute="@this" render="requisitoMessage"/>
+                                </p:inputText>
+                                <p:message id="requisitoMessage" for="requisito" styleClass="error"/>
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel value="Origen de la acción de mejora:"  />
+                                <p:selectOneMenu id="advanced" style="width: 100%"
+                                                 value="#{ActividadNovedadCotroller.actividadNovedadActual.estadoNoConformeDiseño}"
+                                                 filter="true" filterMatchMode="contains">
+                                    <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
+                                    <f:selectItem itemLabel="DESARROLLANDO" itemValue="DESARROLLO" />
+                                    <f:selectItem itemLabel="CORREGIDO" itemValue="CORREGIDO" rendered="#{loginController.jefe}"/>
+                                    <f:selectItem itemLabel="EFICAZ" itemValue="EFICAZ" rendered="#{loginController.adminCalidad || loginController.adminCalidoso}"/>
+                                    <f:selectItem itemLabel="NO EFICAZ" itemValue="NO EFICAZ" rendered="#{loginController.adminCalidad || loginController.adminCalidoso}" />
+
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12 form-group">
+                            <p:commandButton styleClass="boton-prime" 
+                                             icon="fa fa-save"
+                                             action="#{ActividadNovedadCotroller.add2()}" 
+                                             value="Agregar"
+                                             update="correctivas:agregarAccionCor"
+                                             >
+                                <p:ajax oncomplete="PF('dlg2').hide();"/>
+                            </p:commandButton> 
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <p:commandButton styleClass="btn btn-danger btn-block" 
+                                             value="Cerrar" 
+                                             oncomplete="PF('dlg2').hide();"
+                                             process="@this"/>
+                        </div>
+
+                    </h:panelGroup>
+
+                </h:form>
+            </p:dialog>
+
+        </ui:define>
+    </ui:composition>
+</html>
+

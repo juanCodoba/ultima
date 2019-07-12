@@ -7,6 +7,7 @@ package com.proyectoCFIP.controller;
 
 import com.proyectoCFIP.entities.TipoMantenimiento;
 import com.proyectoCFIP.sessions.TipoMantenimientoFacade;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -24,7 +25,7 @@ import javax.faces.convert.FacesConverter;
  */
 @ManagedBean
 @SessionScoped
-public class TipoMantenimientoController {
+public class TipoMantenimientoController implements Serializable{
 
     @EJB
     private TipoMantenimientoFacade tipoMantenimientoFacade;

@@ -14,7 +14,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -47,6 +49,10 @@ public class ItemSituacion implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idItemSituacion")
     private List<Factores> factoresList;
+
+    @JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria")
+    @ManyToOne(optional = true)
+    private Categoria idCategoria;
 
     public ItemSituacion() {
     }
@@ -93,7 +99,7 @@ public class ItemSituacion implements Serializable {
 
     @Override
     public String toString() {
-        return getDescripcion();
+        return getIdCategoria().getNombreCategoria() + " - " + getDescripcion();
     }
 
     public List<Factores> getFactoresList() {
@@ -102,6 +108,14 @@ public class ItemSituacion implements Serializable {
 
     public void setFactoresList(List<Factores> factoresList) {
         this.factoresList = factoresList;
+    }
+
+    public Categoria getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(Categoria idCategoria) {
+        this.idCategoria = idCategoria;
     }
     
     

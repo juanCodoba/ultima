@@ -93,6 +93,10 @@ public class LibroController implements Serializable {
         return LibroActual.getIdGenero() == null ? false
                 : LibroActual.getIdGenero().getIdGenero() == (short) 1;
     }
+        public boolean isFisico() {
+        return LibroActual.getIdTipoLibro() == null ? false
+                : LibroActual.getIdTipoLibro().getIdTipoLibro() == (short) 1;
+    }
 
     public boolean isDigital() {
         return LibroActual.getIdTipoLibro() == null ? false
@@ -356,6 +360,7 @@ public class LibroController implements Serializable {
             LibroActual.setIdUsuaroLib(usuarioActual);
             LibroActual.setActivo(Boolean.TRUE);
             LibroActual.setFechaModific(new Date());
+            LibroActual.setIdEstadoLibro(new EstadoLibro(3));
             getLibroFacade().create(LibroActual);
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Libro creado", "El Libro fue creado correctamente");
             RequestContext.getCurrentInstance().showMessageInDialog(message);

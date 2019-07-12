@@ -6,6 +6,7 @@
 
 package com.proyectoCFIP.controller;
 
+import com.proyectoCFIP.entities.AuAspectoEvaluar;
 import com.proyectoCFIP.entities.ItemSituacion;
 import com.proyectoCFIP.sessions.ItemSituacionFacade;
 import java.io.Serializable;
@@ -84,14 +85,18 @@ public class ItemSituacionController implements Serializable{
         return "";
     }
 
-    public String addItemSituacion() {
+        public void prepareAspecto() {
+        recargarLista();
+        itemSituacionActual = new ItemSituacion();
+    }
+    public void addItemSituacion() {
         try {
             getItemSituacionFacade().create(itemSituacionActual);
             recargarLista();
-            return "paginaPrincipal";
+            
         } catch (Exception e) {
             addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
-            return null;
+            
         }
     }
     public String updateItemSituacion() {

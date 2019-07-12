@@ -7,7 +7,7 @@
         <title>Facelet Title</title>
         <link href="https://fonts.googleapis.com/css?family=Asap:700" rel="stylesheet"/>
         <style>
-        @import url('https://fonts.googleapis.com/css?family=Asap:700');
+            @import url('https://fonts.googleapis.com/css?family=Asap:700');
         </style>
         <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
         <style>
@@ -18,7 +18,7 @@
                 width: 330px !important;
             }
             .direccion{
-               margin-left: 5px;
+                margin-left: 5px;
             }
             .direccion2{
                 float:right !important;
@@ -167,9 +167,9 @@
                 display: inline-block;
             }
             .imagenesTop{
-                
+
             }
-            
+
             .tituloContenedorElaborado{
                 text-align: center;
                 margin: 0px;
@@ -188,7 +188,7 @@
             .cuerpo-elaborado{
                 margin-top: 10px;
             }
-            
+
             .parrafo-elaborado{
                 font-size: .8em;
                 margin-left: 5px;
@@ -199,7 +199,7 @@
                 font-size: 1.2em;
             }
         </style>
-        
+
     </head>
     <body>
         <div class="body-contenedor">
@@ -242,7 +242,7 @@
             </div>
             <div class="contenedor1">
                 <div class="cuerpoContenedor1">
-                     <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.medidas}" escape="false"  />
+                    <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.medidas}" escape="false"  />
                 </div> 
             </div>
             <div class="contenedor1 contenedor4">
@@ -251,16 +251,16 @@
                 </div>
                 <div class="cuerpoContenedor3">
                     <p class="parrafo-contenedor">
-                        SE DEFINE COMO CRITERIOS DE TOLERANCIA, PARA LOS CONTORNOS TOTALES Y LARGOS +/-2 CM.
+                        SE DEFINE COMO CRITERIOS DE TOLERANCIA, PARA LOS CONTORNOS TOTALES Y LARGOS +/-1 CM.
                     </p>
                     <p class="parrafo-contenedor">
                         SE DEFINE COMO CRITERIOS DE TOLERANCIA, PARA LOS TIROS +/- 1CM.
                     </p>
                 </div> 
             </div>
-            <div class="cuerpoContenedor3 contenedor5">
-                <img width="100%" src="#{request.contextPath}/resources/file/logos.png"/>
-            </div> 
+            <div class="contenedor-imgCa">
+                <img class="imagenesBot" width="170" height="100" style ="position: relative;top: -207px;left: 11%;"  src="file:#{ftFichaTecnica.fichaTecnicaActual.fotoLavado}"/>
+            </div>
         </div>
         <div class="footer-contenedor">
             <div class="footer-parrafo1">
@@ -279,7 +279,7 @@
                 <h:outputLabel value="CO-FT-04"/><br></br>
                 Versión ficha: <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.version}"/><br></br>
                 <h:outputText value="#{ftFichaTecnica.fechaActual}">
-                     <f:convertDateTime pattern="MMMM dd, YYYY HH:mm:ss"/>
+                    <f:convertDateTime pattern="MMMM dd, YYYY HH:mm:ss"/>
                 </h:outputText>  
             </div>
         </div>
@@ -367,7 +367,7 @@
                 <h:outputLabel value="CO-FT-04"/><br></br>
                 Versión ficha: <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.version}"/><br></br>
                 <h:outputText value="#{ftFichaTecnica.fechaActual}">
-                     <f:convertDateTime pattern="MMMM dd, YYYY HH:mm:ss"/>
+                    <f:convertDateTime pattern="MMMM dd, YYYY HH:mm:ss"/>
                 </h:outputText>  
             </div>
         </div>

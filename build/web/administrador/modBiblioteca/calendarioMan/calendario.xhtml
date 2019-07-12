@@ -42,17 +42,10 @@ and open the template in the editor.
                             </a>
                             <ul class="treeview-menu">
                                 <li>
-                                    <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
+                                    <h:commandLink action="#{reservaLibrosController.prepareViewCalendario()}" rendered="#{loginController.bibliotecario}">
                                         <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
                                         <i class="fa fa-calendar"></i> 
                                         <span>Calendario de Prestamos</span>
-                                    </h:commandLink>
-                                </li>
-                                <li>
-                                    <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
-                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
-                                        <i class="fa fa-calendar"></i> 
-                                        <span>Calendario mantenimientos</span>
                                     </h:commandLink>
                                 </li>
                             </ul>
@@ -158,9 +151,9 @@ and open the template in the editor.
                     <div class="collapse navbar-collapse navbar-ex1-collapse">
                         <ul class="nav navbar-nav">
                             <li class="active">
-                                <p:commandLink ajax="false" action="#{LibroController.prepareViewCalendar()}">
+                                <p:commandLink ajax="false" action="#{reservaLibrosController.prepareList()}">
                                     <i class="fa fa-calendar"></i>
-                                    <span>Cronograma de mantenimientos</span>
+                                    <span>Libros Prestados</span>
                                 </p:commandLink>
                             </li>
                             <li class="active">
@@ -191,9 +184,54 @@ and open the template in the editor.
             <div class="container-fluid">
                 <div class="col-md-12">
                     <h:form id="cronograma-form">
-                        <p:schedule id="schedule" rightHeaderTemplate="" value="#{LibroController.eventModel}" style="border-bottom: 1px solid lightslategray" locale="tr" >
-                            <p:ajax event="eventSelect" listener="#{LibroController.onEventSelect}"  oncomplete="PF('eventDialog').show();" />
+                        <p:schedule id="schedule" rightHeaderTemplate="" value="#{reservaLibrosController.eventModel}" style="border-bottom: 1px solid lightslategray" locale="tr" >
+                            <p:ajax event="eventSelect" listener="#{reservaLibrosController.onEventSelect}" update="eventDetails"  oncomplete="PF('eventDialog').show();" />
                         </p:schedule>
+                        <p:dialog id="eventDetails" widgetVar="eventDialog" header="Datos del Mantenimiento" width="500" showEffect="clip" hideEffect="clip" resizable="false" >
+
+                            <div class="form-group container-fluid">
+                                <h:outputLabel value="Datos basicos de la Reserva:" />
+                                <p:inputTextarea class="form-control" style="font-weight: bold; font-size:0.9em; height: 7em" disabled="true" value="#{reservaLibrosController.event.title}"/>
+                            </div>
+
+                            <div class="form-group container-fluid">
+                                <h:outputLabel value="Fecha De Entrega" />
+                                <p:inputText class=" form-control" value="#{reservaLibrosController.event.startDate}" disabled="true" style="font-weight: bold; font-size:0.9em;">
+                                    <f:convertDateTime pattern="MMMM dd, yyyy" />
+                                </p:inputText> 
+                            </div>  
+
+                            <div class="container-fluid form-group">
+                                <p:commandButton ajax="false"
+                                                 style="font-size: 1.1em !important;padding: 2px; width: 100%"
+                                                 icon="fa fa-check" 
+                                                 value="Mantenimientos preventivos sin diagnóstico" 
+                                                 action="#{LibroController.prepareListPreven()}">
+                                    <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reservaLibrosController.usuarioActual}"/>
+                                </p:commandButton>
+                            </div>
+                            <div class="container-fluid form-group">
+                                <p:commandButton ajax="false" 
+                                                 style="font-size: 1.1em !important;padding: 2px; width: 100%"
+                                                 icon="fa fa-exclamation-triangle"
+                                                 value="Mantenimientos correctivos sin diagnóstico"
+                                                 action="#{LibroController.prepareListDeBaja()}">
+                                    <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reservaLibrosController.usuarioActual}"/>
+                                </p:commandButton>
+                            </div>
+
+                            <div class="container-fluid form-group">
+                                <p:commandButton ajax="false" 
+                                                 style="font-size: 1.1em !important;padding: 2px; width: 100%"
+                                                 icon="fa fa-bell-o"
+                                                 value="Prestamos activos al dia de hoy"
+                                                 action="#{reservaLibrosController.prepareList()}">
+                                    <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reservaLibrosController.usuarioActual}"/>
+                                </p:commandButton>
+                            </div>
+
+
+                        </p:dialog>
                     </h:form>
                 </div>
             </div>

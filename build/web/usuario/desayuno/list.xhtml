@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup>
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.userDesp}" class="active" action="/usuario/desayuno/list">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li >
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareList}">
+                                <i class="fa fa-check"></i> 
+                                <span>Clientes Facturados</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareDiaActual()}" actionListener="#{facturasSiesaController.listarModal()}" >
+                                <i class="fa fa-table"></i> 
+                                <span>Reporte dia Actual</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareDiario()}" actionListener="#{facturasSiesaController.listarModal()}" >
+                                <i class="fa fa-table"></i> 
+                                <span>Reporte diario</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareListPendiente()}">
+                                <i class="fa fa-exclamation-triangle"></i> 
+                                <span>Pendiente por Facturar</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.userDesp}" action="#{facturadoController.prepareCreate()}">
+                                <i class="fa fa-book"></i>
+                                <span>Crear nuevo Envio</span> 
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{facturadoController.usuarioActual}" rendered="#{loginController.admin}"/>
+
+                            </h:commandLink>
+                        </li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li >
+                            <h:commandLink action="/usuario/modulos">
+                                <i class="fa fa-th"></i>
+                                <span>Modulos del sistema</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+
+                </ul>
+            </h:form>
+        </ui:define>
+
+        <ui:define name="title">Historial de envios</ui:define>   
+        <ui:define name="button">
+            <h:form id="documentosFormBotones">
+                <div class="container-fluid col-sm-4 form-group">
+                    <h:button class="btn btn-warning btn-block" style="background: darkorange; color: white" value="Pagina principal" outcome="/User/calidad/paginaPrincipalCalidad"/>
+                </div>
+                <div class="container-fluid col-sm-4 form-group">
+                    <h:commandButton class="btn btn-primary btn-block" value="Crear cargo" action="#{cargosController.prepareCreate}" />
+                </div>
+            </h:form>
+        </ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="5000"/>
+
+            <h:form id="documentosFormList">
+                <p:outputPanel id="documentosTablePanel">
+                    <p:dataTable value="#{facturadoController.listaFacturado }" var="cargo"
+                                 rows="50" id="documentosTable"  widgetVar="formatosTable"
+                                 paginator="true" stickyHeader="true" scrollable="true" filteredValue="#{formatosController.filtros}"
+                                 rowStyleClass="#{cargo.idEstadoFactura.idEstadoFactura eq 2 ? 'color3': cargo.idEstadoFactura.idEstadoFactura eq 1 ? 'color1':null}"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="20,50,100"
+                                 rendered="#{loginController.userDesp}">
+                        <f:facet name="header">
+                            <div class="col-md-4">
+                                <h:commandButton class="btn btn-primary btn-block form-group" type="button" value="Limite de Fechas " onclick="PF('tiempoIndicador').show();"/>
+                            </div>
+                            <div class="col-md-4">
+                                <h:commandLink id="exportExcel">
+                                    <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                    <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                                    target="documentosTable" fileName="inventario" />
+                                </h:commandLink>
+                                <p:tooltip id="descripcion-botonExcel" for="exportExcel" value="Exportar en excel" trackMouse="true" />
+                            </div>
+                            <h4 class="colorLetra" style="font-weight: bold; display: inline-block !important;" >
+                                Total registros: #{fn:length(facturadoController.listaFacturado)}
+                            </h4>
+
+                        </f:facet>
+                        <p:column filterBy="#{cargo.NCajas}" filterMatchMode="contains">
+                            <f:facet name="header">Cant. Enviada</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{cargo.NCajas}"/>
+                        </p:column>
+                        <p:column filterBy="#{cargo.idTipoCarga.descripcion}" filterMatchMode="contains">
+                            <f:facet name="header">Tipo de Carga</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{cargo.idTipoCarga.descripcion}"/>
+                        </p:column>
+                        <p:column filterBy="#{cargo.pv}" filterMatchMode="contains">
+                            <f:facet name="header">Num° PV</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{cargo.pv}"/>
+                        </p:column>
+                        <p:column filterBy="#{cargo.op}" filterMatchMode="contains">
+                            <f:facet name="header">Num° OP</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{cargo.op}"/>
+                        </p:column>
+                        <p:column filterBy="#{cargo.idFtCliente.nombre}" filterMatchMode="contains" >
+                            <f:facet name="header">Cliente Entrega</f:facet>
+                            <h:outputText value="#{cargo.idFtCliente.nombre.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{cargo.entregadoPor}" filterMatchMode="contains" >
+                            <f:facet name="header">Empacador</f:facet>
+                            <h:outputText value="#{cargo.entregadoPor.toUpperCase().toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{cargo.fechaDespacho.toLocaleString()}" filterMatchMode="contains">
+                            <f:facet  name="header">Fecha de Envio</f:facet>
+                            <h:outputText value="#{cargo.fechaDespacho.toLocaleString()}">
+                            </h:outputText>
+                        </p:column>
+                        <p:column filterBy="#{cargo.fechaEntregaEmpaque.toLocaleString()}" filterMatchMode="contains">
+                            <f:facet  name="header">Fecha Entrega empaque </f:facet>
+                            <h:outputText value="#{cargo.fechaEntregaEmpaque.toLocaleString()}">
+                            </h:outputText>
+                        </p:column>
+                        <p:column width="101" >
+                            <f:facet name="header">C.D</f:facet>
+                            <p:commandButton ajax="false" id="boton-edit"  icon="ui-icon-pencil" action="#{facturadoController.prepareEdit}">
+                                <f:setPropertyActionListener value="#{cargo}" target="#{facturadoController.facturadoActual}"/>
+                                <f:setPropertyActionListener value="#{cargo}" target="#{facturadoAuController.facturadoActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-edit" for="boton-edit" value="Editar formato" trackMouse="true"/>
+                            <p:commandButton icon="ui-icon-document" 
+                                             action="#{facturadoController.createManualPDF()}"
+                                             onclick="target = '_blank';PF('descarga').hide();"
+                                             ajax="false" id="descargar">
+                                <f:setPropertyActionListener value="#{cargo}" target="#{facturadoController.facturadoActual}"/>
+                                <f:setPropertyActionListener value="#{cargo}" target="#{facturadoAuController.facturadoActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-descargar" for="descargar" value="Imprimir PDF" trackMouse="true" />
+
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+
+            </h:form>
+            <p:dialog header="Generador de indicador" widgetVar="tiempoIndicador" modal="true"  resizable="false" width="400">
+                <div class="row">
+                    <h5 class="container-fluid">(Indicador de tiempo)</h5>
+                    <h:outputText class="help-block container-fluid" value="Escoge algúna de las siguientes opciones"/>
+                </div>
+                <div>
+                    <h:form>
+                        <div class="form-group">
+                            <h:outputLabel value="Fecha de inicio del indicador:"  />
+                            <p:calendar id="fechaRevision" 
+                                        required="true" 
+                                        requiredMessage="Ingresa Fecha 1" 
+                                        value="#{facturadoController.fechaParametro1}"
+                                        pattern="MM/dd/yyyy" maxdate="#{facturadoController.fechaParametro2}">
+                                <f:ajax execute="fechaRevision" render="msgFechaRevision"/>
+                                <p:ajax event="dateSelect" process="@this" update="fechaRevision fechaEntrega"/>
+                                <p:ajax event="valueChange" process="@this" update="fechaEntrega fechaRevision"/>
+                            </p:calendar>
+                            <h:message id="msgFechaRevision" for="fechaRevision"  styleClass="error"/>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel value="Fecha fin del indicador:"  />
+                            <p:calendar id="fechaEntrega" 
+                                        required="true" 
+                                        requiredMessage="Ingresa Fecha 2" 
+                                        value="#{facturadoController.fechaParametro2}"
+                                        pattern="MM/dd/yyyy" mindate="#{facturadoController.fechaParametro1}">
+                                <f:ajax execute="fechaEntrega" render="msgFechaEntraga"/>
+                                <p:ajax event="dateSelect" process="@this" update="fechaRevision fechaEntrega"/>
+                                <p:ajax event="valueChange" process="@this" update="fechaEntrega fechaRevision"/>
+                            </p:calendar>
+                            <h:message id="msgFechaEntrega" for="fechaEntrega"  styleClass="error"/>
+                        </div>
+                        <h:commandButton class="btn btn-danger btn-block form-group" value="Ver indicador" action="#{facturadoController.prepareViewRep()}"/>
+                    </h:form>
+                </div>
+            </p:dialog>
+
+
+        </ui:define>
+    </ui:composition>
+</html>

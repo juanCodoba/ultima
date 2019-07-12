@@ -8,29 +8,27 @@ package com.proyectoCFIP.controller;
 import com.proyectoCFIP.controller.util.JsfUtil;
 import com.proyectoCFIP.entities.EstadoLibro;
 import com.proyectoCFIP.entities.Libro;
+import com.proyectoCFIP.entities.ReporteBiblioteca;
 import com.proyectoCFIP.entities.ReservaLibrosBiblioteca;
 import com.proyectoCFIP.entities.Usuario;
 import com.proyectoCFIP.sessions.EmailSessionBean;
 import com.proyectoCFIP.sessions.EstadoLibroFacade;
 import com.proyectoCFIP.sessions.LibroFacade;
+import com.proyectoCFIP.sessions.ReporteBibliotecaFacade;
 import com.proyectoCFIP.sessions.ReservaLibrosBibliotecaFacade;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -43,34 +41,20 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.mail.MessagingException;
 import javax.naming.NamingException;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.JOptionPane;
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.design.JRDesignQuery;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
-import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
-import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter;
-import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
-import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import net.sf.jasperreports.view.JasperViewer;
 import org.primefaces.component.selectcheckboxmenu.SelectCheckboxMenu;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.ScheduleEvent;
+import org.primefaces.model.ScheduleModel;
 
 /**
  *
@@ -102,7 +86,13 @@ public class ReservaLibrosController implements Serializable {
 
     private Date fechaParametro1;
     private Date fechaParametro2;
+    private Date fechaActualDos;
     private long total;
+
+    private ReporteBiblioteca reporteBibliotecaActual;
+    private ReporteBibliotecaFacade reporteFacade;
+    private List<ReporteBiblioteca> reporteListadoActual;
+    private List<ReporteBiblioteca> reporteBibliotecaListSize;
 
     public ReservaLibrosController() {
     }
@@ -231,6 +221,34 @@ public class ReservaLibrosController implements Serializable {
         listaReservaLib = null;
     }
 
+    public List<ReporteBiblioteca> getReporteListadoActual() {
+        return reporteListadoActual;
+    }
+
+    public void setReporteListadoActual(List<ReporteBiblioteca> reporteListadoActual) {
+        this.reporteListadoActual = reporteListadoActual;
+    }
+
+    public ReporteBiblioteca getReporteBibliotecaActual() {
+        return reporteBibliotecaActual;
+    }
+
+    public void setReporteBibliotecaActual(ReporteBiblioteca reporteBibliotecaActual) {
+        this.reporteBibliotecaActual = reporteBibliotecaActual;
+    }
+
+    public ReporteBibliotecaFacade getReporteFacade() {
+        return reporteFacade;
+    }
+
+    public void setReporteFacade(ReporteBibliotecaFacade reporteFacade) {
+        this.reporteFacade = reporteFacade;
+    }
+
+//    public List<ReporteBiblioteca> getListaTicketsSinCerrar() {
+//        reporteListadoActual = null;
+//        return reporteListadoActual = getReporteFacade().consultaEstadoTickets(usuarioActual);
+//    }
     public void llenarListaTipoFic() {
         listaReservaLib = getReservaLibrosBibliotecaFacade().consultaTipoF(reservaLibActual.getIdTipoEstudiante());
     }
@@ -240,6 +258,14 @@ public class ReservaLibrosController implements Serializable {
         return listaReservaLib = getReservaLibFacade().consultaTipoEgre(getFechaParametro1(), getFechaParametro2());
     }
 
+//    public void preparePaginaPrincipal() {
+//        int tamaño = getListaTicketsSinCerrar().size();
+//        if (tamaño < 1) {
+//        } else {
+//            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Cierre de tickets", "Tienes tickets sin cerrar, para continuar por favor valora cada servicio");
+//            RequestContext.getCurrentInstance().showMessageInDialog(message);
+//        }
+//    }
 //    public List<ReservaLibrosBiblioteca> llenarEstudiante() {
 //        listaReservaLib = new ArrayList<>();
 //        return listaReservaLib = getReservaLibrosBibliotecaFacade().consultaEstudiante();
@@ -351,6 +377,15 @@ public class ReservaLibrosController implements Serializable {
         this.fechaParametro2 = fechaParametro2;
     }
 
+    public Date getFechaActualDos() {
+
+        return fechaActualDos = new java.util.Date();
+    }
+
+    public void setFechaActualDos(Date fechaActualDos) {
+        this.fechaActualDos = fechaActualDos;
+    }
+
     public long getTotal() {
         return total;
     }
@@ -414,6 +449,24 @@ public class ReservaLibrosController implements Serializable {
         return formateador.format(ahora);
     }
 
+    public List<ReporteBiblioteca> getReporteBibliotecaListSize() {
+        reporteBibliotecaListSize = null;
+        return reporteBibliotecaListSize = reporteFacade.consultaEstadoTickets(usuarioActual);
+    }
+
+    public void setReporteBibliotecaListSize(List<ReporteBiblioteca> reporteBibliotecaListSize) {
+        this.reporteBibliotecaListSize = reporteBibliotecaListSize;
+    }
+
+    public void preparePaginaPrincipal() {
+        int tamaño = getReporteBibliotecaListSize().size();
+        if (tamaño < 1) {
+        } else {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Cierre de tickets", "Tienes tickets sin cerrar, para continuar por favor valora cada servicio");
+            RequestContext.getCurrentInstance().showMessageInDialog(message);
+        }
+    }
+
 //    private void sendMailAdd2() {
 //
 //        String subject = "NUEVO PRESTAMO, ENTERATE DE ESTA NUEVA ACTUALIZACION EN TUS PRESTAMOS  ";
@@ -475,9 +528,10 @@ public class ReservaLibrosController implements Serializable {
 //                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al crear el prestamo", "no se pudo crear el prestamo");
 //                RequestContext.getCurrentInstance().showMessageInDialog(message);
 //                return "/usuario/modBiblioteca/ListarLibro/lista";
-//            }
+//            } 
             reservaLibActual.setIdBibliotecario(usuarioActual);
             reservaLibActual.setActivo(Boolean.TRUE);
+            reservaLibActual.setAhora(new java.util.Date());
             getReservaLibrosBibliotecaFacade().create(reservaLibActual);
             sendMailAdd3();
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "prestamo creado", "EL Prestamo fue creado satisfactoriamente");
@@ -757,54 +811,86 @@ public class ReservaLibrosController implements Serializable {
         }
     }
 
-//    public void DOCX(ActionEvent actionEvent) throws JRException, IOException {
-//        initReport();
-//        HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-//        httpServletResponse.addHeader("Content-disposition", "attachment; filename=IndicadorEstudiantes.docx");
-//        ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
-//        JRDocxExporter docxExporter = new JRDocxExporter();
-//        docxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-//        docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
-//        docxExporter.setParameter(JRDocxExporterParameter.OUTPUT_STREAM, servletOutputStream);
-//        docxExporter.exportReport();
-//    }
-//
-//    public void XLSX(ActionEvent actionEvent) throws JRException, IOException {
-//        initReport();
-//        HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-//        httpServletResponse.addHeader("Content-disposition", "attachment; filename=IndicadorEstudiantes.xlsx");
-//        ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
-//        JRXlsxExporter docxExporter = new JRXlsxExporter();
-//        docxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-//        docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
-//        docxExporter.exportReport();
-//    }
-//
-//    public void ODT(ActionEvent actionEvent) throws JRException, IOException {
-//        initReport();
-//        HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-//        httpServletResponse.addHeader("Content-disposition", "attachment; filename=IndicadorEstudiantes.odt");
-//        ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
-//        JROdtExporter docxExporter = new JROdtExporter();
-//        docxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-//        docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
-//        docxExporter.exportReport();
-//    }
-//
-//    public void PPT(ActionEvent actionEvent) throws JRException, IOException {
-//        initReport();
-//        HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-//        httpServletResponse.addHeader("Content-disposition", "attachment; filename=IndicadorEstudiantes.pptx");
-//        ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
-//        JRPptxExporter docxExporter = new JRPptxExporter();
-//        docxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-//        docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
-//        docxExporter.exportReport();
-//    }
-//
-//    public void indicadorMensaje() {
-//        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Acceso Denegado", "Se debe cumplir los mantenimientos preventivos de diciembre para poder generar el indicador");
-//        RequestContext.getCurrentInstance().showMessageInDialog(message);
-//
-//    }
+    public String prepareViewCalendario() {
+        init();
+        recargarLista();
+
+        return "/administrador/modBiblioteca/calendarioMan/calendario";
+    }
+
+    public List<ReservaLibrosBiblioteca> recargarListaMantenimientoRe() {
+        listaReservaLib = new ArrayList<>();
+        listaReservaLib = getReservaLibFacade().consultaCronogramaReserva();
+        return listaReservaLib;
+    }
+
+    private ScheduleModel eventModel;
+    private ScheduleEvent event = new DefaultScheduleEvent();
+    DefaultScheduleEvent man = new DefaultScheduleEvent();
+
+    public JasperPrint getJasperPrint() {
+        return jasperPrint;
+    }
+
+    public void setJasperPrint(JasperPrint jasperPrint) {
+        this.jasperPrint = jasperPrint;
+    }
+
+    public ScheduleModel getEventModel() {
+        return eventModel;
+    }
+
+    public void setEventModel(ScheduleModel eventModel) {
+        this.eventModel = eventModel;
+    }
+
+    public ScheduleEvent getEvent() {
+        return event;
+    }
+
+    public void setEvent(ScheduleEvent event) {
+        this.event = event;
+    }
+
+    public DefaultScheduleEvent getMan() {
+        return man;
+    }
+
+    public void setMan(DefaultScheduleEvent man) {
+        this.man = man;
+    }
+
+    public void init() {
+        eventModel = new DefaultScheduleModel();
+        String Usuario = "";
+        //String libros = "";
+        String grado = "";
+        //Calendario de Prestamos
+
+        for (Iterator<ReservaLibrosBiblioteca> it = recargarListaMantenimientoRe().iterator(); it.hasNext();) {
+            ReservaLibrosBiblioteca i = it.next();
+
+            if (i.getIdUsuarioPrestamo() == null) {
+                Usuario = i.getNombreEgresado() + "\n-CORR:" + i.getApellidoEgresado() + "\n-AÑO:" + i.getAñoEgresado();
+            } else {
+                Usuario = i.getIdUsuarioPrestamo().toString() + "\n-" + i.getIdUsuarioPrestamo().getCorreoUsuario() + "\n-" + i.getIdTipoEstudiante().getDescripcion();
+            }
+            if (i.getIdGrado() == null) {
+                grado = "N/A";
+            } else {
+                grado = i.getIdGrado().getGrado();
+            }
+
+            eventModel.addEvent(new DefaultScheduleEvent("-LEC-CAÑ " + i.getIdReservaLibros()
+                    + "\n- USR-PRE:" + Usuario.toUpperCase()
+                    + "\n- GRAD: " + grado
+                    + "\n- LIB:" + i.getLibroList().toString().toUpperCase()
+                    + "\n  ", i.getFechaFinPrestamo(), i.getFechaInicioPrestamo()));
+        }
+    }
+
+    public void onEventSelect(SelectEvent selectEvent) {
+        event = (ScheduleEvent) selectEvent.getObject();
+    }
+
 }

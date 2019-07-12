@@ -231,7 +231,7 @@ public class ManualSiesaController implements Serializable {
 
         
             //String newFileName = "\\\\172.16.0.241\\Volume_1\\03siesaERP\\" + manualSiesaActual.getIdSuit().getNombreSuit()+"\\" + "-" +manualSiesaActual.getNombre() + ".pdf";
-            String newFileName = "/root/alojamientoFichasImg//02FICHASTECNICAS//" + manualSiesaActual.getIdSuit().getNombreSuit() + "\\" + manualSiesaActual.getNombre() + "-manual.pdf";
+            String newFileName = "/root/alojamiento03DocumentosSiesa/03siesaERP/" + manualSiesaActual.getIdSuit().getNombreSuit() + "/" +"-" + manualSiesaActual.getNombre() + ".pdf";
 
             manualSiesaActual.setManual(newFileName);
             FileImageOutputStream imageOutput;

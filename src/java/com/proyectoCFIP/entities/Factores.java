@@ -41,10 +41,15 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Factores.findByIdFactoresGlobal", query = "SELECT f FROM Factores f WHERE  f.idCategoria.idCategoria = 1  ORDER BY f.puntuacion DESC"),
     @NamedQuery(name = "Factores.findByIdFactoresGlobal2", query = "SELECT f FROM Factores f WHERE  f.idCategoria.idCategoria = 2  ORDER BY f.puntuacion DESC"),
     @NamedQuery(name = "Factores.findByIdFactoresGlobal3", query = "SELECT f FROM Factores f WHERE f.idCategoria.idCategoria = 3  ORDER BY f.puntuacion DESC"),
+    @NamedQuery(name = "Factores.findByIdFactoresGlobal4", query = "SELECT f FROM Factores f WHERE f.idCategoria.idCategoria = 4  ORDER BY f.puntuacion DESC"),
+    @NamedQuery(name = "Factores.findByIdFactoresGlobal5", query = "SELECT f FROM Factores f WHERE f.idCategoria.idCategoria = 5  ORDER BY f.puntuacion DESC"),
+    @NamedQuery(name = "Factores.findByIdFactoresGlobal6", query = "SELECT f FROM Factores f WHERE f.idCategoria.idCategoria = 6  ORDER BY f.puntuacion DESC"),
     @NamedQuery(name = "Factores.findByIdFactores", query = "SELECT f FROM Factores f WHERE f.idProceso = :idProceso AND f.idCategoria.idCategoria = 1  ORDER BY f.puntuacion DESC"),
     @NamedQuery(name = "Factores.findByIdFactores2", query = "SELECT f FROM Factores f WHERE f.idProceso = :idProceso AND f.idCategoria.idCategoria = 2  ORDER BY f.puntuacion DESC"),
     @NamedQuery(name = "Factores.findByIdFactores3", query = "SELECT f FROM Factores f WHERE f.idProceso = :idProceso AND f.idCategoria.idCategoria = 3  ORDER BY f.puntuacion DESC"),
-
+    @NamedQuery(name = "Factores.findByIdFactores4", query = "SELECT f FROM Factores f WHERE f.idProceso = :idProceso AND f.idCategoria.idCategoria = 4  ORDER BY f.puntuacion DESC"),
+    @NamedQuery(name = "Factores.findByIdFactores5", query = "SELECT f FROM Factores f WHERE f.idProceso = :idProceso AND f.idCategoria.idCategoria = 5  ORDER BY f.puntuacion DESC"),
+    @NamedQuery(name = "Factores.findByIdFactores6", query = "SELECT f FROM Factores f WHERE f.idProceso = :idProceso AND f.idCategoria.idCategoria = 6  ORDER BY f.puntuacion DESC"),
     @NamedQuery(name = "Factores.findByPuntuacion", query = "SELECT f FROM Factores f ORDER BY f.puntuacion DESC"),
 
     @NamedQuery(name = "Factores.findByIdRiesgo", query = "SELECT f FROM Factores f WHERE f.idRiesgo = :idRiesgo")})
@@ -60,7 +65,6 @@ public class Factores implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_factor")
     private Integer idFactor;
-
 
     @Lob
     @Size(max = 2147483647)
@@ -94,6 +98,15 @@ public class Factores implements Serializable {
     @Column(name = "puntuacion")
     private Integer puntuacion;
 
+    @Column(name = "fortalezas")
+    private String fortalezas;
+    @Column(name = "debillidades")
+    private String debilidades;
+    @Column(name = "oportunidades")
+    private String oportunidades;
+    @Column(name = "amenazas")
+    private String amenazas;
+
     public Factores() {
     }
 
@@ -113,8 +126,6 @@ public class Factores implements Serializable {
     public void setIdFactor(Integer idFactor) {
         this.idFactor = idFactor;
     }
-
-
 
     public String getDescripcionFactor() {
         return descripcionFactor;
@@ -204,7 +215,37 @@ public class Factores implements Serializable {
     public void setIdItemSituacion(ItemSituacion idItemSituacion) {
         this.idItemSituacion = idItemSituacion;
     }
-    
-    
+
+    public String getFortalezas() {
+        return fortalezas;
+    }
+
+    public void setFortalezas(String fortalezas) {
+        this.fortalezas = fortalezas;
+    }
+
+    public String getDebilidades() {
+        return debilidades;
+    }
+
+    public void setDebilidades(String debilidades) {
+        this.debilidades = debilidades;
+    }
+
+    public String getOportunidades() {
+        return oportunidades;
+    }
+
+    public void setOportunidades(String oportunidades) {
+        this.oportunidades = oportunidades;
+    }
+
+    public String getAmenazas() {
+        return amenazas;
+    }
+
+    public void setAmenazas(String amenazas) {
+        this.amenazas = amenazas;
+    }
 
 }

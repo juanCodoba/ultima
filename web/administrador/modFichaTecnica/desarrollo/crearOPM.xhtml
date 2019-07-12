@@ -14,18 +14,18 @@ and open the template in the editor.
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:composition template="/template/plantilla.xhtml">
         <ui:define name="menu">
-            <h:form id="menu-principal" >
+            <h:form id="menu-principal">
                 <ul class="sidebar-menu">
                     <h:panelGroup >
                         <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
                         <!-- Optionally, you can add icons to the links -->
-                        <li>
+                        <li class="active">
                             <h:commandLink action="#{ftFichaTecnica.prepareListPrincipal}">
                                 <i class="fa fa-dashboard"></i> 
                                 <span>Principal</span>
                             </h:commandLink>
                         </li>
-                        <li class="active">
+                        <li>
                             <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftFichaTecnica.prepareCreate}">
                                 <i class="fa fa-file"></i>
                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{ftFichaTecnica.usuarioActual}"/>
@@ -33,19 +33,19 @@ and open the template in the editor.
                             </h:commandLink>
                         </li>
                         <li>
-                            <h:commandLink  action="#{ftFichaTecnica.prepareListDesarrollo}">
+                            <h:commandLink action="#{ftFichaTecnica.prepareListDesarrollo}">
                                 <i class="fa fa-camera-retro"></i> 
                                 <span>Fichas en desarrollo</span>
                             </h:commandLink>
                         </li>
                         <li>
-                            <h:commandLink  action="#{ftFichaTecnica.prepareListPrimeraValidacion}">
+                            <h:commandLink action="#{ftFichaTecnica.prepareListPrimeraValidacion}">
                                 <i class="fa fa-check"></i> 
                                 <span>Primera Validación</span>
                             </h:commandLink>
                         </li>
                         <li>
-                            <h:commandLink rendered="#{loginController.fichaTecnicaSCAM}"  action="#{ftFichaTecnica.prepareListSolicitudesModificacionTodas}">
+                            <h:commandLink rendered="#{loginController.fichaTecnicaSCAM}" action="#{ftFichaTecnica.prepareListSolicitudesModificacionTodas}">
                                 <i class="fa fa-cogs"></i> 
                                 <span>Lista de solicitudes</span>
                             </h:commandLink>
@@ -56,11 +56,16 @@ and open the template in the editor.
                                 <span>Clientes</span>
                             </h:commandLink>
                         </li>
-
-                        <li  class="active">
-                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftClienteController.prepareList}">
+                        <li>
+                            <h:commandLink rendered="#{loginController.adminCalidad || loginController.adminCalidoso|| loginController.userDisn }" action="#{NovedadCotroller.prepareListNovedad()}">
                                 <i class="fa fa-user"></i>
-                                <span>Cliente</span>
+                                <span>Novedades</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.adminCalidad || loginController.adminCalidoso|| loginController.userDisn }" action="#{ActividadNovedadCotroller.prepareCreate()}">
+                                <i class="fa fa-user"></i>
+                                <span>Actividades</span>
                             </h:commandLink>
                         </li>
                     </h:panelGroup>   
@@ -384,6 +389,37 @@ and open the template in the editor.
                                                      ajax="false"
                                                      action="#{ftFichaTecnica.borrarImgC4}"
                                                      update="c4"
+                                                     process="@this"
+                                                     style="position: absolute; top: 0; right: 1em; padding: 0"/>
+                                </p:panel>
+                            </div> 
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 form-group">
+                                <h:outputLabel value="Cargar imagen forma de lavado:"/>
+                                <p:fileUpload cancelLabel="Cancelar" 
+                                              uploadLabel="Cargar imagen"
+                                              label="Examinar"
+                                              auto="true"
+                                              mode="advanced" 
+                                              allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
+                                              sizeLimit="500000"
+                                              update="c3"
+                                              fileUploadListener="#{ftFichaTecnica.cargarFotoLav}" id="fotoLav"
+                                              process="@this"
+                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 500KB"
+                                              converterMessage="proceso terminado"
+                                              invalidFileMessage="Solo se aceptan imagenes jpg" />
+                            </div>
+                            <div class="col-md-4" style="text-align: center">
+                                <p:panel>
+                                    <p:graphicImage  id="c3" cache="false" style="height: 80px" value="#{ftFichaTecnica.fotLava}">
+                                    </p:graphicImage>
+                                    <p:commandButton class="btn btn-danger"
+                                                     icon="fa fa-close"
+                                                     ajax="false"
+                                                     action="#{ftFichaTecnica.borrarFotLava()}"
+                                                     update="c3"
                                                      process="@this"
                                                      style="position: absolute; top: 0; right: 1em; padding: 0"/>
                                 </p:panel>

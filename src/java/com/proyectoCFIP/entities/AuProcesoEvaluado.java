@@ -97,8 +97,8 @@ public class AuProcesoEvaluado implements Serializable {
         @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")})
     @ManyToMany
     private List<Usuario> usuarioList;
-    @ManyToMany(mappedBy = "auProcesoEvaluadoList")
-    private List<AuAspectoEvaluar> auAspectoEvaluarList;
+//    @ManyToMany(mappedBy = "auProcesoEvaluadoList")
+//    private List<AuAspectoEvaluar> auAspectoEvaluarList;
 
     public AuProcesoEvaluado() {
     }
@@ -125,14 +125,14 @@ public class AuProcesoEvaluado implements Serializable {
         this.usuarioList = usuarioList;
     }
 
-    @XmlTransient
-    public List<AuAspectoEvaluar> getAuAspectoEvaluarList() {
-        return auAspectoEvaluarList;
-    }
-
-    public void setAuAspectoEvaluarList(List<AuAspectoEvaluar> auAspectoEvaluarList) {
-        this.auAspectoEvaluarList = auAspectoEvaluarList;
-    }
+//    @XmlTransient
+//    public List<AuAspectoEvaluar> getAuAspectoEvaluarList() {
+//        return auAspectoEvaluarList;
+//    }
+//
+//    public void setAuAspectoEvaluarList(List<AuAspectoEvaluar> auAspectoEvaluarList) {
+//        this.auAspectoEvaluarList = auAspectoEvaluarList;
+//    }
 
     
 

@@ -94,7 +94,7 @@ public class Riesgo implements Serializable {
 
     @Override
     public String toString() {
-        return getDescripcionRiesgo();
+        return getTotal() + " - " + getDescripcionRiesgo();
     }
 
     public List<Factores> getFactoresList() {

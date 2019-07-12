@@ -123,11 +123,11 @@ recargarLista();
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro Actualizado", "El Registro fue Actualizado correctamente");
             RequestContext.getCurrentInstance().showMessageInDialog(message);
             recargarLista();
-            return "list";
+            return "/usuario/modPestel/list";
         } catch (Exception e) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Registro no se Actualizado", "El Registro no fue Actualizado correctamente intentalo de nuevo!!");
             RequestContext.getCurrentInstance().showMessageInDialog(message);
-            return "list";
+            return "/usuario/modPestel/list";
         }
     }
 

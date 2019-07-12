@@ -41,22 +41,15 @@ and open the template in the editor.
                                         <i class="fa fa-angle-left pull-right"></i>
                                     </span>
                                 </a>
-                                <ul class="treeview-menu">
-                                    <li>
-                                        <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
-                                            <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
-                                            <i class="fa fa-calendar"></i> 
-                                            <span>Calendario de Prestamos</span>
-                                        </h:commandLink>
-                                    </li>
-                                    <li>
-                                        <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
-                                            <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
-                                            <i class="fa fa-calendar"></i> 
-                                            <span>Calendario mantenimientos</span>
-                                        </h:commandLink>
-                                    </li>
-                                </ul>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <h:commandLink action="#{reservaLibrosController.prepareViewCalendario()}" rendered="#{loginController.bibliotecario}">
+                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
+                                        <i class="fa fa-calendar"></i> 
+                                        <span>Calendario de Prestamos</span>
+                                    </h:commandLink>
+                                </li>
+                            </ul>
                             </li>
                             <li class="treeview" jsf:rendered="#{loginController.bibliotecario}">
                                 <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>

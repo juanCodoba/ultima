@@ -95,6 +95,13 @@ public class LoginController implements Serializable {
     public Usuario getUserLogueado() {
         return getUsuarioFacade().findByCorreoElectronico(getLogueado());
     }
+    public boolean isUserDisn() {
+        return getRequest().isUserInRole("DISN");
+    }
+    
+    public boolean isUserDesp() {
+        return getRequest().isUserInRole("DESP");
+    }
 
     public boolean isAdminCalidad() {
         return getRequest().isUserInRole("ADMINCDAD");
@@ -172,6 +179,10 @@ public class LoginController implements Serializable {
         return getRequest().isUserInRole("JEFE");
     }
 
+    public boolean isComercial() {
+        return getRequest().isUserInRole("COMR");
+    }
+
     public String login() {
         try {
             //Login via the Servlet Context
@@ -182,6 +193,9 @@ public class LoginController implements Serializable {
                 logout();
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario Inactivo", null));
                 return "/index";
+            } else if (usuario.getEstadoUsuario() == isJefe()) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@ ", usuario.toString()));
+                return "usuario/desayuno/reporte_diario";
             }
             //Redirigir a la página de portada
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@ ", usuario.toString()));
@@ -273,21 +287,28 @@ public class LoginController implements Serializable {
 //        return null;
         return "modBiblioteca/ListarLibro/lista";
     }
+
     public String preparePaginaManual() {
 //        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se puede ingresar a este modulo", "Este modulo se encuentra desactivado por el momento");
 //        RequestContext.getCurrentInstance().showMessageInDialog(message);
 //        return null;
         return "modCalidad/cargos/list";
     }
-    
-        public String preparePaginaPestel() {
+
+    public String preparePaginaPestel() {
 //        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se puede ingresar a este modulo", "Este modulo se encuentra desactivado por el momento");
 //        RequestContext.getCurrentInstance().showMessageInDialog(message);
 //        return null;
         return "modPestel/list";
     }
-    
-    
+
+    public String preparePaginaDesayuno() {
+//        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se puede ingresar a este modulo", "Este modulo se encuentra desactivado por el momento");
+//        RequestContext.getCurrentInstance().showMessageInDialog(message);
+//        return null;
+        return "desayuno/paginaPrincipal";
+    }
+
     public String preparePaginaMasHerramientas() {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Acceso Denegado", "Modulo no disponible");
         RequestContext.getCurrentInstance().showMessageInDialog(message);

@@ -66,7 +66,7 @@
                         </div>
                         <div class="form-group col-md-12">
                             <h:outputLabel value="Tipo de auditoría:"  />
-                            <h:inputText class="form-control" disabled="true" value="#{auPlanAuditoriaController.planAuditoriaActual.idTipoAuditoria}">
+                            <h:inputText class="form-control" disabled="true" value="#{auPlanAuditoriaController.planAuditoriaActual.idTipoAuditoria.nombre}">
                             </h:inputText>
                         </div>
                         <div class="col-md-12 form-group">
@@ -107,6 +107,14 @@
                                 <f:ajax execute="@this" render="criterioMessage"/>
                             </p:inputTextarea>
                             <p:message id="criterioMessage" for="criterio" styleClass="error"/>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <h:outputLabel value="Estado de la Auditoria"  />
+                            <p:selectOneMenu id="cumplimiento" style="width: 100%" value="#{auPlanAuditoriaController.planAuditoriaActual.estado}">
+                                <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}" />
+                                <f:selectItem itemLabel="CT | TERMINADA" itemValue="TR" />
+                                <f:selectItem itemLabel="CP | DESARROLLO" itemValue="DS" />
+                            </p:selectOneMenu>
                         </div>
                     </h:panelGroup>
                 </div>
@@ -193,18 +201,6 @@
                                         <h:commandButton type="button" value="Agregar conclusiones" style="margin-left: 5px" class="btn btn-primary">
                                             <f:setPropertyActionListener value="#{item}" target="#{auPlanAuditoriaController.procesoEvaluadoActualAspecto}"/>
                                             <p:ajax listener="#{auPlanAuditoriaController.prepareConclusionesProceso}" update="conclusion" oncomplete="PF('dlg4').show();" />
-                                        </h:commandButton>
-
-                                        <h:commandButton type="button" value="Ver aspectos " style="margin-left: 5px; margin-top: 2px;" class="btn btn-primary">
-                                            <f:attribute name="item" value="#{item}" />
-                                            <f:setPropertyActionListener value="#{item}" target="#{auPlanAuditoriaController.procesoEvaluadoActualAspecto}"/>
-                                            <p:ajax listener="#{auPlanAuditoriaController.prepareAspecto}" update=":formCreateVehiculo" oncomplete="PF('dlg2').show();" />
-                                        </h:commandButton>
-
-                                        <h:commandButton type="button" value="Generar aspectos " style="margin-left: 5px; margin-top: 2px;" class="btn btn-primary">
-                                            <f:attribute name="item" value="#{item}" />
-                                            <f:setPropertyActionListener value="#{item}" target="#{auPlanAuditoriaController.procesoEvaluadoActualAspecto}"/>
-                                            <p:ajax listener="#{auPlanAuditoriaController.prepareAspecto}" update=":formCreateVehiculo " oncomplete="PF('dlg5').show();" />
                                         </h:commandButton>
                                     </div>
                                 </div>

@@ -145,7 +145,7 @@ public class ProfesiogramaController implements Serializable {
         return "/administrador/modCalidad/maestrosCargos/funcion/list";
     }
 
-    public void add() {
+    public String add() {
 
         try {
 //            ProfesiogramaActual.setEstado(Boolean.TRUE);
@@ -153,10 +153,11 @@ public class ProfesiogramaController implements Serializable {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Profesiograma creado", "El Profesiograma fue creado correctamente");
             RequestContext.getCurrentInstance().showMessageInDialog(message);
             recargarLista();
+            return "/usuario/modCalidad/cargos/list";
 
         } catch (Exception e) {
             addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
-
+            return "";
         }
     }
 

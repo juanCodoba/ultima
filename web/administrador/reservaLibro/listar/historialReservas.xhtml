@@ -42,17 +42,10 @@ and open the template in the editor.
                             </a>
                             <ul class="treeview-menu">
                                 <li>
-                                    <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
+                                    <h:commandLink action="#{reservaLibrosController.prepareViewCalendario()}" rendered="#{loginController.bibliotecario}">
                                         <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
                                         <i class="fa fa-calendar"></i> 
                                         <span>Calendario de Prestamos</span>
-                                    </h:commandLink>
-                                </li>
-                                <li>
-                                    <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
-                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
-                                        <i class="fa fa-calendar"></i> 
-                                        <span>Calendario mantenimientos</span>
                                     </h:commandLink>
                                 </li>
                             </ul>
@@ -117,7 +110,7 @@ and open the template in the editor.
                                         <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
 
                                     </h:commandLink>
-                                    
+
 
                                 </li>
 
@@ -203,6 +196,10 @@ and open the template in the editor.
                         <p:column filterBy="#{item.idBibliotecario.nombreUsuario}" width="110" filterMatchMode="contains">
                             <f:facet name="header">Bibliotecario</f:facet>
                             <h:outputText style="font-weight: bold; font-size: 1.2em;" value="#{item.idBibliotecario.nombreUsuario}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.diasValoracion}}" width="110" filterMatchMode="contains">
+                            <f:facet name="header">Dias de atrazo</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1.2em;" value="#{item.diasValoracion}"/>
                         </p:column>
                         <p:column width="130">
                             <p:commandButton  icon="ui-icon-search" id="ver" ajax="false" action="#{reservaLibrosController.prepareView()}" >

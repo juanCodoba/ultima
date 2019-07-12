@@ -199,6 +199,7 @@
                         </div>
                     </h:panelGroup>
                 </div>
+
                 <div style="position: absolute; bottom: 4em  ">
                     <div class="container row">
                         <div class="col-sm-5 form-group">
@@ -213,6 +214,73 @@
                         <div class="col-sm-5 form-group">    
                             <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="/administrador/modCalidad/accionMejora/listaAccion"/>
                         </div>
+                    </div>
+                </div>
+            </h:form>
+            <h:form id="correctivas">
+                <div class="panel panel-primary form-group"  style="border-radius: 0">
+                    <div class="panel-heading"  style="border-radius: 0"><h4 class="letra-panelDescriEdu">Correción</h4></div>
+                    <div class="panel-body">
+                        <h:panelGroup id="agregarAccionCor">
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    <h:outputLabel value="Descripcion"  />
+                                    <p:inputTextarea  style="width: 100%"
+                                                      id="descripcion2" 
+                                                      value="#{calidadPlanAccionController.accionCorrectivaActual.descripcion}">
+                                    </p:inputTextarea>
+                                    <p:message id="descripcion2Message" for="descripcion2" styleClass="error"/>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <h:outputLabel value="Responsable:"  />
+                                    <p:inputText  style="width: 100%"
+                                                  id="responsable2" 
+                                                  value="#{calidadPlanAccionController.accionCorrectivaActual.responsable}">
+                                    </p:inputText>
+                                    <p:message id="responsable2Message" for="responsable2" styleClass="error"/>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <h:outputLabel value="Fecha de Compromiso:"  />
+                                    <p:calendar id="fecha2" locale="es"
+                                                value="#{calidadPlanAccionController.accionCorrectivaActual.fecha}"
+                                                pattern="MMMM dd, yyyy"/>
+                                    <p:message id="fecha2Message" for="fecha2" styleClass="error"/>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <h:commandButton styleClass="boton-prime" 
+                                                     action="#{calidadPlanAccionController.addAccionCorrectiva()}" 
+                                                     style="margin-top: 25px;"
+                                                     value="Agregar">
+                                        <f:ajax execute="@this descripcion2 responsable2 fecha2" render="agregarAccionCor"/>
+                                    </h:commandButton>
+                                </div>
+                            </div>
+                            <h:panelGroup id="itemsGroup">
+                                <p:dataTable  id="tablaFuncion" emptyMessage="No se encontraron registros" value="#{calidadPlanAccionController.listaAccionCorrectivaActual}" var="item2">
+                                    <p:column headerText="Actividad" >
+                                        <h:outputText value="#{item2.descripcion}" style="font-weight: bold"/>
+                                    </p:column>
+                                    <p:column headerText="Responsable" >
+                                        <h:outputText value="#{item2.responsable}" style="font-weight: bold"/>
+                                    </p:column>
+                                    <p:column headerText="Fecha" >
+                                        <h:outputText value="#{item2.fecha}" style="font-weight: bold">
+                                            <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column width="50">
+                                        <p:commandButton icon="ui-icon-trash" 
+                                                         action="#{calidadPlanAccionController.deleteAccionCorretiva()}"
+                                                         process="@this" 
+                                                         update="tablaFuncion correctivas:agregarAccionCor">
+                                            <f:ajax execute="@this" render="descripcion2 responsable2 fecha2 "/>
+                                            <f:setPropertyActionListener value="#{item2}" target="#{calidadPlanAccionController.accionCorrectivaActual}"/>
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:panelGroup>
+
+                        </h:panelGroup>
                     </div>
                 </div>
             </h:form>

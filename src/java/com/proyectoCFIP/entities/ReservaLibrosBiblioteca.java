@@ -15,6 +15,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,6 +28,7 @@ import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -42,27 +44,27 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ReservaLibrosBiblioteca.findAll", query = "SELECT r FROM ReservaLibrosBiblioteca r ORDER BY  r.idReservaLibros  DESC"),
-    @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdReservaLibros", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.idReservaLibros = :idReservaLibros ORDER BY  r.idReservaLibros  ASC"),
-    @NamedQuery(name = "ReservaLibrosBiblioteca.findByFechaInicioPrestamo", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.fechaInicioPrestamo = :fechaInicioPrestamo ORDER BY  r.idReservaLibros  ASC"),
+    @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdReservaLibros", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.idReservaLibros = :idReservaLibros ORDER BY  r.idReservaLibros  DESC"),
+    @NamedQuery(name = "ReservaLibrosBiblioteca.findByFechaInicioPrestamo", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.fechaInicioPrestamo = :fechaInicioPrestamo ORDER BY  r.idReservaLibros  DESC"),
     @NamedQuery(name = "ReservaLibrosBiblioteca.findByFechaFinPrestamo", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.fechaFinPrestamo = :fechaFinPrestamo ORDER BY  r.idReservaLibros  ASC"),
-    @NamedQuery(name = "ReservaLibrosBiblioteca.findByUsuario", query = "SELECT COUNT(r.idUsuarioPrestamo) FROM ReservaLibrosBiblioteca r WHERE r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2  ORDER BY  r.idReservaLibros  ASC "),
+    @NamedQuery(name = "ReservaLibrosBiblioteca.findByUsuario", query = "SELECT COUNT(r.idUsuarioPrestamo) FROM ReservaLibrosBiblioteca r WHERE r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2  ORDER BY  r.idReservaLibros  DESC "),
 //    @NamedQuery(name = "ReservaLibrosBiblioteca.estado", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE  r.idLib1.idEstadoLibro.idEstadoLibro  <=3 AND r.idLib2.idEstadoLibro.idEstadoLibro <=3 ORDER BY  r.idReservaLibros  ASC"),
-    @NamedQuery(name = "ReservaLibrosBiblioteca.estadoTrue", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.activo = true ORDER BY  r.idReservaLibros  ASC"),
-    @NamedQuery(name = "ReservaLibrosBiblioteca.estadoFalse", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.activo = false ORDER BY  r.idReservaLibros  ASC"),
+    @NamedQuery(name = "ReservaLibrosBiblioteca.estadoTrue", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.activo = true ORDER BY  r.idReservaLibros  DESC"),
+    @NamedQuery(name = "ReservaLibrosBiblioteca.estadoFalse", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.activo = false ORDER BY  r.idReservaLibros  DESC"),
     @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdTipoEstudiante", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.idTipoEstudiante = :idTipoEstudiante order by r.idReservaLibros ASC "),
-    @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdTipoEgresdo", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.idTipoEstudiante.idTipoEstudiante = 2 AND r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 order by r.idReservaLibros ASC "),
-    @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdTipoTrabajador", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.idTipoEstudiante.idTipoEstudiante = 4   AND r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 order by r.idReservaLibros ASC "),
-    @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdTipoDocente", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.idTipoEstudiante.idTipoEstudiante = 6 AND r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 order by r.idReservaLibros ASC "),
-    @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdTipo1Es", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.idTipoEstudiante.idTipoEstudiante = 1 AND r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 order by r.idReservaLibros ASC "),
+    @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdTipoEgresdo", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.idTipoEstudiante.idTipoEstudiante = 2 AND r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 order by r.idReservaLibros DESC "),
+    @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdTipoTrabajador", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.idTipoEstudiante.idTipoEstudiante = 4   AND r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 order by r.idReservaLibros DESC "),
+    @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdTipoDocente", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.idTipoEstudiante.idTipoEstudiante = 6 AND r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 order by r.idReservaLibros DESC "),
+    @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdTipo1Es", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.idTipoEstudiante.idTipoEstudiante = 1 AND r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 order by r.idReservaLibros DESC "),
 //    @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdLib1", query = "SELECT r.idLib1 FROM ReservaLibrosBiblioteca r where r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2  order by r.idReservaLibros  ASC "),
 //    @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdLib2", query = "SELECT r.idLib2 FROM ReservaLibrosBiblioteca r where r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 AND r.idLib2 != null  order by r.idReservaLibros ASC  "),
     @NamedQuery(name = "ReservaLibrosBiblioteca.finbyIndicador", query = "SELECT r FROM ReservaLibrosBiblioteca r where r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 order by r.idReservaLibros ASC"),
-    @NamedQuery(name = "ReservaLibrosBiblioteca.finbyIndicador1", query = "SELECT r.idUsuarioPrestamo.nombreUsuario,r.idUsuarioPrestamo.apellidoUsuario  FROM ReservaLibrosBiblioteca r where r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 order by r.idReservaLibros ASC"),
-
+    @NamedQuery(name = "ReservaLibrosBiblioteca.finbyIndicador1", query = "SELECT r.idUsuarioPrestamo.nombreUsuario,r.idUsuarioPrestamo.apellidoUsuario  FROM ReservaLibrosBiblioteca r where r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 order by r.idReservaLibros DESC"),
+    @NamedQuery(name = "ReservaLibrosBiblioteca.findByEstadoReserva", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.activo = 1  ORDER BY r.fechaFinPrestamo ASC"),
     @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdUsuarioPrestamo", query = "SELECT r FROM ReservaLibrosBiblioteca r where  r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2  GROUP BY r.idUsuarioPrestamo "),
     @NamedQuery(name = "ReservaLibrosBiblioteca.findByIdUsuarioPrestamo1", query = "SELECT COUNT(r) as total FROM ReservaLibrosBiblioteca r where r.fechaInicioPrestamo BETWEEN :fecha1 AND :fecha2 GROUP BY r.idUsuarioPrestamo "),
 
-    @NamedQuery(name = "ReservaLibrosBiblioteca.findByBibliotecario", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.idBibliotecario.idUsuario = 223 ORDER BY  r.idReservaLibros  ASC")})
+    @NamedQuery(name = "ReservaLibrosBiblioteca.findByBibliotecario", query = "SELECT r FROM ReservaLibrosBiblioteca r WHERE r.idBibliotecario.idUsuario = 223 ORDER BY  r.idReservaLibros  DESC")})
 
 @NamedNativeQueries({
     @NamedNativeQuery(
@@ -83,11 +85,15 @@ public class ReservaLibrosBiblioteca implements Serializable {
     @Basic(optional = false)
 
     @Column(name = "fecha_inicio_prestamo")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date fechaInicioPrestamo;
     @Column(name = "fecha_fin_prestamo")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date fechaFinPrestamo;
+
+    @Column(name = "ahora")
+    @Temporal(TemporalType.DATE)
+    private Date ahora;
 
     @JoinColumn(name = "id_bibliotecario", referencedColumnName = "id_usuario")
     @ManyToOne
@@ -100,8 +106,11 @@ public class ReservaLibrosBiblioteca implements Serializable {
     @JoinTable(name = "reserva_libros_biblioteca_has_libro", joinColumns = {
         @JoinColumn(name = "id_reserva_libros", referencedColumnName = "id_reserva_libros")}, inverseJoinColumns = {
         @JoinColumn(name = "id_libro", referencedColumnName = "id_libro")})
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Libro> libroList;
+
+    @OneToMany(mappedBy = "idReservaLibro")
+    private List<ReporteBiblioteca> reporteList;
 
     @Lob
     @Size(max = 2147483647)
@@ -142,6 +151,7 @@ public class ReservaLibrosBiblioteca implements Serializable {
     private String area;
 
     public ReservaLibrosBiblioteca() {
+
     }
 
     public ReservaLibrosBiblioteca(Integer idReservaLibros) {
@@ -149,6 +159,7 @@ public class ReservaLibrosBiblioteca implements Serializable {
     }
 
     public ReservaLibrosBiblioteca(Integer idReservaLibros, Date fechaInicioPrestamo, Date fechaFinPrestamo, Usuario idBibliotecario, Usuario idUsuarioPrestamo, Libro idLib1, Libro idLib2, String observacionesLib, String gradoEstudiante, Boolean activo, Boolean estadoUsuarioReservas, Boolean estadoUsuarioReservasCompletMe, Boolean sinPreserva, TipoEstudiante idTipoEstudiante, String nombreEgresado, String apellidoEgresado, String añoEgresado) {
+        this.ahora = ahora;
         this.idReservaLibros = idReservaLibros;
         this.fechaInicioPrestamo = fechaInicioPrestamo;
         this.fechaFinPrestamo = fechaFinPrestamo;
@@ -163,6 +174,15 @@ public class ReservaLibrosBiblioteca implements Serializable {
         this.nombreEgresado = nombreEgresado;
         this.apellidoEgresado = apellidoEgresado;
         this.añoEgresado = añoEgresado;
+
+    }
+
+    public List<ReporteBiblioteca> getReporteList() {
+        return reporteList;
+    }
+
+    public void setReporteList(List<ReporteBiblioteca> reporteList) {
+        this.reporteList = reporteList;
     }
 
     public Integer getIdReservaLibros() {
@@ -283,7 +303,7 @@ public class ReservaLibrosBiblioteca implements Serializable {
 
     @Override
     public String toString() {
-        return "com.proyectoCFIP.entities.ReservaLibrosBiblioteca[ idReservaLibros=" + idReservaLibros + " ]";
+        return "CFIPREP - " + idReservaLibros;
     }
 
     public String getArea() {
@@ -294,43 +314,39 @@ public class ReservaLibrosBiblioteca implements Serializable {
         this.area = area;
     }
 
-    public String getFechaAñoString() {
-        String convertido;
-        DateFormat fecha = new SimpleDateFormat("yyyy");
-        convertido = fecha.format(fechaInicioPrestamo);
-        return convertido;
+    public Date getAhora() {
+        return ahora;
     }
 
-    public String getFechaMesString() {
-        String convertido;
-        DateFormat fecha = new SimpleDateFormat("MM");
-        convertido = fecha.format(fechaInicioPrestamo);
-        return convertido;
+    public void setAhora(Date ahora) {
+        this.ahora = ahora;
     }
 
     public int getDiasValoracion() {
-        int diffDays = 0;
+        int diffDays = -1;
         Calendar fecha1 = new GregorianCalendar();
         fecha1.setLenient(false);
 
         Calendar fecha2 = new GregorianCalendar();
         fecha2.setLenient(false);
-        if (fechaInicioPrestamo == null || fechaInicioPrestamo == null) {
+        if (ahora == null || fechaFinPrestamo == null) {
             return 0;
         } else {
-            fecha1.setTime(fechaInicioPrestamo);
-            fecha2.setTime(fechaInicioPrestamo);
+            fecha1.setTime(fechaFinPrestamo);
+            fecha2.setTime(ahora);
         }
 
-        if (fecha2.before(fecha1) || fecha2.equals(fecha1)) {
+        if (fecha2.equals(fecha1) || fecha2.before(fecha1)) {
             diffDays = 0;
+
         } else {
-            while (fecha1.before(fecha2) || fecha1.equals(fecha2)) {
+            while (fecha1.equals(fecha2) || fecha1.before(fecha2)) {
                 diffDays++;
                 fecha1.add(Calendar.DATE, 1);
             }
         }
         return diffDays;
+
     }
 
     public long getTotal() {
@@ -353,7 +369,5 @@ public class ReservaLibrosBiblioteca implements Serializable {
     public void setIdGrado(Grado idGrado) {
         this.idGrado = idGrado;
     }
-    
-    
 
 }

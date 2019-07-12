@@ -45,8 +45,6 @@ import org.primefaces.model.DefaultStreamedContent;
     @NamedQuery(name = "Modelo.findByTipoDispoConec", query = "SELECT m FROM Modelo m WHERE m.idTipo.idTipo = 5"),
     @NamedQuery(name = "Modelo.findByNombreModelo", query = "SELECT m FROM Modelo m WHERE m.nombreModelo = :nombreModelo")})
 public class Modelo implements Serializable {
-    @Basic(optional = false)
-    @NotNull
     @Lob
     @Column(name = "imagen_modelo")
     private byte[] imagenModelo;

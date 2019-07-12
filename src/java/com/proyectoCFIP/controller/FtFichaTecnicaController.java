@@ -7,12 +7,16 @@ package com.proyectoCFIP.controller;
 
 import com.lowagie.text.DocumentException;
 import com.proyectoCFIP.controller.util.JsfUtil;
+import com.proyectoCFIP.entities.ActividadNovedad;
 import com.proyectoCFIP.entities.FtFichaTecnica;
 import com.proyectoCFIP.entities.FtModificaciones;
+import com.proyectoCFIP.entities.Novedad;
 import com.proyectoCFIP.entities.Usuario;
+import com.proyectoCFIP.sessions.ActividadNovedadFacade;
 import com.proyectoCFIP.sessions.EmailSessionBean;
 import com.proyectoCFIP.sessions.FtFichaTecnicaFacade;
 import com.proyectoCFIP.sessions.FtModificacionesFacade;
+import com.proyectoCFIP.sessions.NovedadFacade;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,6 +28,7 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -58,6 +63,15 @@ public class FtFichaTecnicaController implements Serializable {
     private FtFichaTecnicaFacade fichaTecnicaFacade;
     private FtFichaTecnica fichaTecnicaActual;
     private List<FtFichaTecnica> listaFichaTecnica;
+    private NovedadFacade novedadFacade;
+
+    private Novedad novedadActual;
+    private List<Novedad> novedadLista;
+    private List<Novedad> novedadListaActual;
+
+    private ActividadNovedad actividadNovedadActual;
+    private ActividadNovedadFacade actividadNovedadFacade;
+    private List<ActividadNovedad> actividadNovedadLista;
 
     private FtFichaTecnica fichaTecnicaVersion;
 
@@ -68,6 +82,8 @@ public class FtFichaTecnicaController implements Serializable {
     private StreamedContent imgC2 = new DefaultStreamedContent();
     private StreamedContent imgC3 = new DefaultStreamedContent();
     private StreamedContent imgC4 = new DefaultStreamedContent();
+    private StreamedContent FotLav = new DefaultStreamedContent();
+
     private StreamedContent file;
 
     private String etiqueta1;
@@ -88,18 +104,26 @@ public class FtFichaTecnicaController implements Serializable {
     private List<FtModificaciones> listaModificaciones;
     @EJB
     EmailSessionBean emailBean;
-    
 
     private StreamedContent fileBordado;
 
     public boolean isCamisa() {
         return fichaTecnicaActual.getIdFtCategoria() == null ? false
-                : fichaTecnicaActual.getIdFtCategoria().getIdFtCategoria() == (short) 2;
+                : fichaTecnicaActual.getIdFtCategoria().getIdFtCategoria() == (short) 2 ? true : fichaTecnicaActual.getIdFtCategoria().getIdFtCategoria() == (short) 20;
+    }
+
+    public boolean isConjunto() {
+        return fichaTecnicaActual.getIdFtCategoria() == null ? false : fichaTecnicaActual.getIdFtCategoria().getIdFtCategoria() == (short) 20;
     }
 
     public boolean isCamibuso() {
         return fichaTecnicaActual.getIdFtCategoria() == null ? false
                 : fichaTecnicaActual.getIdFtCategoria().getIdFtCategoria() == (short) 3;
+    }
+
+    public boolean isCamiseta() {
+        return fichaTecnicaActual.getIdFtCategoria() == null ? false
+                : fichaTecnicaActual.getIdFtCategoria().getIdFtCategoria() == (short) 22;
     }
 
     public boolean isBatola() {
@@ -134,7 +158,7 @@ public class FtFichaTecnicaController implements Serializable {
 
     public boolean isCofia() {
         return fichaTecnicaActual.getIdFtCategoria() == null ? false
-                : fichaTecnicaActual.getIdFtCategoria().getIdFtCategoria() == (short) 12;
+                : fichaTecnicaActual.getIdFtCategoria().getIdFtCategoria() == (short) 12 ? true : fichaTecnicaActual.getIdFtCategoria().getIdFtCategoria() == (short) 21;
     }
 
     public boolean isTapaboca() {
@@ -187,6 +211,82 @@ public class FtFichaTecnicaController implements Serializable {
                 : fichaTecnicaActual.getIdTipoFicha().getIdTipoFicha() == (short) 2;
     }
 
+    public List<Novedad> getNovedadListaActual() {
+        return novedadListaActual;
+    }
+
+    public void setNovedadListaActual(List<Novedad> novedadListaActual) {
+        this.novedadListaActual = novedadListaActual;
+    }
+
+    public Novedad getNovedadActual() {
+        return novedadActual;
+    }
+
+    public void setNovedadActual(Novedad novedadActual) {
+        this.novedadActual = novedadActual;
+    }
+
+    public NovedadFacade getNovedadFacade() {
+        return novedadFacade;
+    }
+
+    public void setNovedadFacade(NovedadFacade novedadFacade) {
+        this.novedadFacade = novedadFacade;
+    }
+
+    public void setNovedadLista(List<Novedad> novedadLista) {
+        this.novedadLista = novedadLista;
+    }
+
+    public ActividadNovedad getActividadNovedadActual() {
+        return actividadNovedadActual;
+    }
+
+    public void setActividadNovedadActual(ActividadNovedad actividadNovedadActual) {
+        this.actividadNovedadActual = actividadNovedadActual;
+    }
+
+    public ActividadNovedadFacade getActividadNovedadFacade() {
+        return actividadNovedadFacade;
+    }
+
+    public void setActividadNovedadFacade(ActividadNovedadFacade actividadNovedadFacade) {
+        this.actividadNovedadFacade = actividadNovedadFacade;
+    }
+
+    public List<ActividadNovedad> getActividadNovedadLista() {
+        return actividadNovedadLista;
+    }
+
+    public void setActividadNovedadLista(List<ActividadNovedad> actividadNovedadLista) {
+        this.actividadNovedadLista = actividadNovedadLista;
+    }
+
+    public StreamedContent getFile() {
+        return file;
+    }
+
+    public void setFile(StreamedContent file) {
+        this.file = file;
+    }
+
+    public EmailSessionBean getEmailBean() {
+        return emailBean;
+    }
+
+    public void setEmailBean(EmailSessionBean emailBean) {
+        this.emailBean = emailBean;
+    }
+
+    public StreamedContent getFileBordado() {
+        return fileBordado;
+    }
+
+    public void setFileBordado(StreamedContent fileBordado) {
+        this.fileBordado = fileBordado;
+    }
+
     public FtFichaTecnicaFacade getFichaTecnicaFacade() {
         return fichaTecnicaFacade;
     }
@@ -201,6 +301,10 @@ public class FtFichaTecnicaController implements Serializable {
 
     public void setFichaTecnicaActual(FtFichaTecnica fichaTecnicaActual) {
         this.fichaTecnicaActual = fichaTecnicaActual;
+    }
+
+    public List<Novedad> getNovedadListaEstado() {
+        return novedadLista = getNovedadFacade().consultaEstado();
     }
 
     public List<FtFichaTecnica> getListaFichaTecnicaPrimeraValidacion() {
@@ -243,6 +347,10 @@ public class FtFichaTecnicaController implements Serializable {
         listaFichaTecnica = null;
     }
 
+    public void recargarListaNovedades() {
+        novedadLista = null;
+    }
+
     public Usuario getUsuarioActual() {
         return usuarioActual;
     }
@@ -261,6 +369,14 @@ public class FtFichaTecnicaController implements Serializable {
 
     public void llenarListaTipoFic() {
         listaFichaTecnica = getFichaTecnicaFacade().consultaTipoF(fichaTecnicaActual.getIdTipoFicha());
+    }
+
+    public StreamedContent getFotLav() {
+        return FotLav;
+    }
+
+    public void setFotLav(StreamedContent FotLav) {
+        this.FotLav = FotLav;
     }
 
     public String getEtiqueta1() {
@@ -358,6 +474,35 @@ public class FtFichaTecnicaController implements Serializable {
     public void setFichaTecnicaVersion(FtFichaTecnica fichaTecnicaVersion) {
         this.fichaTecnicaVersion = fichaTecnicaVersion;
     }
+////////////////////////////////////////////////////////////////
+
+    public String prepareListNovedad() {
+        recargarListaNovedades();
+        return "/administrador/modFichaTecnica/novedades/lista";
+    }
+
+    public String prepareListActividadNovedad() {
+        return "/administrador/modFichaTecnica/actiNovedades/lista";
+    }
+
+    public String prepareCreateNovedad() {
+        novedadActual = new Novedad();
+        return "/administrador/modFichaTecnica/novedades/crear";
+    }
+
+    public String prepareCreateActividadNovedad() {
+        actividadNovedadActual = new ActividadNovedad();
+        return "/administrador/modFichaTecnica/actiNovedades/crear";
+    }
+
+    public String prepareEditNovedad() {
+        return "/administrador/modFichaTecnica/novedades/editar";
+    }
+
+    public String prepareEditActividadNovedad() {
+        return "/administrador/modFichaTecnica/actiNovedades/editar";
+    }
+//////////////////////////////////////////////////////////////////
 
     public String prepareCreate() {
         String newFileName = "/root/alojamientoFichasImg/02FICHASTECNICAS/" + 0 + "-f.jpg";
@@ -458,6 +603,23 @@ public class FtFichaTecnicaController implements Serializable {
         return "/usuario/modSaludOcupacional/reporte/lista";
     }
 
+//    public String addNovedad() {
+//        try {
+//
+//            novedadActual.setIdUsuarioCreacion(usuarioActual);
+//            novedadActual.setEstado(Boolean.TRUE);
+//            getNovedadFacade().create(novedadActual);
+//            novedadActual = new Novedad();
+//            recargarListaNovedades();
+//            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ficha técnica creada", "La ficha técnica con codigo de item " + novedadActual.getIdNovedad() + " fue creada con exito");
+//            RequestContext.getCurrentInstance().showMessageInDialog(message);
+//
+//            return "lista?faces-redirect=true";
+//        } catch (Exception e) {
+//            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
+//            return "lista?faces-redirect=true";
+//        }
+//    }
     public String add() {
         try {
             if (fichaTecnicaActual.getRutaImgFrontal() == null) {
@@ -487,6 +649,10 @@ public class FtFichaTecnicaController implements Serializable {
             if (fichaTecnicaActual.getRutaFichaLogo() == null) {
                 String newFileName = "/root/alojamientoFichasImg/02FICHASTECNICAS/" + 0 + "-f.jpg";
                 fichaTecnicaActual.setRutaFichaLogo(newFileName);
+            }
+            if (fichaTecnicaActual.getFotoLavado() == null) {
+                String newFileName = "/root/alojamientoFichasImg/02FICHASTECNICAS/" + "logos.png";
+                fichaTecnicaActual.setFotoLavado(newFileName);
             }
             fichaTecnicaActual.setFechaModificacion(new Date());
             fichaTecnicaActual.setElaborado(usuarioActual);
@@ -743,7 +909,7 @@ public class FtFichaTecnicaController implements Serializable {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error al guardar imagen", "Debes seleccionar primero el item para guardar la imagen");
             RequestContext.getCurrentInstance().showMessageInDialog(message);
         } else {
-          //String newFileName = "//172.16.0.241/Volume_1/02FICHASTECNICAS/" + fichaTecnicaActual.getIdFtCliente().getNombre().toUpperCase() + "/" + fichaTecnicaActual.getIdItem() + "-f.jpg";
+            //String newFileName = "//172.16.0.241/Volume_1/02FICHASTECNICAS/" + fichaTecnicaActual.getIdFtCliente().getNombre().toUpperCase() + "/" + fichaTecnicaActual.getIdItem() + "-f.jpg";
             String newFileName = "/root/alojamientoFichasImg/02FICHASTECNICAS/" + fichaTecnicaActual.getIdFtCliente().getNombre().toUpperCase() + "/" + fichaTecnicaActual.getIdItem() + "-f.jpg";
 
             fichaTecnicaActual.setRutaImgFrontal(newFileName);
@@ -888,6 +1054,32 @@ public class FtFichaTecnicaController implements Serializable {
         }
     }
 
+    public void cargarFotoLav(FileUploadEvent event) throws IOException {
+        UploadedFile file = event.getFile();
+        byte[] data = IOUtils.toByteArray(file.getInputstream());
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        if (fichaTecnicaActual.getIdFtCliente() == null) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error al guardar imagen", "Debes seleccionar primero el cliente para guardar la imagen");
+            RequestContext.getCurrentInstance().showMessageInDialog(message);
+        } else if (fichaTecnicaActual.getIdItem() == null) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error al guardar imagen", "Debes seleccionar primero el item para guardar la imagen");
+            RequestContext.getCurrentInstance().showMessageInDialog(message);
+        } else {
+            //String newFileName = "//172.16.0.241/Volume_1/02FICHASTECNICAS/" + fichaTecnicaActual.getIdFtCliente().getNombre().toUpperCase() + "/" + fichaTecnicaActual.getIdItem() + "-c4.jpg";
+            String newFileName = "/root/alojamientoFichasImg/02FICHASTECNICAS/" + fichaTecnicaActual.getIdFtCliente().getNombre().toUpperCase() + "/" + fichaTecnicaActual.getIdItem() + "-fotL.jpg";
+
+            fichaTecnicaActual.setFotoLavado(newFileName);
+            FileImageOutputStream imageOutput;
+            try {
+                imageOutput = new FileImageOutputStream(new File(newFileName));
+                imageOutput.write(data, 0, data.length);
+                imageOutput.close();
+            } catch (IOException e) {
+                throw new FacesException("Error in writing captured image.", e);
+            }
+        }
+    }
+
     public void cargarFichaLogo(FileUploadEvent event) throws IOException {
         UploadedFile file = event.getFile();
         byte[] data = IOUtils.toByteArray(file.getInputstream());
@@ -983,6 +1175,17 @@ public class FtFichaTecnicaController implements Serializable {
             String rutaImgC4 = "/root/alojamientoFichasImg/02FICHASTECNICAS/" + 0 + "-c4.jpg";
 
             imgC4 = new DefaultStreamedContent(new FileInputStream(rutaImgC4), "image/jpg");
+        }
+    }
+
+    public void preparareFotoLav() throws FileNotFoundException {
+        try {
+            String fotoLav = fichaTecnicaActual.getFotoLavado();
+            FotLav = new DefaultStreamedContent(new FileInputStream(fotoLav), "image/jpg");
+        } catch (Exception e) {
+            //String rutaImgC4 = "//172.16.0.241/Volume_1/02FICHASTECNICAS/" + 0 + "-c4.jpg";
+            String fotoLav = "/root/alojamientoFichasImg/02FICHASTECNICAS/" + "logos.png";
+            FotLav = new DefaultStreamedContent(new FileInputStream(fotoLav), "image/png");
         }
     }
 
@@ -1142,6 +1345,28 @@ public class FtFichaTecnicaController implements Serializable {
         getImgC4();
     }
 
+    public StreamedContent getFotLava() throws FileNotFoundException {
+        if (fichaTecnicaActual.getFotoLavado() == null) {
+            //String rutaImgC4 = "//172.16.0.241/Volume_1/02FICHASTECNICAS/" + 0 + "-f.jpg";
+            String fotoLav = "/root/alojamientoFichasImg/02FICHASTECNICAS/" + 0 + "-f.jpg";
+
+            FotLav = new DefaultStreamedContent(new FileInputStream(fotoLav), "image/jpg");
+            return FotLav;
+        } else {
+            preparareFotoLav();
+            return FotLav;
+        }
+    }
+
+    public void setFotLava(StreamedContent FotLav) {
+        this.FotLav = FotLav;
+    }
+
+    public void borrarFotLava() throws FileNotFoundException {
+        fichaTecnicaActual.setFotoLavado("/root/alojamientoFichasImg/02FICHASTECNICAS/" + 0 + "-f.jpg");
+        getFotLava();
+    }
+
     public void createFichaPDFAdmin() throws FileNotFoundException, MalformedURLException, DocumentException, IOException {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
@@ -1150,6 +1375,7 @@ public class FtFichaTecnicaController implements Serializable {
         //url = "http:/servidor/saintFichTec/faces/usuario/modFichaTecnica/fileCliente_1.xhtml;jsessionid=" + session.getId() + "?pdf=true";
         //url = "http:/localhost:8080/fichasTecnicas/faces/usuario/modFichaTecnica/fileCliente_1.xhtml;jsessionid=" + session.getId() + "?pdf=true";
         url = "http://167.114.11.220:8080/saint/faces/usuario/modFichaTecnica/fileCliente_1.xhtml;jsessionid=" + session.getId() + "?pdf=true";
+        //url = "http://167.114.11.220:8080/siesaSaint/faces/usuario/modFichaTecnica/fileCliente_1.xhtml;jsessionid=" + session.getId() + "?pdf=true";
 
         try {
             ITextRenderer renderer = new ITextRenderer();
@@ -1175,6 +1401,7 @@ public class FtFichaTecnicaController implements Serializable {
         //url = "http:/servidor:8080/saintFichTec/faces/usuario/modFichaTecnica/fileCliente.xhtml;jsessionid=" + session.getId() + "?pdf=true";
         //url = "http:/localhost:8080/fichasTecnicas/faces/usuario/modFichaTecnica/fileCliente.xhtml;jsessionid=" + session.getId() + "?pdf=true";
         url = "http://167.114.11.220:8080/saint/faces/usuario/modFichaTecnica/fileCliente.xhtml;jsessionid=" + session.getId() + "?pdf=true";
+        //url = "http://167.114.11.220:8080/siesaSaint/faces/usuario/modFichaTecnica/fileCliente.xhtml;jsessionid=" + session.getId() + "?pdf=true";
 
         try {
             ITextRenderer renderer = new ITextRenderer();
@@ -1200,6 +1427,7 @@ public class FtFichaTecnicaController implements Serializable {
         //url = "http:/servidor:8080/saintFichTec/faces/usuario/modFichaTecnica/fileRevision.xhtml;jsessionid=" + session.getId() + "?pdf=true";
         //url = "http:/localhost:8080/fichasTecnicas/faces/usuario/modFichaTecnica/fileRevision.xhtml;jsessionid=" + session.getId() + "?pdf=true";
         url = "http://167.114.11.220:8080/saint/faces/usuario/modFichaTecnica/fileRevision.xhtml;jsessionid=" + session.getId() + "?pdf=true";
+        //url = "http://167.114.11.220:8080/siesaSaint/faces/usuario/modFichaTecnica/fileRevision.xhtml;jsessionid=" + session.getId() + "?pdf=true";
 
         try {
             ITextRenderer renderer = new ITextRenderer();
@@ -1222,9 +1450,10 @@ public class FtFichaTecnicaController implements Serializable {
         ExternalContext externalContext = facesContext.getExternalContext();
         HttpSession session = (HttpSession) externalContext.getSession(true);
         String url;
-       // /url = "http:/servidor:8080/saintFichTec/faces/usuario/modFichaTecnica/Desarrollo.xhtml;jsessionid=" + session.getId() + "?pdf=true";
+        // /url = "http:/servidor:8080/saintFichTec/faces/usuario/modFichaTecnica/Desarrollo.xhtml;jsessionid=" + session.getId() + "?pdf=true";
         //url = "http://localhost:8080/fichasTecnicas/faces/usuario/modFichaTecnica/Desarrollo.xhtml;jsessionid=" + session.getId() + "?pdf=true";
-       url = "http://167.114.11.220:8080/saint/faces/usuario/modFichaTecnica/Desarrollo.xhtml;jsessionid=" + session.getId() + "?pdf=true";
+        url = "http://167.114.11.220:8080/saint/faces/usuario/modFichaTecnica/Desarrollo.xhtml;jsessionid=" + session.getId() + "?pdf=true";
+        //url = "http://167.114.11.220:8080/siesaSaint/faces/usuario/modFichaTecnica/Desarrollo.xhtml;jsessionid=" + session.getId() + "?pdf=true";
 
         try {
             ITextRenderer renderer = new ITextRenderer();

@@ -57,7 +57,7 @@ and open the template in the editor.
                 </ul>
             </h:form>
         </ui:define>
-        <ui:define name="title">Crear cargo</ui:define>        
+        <ui:define name="title">GENERAR MATRIZ PESTEL</ui:define>        
         <ui:define name="body">
             <h:form id="formulario-crearRequisito">
                 <p:growl id="msgs2" />
@@ -107,6 +107,8 @@ and open the template in the editor.
                                                 <p:selectOneMenu  style="width: 100% !important"
                                                                   id="idSituacion" 
                                                                   value="#{factorController.factoresActual.idItemSituacion}"
+                                                                  filter="true"
+
                                                                   >
                                                     <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
                                                     <f:selectItems value="#{itemSituacionController.listaItemSituacion}" 
@@ -114,10 +116,14 @@ and open the template in the editor.
                                                                    itemValue="#{itemSituacion}"/>  
                                                     <f:ajax execute="@this" render="divPanel"/>
                                                 </p:selectOneMenu>
+
                                                 <p:message id="idSituacionMessage" for="idSituacion" styleClass="error"/>
                                             </div>
+                                            <h:commandButton type="button" value="Generar aspectos " style="margin-left: 5px; margin-top: 2px;position: relative;left: 1%" class="btn btn-primary">
+                                                <p:ajax listener="#{itemSituacionController.prepareAspecto}" update=":formCreateVehiculo1  " oncomplete="PF('dlg5').show();" />
+                                            </h:commandButton>
 
-                                           <div class="col-md-12 form-group">
+                                            <div class="col-md-12 form-group">
                                                 <h:outputLabel value="Oportunidad: "  />
                                                 <p:selectOneMenu  style="width: 100% !important"
                                                                   id="idOportunidad" 
@@ -161,21 +167,6 @@ and open the template in the editor.
                                                 <p:message id="idImportanciaMessage" for="idImportancia" styleClass="error"/>
                                             </div>
 
-
-
-                                            <div class="col-md-12 form-group">
-                                                <h:outputLabel value="Puntaje:"  />
-                                                <p:inputText placeholder="Puntaje:" 
-                                                             class="form-control" 
-                                                             id="titulo" 
-                                                             value="#{factorController.factoresActual.puntuacion}" >
-                                                    <f:ajax execute="@this" render="tituloMessage"/>
-                                                </p:inputText>
-                                                <p:message id="tituloMessage" for="titulo" styleClass="error"/>
-                                            </div>
-
-
-
                                             <div class="col-md-12 form-group">
                                                 <h:outputLabel value="Descripción: "  />
                                                 <textarea   placeholder="Ejem: Una estrategia..."
@@ -188,10 +179,7 @@ and open the template in the editor.
                                                 </textarea>
                                                 <p:message id="descripcionMessage" for="descripcion" styleClass="error"/>
                                             </div>
-                                            <div class="col-md-12" style="       position: relative;   left: 36%;   width: 100%;">
-                                                <img class="img-responsive" src="../../../resources/images/calificacion.jpg" alt="raci"/>
-                                            </div>  
-
+                                            
                                         </div>
                                         <div class="col-md-6 form-group" style="position: relative;left: 25%">
                                             <div class="form-group">
@@ -199,7 +187,8 @@ and open the template in the editor.
                                                                  action="#{factorController.add2()}"
                                                                  value="Agregar Factores" 
                                                                  >
-                                                    <f:ajax execute="@this idProceso situacion idOportunidad idRiesgo idImportancia descripcion out2" 
+                                                    <f:ajax execute="@this idProceso situacion idOportunidad idRiesgo idImportancia descripcion out2 fortalezas
+                                                            debilidades oportunidades amenazas" 
                                                             render="agregar-requisito"/>
 
 
@@ -216,6 +205,9 @@ and open the template in the editor.
                                         <p:column width="100" headerText="ID Factor">
                                             <h:outputText value="#{factor.idFactor}"/>
                                         </p:column>
+                                        <p:column width="100" headerText="Categoria">
+                                            <h:outputText value="#{factor.idCategoria.nombreCategoria}"/>
+                                        </p:column>
                                         <p:column width="100" headerText="Situación">
                                             <h:outputText value="#{factor.idItemSituacion.descripcion}"/>
                                         </p:column>
@@ -229,22 +221,22 @@ and open the template in the editor.
                                         <p:column width="100" headerText="Importancia">
                                             <h:outputText value="#{factor.idImportancia.descripcionImportancia}"/>
                                         </p:column>
-
-                                        <p:column width="100" headerText="Descripcion del factor">
-                                            <h:outputText value="#{factor.descripcionFactor}"/>
-                                        </p:column>
                                         <p:column width="100" headerText="Puntuación">
                                             <h:outputText value="#{factor.puntuacion}"/>
                                         </p:column>
+                                        <p:column width="100" headerText="Descripcion del factor">
+                                            <h:outputText value="#{factor.descripcionFactor}"/>
+                                        </p:column>
+
 
                                         <p:column width="50">
                                             <p:commandButton icon="ui-icon-trash" 
                                                              id="eliminar" 
-                                                             action="#{requisitosController.deleteRequisitoLista()}"
+                                                             action="#{factorController.deleteFactoresLista()}"
                                                              process="@this" 
                                                              update="tablaFuncion">
-                                                <f:setPropertyActionListener value="#{requisito}" 
-                                                                             target="#{requisitosController.requisitoActual}"/>
+                                                <f:setPropertyActionListener value="#{factor}" 
+                                                                             target="#{factorController.factoresActual}"/>
                                             </p:commandButton>
                                         </p:column>
                                     </p:dataTable> 
@@ -272,8 +264,70 @@ and open the template in the editor.
                 </div>
 
             </h:form>
+            <p:dialog header="Crear Una nueva situación" widgetVar="dlg5" showHeader="false" modal="true" width="50%" height="600px">
+                <h:form id="formCreateVehiculo1">
+                    <h:panelGroup id="agregarFuncion">
+                        <div class="container-fluid">
+                            <div class="form-group" style="margin-top: 2em">
+                                Ingresa los aspectos a evaluar de
+                                <h:outputLabel value=" #{itemComponenteController.itemComponenteActual.nombre}"/>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <h:outputLabel value="Categoria:"  />
+                                <p:selectOneMenu  style="width: 100% !important"
+                                                  id="idCategoria" 
+                                                  value="#{itemSituacionController.itemSituacionActual.idCategoria}"
+                                                  converter="categoriaConverter">
+                                    <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                    <f:selectItems value="#{categoriaController.listaCategoria}" 
+                                                   var="categoria"
+                                                   itemValue="#{Categoria}"/>  
+                                    <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+
+                                    <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+                                </p:selectOneMenu>
+                                <p:message id="idCategoriaMessage" for="idCategoria" styleClass="error"/>
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel value="Descripcion"  />
+                                <p:inputText placeholder="Requisito" 
+                                             class="form-control" 
+                                             id="requisito" 
+                                             value="#{itemSituacionController.itemSituacionActual.descripcion}" 
+                                             requiredMessage="Por favor ingresar lo solicitado">
+                                    <f:ajax execute="@this" render="requisitoMessage"/>
+                                </p:inputText>
+                                <p:message id="requisitoMessage" for="requisito" styleClass="error"/>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="col-md-6 form-group">
+                            <p:commandButton styleClass="boton-prime" 
+                                             icon="fa fa-save"
+                                             action="#{itemSituacionController.addItemSituacion()}" 
+                                             value="Agregar"
+                                             >
+                                <p:ajax oncomplete="PF('dlg5').hide();"/>
+                                <f:ajax execute="@this" render="agregar-requisito idSituacion divPanel"/>
+
+                            </p:commandButton> 
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <p:commandButton styleClass="btn btn-danger btn-block" 
+                                             value="Cerrar" 
+                                             oncomplete="PF('dlg5').hide();"
+                                             process="@this"/>
+                        </div>
+
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>
 
         </ui:define>
     </ui:composition>
+
 </html>
 

@@ -50,23 +50,18 @@ public class CalidadAccionImplementar implements Serializable {
     @Column(name = "id_accion_implementar")
     private Integer idAccionImplementar;
     @Basic(optional = false)
-    @NotNull
     @Lob
     @Size(min = 1, max = 2147483647)
     @Column(name = "descripcion")
     private String descripcion;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 80)
     @Column(name = "responsable")
     private String responsable;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "estado_accion")
     private boolean estadoAccion;
     @Lob

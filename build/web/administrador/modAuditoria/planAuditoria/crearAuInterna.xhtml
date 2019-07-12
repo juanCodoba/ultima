@@ -160,33 +160,34 @@
                             <div class="row">
                                 <div class="col-md-12 form-group">
                                     <h:outputLabel value="Subproceso:" />
-                                    <p:selectOneMenu id="idSubproceso" style="width: 100%" filter="true" filterMatchMode="contains" value="#{auPlanAuditoriaController.procesoEvaluadoActual.idSubproceso}">
+                                    <p:selectOneMenu id="idSubproceso" style="width: 100%" filter="true"
+                                                     filterMatchMode="contains"
+                                                     converter="subprocesoConverter"
+                                                     value="#{auPlanAuditoriaController.procesoEvaluadoActual.idSubproceso}">
                                         <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}"/>
                                         <f:selectItems value="#{subprocesosController.listaSubprocesosSelectOne}" var="subprocesos" itemValue="#{subprocesos}"/>  
                                     </p:selectOneMenu>
                                     <p:message id="idSuprocesoMessage" for="idSubproceso" styleClass="error"/>
                                 </div>
-                                <div class="col-md-2 form-group fechasSub">
+                                <div class="col-md-6 form-group fechasSub">
                                     <h:outputLabel value="Fecha inicio:"  />
                                     <p:calendar id="fechaAuditoria" locale="es"
                                                 value="#{auPlanAuditoriaController.procesoEvaluadoActual.fecha}"
                                                 pattern="MMMM dd, yyyy"/>
                                     <p:message id="fechaAuditoriaMessage" for="fechaAuditoria" styleClass="error"/>
                                 </div>
-                                <div class="col-md-2 form-group " style="    position: relative;    left: 6%;">
+                                <div class="col-md-6 form-group " >
                                     <h:outputLabel value="Fecha final:"  />
                                     <p:calendar id="fechaAuditoriaFin" locale="es"
                                                 value="#{auPlanAuditoriaController.procesoEvaluadoActual.fechaFin}"
                                                 pattern="MMMM dd, yyyy"/>
                                     <p:message id="fechaAuditoriaFinMessage" for="fechaAuditoriaFin" styleClass="error"/>
                                 </div>
-                                <div class="col-md-5 form-group" style="    position: relative;    left: 6%;">
-                                    <h:panelGrid columns="2" style="margin-bottom:0" cellpadding="5"/>
+                                <div class="col-md-6 form-group" >
                                     <p:outputLabel value="Auditado:" />
                                     <p:selectOneMenu id="auditado"
-                                                     class="ui-selectonemenu-trigger ui-state-default ui-corner-right"
                                                      converter="usuarioConverter"
-                                                     style="display: inherit; width: 64%"
+                                                     style="display: inherit; width: 100%"
                                                      filter="true"
                                                      filterMatchMode="contains"
                                                      value="#{auPlanAuditoriaController.procesoEvaluadoActual.idAuditado}">
@@ -195,7 +196,7 @@
                                     </p:selectOneMenu>
                                     <p:message id="auditadoMessage" for="auditado" styleClass="error"/>
                                 </div>
-                                <div class="col-md-3 form-group" style="    position: relative;    right: 0%;">
+                                <div class="col-md-6 form-group" >
                                     <h:outputLabel value="Auditores:" />
                                     <p:selectCheckboxMenu id="auditores"
                                                           value="#{auPlanAuditoriaController.procesoEvaluadoActual.usuarioList}" 
@@ -210,7 +211,7 @@
                                 <div class="col-md-2 form-group">
                                     <h:commandButton styleClass="boton-prime" 
                                                      action="#{auPlanAuditoriaController.addProcesoAuditar}" 
-                                                     style="    left: -279%; position: relative;margin: 25%;background-color: #2399e5; border-color: #2399e5;font-weight: bold; color: white;"
+                                                     style="    left: -105%; position: relative;margin: 25%;background-color: #2399e5; border-color: #2399e5;font-weight: bold; color: white;"
                                                      value="CONFIRMAR">
                                         <f:ajax execute="@this idSubproceso fechaAuditoria fechaAuditoriaFin horaAuditoria horaFinAuditoria auditado auditores" 
                                                 render="agregarFuncion"/>
@@ -245,8 +246,8 @@
                                                 <p:dataList styleClass="dataList" value="#{item.usuarioList}" var="auditores" emptyMessage="No tiene auditores asignados">
                                                     <h:outputText value="#{auditores.toString()}"/>
                                                 </p:dataList>
-                                                <h:commandButton value="Quitar"  class="btn btn-primary" action="#{auPlanAuditoriaController.deleteProcesoAuditar}">
-                                                    <f:ajax execute="@this" render="idManual"/>
+                                                <h:commandButton value="Quitar"  class="btn btn-primary" action="#{auPlanAuditoriaController.deleteProcesoAuditar}" >
+                                                    <f:ajax execute="@this" render="tablaFuncion"/>
                                                     <f:setPropertyActionListener value="#{item}" target="#{auPlanAuditoriaController.procesoEvaluadoActual}"/>
                                                 </h:commandButton>
                                                 <h:commandButton type="button" value="Ver evidencias" style="margin-left: 5px" class="btn btn-primary">

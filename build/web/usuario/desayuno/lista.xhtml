@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Listado de fichas técnicas en proceso de desarrollo</ui:define>   
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup>
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.userDesp}" class="active" action="/usuario/desayuno/list">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li >
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareList}">
+                                <i class="fa fa-check"></i> 
+                                <span>Clientes Facturados</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareDiaActual()}" actionListener="#{facturasSiesaController.listarModal()}" >
+                                <i class="fa fa-table"></i> 
+                                <span>Reporte dia Actual</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareDiario()}" actionListener="#{facturasSiesaController.listarModal()}" >
+                                <i class="fa fa-table"></i> 
+                                <span>Reporte diario</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareListPendiente()}">
+                                <i class="fa fa-exclamation-triangle"></i> 
+                                <span>Pendiente por Facturar</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.userDesp}" action="#{facturadoController.prepareCreate()}">
+                                <i class="fa fa-book"></i>
+                                <span>Crear nuevo Envio</span> 
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{facturadoController.usuarioActual}" rendered="#{loginController.admin}"/>
+
+                            </h:commandLink>
+                        </li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li >
+                            <h:commandLink action="/usuario/modulos">
+                                <i class="fa fa-th"></i>
+                                <span>Modulos del sistema</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form id="formList">
+                <p:outputPanel id="documentosTablePanel">
+                    <p:dataTable value="#{NovedadFacturacionCotroller.listaNovedadFacturacionCargo}" var="item"
+                                 rows="20" id="documentosTable" 
+                                 paginator="true" widgetVar="filtroTable"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="20,30,40"
+                                 >
+                        <p:ajax event="rowSelect" oncomplete="PF('itemDialog').show()"  />
+                        <f:facet name="header">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h:commandLink id="exportExcel">
+                                            <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                            <p:dataExporter type="xls" target="documentosTable" fileName="pendientes" />
+                                        </h:commandLink>
+                                        <p:tooltip id="descripcion-botonExcel" for="exportExcel" value="Exportar en excel" trackMouse="true" />
+                                    </div>
+                                    <div class="col-md-12">
+                                        <h3 style="font-weight: bold; color: red">
+                                            Total Novedades en estado de desarrollo: #{fn:length(NovedadFacturacionCotroller.listaNovedadFacturacionCargo)}
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </f:facet>
+                        <p:column filterBy="#{item.idNovedadFacturacion}" width="110" filterMatchMode="contains">
+                            <f:facet name="header">Cod. Novedad</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1.2em; color:red" value="#{item.idNovedadFacturacion}"/>
+                        </p:column>
+
+                        <p:column filterBy="#{item.fcrmRniff}"  filterMatchMode="contains">
+                            <f:facet name="header">fcrmRniff</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1.2em; color:red" value="#{item.fcrmRniff}">
+                                <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+
+                            </h:outputText>
+                        </p:column>
+                        <p:column  filterBy="#{item.fcrmNrniff}"  filterMatchMode="contains">
+                            <f:facet name="header">fcrmNrniff</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1em;" value="#{item.fcrmNrniff}">
+                                <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+
+                            </h:outputText>
+
+                        </p:column>
+                        <p:column  filterBy="#{item.totalConfecciones}"  filterMatchMode="contains">
+                            <f:facet name="header">Valor SIESA Confecciones</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1em;" value="#{item.totalConfecciones}">
+                                <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+
+                            </h:outputText>
+                        </p:column>
+                        <p:column  filterBy="#{item.totalConfecciones}"  filterMatchMode="contains">
+                            <f:facet name="header">Valor real Confecciones</f:facet>
+                            <h:outputText style="font-weight: bold; font-size: 1em;" value="#{item.realConfecciones}">
+                                <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column width="120">
+
+                            <p:commandButton icon="ui-icon-pencil" id="actualizar" ajax="false" action="#{NovedadFacturacionCotroller.prepareEditNovedadFacturacion()}" rendered="#{loginController.jefe}">
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{NovedadFacturacionCotroller.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{item}" target="#{NovedadFacturacionCotroller.novedadFacturacionActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-botonActualizacion" for="actualizar" value="Actualizar documento" trackMouse="true" />
+                        </p:column>
+                    </p:dataTable>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+
+                </p:outputPanel>
+            </h:form>
+            
+        </ui:define>
+    </ui:composition>
+</html>

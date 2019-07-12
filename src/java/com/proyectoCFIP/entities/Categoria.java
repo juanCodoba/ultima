@@ -46,6 +46,9 @@ public class Categoria implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCategoria")
     private List<Factores> FactoresList;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCategoria")
+    private List<ItemSituacion> itemSituacionsList;
+
     public Categoria() {
     }
 
@@ -101,7 +104,14 @@ public class Categoria implements Serializable {
     public void setFactoresList(List<Factores> FactoresList) {
         this.FactoresList = FactoresList;
     }
-    
-    
 
+    public List<ItemSituacion> getItemSituacionsList() {
+        return itemSituacionsList;
+    }
+
+    public void setItemSituacionsList(List<ItemSituacion> itemSituacionsList) {
+        this.itemSituacionsList = itemSituacionsList;
+    }
+
+    
 }

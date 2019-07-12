@@ -336,7 +336,7 @@ public class CronogramaController implements Serializable {
 
     public String preparePaginaPrincipal() {
         int tamaño = getListaTicketsSinCerrar().size();
-        if (tamaño < 2) {
+        if (tamaño < 1) {
             return "/usuario/modSoporteIT/paginaPrincipal";
         } else {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Cierre de tickets", "Tienes tickets sin cerrar, para continuar por favor valora cada servicio");
@@ -684,6 +684,7 @@ public class CronogramaController implements Serializable {
 
     public String addCronogramaMantenimientoFallo() {
         try {
+
             cronogramaMantenimientosActual.setIdTipoMantenimiento(new TipoMantenimiento(1, "correctivo"));
             cronogramaMantenimientosActual.setFechaProgMantenimiento(new Date());
             cronogramaMantenimientosActual.setFechaInicioMantenimiento(new Date());

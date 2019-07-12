@@ -8,11 +8,14 @@ package com.proyectoCFIP.entities;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,6 +26,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -124,6 +128,12 @@ public class CalidadPlanAccion implements Serializable {
     @ManyToMany
     private List<CalidadAccionImplementar> calidadAccionImplementarList;
 
+    @JoinTable(name = "calidad_plan_accion_correctiva", joinColumns = {
+        @JoinColumn(name = "id_plan_accion", referencedColumnName = "id_plan_accion")}, inverseJoinColumns = {
+        @JoinColumn(name = "id_accion_correctiva", referencedColumnName = "id_accion_correctiva")})
+    @ManyToMany
+    private List<AccionCorrectiva> accionCorrectivaList;
+
     @JoinColumn(name = "id_subproceso", referencedColumnName = "id_subproceso")
     @ManyToOne(optional = false)
     private Subprocesos idSubproceso;
@@ -141,6 +151,7 @@ public class CalidadPlanAccion implements Serializable {
         @JoinColumn(name = "id_causa", referencedColumnName = "id_causa")})
     @ManyToMany
     private List<CalidadCausa> calidadCausaList;
+
 
     public CalidadPlanAccion() {
     }
@@ -373,7 +384,14 @@ public class CalidadPlanAccion implements Serializable {
     public void setIdSubprocesoApoyoDos(Subprocesos idSubprocesoApoyoDos) {
         this.idSubprocesoApoyoDos = idSubprocesoApoyoDos;
     }
-    
-    
+
+    @XmlTransient
+    public List<AccionCorrectiva> getAccionCorrectivaList() {
+        return accionCorrectivaList;
+    }
+
+    public void setAccionCorrectivaList(List<AccionCorrectiva> accionCorrectivaList) {
+        this.accionCorrectivaList = accionCorrectivaList;
+    }
 
 }

@@ -11,22 +11,26 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-26T10:36:43")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-07-09T06:58:12")
 @StaticMetamodel(FtFichaTecnica.class)
 public class FtFichaTecnica_ { 
 
     public static volatile SingularAttribute<FtFichaTecnica, String> espalda;
     public static volatile SingularAttribute<FtFichaTecnica, String> estado;
+    public static volatile SingularAttribute<FtFichaTecnica, String> fotoLavado;
     public static volatile SingularAttribute<FtFichaTecnica, String> prespuntes;
     public static volatile SingularAttribute<FtFichaTecnica, String> reflectivo;
     public static volatile SingularAttribute<FtFichaTecnica, String> entrepierna;
     public static volatile SingularAttribute<FtFichaTecnica, String> pretina;
     public static volatile SingularAttribute<FtFichaTecnica, String> bordado;
+    public static volatile SingularAttribute<FtFichaTecnica, String> descripcionCliente;
     public static volatile SingularAttribute<FtFichaTecnica, String> descripcionLarga;
     public static volatile SingularAttribute<FtFichaTecnica, String> puños;
+    public static volatile SingularAttribute<FtFichaTecnica, String> listaMateriales;
     public static volatile SingularAttribute<FtFichaTecnica, String> bolsillos;
     public static volatile SingularAttribute<FtFichaTecnica, String> adicionales;
     public static volatile SingularAttribute<FtFichaTecnica, String> genero;
+    public static volatile SingularAttribute<FtFichaTecnica, String> forro;
     public static volatile SingularAttribute<FtFichaTecnica, String> planchado;
     public static volatile SingularAttribute<FtFichaTecnica, String> tiras;
     public static volatile SingularAttribute<FtFichaTecnica, Usuario> aprobo;
@@ -35,6 +39,7 @@ public class FtFichaTecnica_ {
     public static volatile SingularAttribute<FtFichaTecnica, String> cerradoCostados;
     public static volatile SingularAttribute<FtFichaTecnica, String> idItem;
     public static volatile SingularAttribute<FtFichaTecnica, String> costados;
+    public static volatile SingularAttribute<FtFichaTecnica, String> terminado;
     public static volatile SingularAttribute<FtFichaTecnica, String> puntadas;
     public static volatile SingularAttribute<FtFichaTecnica, Date> fechaModificacion;
     public static volatile SingularAttribute<FtFichaTecnica, String> empaque;
@@ -66,6 +71,7 @@ public class FtFichaTecnica_ {
     public static volatile SingularAttribute<FtFichaTecnica, String> cuello;
     public static volatile SingularAttribute<FtFichaTecnica, FtCategoria> idFtCategoria;
     public static volatile SingularAttribute<FtFichaTecnica, String> bota;
+    public static volatile SingularAttribute<FtFichaTecnica, String> escote;
     public static volatile SingularAttribute<FtFichaTecnica, String> estampado;
     public static volatile SingularAttribute<FtFichaTecnica, String> hombros;
     public static volatile SingularAttribute<FtFichaTecnica, String> cierre;

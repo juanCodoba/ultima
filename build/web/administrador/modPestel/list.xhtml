@@ -11,7 +11,7 @@
         <ui:define name="menu">
             <h:form id="menu-principal">
                 <ul class="sidebar-menu">
-                    <h:panelGroup rendered="#{loginController.adminCalidoso}">
+                    <h:panelGroup rendered="#{loginController.adminCalidad || loginController.adminCalidoso ||loginController.admin || loginController.jefe}">
                         <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
 
                         <!-- Optionally, you can add icons to the links -->
@@ -80,7 +80,8 @@
                                  rows="50" id="documentosTable"  widgetVar="formatosTable"
                                  paginator="true" stickyHeader="true" scrollable="true" filteredValue="#{formatosController.filtros}"
                                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="20,50,100">
+                                 rowsPerPageTemplate="20,50,100"
+                                 rendered="#{loginController.adminCalidad || loginController.adminCalidoso || loginController.auditor || loginController.admin}">
                         <f:facet name="header">
                             <h:commandLink id="exportExcel">
                                 <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
@@ -105,7 +106,53 @@
                             <h:outputText value="#{cargo.idUsuario.toString().toUpperCase()}"/>
                         </p:column>
                         <p:column width="150">
-                            <p:commandButton ajax="false" id="boton-edit"  icon="ui-icon-pencil" action="#{factorController.prepareEdit()}" actionListener="#{factorController.listardos()}" update="panel">                           
+                            <p:commandButton ajax="false" id="boton-edit"  icon="ui-icon-pencil" action="#{factorController.prepareEdit()}" >                           
+                                <f:setPropertyActionListener value="#{cargo}" target="#{factorController.procesoActual}"/>
+                                <f:setPropertyActionListener value="#{cargo}" target="#{procesosController.procesosActual}"/>
+                                <f:setPropertyActionListener value="#{cargo}" target="#{usuarioController.procesoActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-edit" for="boton-edit" value="Editar formato" trackMouse="true"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+            </h:form>
+            <h:form id="documentosFormList1">
+                <p:outputPanel id="documentosTablePanel">
+                    <p:dataTable value="#{procesosController.listaProcesoUser}" var="cargo"
+                                 rows="50" id="documentosTable"  widgetVar="formatosTable"
+                                 paginator="true" stickyHeader="true" scrollable="true" filteredValue="#{formatosController.filtros}"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="20,50,100"
+                                 rendered="#{loginController.jefe}">
+                        <f:facet name="header">
+                            <h:commandLink id="exportExcel">
+                                <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                                target="documentosTable" fileName="inventario" />
+                            </h:commandLink>
+                            <p:tooltip id="descripcion-botonExcel" for="exportExcel" value="Exportar en excel" trackMouse="true" />
+                            <h4 class="colorLetra" style="font-weight: bold; display: inline-block !important;" >
+                                Total registros: #{fn:length(procesosController.listaProcesoUser)}
+                            </h4>
+                        </f:facet>
+                        <p:column filterBy="#{cargo.idProceso}" filterMatchMode="contains" width="100" >
+                            <f:facet name="header">Código del Proceso</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{cargo.idProceso}"/>
+                        </p:column>
+                        <p:column filterBy="#{cargo.nombreProceso.toUpperCase()}" filterMatchMode="contains">
+                            <f:facet name="header">Nombre del Proceso</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{cargo.nombreProceso.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{cargo.idUsuario.toString().toUpperCase()}" filterMatchMode="contains" priority="3">
+                            <f:facet name="header">Responsable del Proceso</f:facet>
+                            <h:outputText value="#{cargo.idUsuario.toString().toUpperCase()}"/>
+                        </p:column>
+                        <p:column width="150">
+                            <p:commandButton ajax="false" id="boton-edit"  icon="ui-icon-pencil" action="#{factorController.prepareEdit()}" >                           
                                 <f:setPropertyActionListener value="#{cargo}" target="#{factorController.procesoActual}"/>
                                 <f:setPropertyActionListener value="#{cargo}" target="#{procesosController.procesosActual}"/>
                                 <f:setPropertyActionListener value="#{cargo}" target="#{usuarioController.procesoActual}"/>

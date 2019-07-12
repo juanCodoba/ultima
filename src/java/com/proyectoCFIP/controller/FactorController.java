@@ -30,10 +30,6 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.chart.PieChartModel;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.HorizontalBarChartModel;
@@ -65,11 +61,6 @@ public class FactorController implements Serializable {
     private Oportunidad oportunidadActual;
     private Importancia importanciaActual;
     private Procesos procesoActual;
-
-    private Integer total;
-    private Integer total1;
-    private Integer total2;
-    private final Integer puntuacion = 0;
 
     public FactorController() {
 
@@ -133,6 +124,18 @@ public class FactorController implements Serializable {
         return listreq = factoresFacade.consultaCargo3(procesoActual);
     }
 
+    public List<Factores> getListreq4() {
+        return listreq = factoresFacade.consultaCargo4(procesoActual);
+    }
+
+    public List<Factores> getListreq5() {
+        return listreq = factoresFacade.consultaCargo5(procesoActual);
+    }
+
+    public List<Factores> getListreq6() {
+        return listreq = factoresFacade.consultaCargo6(procesoActual);
+    }
+
     public List<Factores> getListreGlo() {
         return listreq = factoresFacade.consultaGlobal();
     }
@@ -143,6 +146,18 @@ public class FactorController implements Serializable {
 
     public List<Factores> getListreGlo3() {
         return listreq = factoresFacade.consultaGlobal3();
+    }
+
+    public List<Factores> getListreGlo4() {
+        return listreq = factoresFacade.consultaGlobal4();
+    }
+
+    public List<Factores> getListreGlo5() {
+        return listreq = factoresFacade.consultaGlobal5();
+    }
+
+    public List<Factores> getListreGlo6() {
+        return listreq = factoresFacade.consultaGlobal6();
     }
 
     public Procesos getProcesoActual() {
@@ -283,7 +298,7 @@ public class FactorController implements Serializable {
 
 //            factoresActual.setIdCargo(cargosActual);
 //            factoresActual.setEstado(Boolean.TRUE);
-            //factoresActual.setPuntuacion(ObtenerPuntuacion(importanciaActual.getIdImportancia(), riesgoActual.getIdRiesgo(), oportunidadActual.getIdOportunidad()));
+            factoresActual.setPuntuacion(factoresActual.getIdImportancia().getTotal() + factoresActual.getIdOportunidad().getTotal() + factoresActual.getIdRiesgo().getTotal());
             getFactoressFacade().create(factoresActual);
             listaFactoresActual.add(factoresActual);
             factoresActual = new Factores();
@@ -298,6 +313,7 @@ public class FactorController implements Serializable {
         try {
 
             factoresActual.setIdProceso(procesoActual);
+            factoresActual.setPuntuacion(factoresActual.getIdImportancia().getTotal() + factoresActual.getIdOportunidad().getTotal() + factoresActual.getIdRiesgo().getTotal());
             getFactoressFacade().create(factoresActual);
             listaFactoresActual.add(factoresActual);
             factoresActual = new Factores();
@@ -505,7 +521,7 @@ public class FactorController implements Serializable {
         initBarModel();
     }
 
-    public void listardos() throws SQLException{
+    public void listardos() throws SQLException {
 
         try {
             factoresActual = new Factores();

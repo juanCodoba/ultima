@@ -94,7 +94,7 @@ public class Importancia implements Serializable {
 
     @Override
     public String toString() {
-        return getDescripcionImportancia();
+        return getTotal()+" - "+getDescripcionImportancia();
     }
 
     public List<Factores> getFactoresList() {

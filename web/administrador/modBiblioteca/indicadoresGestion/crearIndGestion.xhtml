@@ -44,17 +44,10 @@ and open the template in the editor.
                             </a>
                             <ul class="treeview-menu">
                                 <li>
-                                    <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
+                                    <h:commandLink action="#{reservaLibrosController.prepareViewCalendario()}" rendered="#{loginController.bibliotecario}">
                                         <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
                                         <i class="fa fa-calendar"></i> 
                                         <span>Calendario de Prestamos</span>
-                                    </h:commandLink>
-                                </li>
-                                <li>
-                                    <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
-                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
-                                        <i class="fa fa-calendar"></i> 
-                                        <span>Calendario mantenimientos</span>
                                     </h:commandLink>
                                 </li>
                             </ul>
@@ -150,8 +143,8 @@ and open the template in the editor.
                 <!--INDICADORES-->
                 <div class="col-md-6">
                     <h:form>
-                        <h:commandButton class="btn btn-primary btn-block form-group" type="button" value="Indicador general" onclick="PF('botonReportesCorreDlg').show();"/>
-                        <h:commandButton class="btn btn-primary btn-block form-group" type="button" value="Indicador de actividad de prestamos " onclick="PF('botonReportesEstrellasCorreDlg').show();"/>
+                        <h:commandButton class="btn btn-primary btn-block form-group" type="button" value="Indicador de actividad de prestamos" onclick="PF('botonReportesCorreDlg').show();"/>
+                        <h:commandButton class="btn btn-primary btn-block form-group" type="button" value="Indicador Estudiantes Mayor Prestamos   " onclick="PF('botonReportesEstrellasCorreDlg').show();"/>
                         <h:commandButton class="btn btn-primary btn-block form-group" type="button" value="Indicador de actividad por grados  " onclick="PF('botonReportesEstrellasCorreGradosDlg').show();"/>
 
                     </h:form>

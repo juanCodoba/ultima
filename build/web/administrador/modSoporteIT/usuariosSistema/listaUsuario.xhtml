@@ -94,6 +94,7 @@
             <h:form id="usuariosFormList">
                 <p:outputPanel id="usuariosTablePanel">
                     <p:dataTable value="#{usuarioController.listaUsuarios}" var="usuario" rows="100"
+                                 id="UsuarioTable"
                                  paginator="true" rowStyleClass="#{usuario.estadoUsuario eq false ? 'color2': usuario.estadoUsuario eq true? 'color1':null}"
                                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="100,150">
@@ -117,6 +118,13 @@
                                                         value="Registrar usuario"
                                                         style="font-size: 1.2em !important;padding: 5px; right: 0"
                                                         action="#{usuarioController.prepareCreate}"/>
+                                                                            <div class="col-md-1">
+                                        <h:commandLink id="exportExcel">
+                                            <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                            <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                                    target="UsuarioTable" fileName="inventario" />
+                                        </h:commandLink>
+                                    </div>
                                     </div>
                                 </div>
                             </div>

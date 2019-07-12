@@ -73,6 +73,24 @@ public class FactoresFacade extends AbstractFacade<Factores> {
         q.setMaxResults(5);
         return q.getResultList();
     }
+        public List<Factores> consultaCargo4(Procesos idProceso) {
+        Query q = getEntityManager().createNamedQuery("Factores.findByIdFactores4");
+        q.setParameter("idProceso", idProceso);
+        q.setMaxResults(5);
+        return q.getResultList();
+    }
+            public List<Factores> consultaCargo5(Procesos idProceso) {
+        Query q = getEntityManager().createNamedQuery("Factores.findByIdFactores5");
+        q.setParameter("idProceso", idProceso);
+        q.setMaxResults(5);
+        return q.getResultList();
+    }
+                public List<Factores> consultaCargo6(Procesos idProceso) {
+        Query q = getEntityManager().createNamedQuery("Factores.findByIdFactores6");
+        q.setParameter("idProceso", idProceso);
+        q.setMaxResults(5);
+        return q.getResultList();
+    }
 
     public List<Factores> consultaPuntucion() {
         Query q = getEntityManager().createNamedQuery("Factores.findByPuntuacion");
@@ -97,28 +115,77 @@ public class FactoresFacade extends AbstractFacade<Factores> {
         q.setMaxResults(5);
         return q.getResultList();
     }
+    
+    public List<Factores> consultaGlobal4() {
+        Query q = getEntityManager().createNamedQuery("Factores.findByIdFactoresGlobal4");
+        q.setMaxResults(5);
+        return q.getResultList();
+    }
+    
+    public List<Factores> consultaGlobal5() {
+        Query q = getEntityManager().createNamedQuery("Factores.findByIdFactoresGlobal5");
+        q.setMaxResults(5);
+        return q.getResultList();
+    }
+    
+    public List<Factores> consultaGlobal6() {
+        Query q = getEntityManager().createNamedQuery("Factores.findByIdFactoresGlobal6");
+        q.setMaxResults(5);
+        return q.getResultList();
+    }
 
+//    public class ConexionMySQL {
+//
+//        // Librería de MySQL
+//        public String driver = "com.mysql.jdbc.Driver";
+//
+//        // Nombre de la base de datos
+//        public String database = "proyectocfip";
+//
+//        // Host
+//        public String hostname = "localhost";
+//
+//        // Puerto
+//        public String port = "3306";
+//
+//        // Ruta de nuestra base de datos (desactivamos el uso de SSL con "?useSSL=false")
+//        public String url = "jdbc:mysql://localhost:3306/proyectocfip?zeroDateTimeBehavior=convertToNull";
+//
+//        // Nombre de usuario
+//        public String username = "root";
+//
+//        // Clave de usuario
+//        public String password = "1234";
+//
+//        public Connection conectarMySQL() throws SQLException {
+//            Connection conn = null;
+//
+//            try {
+//                Class.forName(driver);
+//                conn = DriverManager.getConnection(url, username, password);
+//            } catch (ClassNotFoundException | SQLException e) {
+//                e.printStackTrace();
+//            }
+//
+//            return conn;
+//        }
+//
+//    }
+    
     public class ConexionMySQL {
 
-        // Librería de MySQL
         public String driver = "com.mysql.jdbc.Driver";
 
-        // Nombre de la base de datos
         public String database = "proyectocfip";
 
-        // Host
         public String hostname = "localhost";
 
-        // Puerto
         public String port = "3306";
 
-        // Ruta de nuestra base de datos (desactivamos el uso de SSL con "?useSSL=false")
         public String url = "jdbc:mysql://localhost:3306/proyectocfip?zeroDateTimeBehavior=convertToNull";
 
-        // Nombre de usuario
         public String username = "root";
 
-        // Clave de usuario
         public String password = "1234";
 
         public Connection conectarMySQL() throws SQLException {
@@ -150,7 +217,8 @@ public class FactoresFacade extends AbstractFacade<Factores> {
             Connection conn = SQL.conectarMySQL();
 
             PreparedStatement st = conn.prepareStatement("SELECT categoria.nombre_categoria,  sum(puntuacion) as total \n"
-                    + "from factores inner join categoria on factores.id_categoria = categoria.id_categoria where factores.id_proceso = ?  group by factores.id_categoria ;");
+                    + "from factores inner join categoria on factores.id_categoria = categoria.id_categoria where factores.id_proceso = ? "
+                    + " group by factores.id_categoria ;");
 
             st.setInt(1, idProceso.getIdProceso());
             st.execute();
@@ -186,7 +254,8 @@ public class FactoresFacade extends AbstractFacade<Factores> {
             Connection conn = SQL.conectarMySQL();
 
             PreparedStatement st = conn.prepareStatement("SELECT categoria.nombre_categoria,  sum(puntuacion) as total \n"
-                    + "from factores inner join categoria on factores.id_categoria = categoria.id_categoria where factores.id_proceso = ?  group by factores.id_categoria ;");
+                    + "from factores inner join categoria on factores.id_categoria = categoria.id_categoria where factores.id_proceso = ? "
+                    + " group by factores.id_categoria ;");
             st.setInt(1, id);
             st.execute();
             rs = st.executeQuery();

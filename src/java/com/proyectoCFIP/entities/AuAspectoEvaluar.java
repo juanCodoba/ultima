@@ -44,10 +44,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AuAspectoEvaluar.findByEstado", query = "SELECT a FROM AuAspectoEvaluar a WHERE a.estado = :estado")})
 public class AuAspectoEvaluar implements Serializable {
 
-    @Size(max = 45)
+    @Size(max = 111111)
     @Column(name = "recomendacion")
     private String recomendacion;
-    @Size(max = 150)
+    @Size(max = 111111)
     @Column(name = "evidencia")
     private String evidencia;
 
@@ -66,26 +66,26 @@ public class AuAspectoEvaluar implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_au_aspecto_evaluar")
     private Integer idAuAspectoEvaluar;
-    @Size(max = 45)
+    @Size(max = 111111)
     @Column(name = "requisito")
     private String requisito;
-    @Size(max = 45)
+    @Size(max = 111111)
     @Column(name = "aspecto")
     private String aspecto;
-    @Size(max = 45)
+    @Size(max = 111111)
     @Column(name = "cumplimiento")
     private String cumplimiento;
-    @Size(max = 45)
+    @Size(max = 111111)
     @Column(name = "comentario")
     private String comentario;
-    @Size(max = 45)
+    @Size(max = 111111)
     @Column(name = "estado")
     private String estado;
-    @JoinTable(name = "aspecto_evaluar_has_proceso_evaluado", joinColumns = {
-        @JoinColumn(name = "id_au_aspecto_evaluar", referencedColumnName = "id_au_aspecto_evaluar")}, inverseJoinColumns = {
-        @JoinColumn(name = "id_au_proceso_evaluado", referencedColumnName = "id_au_proceso_evaluado")})
-    @ManyToMany
-    private List<AuProcesoEvaluado> auProcesoEvaluadoList;
+//    @JoinTable(name = "aspecto_evaluar_has_proceso_evaluado", joinColumns = {
+//        @JoinColumn(name = "id_au_aspecto_evaluar", referencedColumnName = "id_au_aspecto_evaluar")}, inverseJoinColumns = {
+//        @JoinColumn(name = "id_au_proceso_evaluado", referencedColumnName = "id_au_proceso_evaluado")})
+//    @ManyToMany
+//    private List<AuProcesoEvaluado> auProcesoEvaluadoList;
 
     public AuAspectoEvaluar() {
     }
@@ -142,14 +142,14 @@ public class AuAspectoEvaluar implements Serializable {
         this.estado = estado;
     }
 
-    @XmlTransient
-    public List<AuProcesoEvaluado> getAuProcesoEvaluadoList() {
-        return auProcesoEvaluadoList;
-    }
-
-    public void setAuProcesoEvaluadoList(List<AuProcesoEvaluado> auProcesoEvaluadoList) {
-        this.auProcesoEvaluadoList = auProcesoEvaluadoList;
-    }
+//    @XmlTransient
+//    public List<AuProcesoEvaluado> getAuProcesoEvaluadoList() {
+//        return auProcesoEvaluadoList;
+//    }
+//
+//    public void setAuProcesoEvaluadoList(List<AuProcesoEvaluado> auProcesoEvaluadoList) {
+//        this.auProcesoEvaluadoList = auProcesoEvaluadoList;
+//    }
 
     @Override
     public int hashCode() {

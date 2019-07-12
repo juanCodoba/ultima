@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminCalidoso}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="#{formatosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-excel-o"></i> 
+                                <span>Administrar Registros</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span>Administrar Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListPermiso}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-user"></i>
+                                <span>Permisos Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li class="active">
+                            <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-spinner" aria-hidden="true"></i>
+                                <span>Administrar Acciones</span>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{calidadPlanAccionController.usuarioActual}"/>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{calidadGestionConocimientoController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                                <span>Administrar Conocimiento</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+                    <p:separator rendered="#{loginController.adminCalidoso}"/>
+                    <li style="margin-top: 20px">
+                        <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
+                            <i class="fa fa-dashboard"></i> 
+                            <span>Principal</span>
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{formatosController.prepareListUser}">
+                            <i class="fa fa-file"></i>
+                            <span>Lista de registros</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{documentosController.prepareListUser}" rendered="#{loginController.userCaliadad}">
+                            <i class="fa fa-book"></i>
+                            <span>Lista de documentos</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadGestionConocimientoController.prepareList}">
+                            <i class="fa fa-lightbulb-o"></i>
+                            <span>Gestión del conocimiento</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/compromisosComite">
+                            <i class="fa fa-users"></i>
+                            <span>Compromisos del comité</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadPlanAccionController.list}">
+                            <i class="fa fa-cogs"></i>
+                            <span>Acciones de mejora</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/informacionCalidad">
+                            <i class="fa fa-question"></i>
+                            <span>¿Que es calidad?</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modCalidad/horizonteInstitucional">
+                            <i class="fa fa fa-eye"></i>
+                            <span>Horizonte institucional</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Plan de acción</ui:define>   
+        <ui:define name="title">Aquí puedes administrar los planes de acción</ui:define>   
+        <ui:define name="body">
+            <h:form id="formSeguimientoCorrectiva">
+                <h:panelGroup id="formSeguimientoCorrectiva1">
+                    <div class="form-group">
+                        <h:outputLabel value="Responsable del seguimiento:"  />
+                        <p:inputText placeholder="" 
+                                     class="form-control" 
+                                     id="Responsable" 
+                                     value="#{calidadSeguimientoController.calidadSeguimientoCorrectivaActual.responsable}"> 
+                        </p:inputText>
+                        <p:message id="ResponsableMessage" for="Responsable" styleClass="error"/>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Resultado del seguimiento:"  />
+                        <p:inputTextarea placeholder="" 
+                                         class="form-control" 
+                                         id="observacion2" 
+                                         value="#{calidadSeguimientoController.calidadSeguimientoCorrectivaActual.resultado}"> 
+                        </p:inputTextarea>
+                        <p:message id="observacion2Message" for="observacion2" styleClass="error"/>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Fecha seguimiento:"  />
+                        <p:calendar id="fecha2" locale="es"
+                                    value="#{calidadSeguimientoController.calidadSeguimientoCorrectivaActual.fecha}"
+                                    pattern="MMMM dd, yyyy"/>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <h:outputLabel class="letra-form" value="Estado:"/>
+                        <p:selectOneButton value="#{calidadSeguimientoController.calidadSeguimientoCorrectivaActual.estado}"
+                                           id="estado"
+                                           style="width: 100%">
+                            <f:selectItem itemLabel="ABIERTO " itemValue="abierto" />
+                            <f:selectItem itemLabel="CERRADO" itemValue="cerrado" />
+                        </p:selectOneButton> 
+                    </div>
+                    <div class="form-group">
+                        <h:commandButton class="btn btn-primary btn-block" style="margin-top:20px; height: 3em"
+                                         action="#{calidadSeguimientoController.addSeguimientoCorre()}"
+                                         value="Agregar Factores" 
+                                         >
+                            <f:ajax execute="@this Responsable observacion2 fecha2 idRiesgo estado "
+                                    render="agregar-requisito"/>
+
+
+                        </h:commandButton>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

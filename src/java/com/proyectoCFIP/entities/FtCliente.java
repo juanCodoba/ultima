@@ -28,9 +28,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "ft_cliente")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "FtCliente.findAll", query = "SELECT f FROM FtCliente f")
-    , @NamedQuery(name = "FtCliente.findByIdFtCliente", query = "SELECT f FROM FtCliente f WHERE f.idFtCliente = :idFtCliente")
-    , @NamedQuery(name = "FtCliente.findByNombre", query = "SELECT f FROM FtCliente f WHERE f.nombre = :nombre")})
+    @NamedQuery(name = "FtCliente.findAll", query = "SELECT f FROM FtCliente f"),
+    @NamedQuery(name = "FtCliente.findByIdFtCliente", query = "SELECT f FROM FtCliente f WHERE f.idFtCliente = :idFtCliente"),
+    @NamedQuery(name = "FtCliente.findByNombre", query = "SELECT f FROM FtCliente f WHERE f.nombre = :nombre")})
 public class FtCliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,6 +46,12 @@ public class FtCliente implements Serializable {
     private String nombre;
     @OneToMany(mappedBy = "idFtCliente")
     private List<FtFichaTecnica> ftFichaTecnicaList;
+
+    @OneToMany(mappedBy = "idFtCliente")
+    private List<Facturado> facturadoList;
+
+    @OneToMany(mappedBy = "idFtCliente")
+    private List<Novedad> novedadList;
 
     public FtCliente() {
     }
@@ -106,7 +112,24 @@ public class FtCliente implements Serializable {
 
     @Override
     public String toString() {
-        return getIdFtCliente()+"-"+getNombre().toUpperCase();
+        return getNombre().toUpperCase();
     }
+
+    public List<Facturado> getFacturadoList() {
+        return facturadoList;
+    }
+
+    public void setFacturadoList(List<Facturado> facturadoList) {
+        this.facturadoList = facturadoList;
+    }
+    @XmlTransient
+    public List<Novedad> getNovedadList() {
+        return novedadList;
+    }
+
+    public void setNovedadList(List<Novedad> novedadList) {
+        this.novedadList = novedadList;
+    }
+
     
 }

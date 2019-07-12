@@ -209,6 +209,24 @@
             <role-name>JEFE</role-name>
         </auth-constraint>
     </security-constraint>
+    <security-constraint>
+        <display-name>admin-desayuno</display-name>
+        <web-resource-collection>
+            <web-resource-name>user-desayuno</web-resource-name>
+            <description>usuario</description>
+            <url-pattern>/faces/usuario/desayuno/*</url-pattern>
+        </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>admind</web-resource-name>
+            <description>admin-desayuno</description>
+            <url-pattern>/faces/administrador/desayuno/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>DESP</role-name>
+            <role-name>JEFE</role-name>
+        </auth-constraint>
+    </security-constraint>
     <login-config>
         <auth-method>FORM</auth-method>
         <realm-name>proyectoCFIP-realm</realm-name>
@@ -316,5 +334,17 @@
     <security-role>
         <description>Usuario Jefe</description>
         <role-name>JEFE</role-name>
+    </security-role>
+    <security-role>
+        <description>Usuario Comercial </description>
+        <role-name>COMR</role-name>
+    </security-role>
+    <security-role>
+        <description>Usuario Despacho</description>
+        <role-name>DESP</role-name>
+    </security-role>
+    <security-role>
+        <description>Usuario Diseno</description>
+        <role-name>DISN</role-name>
     </security-role>
 </web-app>

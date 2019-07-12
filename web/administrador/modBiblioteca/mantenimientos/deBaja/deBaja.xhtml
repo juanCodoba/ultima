@@ -41,17 +41,10 @@ and open the template in the editor.
                             </a>
                             <ul class="treeview-menu">
                                 <li>
-                                    <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
+                                    <h:commandLink action="#{reservaLibrosController.prepareViewCalendario()}" rendered="#{loginController.bibliotecario}">
                                         <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
                                         <i class="fa fa-calendar"></i> 
                                         <span>Calendario de Prestamos</span>
-                                    </h:commandLink>
-                                </li>
-                                <li>
-                                    <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
-                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
-                                        <i class="fa fa-calendar"></i> 
-                                        <span>Calendario mantenimientos</span>
                                     </h:commandLink>
                                 </li>
                             </ul>

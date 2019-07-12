@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup>
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.userDesp}" class="active" action="/usuario/desayuno/list">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li >
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareList}">
+                                <i class="fa fa-check"></i> 
+                                <span>Clientes Facturados</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareDiaActual()}" actionListener="#{facturasSiesaController.listarModal()}" >
+                                <i class="fa fa-table"></i> 
+                                <span>Reporte dia Actual</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareDiario()}" actionListener="#{facturasSiesaController.listarModal()}" >
+                                <i class="fa fa-table"></i> 
+                                <span>Reporte diario</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareListPendiente()}">
+                                <i class="fa fa-exclamation-triangle"></i> 
+                                <span>Pendiente por Facturar</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.userDesp}" action="#{facturadoController.prepareCreate()}">
+                                <i class="fa fa-book"></i>
+                                <span>Crear nuevo Envio</span> 
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{facturadoController.usuarioActual}" rendered="#{loginController.admin}"/>
+
+                            </h:commandLink>
+                        </li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li >
+                            <h:commandLink action="/usuario/modulos">
+                                <i class="fa fa-th"></i>
+                                <span>Modulos del sistema</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Editar ficha técnica</ui:define>        
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="5000"/>
+            <h:form  id="formulario-crearFicha">
+                <div class="row">
+                    <h:panelGroup id="prueba">
+                        <p:outputPanel id="prueba1">
+                            <div class="col-md-6  form-group">
+                                <h:outputLabel value="Facturación Reconocido en NIIF"  />
+                                <p:inputText  class="form-control"
+                                              id="item"
+                                              requiredMessage="Ingrese el codigo del Item"
+                                              value="#{NovedadFacturacionCotroller.novedadFacturacionActual.fcrmRniff}">
+                                    <f:ajax execute="@this" render="itemMessage"/>
+                                    <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+
+                                </p:inputText>
+                                <p:message id="itemMessage" for="item" styleClass="error"/>
+                            </div>
+
+                        </p:outputPanel>
+
+                        <p:outputPanel id="prueba12">
+                            <div class="col-md-6 form-group">
+                                <h:outputLabel value="Facturación no Reconocido En NIIF"  />
+                                <p:inputText  class="form-control"
+                                              id="item1"
+                                              requiredMessage="Ingrese el codigo del Item"
+                                              value="#{NovedadFacturacionCotroller.novedadFacturacionActual.fcrmNrniff}">
+                                    <f:ajax execute="@this" render="itemMessage"/>
+                                    <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+
+                                </p:inputText>
+                                <p:message id="item1Message" for="item1" styleClass="error"/>
+                            </div>
+
+                        </p:outputPanel>
+
+                        <p:outputPanel id="prueba123">
+                            <div class="col-md-6 form-group">
+                                <h:outputLabel value="Valor Real Confecciones:"  />
+                                <p:inputText  class="form-control"
+                                              id="item12"
+                                              requiredMessage="Ingrese el codigo del Item"
+                                              value="#{NovedadFacturacionCotroller.novedadFacturacionActual.totalConfecciones}">
+                                    <f:ajax execute="@this" render="itemMessage"/>
+                                    <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+
+                                </p:inputText>
+                                <p:message id="item12Message" for="item12" styleClass="error"/>
+                            </div>
+
+                        </p:outputPanel>
+
+
+                    </h:panelGroup>
+                </div>
+                <div style="position: absolute; bottom: 3em  ">
+                    <div class="container row">
+                        <div class="col-md-6 form-group">
+                            <h:commandButton class="btn btn-primary btn-block"
+                                             value="Editar"
+                                             action="#{NovedadFacturacionCotroller.editar()}"
+                                             actionListener="#{facturasSiesaController.prepareDiario()}" >
+                                <f:ajax execute="@this cliente auditado item item1 descripcionLogo1 item12" render="formulario-crearFicha"/>
+                            </h:commandButton>
+
+                        </div>
+                        <div class="col-md-6 form-group">    
+                            <h:commandButton class="btn btn-primary btn-block" style="background-color: orange; border-color: orange !important " value="Volver" action="lista">
+
+                            </h:commandButton>
+                        </div> 
+                    </div>
+                </div>
+            </h:form>
+
+
+        </ui:define>
+    </ui:composition>
+</html>
+

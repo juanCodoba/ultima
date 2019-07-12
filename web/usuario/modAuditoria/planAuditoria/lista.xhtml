@@ -126,7 +126,7 @@
                         </h:outputText>
                     </p:column>
                     <p:column width="130">
-                        <p:commandButton id="ver" icon="ui-icon-search" action="#{auPlanAuditoriaController.prepareViewAuInterna}" ajax="false">
+                        <p:commandButton id="ver" icon="ui-icon-search" action="#{auPlanAuditoriaController.prepareViewAuInterna}" ajax="false" >
                             <f:setPropertyActionListener value="#{item}" target="#{auPlanAuditoriaController.planAuditoriaActual}"/>
                             <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.planAuditoriaActual}"/>
                             <f:setPropertyActionListener value="#{item2}" target="#{AuAspectoEvaluarController.planAuditoriaActual}"/>
@@ -148,7 +148,7 @@
                         </p:commandButton>
                         <p:tooltip for="descargar2" value="Descargar acta de socialización"/>
 
-                        <p:commandButton id="Agregar-concluciones" icon="ui-icon-pencil" action="#{auPlanAuditoriaController.prepareView()}" ajax="false">
+                        <p:commandButton id="Agregar-concluciones" icon="ui-icon-pencil" action="#{auPlanAuditoriaController.prepareView()}" ajax="false" rendered="#{loginController.adminCalidad || loginController.adminCalidoso ||  loginController.auditor}">
                             <f:setPropertyActionListener value="#{item}" target="#{auPlanAuditoriaController.planAuditoriaActual}"/>
                             <f:setPropertyActionListener value="#{item}" target="#{AuAspectoEvaluarController.planAuditoriaActual}"/>
                             <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.planAuditoriaActual}"/>
@@ -173,7 +173,7 @@
                              rowStyleClass="#{item.estado eq 'Desarrollo' ? 'color3': item.estado eq 'TERMINADA' ? 'color1':null}"
                              paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="50, 100, 150" emptyMessage="No se encontraron formatos con el criterio dado"
-                             rendered="#{loginController.auditorInterno }">
+                             rendered="#{loginController.auditorInterno || loginController.jefe }">
                     <f:facet name="header">
                         <div class="container-fluid">
                             <div class="row">
@@ -260,7 +260,7 @@
                         </p:commandButton>
                         <p:tooltip for="descargar2" value="Descargar acta de socialización"/>
 
-                        <p:commandButton id="Agregar-concluciones1" icon="ui-icon-pencil" action="#{auPlanAuditoriaController.prepareView()}" ajax="false">
+                        <p:commandButton id="Agregar-concluciones1" icon="ui-icon-pencil" action="#{auPlanAuditoriaController.prepareView()}" ajax="false" rendered="#{loginController.adminCalidad || loginController.adminCalidoso ||  loginController.auditor || loginController.auditorInterno}">
                             <f:setPropertyActionListener value="#{item}" target="#{auPlanAuditoriaController.planAuditoriaActual}"/>
                             <f:setPropertyActionListener value="#{item}" target="#{AuAspectoEvaluarController.planAuditoriaActual}"/>
                             <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.planAuditoriaActual}"/>

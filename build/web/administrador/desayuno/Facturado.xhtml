@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup>
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <li>
+                            <h:commandLink class="active" action="/usuario/desayuno/list">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li >
+                            <h:commandLink action="#{facturasSiesaController.prepareList}">
+                                <i class="fa fa-check"></i> 
+                                <span>Facturado</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{facturasSiesaController.prepareList}">
+                                <i class="fa fa-exclamation-triangle"></i> 
+                                <span>Pendiente por Facturar</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{facturadoController.prepareCreate()}">
+                                <i class="fa fa-book"></i>
+                                <span>Crear nuevo Envio</span> 
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{facturadoController.usuarioActual}" rendered="#{loginController.admin}"/>
+
+                            </h:commandLink>
+                        </li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li >
+                            <h:commandLink action="/usuario/modulos">
+                                <i class="fa fa-th"></i>
+                                <span>Modulos del sistema</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">El Desayuno</ui:define>   
+        <ui:define name="title2">Aqui podras estar al tanto de lo facturado diariamente  </ui:define> 
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="5000"/>
+            <h:form id="documentosFormList">
+
+                <p:outputPanel  id="documentosTablePanel">
+                    <p:dataTable value="#{usersController.listaUsers}" var="users"
+                                 rows="50" id="documentosTable"  widgetVar="formatosTable"
+                                 paginator="true" stickyHeader="true" scrollable="true"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="20,50,100">
+                        <f:facet name="header">
+                            <h:commandLink id="exportExcel">
+                                <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                                target="documentosTable" fileName="inventario" />
+                            </h:commandLink>
+                            <p:tooltip id="descripcion-botonExcel" for="exportExcel" value="Exportar en excel" trackMouse="true" />
+                            <h4 class="colorLetra" style="font-weight: bold; display: inline-block !important;" >
+                                Total registros: #{fn:length(usersController.listaUsers)}
+                            </h4>
+                        </f:facet>
+                        <p:column filterBy="#{users.id}" filterMatchMode="contains" width="100" >
+                            <f:facet name="header">Codigo</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{users.id}"/>
+                        </p:column>
+                        <p:column filterBy="#{users.firstName.toUpperCase()}" filterMatchMode="contains">
+                            <f:facet name="header">Primer Nombre</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{users.firstName.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{users.lastName.toUpperCase()}" filterMatchMode="contains" priority="3"> 
+                            <f:facet name="header">Segundo Nombre</f:facet>
+                            <h:outputText value="#{users.lastName.toUpperCase()}"/>
+                        </p:column>
+                        <p:column width="150">
+                            <p:commandButton ajax="false" id="boton-edit"  icon="ui-icon-pencil" action="#{factorController.prepareEdit()}" >                           
+                                <f:setPropertyActionListener value="#{users}" target="#{factorController.procesoActual}"/>
+                                <f:setPropertyActionListener value="#{users}" target="#{procesosController.procesosActual}"/>
+                                <f:setPropertyActionListener value="#{users}" target="#{usuarioController.procesoActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-edit" for="boton-edit" value="Editar formato" trackMouse="true"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+

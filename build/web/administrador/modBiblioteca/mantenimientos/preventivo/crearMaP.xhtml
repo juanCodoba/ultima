@@ -42,17 +42,10 @@ and open the template in the editor.
                             </a>
                             <ul class="treeview-menu">
                                 <li>
-                                    <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
+                                    <h:commandLink action="#{reservaLibrosController.prepareViewCalendario()}" rendered="#{loginController.bibliotecario}">
                                         <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
                                         <i class="fa fa-calendar"></i> 
                                         <span>Calendario de Prestamos</span>
-                                    </h:commandLink>
-                                </li>
-                                <li>
-                                    <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
-                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
-                                        <i class="fa fa-calendar"></i> 
-                                        <span>Calendario mantenimientos</span>
                                     </h:commandLink>
                                 </li>
                             </ul>
@@ -171,11 +164,12 @@ and open the template in the editor.
                         <h:outputLabel value="Tipo de Mantenimiento:" />
                         <p:selectOneMenu style="width: 100%"
                                          id="prendaT21"
+                                         converter="tipoMantenimientoConverter"
                                          requiredMessage="Estado del Libro"
                                          value="#{LibroController.libroActual.idTipoMantenimiento}">                        
-                            <f:ajax execute="@this" render="clienteMessage"/>
+                            <f:ajax execute="@this" render="prendaT21Message"/>
                             <f:selectItem itemLabel="Seleccionar uno.." />
-                            <f:selectItems value="#{tipoMantenimientoController.listaTipoMantenimiento}" var="categoria" itemValue="#{estadoLibro}"/> 
+                            <f:selectItems value="#{tipoMantenimientoController.listaTipoMantenimiento}" var="tipoMantenimiento" itemValue="#{tipoMantenimiento}"/> 
                         </p:selectOneMenu>
                         <p:message id="prendaT21Message" for="prendaT21" styleClass="error"/>
                     </div>

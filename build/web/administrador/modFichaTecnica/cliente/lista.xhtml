@@ -14,7 +14,7 @@
                     <h:panelGroup >
                         <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
                         <!-- Optionally, you can add icons to the links -->
-                        <li>
+                        <li class="active">
                             <h:commandLink action="#{ftFichaTecnica.prepareListPrincipal}">
                                 <i class="fa fa-dashboard"></i> 
                                 <span>Principal</span>
@@ -28,13 +28,13 @@
                             </h:commandLink>
                         </li>
                         <li>
-                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftFichaTecnica.prepareListDesarrollo}">
+                            <h:commandLink action="#{ftFichaTecnica.prepareListDesarrollo}">
                                 <i class="fa fa-camera-retro"></i> 
                                 <span>Fichas en desarrollo</span>
                             </h:commandLink>
                         </li>
                         <li>
-                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftFichaTecnica.prepareListPrimeraValidacion}">
+                            <h:commandLink action="#{ftFichaTecnica.prepareListPrimeraValidacion}">
                                 <i class="fa fa-check"></i> 
                                 <span>Primera Validación</span>
                             </h:commandLink>
@@ -45,10 +45,22 @@
                                 <span>Lista de solicitudes</span>
                             </h:commandLink>
                         </li>
-                        <li  class="active">
+                        <li>
                             <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftClienteController.prepareList}">
                                 <i class="fa fa-user"></i>
-                                <span>Cliente</span>
+                                <span>Clientes</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.adminCalidad || loginController.adminCalidoso|| loginController.userDisn }" action="#{NovedadCotroller.prepareListNovedad()}">
+                                <i class="fa fa-user"></i>
+                                <span>Novedades</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.adminCalidad || loginController.adminCalidoso|| loginController.userDisn }" action="#{ActividadNovedadCotroller.prepareCreate()}">
+                                <i class="fa fa-user"></i>
+                                <span>Actividades</span>
                             </h:commandLink>
                         </li>
                     </h:panelGroup>   

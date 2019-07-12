@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
     <head>
         <title>Facelet Title</title>
         <link href="https://fonts.googleapis.com/css?family=Asap:700" rel="stylesheet"/>
@@ -211,6 +212,9 @@
         <div class="body-contenedor">
             <div class="head">
                 <h3 class="titulo1">#{ftFichaTecnica.fichaTecnicaActual.descripcionCorta}</h3>
+                <h3 class="titulo2" style="text-align: center" jsf:rendered="#{ftFichaTecnica.fichaO}">COD. ITEM: #{ftFichaTecnica.fichaTecnicaActual.idItem}</h3>
+                <h3 class="titulo2" style="text-align: center" jsf:rendered="#{ftFichaTecnica.fichaN}">OPM: #{ftFichaTecnica.fichaTecnicaActual.idItem}</h3>       
+
             </div>
             <div class="titulo3">
                 <h2>FICHA TÉCNICA DE PRODUCTO</h2>
@@ -226,15 +230,19 @@
                         <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.idFtCliente.nombre}"/>
                         <br></br>
                         <br></br>
-                        <label class="label-info">Puntos Criticos:</label>
+                        <label class="label-info">Descripción</label>
                         <br></br>
-                        <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.descripcionLarga}"/>
+                        <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.descripcionCliente}"/>
                         <br></br>
 
                         <br></br>
                         <label class="label-info">Descripción Del Logo: </label>
                         <br></br>
                         <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.descripcionLogo}"/>
+                        <br></br>
+                        <label class="label-info">Estampado: </label>
+                        <br></br>
+                        <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.estampado}"/>
 
 
                     </p>
@@ -244,26 +252,26 @@
             <br></br>
             <br></br>
             <br></br>
-            
-            
+
+
             <div class="contenedor1 contenedor4">
                 <div class="tituloContenedor1">
                     CRITERIOS DE ACEPTACIÓN O RECHAZO
                 </div>
                 <div class="cuerpoContenedor3">
                     <p class="parrafo-contenedor">
-                        SE DEFINE COMO CRITERIOS DE TOLERANCIA, PARA LOS CONTORNOS TOTALES Y LARGOS +/-2 CM.
+                        SE DEFINE COMO CRITERIOS DE TOLERANCIA, PARA LOS CONTORNOS TOTALES Y LARGOS +/-1 CM.
                     </p>
                     <p class="parrafo-contenedor">
                         SE DEFINE COMO CRITERIOS DE TOLERANCIA, PARA LOS TIROS +/- 1CM.
                     </p>
                 </div> 
             </div>
-            <div class="cuerpoContenedor3 contenedor5">
-                <img width="100%" position="relative" left="74%" src="#{request.contextPath}/resources/file/logos.png"/>
-            </div> 
+            <div class="contenedor-imgCa">
+                <img class="imagenesBot" width="300" height="150" style ="position: relative;top: 11px;left: 11%;" left="100%" src="file:#{ftFichaTecnica.fichaTecnicaActual.fotoLavado}"/>
+            </div>
         </div>
-        <div class="footer-contenedor">
+        <div class="footer-contenedor" style="position: relative; top: -110px">
             <div class="footer-parrafo1">
                 <img width="100%" class="footer-img1" src="#{request.contextPath}/resources/file/logoblanco.png">
 
@@ -284,7 +292,7 @@
                 </h:outputText>  
             </div>
         </div>
-        <div class="body-contenedor2">
+        <div class="body-contenedor2" style="position: relative;top: -40px">
             <div class="contenedor3" style="margin-top: 10px">
                 <div class="tituloContenedor1" >
                     GRÁFICA DE LA PRENDA
@@ -299,17 +307,18 @@
                 </div>
                 <div class="cuerpoContenedorImg">
                     <div class="contenedor-imgCa">
-                        <img class="imagenesBot" width="200" height="180" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica1}"/>
+                        <img class="imagenesBot" width="150" height="100" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica1}"/>
                     </div>
                     <div class="contenedor-imgCa">
-                        <img class="imagenesBot" width="200" height="180" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica2}"/>
+                        <img class="imagenesBot" width="150" height="100" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica2}"/>
                     </div>
                     <div class="contenedor-imgCa">
-                        <img class="imagenesBot" width="200" height="180" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica3}"/>
+                        <img class="imagenesBot" width="150" height="100" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica3}"/>
                     </div>
                     <div class="contenedor-imgCa">
-                        <img class="imagenesBot" width="200" height="180" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica4}"/>
+                        <img class="imagenesBot" width="150" height="100" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica4}"/>
                     </div>
+
                 </div>
             </div>
             <div class="cuerpo-elaborado">
@@ -354,7 +363,8 @@
                 </div>
             </div>
         </div>
-        <div class="footer-contenedor">
+        <div class="footer-contenedor" style="    position: relative;
+    top: -145px;">
             <div class="footer-parrafo1">
                 <img width="100%" class="footer-img1" src="#{request.contextPath}/resources/file/logoblanco.png">
 

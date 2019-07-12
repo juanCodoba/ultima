@@ -189,7 +189,132 @@ and open the template in the editor.
                             </p:dataTable> 
                         </div>
                     </div>
+                    
+                    <div class="panel panel-primary form-group"  style="border-radius: 0;margin-bottom: 5em">
+                        <div class="panel-heading"  style="border-radius: 0; "><h4 class="letra-panelDescriEdu">Factores Tecnologicos mediante el analisis pestel </h4></div>
+                        <div class="panel-body">
+                            <h4>Factores del proceso</h4>
+                            <p:dataTable id="tablaFuncion4" class="table table-striped table-bordered"
+                                         value="#{factorController.listreGlo4}" emptyMessage="No se encontraron registros"
+                                         var="factor"  >
+                                <p:column width="60" headerText="ID Factor">
+                                    <h:outputText value="#{factor.idFactor}-PESTEL"/>
+                                </p:column>
+                                <p:column width="60" headerText="Categoria">
+                                    <h:outputText value="#{factor.idCategoria.nombreCategoria}"/>
+                                </p:column>
+                                <p:column width="110" headerText="Situación">
+                                    <h:outputText value="#{factor.idItemSituacion.descripcion}"/>
+                                </p:column>
 
+                                <p:column width="60" headerText="Oportunidad">
+                                    <h:outputText value="#{factor.idOportunidad.descOprtunidad}"/>
+                                </p:column>
+                                <p:column width="60" headerText="Riesgo">
+                                    <h:outputText value="#{factor.idRiesgo.descripcionRiesgo}"/>
+                                </p:column>
+                                <p:column width="60" headerText="Importancia">
+                                    <h:outputText value="#{factor.idImportancia.descripcionImportancia}"/>
+                                </p:column>
+
+                                <p:column width="110" headerText="Descripcion del factor">
+                                    <h:outputText value="#{factor.descripcionFactor}"/>
+                                </p:column>
+                                <p:column width="60" headerText="Proceso">
+                                    <h:outputText value="#{factor.idProceso.nombreProceso}"/>
+                                </p:column>
+                                <p:column width="60" headerText="Puntuación">
+                                    <h:outputText value="#{factor.puntuacion}"/>
+                                </p:column>
+
+
+                            </p:dataTable> 
+                        </div>
+                    </div>
+                    
+                    <div class="panel panel-primary form-group"  style="border-radius: 0;margin-bottom: 5em">
+                        <div class="panel-heading"  style="border-radius: 0; "><h4 class="letra-panelDescriEdu">Factores Tecnologicos mediante el analisis pestel </h4></div>
+                        <div class="panel-body">
+                            <h4>Factores del proceso</h4>
+                            <p:dataTable id="tablaFuncion5" class="table table-striped table-bordered"
+                                         value="#{factorController.listreGlo5}" emptyMessage="No se encontraron registros"
+                                         var="factor"  >
+                                <p:column width="60" headerText="ID Factor">
+                                    <h:outputText value="#{factor.idFactor}-PESTEL"/>
+                                </p:column>
+                                <p:column width="60" headerText="Categoria">
+                                    <h:outputText value="#{factor.idCategoria.nombreCategoria}"/>
+                                </p:column>
+                                <p:column width="110" headerText="Situación">
+                                    <h:outputText value="#{factor.idItemSituacion.descripcion}"/>
+                                </p:column>
+
+                                <p:column width="60" headerText="Oportunidad">
+                                    <h:outputText value="#{factor.idOportunidad.descOprtunidad}"/>
+                                </p:column>
+                                <p:column width="60" headerText="Riesgo">
+                                    <h:outputText value="#{factor.idRiesgo.descripcionRiesgo}"/>
+                                </p:column>
+                                <p:column width="60" headerText="Importancia">
+                                    <h:outputText value="#{factor.idImportancia.descripcionImportancia}"/>
+                                </p:column>
+
+                                <p:column width="110" headerText="Descripcion del factor">
+                                    <h:outputText value="#{factor.descripcionFactor}"/>
+                                </p:column>
+                                <p:column width="60" headerText="Proceso">
+                                    <h:outputText value="#{factor.idProceso.nombreProceso}"/>
+                                </p:column>
+                                <p:column width="60" headerText="Puntuación">
+                                    <h:outputText value="#{factor.puntuacion}"/>
+                                </p:column>
+
+
+                            </p:dataTable> 
+                        </div>
+                    </div>
+                    
+                    <div class="panel panel-primary form-group"  style="border-radius: 0;margin-bottom: 5em">
+                        <div class="panel-heading"  style="border-radius: 0; "><h4 class="letra-panelDescriEdu">Factores Tecnologicos mediante el analisis pestel </h4></div>
+                        <div class="panel-body">
+                            <h4>Factores del proceso</h4>
+                            <p:dataTable id="tablaFuncion6" class="table table-striped table-bordered"
+                                         value="#{factorController.listreGlo6}" emptyMessage="No se encontraron registros"
+                                         var="factor"  >
+                                <p:column width="60" headerText="ID Factor">
+                                    <h:outputText value="#{factor.idFactor}-PESTEL"/>
+                                </p:column>
+                                <p:column width="60" headerText="Categoria">
+                                    <h:outputText value="#{factor.idCategoria.nombreCategoria}"/>
+                                </p:column>
+                                <p:column width="110" headerText="Situación">
+                                    <h:outputText value="#{factor.idItemSituacion.descripcion}"/>
+                                </p:column>
+
+                                <p:column width="60" headerText="Oportunidad">
+                                    <h:outputText value="#{factor.idOportunidad.descOprtunidad}"/>
+                                </p:column>
+                                <p:column width="60" headerText="Riesgo">
+                                    <h:outputText value="#{factor.idRiesgo.descripcionRiesgo}"/>
+                                </p:column>
+                                <p:column width="60" headerText="Importancia">
+                                    <h:outputText value="#{factor.idImportancia.descripcionImportancia}"/>
+                                </p:column>
+
+                                <p:column width="110" headerText="Descripcion del factor">
+                                    <h:outputText value="#{factor.descripcionFactor}"/>
+                                </p:column>
+                                <p:column width="60" headerText="Proceso">
+                                    <h:outputText value="#{factor.idProceso.nombreProceso}"/>
+                                </p:column>
+                                <p:column width="60" headerText="Puntuación">
+                                    <h:outputText value="#{factor.puntuacion}"/>
+                                </p:column>
+
+
+                            </p:dataTable> 
+                        </div>
+                    </div>
                     <div class="col-md-12" style="margin-bottom: 7%">
 
                         <h:panelGroup id="panel" layout="block">

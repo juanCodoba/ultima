@@ -4,9 +4,10 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
     <ui:composition template="/template/plantilla.xhtml">
-      <ui:define name="menu">
+        <ui:define name="menu">
             <h:form id="menu-principal">
                 <ul class="sidebar-menu">
                     <h:panelGroup>
@@ -90,9 +91,9 @@
                                              id="objetivo" 
                                              disabled="true"
                                              value="#{auPlanAuditoriaController.planAuditoriaActual.objetivo}" 
-                                         required="true"
-                                         requiredMessage="Por favor ingrece el obejtivo">
-                                         <f:ajax execute="@this" render="objetivoMessage"/>
+                                             required="true"
+                                             requiredMessage="Por favor ingrece el obejtivo">
+                                <f:ajax execute="@this" render="objetivoMessage"/>
                             </p:inputTextarea>
                             <p:message id="objetivoMessage" for="objetivo" styleClass="error"/>
                         </div>
@@ -103,25 +104,50 @@
                                              id="alcance"
                                              disabled="true"
                                              value="#{auPlanAuditoriaController.planAuditoriaActual.alcance}" 
-                                         required="true"
-                                         requiredMessage="Por favor ingrece el alcance de la auditoría ">
-                                         <f:ajax execute="@this" render="alcanceMessage"/>
+                                             required="true"
+                                             requiredMessage="Por favor ingrece el alcance de la auditoría ">
+                                <f:ajax execute="@this" render="alcanceMessage"/>
                             </p:inputTextarea>
                             <p:message id="alcanceMessage" for="alcance" styleClass="error"/>
                         </div>
-                         <div class="col-md-12 form-group">
+                        <div class="col-md-12 form-group">
                             <h:outputLabel value="Criterio:"  />
                             <p:inputTextarea placeholder="criterio" 
                                              class="form-control" 
                                              id="criterio"
                                              disabled="true"
                                              value="#{auPlanAuditoriaController.planAuditoriaActual.criterios}" 
-                                         required="true"
-                                         requiredMessage="Por favor ingrece el criterio de la auditoría ">
-                                         <f:ajax execute="@this" render="criterioMessage"/>
+                                             required="true"
+                                             requiredMessage="Por favor ingrece el criterio de la auditoría ">
+                                <f:ajax execute="@this" render="criterioMessage"/>
                             </p:inputTextarea>
                             <p:message id="criterioMessage" for="criterio" styleClass="error"/>
                         </div>
+                        <div class="col-md-12 form-group">
+                            <h:outputLabel value="Estado de la Auditoria"  />
+                            <p:selectOneMenu id="cumplimiento" style="width: 100%" value="#{auPlanAuditoriaController.planAuditoriaActual.estado}">
+                                <f:selectItem itemLabel="Seleccionar uno..." itemValue="#{null}" />
+                                <f:selectItem itemLabel="CT | TERMINADA" itemValue="TR" />
+                                <f:selectItem itemLabel="CP | DESARROLLO" itemValue="DS" />
+                            </p:selectOneMenu>
+                        </div>
+                        <div class="col-md-12 form-group" jsf:rendered="#{loginController.auditor}" >
+                            <h:outputLabel value="Mes A Auditar"  style="display: block; position: relative; left: 13px;"/>
+                            <div class="col-md-2 form-group" style="    position: relative;   left: 20%;">
+                                <h:outputLabel value="Fecha Inicio:"  />
+                                <p:calendar id="fechaIAuditoria" locale="es"
+                                            value="#{auPlanAuditoriaController.planAuditoriaActual.fechaIAuditoria}"
+                                            pattern="MMMM dd, yyyy"/>
+                                <p:message id="fechaIAuditoriaMessage" for="fechaIAuditoria" styleClass="error"/>
+                            </div>
+                            <div class="col-md-2 form-group" style="    position: relative;    left: 40%;">
+                                <h:outputLabel value="Fecha Fin"  />
+                                <p:calendar id="fechaFAuditoria" locale="es"
+                                            value="#{auPlanAuditoriaController.planAuditoriaActual.fechafAuditoria}"
+                                            pattern="MMMM dd, yyyy"/>
+                                <p:message id="fechaFAuditoriaMessage" for="fechaFAuditoria" styleClass="error"/>
+                            </div>
+                        </div> 
                     </h:panelGroup>
                 </div>
                 <div style="position: absolute; bottom: 7em  ">
@@ -146,9 +172,9 @@
                     <div class="panel-heading"  style="border-radius: 0; "><h4 class="letra-panelDescriEdu">Procesos aditados</h4></div>
                     <div class="panel-body">
                         <p:dataGrid  emptyMessage="No se encontraron registros" value="#{auPlanAuditoriaController.listaProcesoEvaluadoConsulta}" var="item" columns="3" layout="grid"
-                            rows="12" paginator="true" id="tablaFuncion" 
-                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                            rowsPerPageTemplate="6,12,16" >
+                                     rows="12" paginator="true" id="tablaFuncion" 
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="6,12,16" >
                             <f:facet name="header">
                                 Subprocesos a evaluar
                             </f:facet>
@@ -165,7 +191,7 @@
                                         <br></br>
                                         <h:outputText value="Hora: " style="font-weight: bold"/>
                                         <h:outputText value="#{item.hora}">
-                                             <f:convertDateTime pattern="HH:mm"/>
+                                            <f:convertDateTime pattern="HH:mm"/>
                                         </h:outputText>
                                         <br></br>
                                         <h:outputText value="Auditores: " style="font-weight: bold"/>
@@ -202,14 +228,14 @@
                                 <p:column width="100" headerText="Estado" >
                                     <h:outputText value="#{item2.estado}" style="font-weight: bold"/>
                                 </p:column>
-                           </p:dataTable>
+                            </p:dataTable>
                         </h:panelGroup>
                     </div>
                     <div class="col-md-12 form-group">
                         <p:commandButton styleClass="btn btn-danger btn-block" 
-                              value="Cerrar" 
-                              oncomplete="PF('dlg2').hide();"
-                              process="@this"/>
+                                         value="Cerrar" 
+                                         oncomplete="PF('dlg2').hide();"
+                                         process="@this"/>
                     </div>
                 </h:form>
             </p:dialog>

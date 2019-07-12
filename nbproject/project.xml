@@ -96,10 +96,6 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.ojdbc6-11.2.0.2.0.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-                <library dirs="200">
                     <file>${file.reference.org.apache.commons.io.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
@@ -121,6 +117,10 @@
                 </library>
                 <library dirs="200">
                     <file>${file.reference.primefaces-6.0.jar-1}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
+                    <file>${file.reference.sqljdbc42.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>

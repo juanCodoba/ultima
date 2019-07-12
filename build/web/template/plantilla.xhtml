@@ -41,117 +41,126 @@
     </head>
     <body class="hold-transition skin-green sidebar-mini" jsf:id="body" onload="instantiateTextbox();">
         <div class="wrapper">
-  <!-- Main Header -->
-        <h:form>
-            <header class="main-header">
-              <!-- Logo -->
-              <a ref="#{request.contextPath}/faces/user/principal.xhtml" class="logo"  style="background: #ecf0f5; height: 55px !important">
-                  <!-- mini logo for sidebar mini 50x50 pixels -->
-                  
-                  <span class="logo-mini"><img class="img-logo" src="#{request.contextPath}/resources/images/iconoPestana.png"/></span>
-                  <!-- logo for regular state and mobile devices -->
-                  <span class="logo-lg"><img class="img-logo" src="#{request.contextPath}/resources/images/logoSaint.png"/></span>
-                </a>
+            <!-- Main Header -->
+            <h:form>
+                <header class="main-header">
+                    <!-- Logo -->
+                    <a ref="#{request.contextPath}/faces/user/principal.xhtml" class="logo"  style="background: #ecf0f5; height: 55px !important">
+                        <!-- mini logo for sidebar mini 50x50 pixels -->
 
-              <!-- Header Navbar -->
-                <nav class="navbar navbar-static-top" role="navigation">
-                  <!-- Sidebar toggle button-->
-                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                      <span class="sr-only">Toggle navigation</span>
+                        <span class="logo-mini"><img class="img-logo" src="#{request.contextPath}/resources/images/iconoPestana.png"/></span>
+                        <!-- logo for regular state and mobile devices -->
+                        <span class="logo-lg"><img class="img-logo" src="#{request.contextPath}/resources/images/logoSaint.png"/></span>
                     </a>
-                    
-                    <!-- Navbar Right Menu -->
-                    <div class="navbar-custom-menu">
-                        <ul class="nav navbar-nav">
-                            
-                          <!-- User Account Menu -->
-                            <li>
-                                 
-                            </li>
-                            <li>
-                                 
-                                <h:panelGroup rendered="#{!loginController.authenticated}">
-                                    <p:commandButton value="Iniciar Sesión" styleClass="btn btn-lg boton-inicioSesion" type="button" onclick="PF('dlg2').show();"/>
-                                </h:panelGroup>
-                            </li>
-                            <h:panelGroup rendered="#{loginController.authenticated}">
-                                
-                                <li class="dropdown user user-menu">
-                                    <h:commandLink>
-                                         <span class="hidden-xs">#{loginController.userLogueado.toString()}</span>
-                                    </h:commandLink>
-                                </li>
-                             </h:panelGroup>
-                            <h:panelGroup rendered="#{loginController.authenticated}">
-                                <li class="dropdown user user-menu">
-                                    <h:commandLink action="#{loginController.prepareEditContra}">
-                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{loginController.usuarioActual}"/>
-                                        <i class="fa fa-cog"></i>
-                                    </h:commandLink>
-                                </li>
-                             </h:panelGroup>
-                            <li>
-                                <h:commandLink action="#{loginController.ayuda}">
-                                    <i class="fa fa-question-circle"></i>  
-                                </h:commandLink>
-                            </li>
-                          <!-- Control Sidebar Toggle Button -->
-                            <h:panelGroup rendered="#{loginController.authenticated}">
+
+                    <!-- Header Navbar -->
+                    <nav class="navbar navbar-static-top" role="navigation">
+                        <!-- Sidebar toggle button-->
+                        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                            <span class="sr-only">Toggle navigation</span>
+                        </a>
+
+                        <!-- Navbar Right Menu -->
+                        <div class="navbar-custom-menu">
+                            <ul class="nav navbar-nav">
+
+                                <!-- User Account Menu -->
                                 <li>
-                                    <h:commandLink action="#{loginController.logout}">
-                                        <i class="fa fa-sign-out"></i>  
+
+                                </li>
+                                <li>
+
+                                    <h:panelGroup rendered="#{!loginController.authenticated}">
+                                        <p:commandButton value="Iniciar Sesión" styleClass="btn btn-lg boton-inicioSesion" type="button" onclick="PF('dlg2').show();"/>
+                                    </h:panelGroup>
+                                </li>
+
+                                <h:panelGroup rendered="#{loginController.authenticated}">
+
+                                    <li class="dropdown user user-menu">
+                                        <h:commandLink  >
+                                            <span class="hidden-xs"  > <p:clock  /></span>
+                                        </h:commandLink>
+                                    </li>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{loginController.authenticated}">
+
+                                    <li class="dropdown user user-menu">
+                                        <h:commandLink>
+                                            <span class="hidden-xs">#{loginController.userLogueado.toString()}</span>
+                                        </h:commandLink>
+                                    </li>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{loginController.authenticated}">
+                                    <li class="dropdown user user-menu">
+                                        <h:commandLink action="#{loginController.prepareEditContra}">
+                                            <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{loginController.usuarioActual}"/>
+                                            <i class="fa fa-cog"></i>
+                                        </h:commandLink>
+                                    </li>
+                                </h:panelGroup>
+                                <li>
+                                    <h:commandLink action="#{loginController.ayuda}">
+                                        <i class="fa fa-question-circle"></i>  
                                     </h:commandLink>
                                 </li>
-                            </h:panelGroup>
-                        </ul>
-                    </div>
-                </nav>
-            </header>
-        </h:form>
+                                <!-- Control Sidebar Toggle Button -->
+                                <h:panelGroup rendered="#{loginController.authenticated}">
+                                    <li>
+                                        <h:commandLink action="#{loginController.logout}">
+                                            <i class="fa fa-sign-out"></i>  
+                                        </h:commandLink>
+                                    </li>
+                                </h:panelGroup>
+                            </ul>
+                        </div>
+                    </nav>
+                </header>
+            </h:form>
             <!-- Left side column. contains the logo and sidebar -->
             <aside class="main-sidebar">
-              <!-- sidebar: style can be found in sidebar.less -->
+                <!-- sidebar: style can be found in sidebar.less -->
                 <section class="sidebar">
-                  <!-- Sidebar user panel (optional) -->
-                   
-                  <!-- search form (Optional) -->
-                    
-                  <!-- /.search form -->
+                    <!-- Sidebar user panel (optional) -->
 
-                  <!-- Sidebar Menu -->
-                <ui:insert name="menu">
-                    
-                </ui:insert>
-                  <!-- /.sidebar-menu -->
+                    <!-- search form (Optional) -->
+
+                    <!-- /.search form -->
+
+                    <!-- Sidebar Menu -->
+                    <ui:insert name="menu">
+
+                    </ui:insert>
+                    <!-- /.sidebar-menu -->
                 </section>
-              <!-- /.sidebar -->
+                <!-- /.sidebar -->
             </aside>
 
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
-              <!-- Content Header (Page header) -->
+                <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                      <ui:insert name="title"></ui:insert>
-                      <small><ui:insert name="title2"></ui:insert></small>
+                        <ui:insert name="title"></ui:insert>
+                        <small><ui:insert name="title2"></ui:insert></small>
                     </h1>
                 </section>
-                
-              <!-- Main content -->
+
+                <!-- Main content -->
                 <section class="content">
                     <ui:insert name="body">
                         Default Body
                     </ui:insert> 
                 </section>
-              <!-- /.content -->
+                <!-- /.content -->
             </div>
             <!-- /.content-wrapper -->
 
             <!-- Main Footer -->
             <footer class="main-footer">
-              <!-- To the right -->
+                <!-- To the right -->
                 <div class="pull-right hidden-xs">
-                    Sistema Administrativo Integrado | SaINT v.8.0
+                    Sistema Administrativo Integrado | SaINT v.8.2
                 </div>
                 <!-- Default to the left -->
                 <strong>Todos los Derechos Reservados<span style="color: #00a65a"> Centro de Formación Integral Providencia</span> © 2017.</strong>
@@ -165,55 +174,61 @@
         </div>
         <!-- ./wrapper -->
 
-<!-- REQUIRED JS SCRIPTS -->
+        <!-- REQUIRED JS SCRIPTS -->
 
-<!-- jQuery 2.2.3 -->
+        <!-- jQuery 2.2.3 -->
         <!-- Bootstrap 3.3.6 -->
         <script src="#{request.contextPath}/resources/js/bootstrap.min.js"></script>
         <!-- AdminLTE App -->
         <script src="#{request.contextPath}/resources/js/app.min.js"></script>
         <script src="#{request.contextPath}/resources/js/pf.locales.js"></script>
         <script data-sample="1">
-                CKEDITOR.replace( 'editor1', {
-                        toolbar: [
-                                { name: 'clipboard', items: [ 'PasteFromWord', '-', 'Undo', 'Redo' ] },
-                                { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'Subscript', 'Superscript' ] },
-                                { name: 'links', items: [ 'Link', 'Unlink' ] },
-                                { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' ] },
-                                { name: 'insert', items: [ 'Image', 'Table' ] },
-                                { name: 'editing', items: [ 'Scayt' ] },
-                                '/',
-
-                                { name: 'styles', items: [ 'Format', 'Font', 'FontSize' ] },
-                                { name: 'colors', items: [ 'TextColor', 'BGColor', 'CopyFormatting' ] },
-                                { name: 'align', items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
-                                { name: 'document', items: [ 'Print', 'Source' ] }
-                        ],
-                        extraPlugins: 'colorbutton,font,justify,print,tableresize,pastefromword,liststyle',
-                        removeButtons: '',
-                        height: 350,
-                } );
+                                            CKEDITOR.replace('editor1', {
+                                                toolbar: [
+                                                    {name: 'clipboard', items: ['PasteFromWord', '-', 'Undo', 'Redo']},
+                                                    {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'Subscript', 'Superscript']},
+                                                    {name: 'links', items: ['Link', 'Unlink']},
+                                                    {name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote']},
+                                                    {name: 'insert', items: ['Image', 'Table']},
+                                                    {name: 'editing', items: ['Scayt']},
+                                                    '/',
+                                                    {name: 'styles', items: ['Format', 'Font', 'FontSize']},
+                                                    {name: 'colors', items: ['TextColor', 'BGColor', 'CopyFormatting']},
+                                                    {name: 'align', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
+                                                    {name: 'document', items: ['Print', 'Source']}
+                                                ],
+                                                extraPlugins: 'colorbutton,font,justify,print,tableresize,pastefromword,liststyle',
+                                                removeButtons: '',
+                                                height: 350,
+                                            });
         </script>
         <script>
             wow = new WOW(
-              {
-              boxClass:     'wow',      // default
-              animateClass: 'animated', // default
-              offset:       0,          // default
-              mobile:       true,       // default
-              live:         true        // default
-            }
+                    {
+                        boxClass: 'wow', // default
+                        animateClass: 'animated', // default
+                        offset: 0, // default
+                        mobile: true, // default
+                        live: true        // default
+                    }
             )
             wow.init();
         </script>
         <script>
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                        m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
             ga('create', 'UA-79518440-2', 'auto');
             ga('send', 'pageview');
-         </script>
+        </script>
     </body>
 </html>

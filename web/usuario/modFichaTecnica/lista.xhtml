@@ -52,9 +52,15 @@
                             </h:commandLink>
                         </li>
                         <li>
-                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftCategoriaController.prepareList}">
+                            <h:commandLink rendered="#{loginController.adminCalidad || loginController.adminCalidoso|| loginController.userDisn }" action="#{NovedadCotroller.prepareListNovedad()}">
                                 <i class="fa fa-user"></i>
-                                <span>Categorias</span>
+                                <span>Novedades</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.adminCalidad || loginController.adminCalidoso|| loginController.userDisn }" action="#{ActividadNovedadCotroller.prepareCreate()}">
+                                <i class="fa fa-user"></i>
+                                <span>Actividades</span>
                             </h:commandLink>
                         </li>
                     </h:panelGroup>   
@@ -115,7 +121,7 @@
                             <f:facet name="header">Tipo de Prenda</f:facet>
                             <h:outputText style="font-weight: bold; font-size: 1em;" value="#{item.idFtCategoria.descripcion}"/>
                         </p:column>
-                        <p:column filterBy="#{item.idFtCliente.idFtCliente}" filterMatchMode="contains">
+                        <p:column filterBy="#{item.idFtCliente.nombre}" filterMatchMode="contains">
                             <f:facet name="header"> cliente</f:facet>
                             <h:outputText style="font-weight: bold; font-size: 1em;" value="#{item.idFtCliente.nombre}"/>
                         </p:column>
@@ -147,7 +153,7 @@
                             <p:tooltip id="descripcion-botonDescargar" for="descargar" value="Ver PDF " trackMouse="true" />
 
                             <p:commandButton id="descargar-c" icon="ui-icon-document" 
-                                             rendered="#{loginController.fichaTecnicaPRINT}" action="#{ftFichaTecnica.createFichaPDFCliente}"
+                                             rendered="#{loginController.fichaTecnicaPRINT || loginController.comercial}" action="#{ftFichaTecnica.createFichaPDFCliente}"
                                              onclick="target = '_blank';PF('descargar').hide();"
                                              ajax="false">
                                 <f:setPropertyActionListener value="#{item}" target="#{ftFichaTecnica.fichaTecnicaActual}"/>

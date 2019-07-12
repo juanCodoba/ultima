@@ -189,6 +189,42 @@
                     </h:panelGroup>
                 </div>
             </h:form>
+            <h:form id="AccionCor">
+                <div class="panel panel-primary form-group"  style="border-radius: 0">
+                    <div class="panel-heading"  style="border-radius: 0"><h4 class="letra-panelDescriEdu">Correción</h4></div>
+                    <div class="panel-body">
+                        <h:panelGroup id="agregarFuncion2">
+                            <h:panelGroup id="itemsGroup2">
+                                <p:dataTable  id="tablaFuncion2" emptyMessage="No se encontraron registros" rowIndexVar="rowIndex" value="#{calidadPlanAccionController.listaAccionCorrectivaActual}" var="item2">
+                                    <p:column headerText="No." width="80" >
+                                        #{rowIndex+1}
+                                    </p:column>
+                                    <p:column headerText="Descripcion" >
+                                        <h:outputText value="#{item2.descripcion}" style="font-weight: bold"/>
+                                    </p:column>
+                                    <p:column headerText="Responsable" width="300">
+                                        <h:outputText value="#{item2.responsable}" style="font-weight: bold"/>
+                                    </p:column>
+                                    <p:column headerText="Fecha" width="200">
+                                        <h:outputText value="#{item2.fecha}" style="font-weight: bold">
+                                            <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column width="60">
+                                        <h:commandLink id="list" class="btn btn-primary" style="color: white; margin-left: 3px"> 
+                                            <li class="fa fa-bars"></li> 
+                                            <p:ajax listener="#{calidadPlanAccionController.listSeguimientoAc()}" update="formListaSeguimiento2:listaSeguimiento2" oncomplete="PF('dlg5').show();" />     
+                                            <f:attribute name="item" value="#{item2}"/>
+                                            <f:setPropertyActionListener value="#{item2}" target="#{calidadPlanAccionController.accionCorrectivaActual}"/>
+                                        </h:commandLink>
+                                        <p:tooltip for="list" value="Lista de seguimientos"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </h:form>
             <h:form id="causa">
                 <div class="panel panel-primary form-group"  style="border-radius: 0">
                     <div class="panel-heading"  style="border-radius: 0"><h4 class="letra-panelDescriEdu">Identificación y análisis de causas</h4></div>
@@ -351,6 +387,50 @@
                                              oncomplete="PF('dlg3').hide();"
                                              process="@this"/>
                         </div>
+                    </h:panelGroup>
+                </p:dialog>
+            </h:form>
+            <h:form id="formListaSeguimiento2">
+                <p:dialog widgetVar="dlg5" header="Lista de seguimientos a las acciones" width="800" modal="true">
+                    <h:panelGroup id="listaSeguimiento2" style="font-size: 1.3em">
+                        <p:dataTable value="#{calidadPlanAccionController.listaSeguimientoSinCerrarCorActual}"
+                                     var="seguimiento">
+                            <p:column width="300">
+                                <f:facet name="header">
+                                    Resultado del seguimiento
+                                </f:facet>
+                                <h:outputText value="#{seguimiento.resultado}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    Fecha del seguimiento
+                                </f:facet>
+                                <h:outputText value="#{seguimiento.fecha}">
+                                    <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    Responsable del seguimiento
+                                </f:facet>
+                                <h:outputText value="#{seguimiento.responsable}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    Estado
+                                </f:facet>
+                                <h:outputText value="#{seguimiento.estado}"/>
+                            </p:column>
+                            <p:column width="60">
+                                <h:commandLink id="edit" class="btn btn-primary" style="color: white"> 
+                                    <li class="fa fa-check-square-o"></li> 
+                                    <p:ajax update="formListaSeguimiento2:listaSeguimiento2" oncomplete="PF('dlg5').show();" />     
+                                    <f:attribute name="item" value="#{seguimiento}"/>
+                                    <f:setPropertyActionListener value="#{seguimiento}" target="#{calidadPlanAccionController.calidadSeguimientoCorrectivaActual}"/>
+                                </h:commandLink>
+                                <p:tooltip for="edit" value="Editar seguimiento"/>
+                            </p:column>
+                        </p:dataTable>
                     </h:panelGroup>
                 </p:dialog>
             </h:form>

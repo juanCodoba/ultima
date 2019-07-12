@@ -41,17 +41,10 @@ and open the template in the editor.
                             </a>
                             <ul class="treeview-menu">
                                 <li>
-                                    <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
+                                    <h:commandLink action="#{reservaLibrosController.prepareViewCalendario()}" rendered="#{loginController.bibliotecario}">
                                         <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
                                         <i class="fa fa-calendar"></i> 
                                         <span>Calendario de Prestamos</span>
-                                    </h:commandLink>
-                                </li>
-                                <li>
-                                    <h:commandLink action="#{LibroController.prepareViewCalendar()}" rendered="#{loginController.bibliotecario}">
-                                        <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{LibroController.usuarioActual}" rendered="#{loginController.bibliotecario}"/>
-                                        <i class="fa fa-calendar"></i> 
-                                        <span>Calendario mantenimientos</span>
                                     </h:commandLink>
                                 </li>
                             </ul>
@@ -158,7 +151,7 @@ and open the template in the editor.
                                          filter="true" filterMatchMode="contains">
                             <f:selectItem itemLabel="Seleccionar uno.." />
                             <f:selectItems value="#{tipoLibroController.listaTipoLibro}" var="tipoLibro" itemValue="#{TipoLibro}"/> 
-                            <f:ajax execute="@this" render="TipoLibroMessage pdfLib "/>
+                            <f:ajax execute="@this" render="TipoLibroMessage pdfLib Codigo copiasLibro costoL"/>
                         </p:selectOneMenu>
                         <p:message id="TipoLibroMessage" for="TipoLibro" styleClass="error"/>
                     </div>
@@ -188,26 +181,14 @@ and open the template in the editor.
                         <p:message id="RotuloMessage" for="rotulo" styleClass="error"/>
                     </div>
 
-                    <div class="form-group col-md-8">
-                        <h:outputLabel value="Estado del Libro:" style="width: 100%;position: relative;left: 25%;color: black" />
-                        <p:selectOneMenu style="width: 100%;position: relative;left: 25%"
-                                         id="prendaT12"
-
-                                         value="#{LibroController.libroActual.idEstadoLibro}">                        
-                            <f:ajax execute="@this" render="clienteMessage"/>
-                            <f:selectItem itemLabel="Seleccionar uno.." />
-                            <f:selectItems value="#{EstadoLibroController.listaEstadoLibro}" var="categoria" itemValue="#{estadoLibro}"/> 
-                        </p:selectOneMenu>
-                        <p:message id="prendaT12Message" for="prendaT12" styleClass="error"/>
-                    </div>
-
+                    
                     <div class="col-md-8">
                         <p:outputPanel id="Codigo">
                             <div class="form-group"  style="width: 100%;position: relative;left: 25%; color: black">
-                                <h:outputLabel value="Codigo:"  />
+                                <h:outputLabel value="Codigo:" rendered="#{LibroController.fisico}" />
                                 <p:inputText  class="form-control"
                                               id="item"
-
+                                              rendered="#{LibroController.fisico}"
                                               value="#{LibroController.libroActual.codigo}">
                                     <f:ajax execute="@this" render="itemMessage"/>
                                 </p:inputText>
@@ -216,6 +197,7 @@ and open the template in the editor.
 
                         </p:outputPanel>
                         <div  class="form-group"  style="width: 100%;position: relative;left: 25%;color: black" >
+                            
                             <h:outputLabel value="Titulo del Libro:"    />
                             <input 
                                 placeholder="descripcion corta" 
@@ -229,6 +211,7 @@ and open the template in the editor.
                             <f:param name="mode" value="'show'" />
 
                             <p:message id="descripcionCortaMessage" for="descripcionCorta" styleClass="error"/>
+                           
                         </div>
                         <p:outputPanel id="editorial">
                             <div class="form-group"  style="width: 100%;position: relative;left: 25%;color: black">
@@ -245,11 +228,12 @@ and open the template in the editor.
                         </p:outputPanel>
 
                         <p:outputPanel id="copiasLibro">
+                            
                             <div class="form-group"  style="width: 100%;position: relative;left: 25%;color: black">
-                                <h:outputLabel value="N° De Copias:"   />
+                                <h:outputLabel value="N° De Copias:"  rendered="#{LibroController.fisico}"  />
                                 <input placeholder="N° De Copias " 
                                        class="form-control"
-
+                                       rendered="#{LibroController.fisico}"
                                        jsf:id="puntada"
                                        value="#{LibroController.libroActual.copiasDelLibro }" 
                                        type="text" >
@@ -260,10 +244,10 @@ and open the template in the editor.
 
                         <p:outputPanel id="costoL">
                             <div class="form-group"  style="width: 100%;position: relative;left: 25%;color: black">
-                                <h:outputLabel value="Costo del Libro:"   />
+                                <h:outputLabel value="Costo del Libro:" rendered="#{LibroController.fisico}"   />
                                 <input placeholder="Costo del libro " 
                                        class="form-control"
-
+                                       rendered="#{LibroController.fisico}"
                                        jsf:id="marquilla"
                                        value="#{LibroController.libroActual.costoLibro }" 
                                        type="text" >

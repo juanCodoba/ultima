@@ -53,6 +53,7 @@
                     </div>
                     <h:commandButton value="Acceder"
                                      action="#{loginController.login}"
+                                     actionListener="#{facturasSiesaController.prepareDiario()}" 
                                      styleClass="button buttonBlue">
                     </h:commandButton>
                 </h:form>

@@ -4,17 +4,38 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:jsf="http://xmlns.jcp.org/jsf">
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:p="http://primefaces.org/ui">
     <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup>
+                        <li>
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareDiario()}" actionListener="#{facturasSiesaController.listarModal()}" >
+                                <i class="fa fa-table"></i> 
+                                <span>Reporte dia Anterior</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareDiaActual()}" actionListener="#{facturasSiesaController.listarModal()}" >
+                                <i class="fa fa-table"></i> 
+                                <span>Reporte dia Actual</span>
+                            </h:commandLink>  
+                        </li>
+                    </h:panelGroup>
+                </ul>
+            </h:form>
+        </ui:define>
         <ui:define name="title">
             HOLA #{loginController.userLogueado.nombreUsuario.toUpperCase()}      
         </ui:define>
         <ui:define name="title2">
             Bienvenido a SaINT, por favor elige el modulo que deseas trabajar.
         </ui:define>
-        <ui:define name="body">
-            <div class="row">
-                <h:form>
+        <ui:define name="body" >
+            <div class="row" >
+                <h:form >
                     <div class="col-md-4 col-lg-3" jsf:rendered="#{loginController.noCambiarContra}">
                         <div class="itemZoom img-bordered">
                             <h:commandLink action="#{cronogramaController.preparePaginaPrincipal}">
@@ -83,7 +104,7 @@
 
                     <div class="col-md-4 col-lg-3" >
                         <div class="itemZoom img-bordered" jsf:rendered="#{loginController.noCambiarContra }">
-                            <h:commandLink action="#{loginController.preparePaginaFT}">                               
+                            <h:commandLink action="#{loginController.preparePaginaFT()}">                               
                                 <img class="img-responsive" src="#{request.contextPath}/resources/images/modulos/moduloFichas.png"/>
                             </h:commandLink>
                             <div class="item-overlay top"></div>
@@ -124,10 +145,19 @@
                         <div class="itemZoom img-bordered" >
 
                             <h:commandLink action="#{loginController.preparePaginaPestel()}">                               
-                                <img class="img-responsive" src="#{request.contextPath}/resources/images/modulos/PESTEL.png"/>
+                                <img class="img-responsive" src="#{request.contextPath}/resources/images/modulos/analisis de contexto.png"/>
                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{procesosController.usuarioActual}"/>
 
                             </h:commandLink>
+                            <div class="item-overlay top"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-lg-3" >
+                        <div class="itemZoom img-bordered" jsf:rendered="#{loginController.noCambiarContra ||loginController.userDesp || loginController.jefe ||loginController.admin || loginController.adminCalidad||loginController.adminCalidoso }">
+                            <h:commandLink action="#{loginController.preparePaginaDesayuno()}">                                 
+                                <img class="img-responsive" src="#{request.contextPath}/resources/images/modulos/desayuno.png"/>
+                            </h:commandLink>              
                             <div class="item-overlay top"></div>
                         </div>
                     </div>
@@ -140,7 +170,9 @@
                             <div class="item-overlay top"></div>
                         </div>
                     </div>
+
                 </h:form>
+
             </div>
         </ui:define>
     </ui:composition>

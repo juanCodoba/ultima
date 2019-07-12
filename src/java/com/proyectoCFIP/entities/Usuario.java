@@ -76,6 +76,9 @@ public class Usuario implements Serializable {
     private List<FtFichaTecnica> ftFichaTecnicaList1;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    private List<Facturado> facturadoList;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<SstReporteUsuario> sstReporteUsuarioList;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "responsable")
@@ -99,6 +102,17 @@ public class Usuario implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<Procesos> procesoList;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    private List<ReporteBiblioteca> reporteList;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuarioReportado")
+    private List<ReporteBiblioteca> reporteUsarioList;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuarioCreacion")
+    private List<Novedad> novedadList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuarioReporta")
+    private List<Novedad> novedadList2;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "estado_contra")
@@ -113,7 +127,7 @@ public class Usuario implements Serializable {
     private List<CronogramaAnual> cronogramaAnualList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<SolicitudEdificio> solicitudEdificioList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "idUsuario")
     private List<OtroDispositivo> otroDispositivoList;
     private static final long serialVersionUID = 1L;
     @Id
@@ -571,6 +585,47 @@ public class Usuario implements Serializable {
     public void setCargoList(List<Cargos> cargoList) {
         this.cargoList = cargoList;
     }
+
+    public List<Facturado> getFacturadoList() {
+        return facturadoList;
+    }
+
+    public void setFacturadoList(List<Facturado> facturadoList) {
+        this.facturadoList = facturadoList;
+    }
+
+    public List<ReporteBiblioteca> getReporteList() {
+        return reporteList;
+    }
+
+    public void setReporteList(List<ReporteBiblioteca> reporteList) {
+        this.reporteList = reporteList;
+    }
+
+    public List<ReporteBiblioteca> getReporteUsarioList() {
+        return reporteUsarioList;
+    }
+
+    public void setReporteUsarioList(List<ReporteBiblioteca> reporteUsarioList) {
+        this.reporteUsarioList = reporteUsarioList;
+    }
+    @XmlTransient
+    public List<Novedad> getNovedadList() {
+        return novedadList;
+    }
+
+    public void setNovedadList(List<Novedad> novedadList) {
+        this.novedadList = novedadList;
+    }
+    @XmlTransient
+    public List<Novedad> getNovedadList2() {
+        return novedadList2;
+    }
+
+    public void setNovedadList2(List<Novedad> novedadList2) {
+        this.novedadList2 = novedadList2;
+    }
+    
 
     
 }

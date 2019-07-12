@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup >
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li class="active">
+                            <h:commandLink action="#{NovedadController.prepareListPrincipal}">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{NovedadController.prepareCreate}">
+                                <i class="fa fa-file"></i>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{NovedadController.usuarioActual}"/>
+                                <span>Crear ficha técnica</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{NovedadController.prepareListDesarrollo}">
+                                <i class="fa fa-camera-retro"></i> 
+                                <span>Fichas en desarrollo</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{NovedadController.prepareListPrimeraValidacion}">
+                                <i class="fa fa-check"></i> 
+                                <span>Primera Validación</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaSCAM}" action="#{NovedadController.prepareListSolicitudesModificacionTodas}">
+                                <i class="fa fa-cogs"></i> 
+                                <span>Lista de solicitudes</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftClienteController.prepareList}">
+                                <i class="fa fa-user"></i>
+                                <span>Clientes</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.adminCalidad || loginController.adminCalidoso|| loginController.userDisn }" action="#{NovedadCotroller.prepareListNovedad()}">
+                                <i class="fa fa-user"></i>
+                                <span>Novedades</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.adminCalidad || loginController.adminCalidoso|| loginController.userDisn }" action="#{ActividadNovedadCotroller.prepareCreate()}">
+                                <i class="fa fa-user"></i>
+                                <span>Actividades</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Vista previa de la ficha técnica</ui:define>        
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="5000"/>
+            <h:form id="formulario-crearFicha">
+                <p:overlayPanel style="width: 50% !important" id="imgPanel1" onShow="true" modal="true" for="f" my="left top" at="left bottom" showEffect="blind" hideEffect="explode"  hideEvent="mousedown"
+                                dismissable="true" showCloseIcon="true">
+                    <p:graphicImage  value="#{NovedadController.imgF}" width="100%" />
+                </p:overlayPanel>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <div class="head">
+                            <h2 class="titulo1">#{NovedadCotroller.novedadActual.descripcionNovedad}</h2>
+                            <h3 class="titulo2">COD. ITEM: #{NovedadCotroller.novedadActual.item}</h3>       
+                        </div>
+                        <div style="color: red" class="titulo3">
+                            <h2> ESTADO DE LA NOVEDAD :  <h:outputText value="#{NovedadCotroller.novedadActual.estado.toUpperCase()}"/> </h2>
+                        </div>
+                        <div class="body-contenedor">
+                            <div class="contenedor1 contenedor2">
+                                <div class="tituloContenedor1">
+                                    ESPECIFICACIONES
+                                </div>
+                                <div class="cuerpoContenedor1">
+                                   <p class="parrafo-contenedor">
+
+                                        <ui:fragment  >
+                                            <div style="    border-bottom-style: groove;">
+                                                <h:outputLabel class="labelInfo" >Cliente: </h:outputLabel><br></br>
+                                                <h:outputText value="#{NovedadCotroller.novedadActual.idFtCliente.nombre}"  />
+                                            </div>
+                                        </ui:fragment>   
+
+                                        <ui:fragment >
+                                            <div style="    border-bottom-style: groove;">
+                                                <h:outputLabel class="labelInfo" >Reportado a: </h:outputLabel><br></br>
+                                                <h:outputText value="#{NovedadCotroller.novedadActual.idUsuarioReporta.toString()}"  />
+                                            </div>
+                                        </ui:fragment>
+
+                                        <ui:fragment   >
+                                            <div style="    border-bottom-style: groove;">
+                                                <h:outputLabel class="labelInfo" >Item: </h:outputLabel><br></br>
+                                                <h:outputText value="#{NovedadCotroller.novedadActual.item}"  />
+                                            </div>
+                                        </ui:fragment>
+
+                                        <ui:fragment   >
+                                            <div style="    border-bottom-style: groove;">
+                                                <h:outputLabel class="labelInfo" >OP: </h:outputLabel><br></br>
+                                                <h:outputText value="#{NovedadCotroller.novedadActual.op}"  />
+                                            </div>
+                                        </ui:fragment>
+                                    </p>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="col-md-6">
+                            <h:outputLabel value="Frontal:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em"/>
+                            <div class="img-bordered"  style="text-align: center !important;">
+                                <p:graphicImage style="cursor:pointer" cache="false" class="img-responsive" id="f" title="mi foto buhoos" value="#{NovedadCotroller.imgF}">
+                                </p:graphicImage>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-12" style="margin-top: 1em">
+                            <div class="row">
+                                <div class="col-sm-4 form-group">    
+                                    <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="lista"/>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <p:button rendered="#{loginController.adminCalidad || loginController.adminCalidoso || loginController.jefe}" class="btn btn-primary btn-block" value="Editar" outcome="administrar"/>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

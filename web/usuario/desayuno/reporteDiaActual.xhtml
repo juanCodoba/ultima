@@ -1,0 +1,842 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <meta http-equiv = "refresh" content = "5; url = http: //www.google.com" />
+
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup>
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.userDesp}" class="active" action="/usuario/desayuno/list">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li >
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareList}">
+                                <i class="fa fa-check"></i> 
+                                <span>Clientes Facturados</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareDiaActual()}" actionListener="#{facturasSiesaController.listarModal()}" >
+                                <i class="fa fa-table"></i> 
+                                <span>Reporte dia Actual</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareDiario()}" actionListener="#{facturasSiesaController.listarModal()}" >
+                                <i class="fa fa-table"></i> 
+                                <span>Reporte diario</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.jefe}" action="#{facturasSiesaController.prepareListPendiente()}">
+                                <i class="fa fa-exclamation-triangle"></i> 
+                                <span>Pendiente por Facturar</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.userDesp}" action="#{facturadoController.prepareCreate()}">
+                                <i class="fa fa-book"></i>
+                                <span>Crear nuevo Envio</span> 
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{facturadoController.usuarioActual}" rendered="#{loginController.admin}"/>
+
+                            </h:commandLink>
+                        </li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li >
+                            <h:commandLink action="/usuario/modulos">
+                                <i class="fa fa-th"></i>
+                                <span>Modulos del sistema</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Informe de facturación al dia <h:outputText value="#{facturasSiesaController.fecha3}">
+                <f:convertDateTime pattern="MMMM dd, yyyy" />
+
+
+            </h:outputText></ui:define>   
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="5000"/>
+            <div class="row ">
+                <h:form class="hidden-md" id="documentosFormList">
+
+                    <!-- INICIO REPORTE DIA ACTUAL -->
+                    <div class="col-md-6">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading" >
+                                <h4 class="letra-panelDescriEdu">Ventas a hoy  <h:outputText value="#{facturasSiesaController.fecha4}"> 
+                                        <f:convertDateTime pattern="MMMM dd, yyyy" />
+                                    </h:outputText> </h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <p:dataTable var="OpaloItems" value="#{facturasSiesaController.listaT350ReporteDiaActual}" widgetVar="carsTable"
+                                             emptyMessage="No cars found with given criteria" >
+                                    <p:column sortBy="#{OpaloItems.descrip}" headerText="Unidad de Negocio">
+                                        <h:outputText value="#{OpaloItems.descrip}" />
+                                    </p:column>
+                                    <p:column sortBy="#{OpaloItems.total}" headerText="Total" style="    text-align: right;" >
+                                        <h:outputText value="#{OpaloItems.total}" style="text-align:right">
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:dataTable var="opaloftdh" value="#{facturasSiesaController.listaT350ReporteActualFTDH}" >
+                                    <p:column >
+                                        <h:outputText value="FTDH "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opaloftdh.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:dataTable var="opaloEXT" value="#{facturasSiesaController.listaT350ReporteActualExt}" >
+                                    <p:column >
+                                        <h:outputText value="EXT. ACADEMICA "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opaloEXT.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:dataTable var="opalo2" value="#{facturasSiesaController.listaT350ReporteDiaActualGrafica}" >
+                                    <p:column >
+                                        <h:outputText value="TOTAL "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opalo2.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- FINAL REPORTE DIA ACTUAL -->
+
+
+
+                    <!-- INICIO REPORTE MENSUAL -->
+                    <div class="col-xs-6">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading" >
+                                <h4 class="letra-panelDescriEdu">Acumulado de ventas mensual</h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%;">
+                                <p:dataTable var="opalo" value="#{facturasSiesaController.listaT350ReporteMensual }" >
+                                    <p:column headerText="Unidad de negocio" >
+                                        <h:outputText value="#{opalo.descrip}" />
+                                    </p:column>
+                                    <p:column headerText="Total" style="    text-align: right;" >
+                                        <h:outputText value="#{opalo.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:dataTable var="opaloftdh" value="#{facturasSiesaController.novedadFacturacionRedondeoList}" >
+                                    <p:column >
+                                        <h:outputText value="VALOR REAL CONFECCIONES "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opaloftdh.valorVisConfecciones}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:dataTable var="opaloftdh" value="#{facturasSiesaController.listaT350ReporteDiarioFTDHGraficas}" >
+                                    <p:column >
+                                        <h:outputText value="FTDH "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opaloftdh.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:dataTable var="opaloEXT" value="#{facturasSiesaController.listaT350ReporteDiarioExtension}" >
+                                    <p:column >
+                                        <h:outputText value="EXT. ACADEMICA "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opaloEXT.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:dataTable var="opalo" value="#{facturasSiesaController.listaT350ReporteMensualTotal}" >
+                                    <p:column >
+                                        <h:outputText value="TOTAL "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opalo.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- FINAL REPORTE MENSUAL -->
+
+                    <!-- INICIO REPORTE ANUAL -->
+                    <div class="col-xs-6">
+
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading" >
+                                <h4 class="letra-panelDescriEdu">Acumulado de ventas anual</h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <p:dataTable var="opalo12" value="#{facturasSiesaController.listaT350Anual}" >
+                                    <p:column headerText="Unidad de negocio" >
+                                        <h:outputText value="#{opalo12.descrip}" />
+                                    </p:column>
+                                    <p:column headerText="Total" style="    text-align: right;" >
+                                        <h:outputText value="#{opalo12.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:dataTable var="opaloftdh" value="#{facturasSiesaController.listaT350ReporteAnualFTDH}" >
+                                    <p:column headerText=" " >
+                                        <h:outputText value="FTDH "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText=" "  style="    text-align: right;">
+                                        <h:outputText value="#{opaloftdh.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:dataTable var="opaloEXT" value="#{facturasSiesaController.listaT350ReporteAnualExt}" >
+                                    <p:column >
+                                        <h:outputText value="EXT. ACADEMICA "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opaloEXT.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:dataTable var="opalo" value="#{facturasSiesaController.listaT350PruebatREC24}" >
+                                    <p:column >
+                                        <h:outputText value="TOTAL "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opalo.total   }"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- FINAL REPORTE ANUAL -->
+                    <!-- INICIO NOVEDADES -->
+                    <div class="col-xs-6">
+
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading" >
+                                <h4 class="letra-panelDescriEdu" style="display: inline-block">Novedades de Confecciones                          </h4>
+                                <h:commandButton class="btn-primary" value="act" id="actualizar" style="margin-left: 2px; margin-right: 2px" action="#{NovedadFacturacionCotroller.prepareListNovedadFacturacion()}" rendered="#{loginController.userDesp}">
+                                </h:commandButton>
+                                <p:tooltip id="descripcion-botonActualizacion" for="actualizar" value="Actualizar documento" trackMouse="true" />  
+                            </div>
+                            <h:panelGroup id="agregarAccionCor">
+                                <div class="panel-body" style="width: 100%">
+                                    <p:dataTable var="novedades"  value="#{facturasSiesaController.novedadFacturacionList}" >
+                                        <p:column headerText="COD." width="50" >
+                                            <h:outputText value="#{novedades.id}-FCT" />
+                                        </p:column>
+                                        <p:column headerText="FACTURACION RECONOCIDO EN NIIF" style="    text-align: right;" >
+                                            <h:outputText value="#{novedades.novedadReNiff}"  >
+                                                <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="FACTURACION NO RECONOCIDO EN NIIF" style="    text-align: right;" >
+                                            <h:outputText value="#{novedades.novedadNoReNiff}"  >
+                                                <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="VALOR CONFECCIONES" style="    text-align: right;" >
+                                            <h:outputText value="#{novedades.valorReConfecciones}"  >
+                                                <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+
+                                            </h:outputText>
+                                        </p:column>
+
+                                        <p:column headerText="VALOR REAL CONFECCIONES" style="    text-align: right;" >
+                                            <h:outputText value="#{novedades.valorVisConfecciones}"  >
+                                                <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+
+                                            </h:outputText>
+                                        </p:column>
+
+
+                                    </p:dataTable>
+                                </div>
+                            </h:panelGroup>
+
+                        </div>
+                    </div>
+                    <!-- FINAL NOVEDADES  -->
+
+                    <!-- INICIO GRAFICO MEDIDOR -->
+                    <div class="col-xs-7">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading">
+                                <h4 class="letra-panelDescriEdu">Cumplimiento anual</h4>
+                            </div>
+
+                            <div class="panel-body" style="width: 100%">
+
+                                <h:panelGroup id="panel22" layout="block">
+                                    <!--<div class="col-sm-12" style="position: relative; left: 25%;margin-top: -3%; margin-bottom:  3%">
+                                                    <img class="img-responsive" src="../../../resources/images/clasificacion.jpg" alt="raci"/>
+                                                </div>-->
+                                    <div class="col-sm-12">
+                                        <p:chart type="metergauge" model="#{facturasSiesaController.meterGaugeModel1}" style="width: 100%; height: 250px" rendered="#{facturasSiesaController.meterGaugeModel1 != null}"
+                                                 />
+
+                                    </div>
+                                </h:panelGroup>
+                            </div>
+                        </div> 
+                    </div>
+                    <!-- FIN GRAFICO MEDIDOR -->
+
+                    <!-- INICIO GRAFICO CONFECCIONES -->
+                    <div class="col-xs-5">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading">
+                                <h4 class="letra-panelDescriEdu" style="display: inline-block;     position: relative;    right: 0%;">Venta mensual confecciones </h4>
+                                <h:commandLink id="duplicado" style="    display: inline-block;    left: 49%;    position: relative;    top: 5px;    font-size: 25px;    color: #feffff;">
+                                    <i class="fa fa-table"></i> 
+                                    <p:ajax listener="#{facturasSiesaController.listarModal()}"  oncomplete="PF('dlg2').show();" />
+                                </h:commandLink>
+                                <p:tooltip id="descripcion-duplicado" for="duplicado" value="Ver mas..." trackMouse="true" />
+
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <h:panelGroup id="panel" layout="block">
+                                    <!--<div class="col-sm-12" style="position: relative; left: 25%;margin-top: -3%; margin-bottom:  3%">
+                                                    <img class="img-responsive" src="../../../resources/images/clasificacion.jpg" alt="raci"/>
+                                                </div>-->
+                                    <div class="col-sm-12">
+                                        <p:chart type="bar" model="#{facturasSiesaController.barModel2}" style="width: 100%; height: 250px" rendered="#{facturasSiesaController.barModel2 != null}"
+                                                 />
+                                    </div>
+                                </h:panelGroup>
+                            </div>
+                        </div> 
+                    </div>
+                    <p:dialog header="Desempeño mensual Confecciones" widgetVar="dlg2" minHeight="40" modal="true" width="50%">
+                        <div class="col-xs-12">
+                            <div class=" panel panel-primary" >
+                                <div class="panel-heading">
+                                    <h4 class="letra-panelDescriEdu">Transcurso mensual</h4>
+                                </div>
+                                <div class="panel-body" style="width: 100%">
+                                    <h:panelGroup id="panel22731" layout="block">
+                                        <!--<div class="col-sm-12" style="position: relative; left: 25%;margin-top: -3%; margin-bottom:  3%">
+                                                        <img class="img-responsive" src="../../../resources/images/clasificacion.jpg" alt="raci"/>
+                                                    </div>-->
+                                        <div class="col-sm-12">
+                                            <p:chart type="line" model="#{facturasSiesaController.lineModel2}" style="width: 100%; height: 450px"  rendered="#{facturasSiesaController.lineModel2 != null}"/>  
+                                        </div>
+                                    </h:panelGroup>
+                                </div>
+                            </div> 
+                        </div> 
+                    </p:dialog>
+                    <!-- FIN GRAFICO CONFECCIONES -->
+                    <!-- INICIO GRAFICO BIGBAG-->
+                    <div class="col-xs-6">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading">
+                                <h4 class="letra-panelDescriEdu" style="display: inline-block">Venta mensual Servicios BigBag</h4>
+                                <h:commandLink id="bigbagM" style="    display: inline-block;    left: 49%;    position: relative;    top: 5px;    font-size: 25px;    color: #feffff;">
+                                    <i class="fa fa-table"></i> 
+                                    <p:ajax listener="#{facturasSiesaController.listarModal()}"  oncomplete="PF('dlg3').show();" />
+                                </h:commandLink>
+                            </div>
+
+                            <p:tooltip id="descripcion-bigbag" for="bigbagM" value="Ver mas..." trackMouse="true" />
+
+                            <div class="panel-body" style="width: 100%">
+                                <h:panelGroup id="panel3" layout="block">
+                                    <!--<div class="col-sm-12" style="position: relative; left: 25%;margin-top: -3%; margin-bottom:  3%">
+                                                    <img class="img-responsive" src="../../../resources/images/clasificacion.jpg" alt="raci"/>
+                                                </div>-->
+                                    <div class="col-sm-12">
+                                        <p:chart type="bar" model="#{facturasSiesaController.barBigBag}" style="width: 100%; height: 250px" rendered="#{facturasSiesaController.barBigBag != null}"/>
+                                    </div>
+                                </h:panelGroup>
+                            </div>
+                        </div> 
+                    </div>
+                    <p:dialog header="Desempeño mensual Big Bag" widgetVar="dlg3" minHeight="40" modal="true" width="50%">
+                        <div class="col-xs-12">
+                            <div class=" panel panel-primary" >
+                                <div class="panel-heading">
+                                    <h4 class="letra-panelDescriEdu">Transcurso mensual</h4>
+                                </div>
+                                <div class="panel-body" style="width: 100%">
+                                    <h:panelGroup id="panel227311" layout="block">
+                                        <!--<div class="col-sm-12" style="position: relative; left: 25%;margin-top: -3%; margin-bottom:  3%">
+                                                        <img class="img-responsive" src="../../../resources/images/clasificacion.jpg" alt="raci"/>
+                                                    </div>-->
+                                        <div class="col-sm-12">
+                                            <p:chart type="line" model="#{facturasSiesaController.lineModelBigBag}" style="width: 100%; height: 450px"  rendered="#{facturasSiesaController.lineModelBigBag != null}"/>  
+                                        </div>
+                                    </h:panelGroup>
+                                </div>
+                            </div> 
+                        </div> 
+                    </p:dialog>
+                    <!-- FIN GRAFICO BIGBAG -->
+
+                    <!-- INICIO GRAFICO FTDH-->
+                    <div class="col-xs-6">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading">
+                                <h4 class="letra-panelDescriEdu" style="display: inline-block">Venta mensual Formación para el trabajo</h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <h:panelGroup id="panel4" layout="block">
+                                    <!--<div class="col-sm-12" style="position: relative; left: 25%;margin-top: -3%; margin-bottom:  3%">
+                                                    <img class="img-responsive" src="../../../resources/images/clasificacion.jpg" alt="raci"/>
+                                                </div>-->
+                                    <div class="col-sm-12">
+                                        <p:chart id="ext" type="bar" model="#{facturasSiesaController.barFTDH}" style="width: 100%; height: 250px" rendered="#{facturasSiesaController.barFTDH != null}"/>
+                                    </div>
+                                </h:panelGroup>
+                            </div>
+                        </div> 
+                    </div>
+                    <!-- FIN GRAFICO FTDH -->
+
+                    <!-- INICIO GRAFICO EXTENSION -->
+                    <div class="col-xs-6">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading">
+                                <h4 class="letra-panelDescriEdu">Venta mensual extensión academica</h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <h:panelGroup id="panel2" layout="block">
+                                    <!--<div class="col-sm-12" style="position: relative; left: 25%;margin-top: -3%; margin-bottom:  3%">
+                                                    <img class="img-responsive" src="../../../resources/images/clasificacion.jpg" alt="raci"/>
+                                                </div>-->
+                                    <div class="col-sm-12">
+                                        <p:chart type="bar" model="#{facturasSiesaController.barModel}" style="width: 100%; height: 250px" rendered="#{facturasSiesaController.barModel != null}"/>
+                                    </div>
+                                </h:panelGroup>
+                            </div>
+                        </div> 
+                    </div>
+                    <!--FIN GRAFICO EXTENSION -->
+
+
+
+
+
+                    <script>
+                        function ext() {
+                        this.cfg.seriesDefaults = {
+                        useSeriesColor: true,
+                                min: 0,
+                                max: 200,
+                                tickInterval: 20,
+                                tickOptions: {
+                                formatString = "%'d";
+                                }
+                        };
+                        }
+
+                    </script>
+
+                </h:form>
+            </div>
+            <div class="row ">
+                <h:form class="visible-md" id="documentosFormList1">
+                    <!-- INICIO REPORTE DE REMISIONES -->
+                    <div class="col-xs-12">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading" >
+                                <h4 class="letra-panelDescriEdu">remisiones dia  al dia  </h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <p:dataTable var="OpaloItems" value="#{facturasSiesaController.listaT350ReporteDiaActualRemi}" widgetVar="carsTable"
+                                             emptyMessage="sin remisiones al dia "
+                                             >
+                                    <p:column sortBy="#{OpaloItems.cliente}" headerText="Unidad de Negocio">
+                                        <h:outputText value="#{OpaloItems.cliente}" />
+                                    </p:column>
+                                    <p:column sortBy="#{OpaloItems.total}" headerText="Total" style="    text-align: right;" >
+                                        <h:outputText value="#{OpaloItems.total}" style="text-align:right">
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FINAL REPORTE DE REMISIONES -->
+                    <!-- INICIO REPORTE DIA ACTUAL -->
+                    <div class="col-xs-4">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading" >
+                                <h4 class="letra-panelDescriEdu">Ventas a hoy  <h:outputText value="#{facturasSiesaController.fecha4}"> 
+                                        <f:convertDateTime pattern="MMMM dd, yyyy" />
+                                    </h:outputText> </h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <p:dataTable var="OpaloItems" value="#{facturasSiesaController.listaT350ReporteDiaActual}" widgetVar="carsTable"
+                                             emptyMessage="No cars found with given criteria" >
+                                    <p:column sortBy="#{OpaloItems.descrip}" headerText="Unidad de Negocio">
+                                        <h:outputText value="#{OpaloItems.descrip}" />
+                                    </p:column>
+                                    <p:column sortBy="#{OpaloItems.total}" headerText="Total" style="    text-align: right;" >
+                                        <h:outputText value="#{OpaloItems.total}" style="text-align:right">
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <div class="panel-body" style="width: 100%;     top: -2pc;    /* bottom: -51%; */    margin-bottom: -6%;    position: relative;">
+                                <p:dataTable var="opaloftdh" value="#{facturasSiesaController.listaT350ReporteActualFTDH}" >
+                                    <p:column >
+                                        <h:outputText value="FTDH "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opaloftdh.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <div class="panel-body" style="width: 100%;     top: -2pc;    /* bottom: -51%; */    margin-bottom: -6%;    position: relative;">
+                                <p:dataTable var="opaloEXT" value="#{facturasSiesaController.listaT350ReporteActualExt}" >
+                                    <p:column >
+                                        <h:outputText value="EXT. ACADEMICA "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opaloEXT.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <div class="panel-body" style="width: 100%;     top: -2pc;    /* bottom: -51%; */    margin-bottom: -6%;    position: relative;">
+                                <p:dataTable var="opalo2" value="#{facturasSiesaController.listaT350ReporteDiaActualGrafica}" >
+                                    <p:column >
+                                        <h:outputText value="TOTAL "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opalo2.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- FINAL REPORTE DIA ACTUAL -->
+
+                    <!-- INICIO REPORTE MENSUAL -->
+                    <div class="col-xs-4">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading" >
+                                <h4 class="letra-panelDescriEdu">Acumulado de ventas mensual</h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <p:dataTable var="opalo" value="#{facturasSiesaController.listaT350ReporteMensual}" >
+                                    <p:column headerText="Unidad de negocio" >
+                                        <h:outputText value="#{opalo.descrip}" />
+                                    </p:column>
+                                    <p:column headerText="Total" style="    text-align: right;" >
+                                        <h:outputText value="#{opalo.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <div class="panel-body" style="width: 100%;     top: -2pc;    /* bottom: -51%; */    margin-bottom: -6%;    position: relative;">
+                                <p:dataTable var="opaloftdh" value="#{facturasSiesaController.listaT350ReporteDiarioFTDHGraficas}" >
+                                    <p:column >
+                                        <h:outputText value="FTDH "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opaloftdh.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <div class="panel-body" style="width: 100%;     top: -2pc;    /* bottom: -51%; */    margin-bottom: -6%;    position: relative;">
+                                <p:dataTable var="opaloEXT" value="#{facturasSiesaController.listaT350ReporteDiarioExtension}" >
+                                    <p:column >
+                                        <h:outputText value="EXT. ACADEMICA "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opaloEXT.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <div class="panel-body" style="width: 100%;     top: -2pc;    /* bottom: -51%; */    margin-bottom: -6%;    position: relative;">
+                                <p:dataTable var="opalo" value="#{facturasSiesaController.listaT350ReporteMensualTotal}" >
+                                    <p:column >
+                                        <h:outputText value="TOTAL "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opalo.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- FINAL REPORTE MENSUAL -->
+
+                    <!-- INICIO REPORTE ANUAL -->
+                    <div class="col-xs-4">
+
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading" >
+                                <h4 class="letra-panelDescriEdu">Acumulado de ventas anual</h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <p:dataTable var="opalo" value="#{facturasSiesaController.listaT350PruebatREC23}" >
+                                    <p:column headerText="Unidad de negocio" >
+                                        <h:outputText value="#{opalo.descrip}" />
+                                    </p:column>
+                                    <p:column headerText="Total" style="    text-align: right;" >
+                                        <h:outputText value="#{opalo.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <div class="panel-body" style="width: 100%;     top: -2pc;    /* bottom: -51%; */    margin-bottom: -6%;    position: relative;">
+                                <p:dataTable var="opaloftdh" value="#{facturasSiesaController.listaT350ReporteAnualFTDH}" >
+                                    <p:column headerText=" " >
+                                        <h:outputText value="FTDH "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText=" "  style="    text-align: right;">
+                                        <h:outputText value="#{opaloftdh.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <div class="panel-body" style="width: 100%;     top: -2pc;    /* bottom: -51%; */    margin-bottom: -6%;    position: relative;">
+                                <p:dataTable var="opaloEXT" value="#{facturasSiesaController.listaT350ReporteAnualExt}" >
+                                    <p:column >
+                                        <h:outputText value="EXT. ACADEMICA "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opaloEXT.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <div class="panel-body" style="width: 100%;     top: -2pc;    /* bottom: -51%; */    margin-bottom: -6%;    position: relative;">
+                                <p:dataTable var="opalo" value="#{facturasSiesaController.listaT350PruebatREC24}" >
+                                    <p:column >
+                                        <h:outputText value="TOTAL "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column  style="    text-align: right;">
+                                        <h:outputText value="#{opalo.total}"  >
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- FINAL REPORTE ANUAL -->
+
+                    <!-- INICIO GRAFICO MEDIDOR -->
+                    <div class="col-xs-6">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading">
+                                <h4 class="letra-panelDescriEdu">Cumplimiento anual</h4>
+                            </div>
+
+                            <div class="panel-body" style="width: 100%">
+
+                                <h:panelGroup  layout="block">
+                                    <!--<div class="col-sm-12" style="position: relative; left: 25%;margin-top: -3%; margin-bottom:  3%">
+                                                    <img class="img-responsive" src="../../../resources/images/clasificacion.jpg" alt="raci"/>
+                                                </div>-->
+                                    <div class="col-sm-12">
+                                        <p:chart type="metergauge" model="#{facturasSiesaController.meterGaugeModel1}" style="width: 100%; height: 250px" rendered="#{facturasSiesaController.meterGaugeModel1 != null}"
+                                                 />
+
+                                    </div>
+                                </h:panelGroup>
+                            </div>
+                        </div> 
+                    </div>
+                    <!-- FIN GRAFICO MEDIDOR -->
+
+                    <!-- INICIO GRAFICO CONFECCIONES -->
+                    <div class="col-xs-6">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading">
+                                <h4 class="letra-panelDescriEdu">Venta mensual confecciones </h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <h:panelGroup  layout="block">
+                                    <!--<div class="col-sm-12" style="position: relative; left: 25%;margin-top: -3%; margin-bottom:  3%">
+                                                    <img class="img-responsive" src="../../../resources/images/clasificacion.jpg" alt="raci"/>
+                                                </div>-->
+                                    <div class="col-sm-12">
+                                        <p:chart type="bar" model="#{facturasSiesaController.barModel2}" style="width: 100%; height: 250px" rendered="#{facturasSiesaController.barModel2 != null}"
+                                                 />
+                                    </div>
+                                </h:panelGroup>
+                            </div>
+                        </div> 
+                    </div>
+                    <!-- FIN GRAFICO CONFECCIONES -->
+                    <!-- INICIO GRAFICO BIGBAG-->
+                    <div class="col-xs-6">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading">
+                                <h4 class="letra-panelDescriEdu">Venta mensual Servicios BigBag</h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <h:panelGroup  layout="block">
+                                    <!--<div class="col-sm-12" style="position: relative; left: 25%;margin-top: -3%; margin-bottom:  3%">
+                                                    <img class="img-responsive" src="../../../resources/images/clasificacion.jpg" alt="raci"/>
+                                                </div>-->
+                                    <div class="col-sm-12">
+                                        <p:chart type="bar" model="#{facturasSiesaController.barBigBag}" style="width: 100%; height: 250px" rendered="#{facturasSiesaController.barBigBag != null}"/>
+                                    </div>
+                                </h:panelGroup>
+                            </div>
+                        </div> 
+                    </div>
+                    <!-- FIN GRAFICO BIGBAG -->
+
+                    <!-- INICIO GRAFICO FTDH-->
+                    <div class="col-xs-6">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading">
+                                <h4 class="letra-panelDescriEdu">Venta mensual Formación para el trabajo</h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <h:panelGroup  layout="block">
+                                    <!--<div class="col-sm-12" style="position: relative; left: 25%;margin-top: -3%; margin-bottom:  3%">
+                                                    <img class="img-responsive" src="../../../resources/images/clasificacion.jpg" alt="raci"/>
+                                                </div>-->
+                                    <div class="col-sm-12">
+                                        <p:chart  type="bar" model="#{facturasSiesaController.barFTDH}" style="width: 100%; height: 250px" rendered="#{facturasSiesaController.barFTDH != null}"/>
+                                    </div>
+                                </h:panelGroup>
+                            </div>
+                        </div> 
+                    </div>
+                    <!-- FIN GRAFICO FTDH -->
+
+                    <!-- INICIO GRAFICO EXTENSION -->
+                    <div class="col-xs-6">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading">
+                                <h4 class="letra-panelDescriEdu">Venta mensual extensión academica</h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <h:panelGroup  layout="block">
+                                    <!--<div class="col-sm-12" style="position: relative; left: 25%;margin-top: -3%; margin-bottom:  3%">
+                                                    <img class="img-responsive" src="../../../resources/images/clasificacion.jpg" alt="raci"/>
+                                                </div>-->
+                                    <div class="col-sm-12">
+                                        <p:chart type="bar" model="#{facturasSiesaController.barModel}" style="width: 100%; height: 250px" rendered="#{facturasSiesaController.barModel != null}"/>
+                                    </div>
+                                </h:panelGroup>
+                            </div>
+                        </div> 
+                    </div>
+                    <!--FIN GRAFICO EXTENSION -->
+
+
+
+                    <script>
+                        function ext() {
+                        this.cfg.seriesDefaults = {
+                        useSeriesColor: true,
+                                min: 0,
+                                max: 200,
+                                tickInterval: 20,
+                                tickOptions: {
+                                formatString = "%'d";
+                                }
+                        };
+                        }
+
+                    </script>
+
+                </h:form>
+            </div>
+
+
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+

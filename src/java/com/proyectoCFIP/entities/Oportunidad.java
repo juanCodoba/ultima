@@ -94,7 +94,7 @@ public class Oportunidad implements Serializable {
 
     @Override
     public String toString() {
-        return getDescOprtunidad();
+        return getTotal() + " - " + getDescOprtunidad();
     }
 
     public List<Factores> getFactoresList() {

@@ -122,23 +122,26 @@
                         <f:facet name="header">
                             <div class="container-fluid">
                                 <div class="row">
-                                    <div class="col-md-1">
+                                    <div class="col-md-2">
                                         <p:button icon="fa fa-arrow-left"
                                                   value="Volver" 
                                                   style="font-size: 1.2em !important; padding: 5px; left: 0"
                                                   outcome="/usuario/modCalidad/paginaPrincipal"/>
                                     </div>
-                                    <div class="col-md-3">
-                                        <h4 class="colorLetra" style="font-weight: bold" >
-                                            Total acciones de mejora: #{fn:length(calidadPlanAccionController.listaPlanAccionActual)}
-                                        </h4>
-                                    </div>
+
                                     <div class="col-md-3">
                                         <p:commandButton icon="fa fa-file"
                                                          ajax="false"
                                                          value="Seguimientos sin cerrar" 
                                                          style="font-size: 1.2em !important; padding: 5px; left: 0"
                                                          action="#{calidadPlanAccionController.prepareListaSeguimientoSinCerrar}"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p:commandButton icon="fa fa-file"
+                                                         ajax="false"
+                                                         value="Seguimientos Cor. sin cerrar" 
+                                                         style="font-size: 1.2em !important; padding: 5px; left: 0"
+                                                         action="#{calidadPlanAccionController.prepareListaSeguimientoSinCerrarCo()}"/>
                                     </div>
                                     <div class="col-md-3">
                                         <p:commandButton icon="fa fa-file"
@@ -153,6 +156,11 @@
                                             <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
                                                             target="acciones" fileName="inventario" />
                                         </h:commandLink>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <h4 class="colorLetra" style="font-weight: bold" >
+                                            Total acciones de mejora: #{fn:length(calidadPlanAccionController.listaPlanAccionActual)}
+                                        </h4>
                                     </div>
                                 </div>
                             </div>
@@ -221,7 +229,7 @@
                                 <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.planAccionActual}"/>
                             </p:commandButton>
                             <p:tooltip for="edit" value="Editar"/>
-                            <p:commandButton id="ver" icon="ui-icon-search" action="#{calidadPlanAccionController.prepareViewAdmin}" ajax="false">
+                            <p:commandButton id="ver" icon="ui-icon-search" action="#{calidadPlanAccionController.prepareViewAdmin()}" ajax="false">
                                 <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.planAccionActual}"/>
                             </p:commandButton>
                             <p:tooltip for="ver" value="Ver"/> 
@@ -232,6 +240,7 @@
                                 <i class="fa fa-wrench" aria-hidden="true"></i>
                                 <f:attribute name="item" value="#{item}"/>
                                 <f:setPropertyActionListener value="#{item}" target="#{calidadPlanAccionController.planAccionActual}"/>
+
                             </h:commandLink>
                             <p:tooltip for="admin" value="Administrar"/>
                         </p:column>

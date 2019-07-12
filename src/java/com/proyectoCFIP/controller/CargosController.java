@@ -389,7 +389,7 @@ public class CargosController implements Serializable {
     }
 
     public String list() {
-        return "/administrador/modCalidad/cargos/list";
+        return "/usuario/modCalidad/cargos/list";
     }
 
 ///////////////////////////////////////////////////////////CARGOS//////////////////////////////////////////////////////////////////////////////////////

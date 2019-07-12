@@ -11,7 +11,7 @@
         <ui:define name="menu">
             <h:form id="menu-principal">
                 <ul class="sidebar-menu">
-                    <h:panelGroup rendered="#{loginController.adminCalidoso}">
+                    <h:panelGroup rendered="#{loginController.adminCalidad || loginController.adminCalidoso ||loginController.admin || loginController.jefe}">
                         <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
 
                         <!-- Optionally, you can add icons to the links -->
@@ -32,18 +32,10 @@
                             </h:commandLink> 
                         </li>
 
-                        <li>
-                            <h:commandLink   action="#{ProfesiogramaController.prepareCreate()}">
-                                <i class="fa fa-tasks" aria-hidden="true"></i>
-                                <span>Subir profesiograma</span>
-                            </h:commandLink> 
-                        </li>
-
-
-                        <li style="text-align: center">
+                        <li >
                             <h:commandLink   action="#{MaeHerramientaController.prepareCreate()}">
                                 <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                                <span>crear una nueva herramienta</span>
+                                <span>nuevas herramientas</span>
                             </h:commandLink> 
                         </li>
                         <li>
@@ -74,13 +66,15 @@
         </ui:define>
         <ui:define name="body">
             <p:growl id="growl" showDetail="true" life="5000"/>
-            <h:form id="documentosFormList">
+            
+              <h:form id="documentosFormList">
                 <p:outputPanel id="documentosTablePanel">
                     <p:dataTable value="#{cargosController.listaCargos }" var="cargo"
                                  rows="50" id="documentosTable"  widgetVar="formatosTable"
                                  paginator="true" stickyHeader="true" scrollable="true" filteredValue="#{formatosController.filtros}"
                                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="20,50,100">
+                                 rowsPerPageTemplate="20,50,100"
+                                 rendered="#{loginController.adminCalidad||loginController.adminCalidoso}">
                         <f:facet name="header">
                             <h:commandLink id="exportExcel">
                                 <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
@@ -96,15 +90,101 @@
                             <f:facet name="header">Código del cargo</f:facet>
                             <h:outputText style="font-weight: bold" value="#{cargo.idCargo}"/>
                         </p:column>
-                        <p:column filterBy="#{cargo.nombreCargo}" filterMatchMode="contains">
+                        <p:column filterBy="#{cargo.nombreCargo.toUpperCase()}" filterMatchMode="contains">
                             <f:facet name="header">Nombre del cargo</f:facet>
                             <h:outputText style="font-weight: bold" value="#{cargo.nombreCargo.toUpperCase()}"/>
                         </p:column>
-                        <p:column filterBy="#{cargo.idCargoResponsable}" filterMatchMode="contains" priority="3">
+                        <p:column filterBy="#{cargo.idCargoResponsable.nombreCargo.toUpperCase()}" filterMatchMode="contains" priority="3">
                             <f:facet name="header">A quien le reporta</f:facet>
                             <h:outputText value="#{cargo.idCargoResponsable.nombreCargo.toUpperCase()}"/>
                         </p:column>
-                        <p:column filterBy="#{cargo.idSubproceso}" filterMatchMode="contains" priority="6">
+                        <p:column filterBy="#{cargo.idSubproceso.nombreSubproceso.toUpperCase()}" filterMatchMode="contains" priority="6">
+                            <f:facet name="header">Subproceso</f:facet>
+                            <h:outputText value="#{cargo.idSubproceso.nombreSubproceso.toUpperCase()}"/>
+                        </p:column>
+                        <p:column width="150">
+                            <p:commandButton ajax="false" id="boton-edit"  icon="ui-icon-pencil" action="#{cargosController.prepareEdit}">
+                                <f:setPropertyActionListener value="#{cargo}" target="#{cargosController.cargosActual}"/>
+                                <f:setPropertyActionListener value="#{cargo}" target="#{MaeFuncionController.cargosActual}"/>
+                                <f:setPropertyActionListener value="#{cargo}" target="#{requisitosController.cargosActual}"/>
+                                <f:setPropertyActionListener value="#{cargo}" target="#{ActividadController.cargosActual}"/>
+                                <f:setPropertyActionListener value="#{cargo}" target="#{habilidadController.cargosActual}"/>
+
+
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-edit" for="boton-edit" value="Editar formato" trackMouse="true"/>
+                            <p:commandButton  id="boton-delete"  icon="ui-icon-trash" action="#{cargosController.deleteCargos()}"
+                                              process="@this" update="documentosFormList">
+                                <p:confirm header="Confirmación" message="¿Esta seguro que desea eliminar el formato?" icon="ui-icon-alert" />
+                                <f:setPropertyActionListener value="#{cargo}" target="#{cargosController.cargosActual}"/>
+                                <f:setPropertyActionListener value="#{cargo}" target="#{MaeFuncionController.cargosActual}"/>
+                                <f:setPropertyActionListener value="#{cargo}" target="#{requisitosController.cargosActual}"/>
+                                <f:setPropertyActionListener value="#{cargo}" target="#{ActividadController.cargosActual}"/>
+
+
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-delete" for="boton-delete" value="eliminar formato" trackMouse="true"/>
+
+                            <p:commandButton icon="ui-icon-document" 
+                                             action="#{cargosController.createManualPDF()}"
+                                             onclick="target = '_blank';PF('descarga').hide();"
+                                             ajax="false" id="descargar">
+                                <f:setPropertyActionListener value="#{cargo}" target="#{cargosController.cargosActual}"/>
+                                <f:setPropertyActionListener value="#{requisito}" target="#{requisitosController.requisitoActual}"/>
+
+                                <f:setPropertyActionListener value="#{cargo}" target="#{MaeFuncionController.cargosActual}"/>
+                                <f:setPropertyActionListener value="#{cargo}" target="#{requisitosController.cargosActual}"/>
+
+
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-descargar" for="descargar" value="Imprimir PDF" trackMouse="true" />
+
+
+                            <p:commandButton icon="ui-icon-arrowthickstop-1-s" id="descargarLogo" ajax="false">
+                                <f:setPropertyActionListener value="#{cargo}" target="#{cargosController.cargosActual}"/>
+                                <p:fileDownload value="#{cargosController.archivoDescarga}" />
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-descargarLogo" for="descargarLogo" value="Descargar Profesiogramas" trackMouse="true" />
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+            </h:form>
+            <h:form id="documentosFormList1">
+                <p:outputPanel id="documentosTablePanel1">
+                    <p:dataTable value="#{cargosController.listaProcesoUser}" var="cargo"
+                                 rows="50" id="documentosTable"  widgetVar="formatosTable"
+                                 paginator="true" stickyHeader="true" scrollable="true" filteredValue="#{formatosController.filtros}"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="20,50,100"
+                                 rendered="#{loginController.jefe}">
+                        <f:facet name="header">
+                            <h:commandLink id="exportExcel">
+                                <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                                target="documentosTable" fileName="inventario" />
+                            </h:commandLink>
+                            <p:tooltip id="descripcion-botonExcel" for="exportExcel" value="Exportar en excel" trackMouse="true" />
+                            <h4 class="colorLetra" style="font-weight: bold; display: inline-block !important;" >
+                                Total registros: #{fn:length(cargosController.listaProcesoUser)}
+                            </h4>
+                        </f:facet>
+                        <p:column filterBy="#{cargo.idCargo}" filterMatchMode="contains" width="100" >
+                            <f:facet name="header">Código del cargo</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{cargo.idCargo}"/>
+                        </p:column>
+                        <p:column filterBy="#{cargo.nombreCargo.toUpperCase()}" filterMatchMode="contains">
+                            <f:facet name="header">Nombre del cargo</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{cargo.nombreCargo.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{cargo.idCargoResponsable.nombreCargo.toUpperCase()}" filterMatchMode="contains" priority="3">
+                            <f:facet name="header">A quien le reporta</f:facet>
+                            <h:outputText value="#{cargo.idCargoResponsable.nombreCargo.toUpperCase()}"/>
+                        </p:column>
+                        <p:column filterBy="#{cargo.idSubproceso.nombreSubproceso.toUpperCase()}" filterMatchMode="contains" priority="6">
                             <f:facet name="header">Subproceso</f:facet>
                             <h:outputText value="#{cargo.idSubproceso.nombreSubproceso.toUpperCase()}"/>
                         </p:column>

@@ -5,6 +5,8 @@
  */
 package com.proyectoCFIP.entities;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +32,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -63,6 +67,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "FtFichaTecnica.findByRutaImgCaracteristica2", query = "SELECT f FROM FtFichaTecnica f WHERE f.rutaImgCaracteristica2 = :rutaImgCaracteristica2"),
     @NamedQuery(name = "FtFichaTecnica.findByRutaImgCaracteristica3", query = "SELECT f FROM FtFichaTecnica f WHERE f.rutaImgCaracteristica3 = :rutaImgCaracteristica3"),
     @NamedQuery(name = "FtFichaTecnica.findByRutaImgCaracteristica4", query = "SELECT f FROM FtFichaTecnica f WHERE f.rutaImgCaracteristica4 = :rutaImgCaracteristica4"),
+
     @NamedQuery(name = "FtFichaTecnica.findByTelaPrincipal", query = "SELECT f FROM FtFichaTecnica f WHERE f.telaPrincipal = :telaPrincipal")})
 public class FtFichaTecnica implements Serializable {
 
@@ -107,10 +112,10 @@ public class FtFichaTecnica implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "descripcion_logo")
     private String descripcionLogo;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "tela_principal")
     private String telaPrincipal;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "tela_contraste")
     private String telaContraste;
     @Column(name = "fecha_modificacion")
@@ -121,27 +126,30 @@ public class FtFichaTecnica implements Serializable {
     @Size(max = 45)
     @Column(name = "estado")
     private String estado;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "ruta_img_frontal")
     private String rutaImgFrontal;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "ruta_img_posterior")
     private String rutaImgPosterior;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "ruta_img_caracteristica1")
     private String rutaImgCaracteristica1;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "ruta_img_caracteristica2")
     private String rutaImgCaracteristica2;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "ruta_img_caracteristica3")
     private String rutaImgCaracteristica3;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "ruta_img_caracteristica4")
     private String rutaImgCaracteristica4;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "ruta_ficha_logo")
     private String rutaFichaLogo;
+    @Size(max = 2222222)
+    @Column(name = "foto_lavado")
+    private String fotoLavado;
     @JoinColumn(name = "elaborado", referencedColumnName = "id_usuario")
     @ManyToOne
     private Usuario elaborado;
@@ -161,136 +169,150 @@ public class FtFichaTecnica implements Serializable {
     @Column(name = "genero")
     private String genero;
 
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "cuellos")
     private String cuello;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "puños")
     private String puños;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "bolsillos")
     private String bolsillos;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "espalda")
     private String espalda;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "costados")
     private String costados;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "aberturas")
     private String aberturas;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "dobladillo")
     private String dobladillo;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "marquilla")
     private String marquilla;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "reflectivo")
     private String reflectivo;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "adicionales")
     private String adicionales;
     @Size(max = 300)
     @Column(name = "bordado")
     private String bordado;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "estampado")
     private String estampado;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "planchado")
     private String planchado;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "empaque")
     private String empaque;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "ojal")
     private String ojal;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "boton")
     private String boton;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "presillas")
     private String presillas;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "puntadas")
     private String puntadas;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "cartera")
     private String cartera;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "figurado")
     private String figurado;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "pasadores")
     private String pasadores;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "tiros_laterales")
     private String tirosLaterales;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "entrepierna")
     private String entrepierna;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "bota")
     private String bota;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "prelavado")
     private String prelavado;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "pretina")
     private String pretina;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "hombros")
     private String hombros;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "mangas")
     private String mangas;
 
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "union_mangas")
     private String unionMangas;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "ajuste_frente")
     private String ajusteFrente;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "capucha")
     private String capucha;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "pinzas")
     private String pinzas;
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "prespuntes")
     private String prespuntes;
 
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "tiras")
     private String tiras;
 
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "union_hombros")
     private String unionHombros;
 
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "cortes")
     private String cortes;
 
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "cerrado_costados")
     private String cerradoCostados;
 
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "cierre")
     private String cierre;
 
-    @Size(max = 600)
+    @Size(max = 2222222)
     @Column(name = "cotilla")
     private String cotilla;
-    
-        @Size(max = 600)
+
+    @Size(max = 2222222)
     @Column(name = "lista_materiales")
     private String listaMateriales;
-    
-    
+
+    @Size(max = 2222222)
+    @Column(name = "descripcion_cliente")
+    private String descripcionCliente;
+
+    @Size(max = 2222222)
+    @Column(name = "escote")
+    private String escote;
+
+    @Size(max = 2222222)
+    @Column(name = "terminado")
+    private String terminado;
+
+    @Size(max = 2222222)
+    @Column(name = "forro")
+    private String forro;
 
     public FtFichaTecnica() {
     }
@@ -865,8 +887,49 @@ public class FtFichaTecnica implements Serializable {
         this.listaMateriales = listaMateriales;
     }
 
+    public String getDescripcionCliente() {
+        return descripcionCliente;
+    }
+
+    public void setDescripcionCliente(String descripcionCliente) {
+        this.descripcionCliente = descripcionCliente;
+    }
+
+    public String getEscote() {
+        return escote;
+    }
+
+    public void setEscote(String escote) {
+        this.escote = escote;
+    }
+
+    public String getTerminado() {
+        return terminado;
+    }
+
+    public void setTerminado(String terminado) {
+        this.terminado = terminado;
+    }
+
+    public String getForro() {
+        return forro;
+    }
+
+    public void setForro(String forro) {
+        this.forro = forro;
+    }
+
+
+
+    public String getFotoLavado() {
+        return fotoLavado;
+    }
+
+    public void setFotoLavado(String fotoLavado) {
+        this.fotoLavado = fotoLavado;
+    }
     
-    
-    
-    
+
+
+
 }

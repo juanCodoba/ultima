@@ -6,6 +6,7 @@
 package com.proyectoCFIP.controller;
 
 import com.proyectoCFIP.controller.util.JsfUtil;
+import com.proyectoCFIP.entities.AccionCorrectiva;
 import com.proyectoCFIP.entities.AuAspectoEvaluar;
 import com.proyectoCFIP.entities.AuPlanAuditoria;
 import com.proyectoCFIP.entities.AuProcesoEvaluado;
@@ -13,8 +14,10 @@ import com.proyectoCFIP.entities.CalidadAccionImplementar;
 import com.proyectoCFIP.entities.CalidadCausa;
 import com.proyectoCFIP.entities.CalidadPlanAccion;
 import com.proyectoCFIP.entities.CalidadSeguimientoAccion;
+import com.proyectoCFIP.entities.CalidadSeguimientoCorrectiva;
 import com.proyectoCFIP.entities.Subprocesos;
 import com.proyectoCFIP.entities.Usuario;
+import com.proyectoCFIP.sessions.AccionCorrectivaFacade;
 import com.proyectoCFIP.sessions.AuAspectoEvaluarFacade;
 import com.proyectoCFIP.sessions.AuPlanAuditoriaFacade;
 import com.proyectoCFIP.sessions.AuProcesoEvaluadoFacade;
@@ -22,6 +25,7 @@ import com.proyectoCFIP.sessions.CalidadAccionImplementarFacade;
 import com.proyectoCFIP.sessions.CalidadCausaFacade;
 import com.proyectoCFIP.sessions.CalidadPlanAccionFacade;
 import com.proyectoCFIP.sessions.CalidadSeguimientoAccionFacade;
+import com.proyectoCFIP.sessions.CalidadSeguimientoCorrectivaFacade;
 import com.proyectoCFIP.sessions.EmailSessionBean;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -57,17 +61,31 @@ public class CalidadPlanAccionController implements Serializable {
     private CalidadAccionImplementarFacade accionImplementarActualFacade;
     @EJB
     EmailSessionBean emailBean;
+    @EJB
+    private AccionCorrectivaFacade accionCorrectivaActualFacade;
+    @EJB
+    private CalidadSeguimientoCorrectivaFacade calidadSeguimientoCorrectivaFacade;
+
     private CalidadPlanAccion planAccionActual;
     private CalidadCausa causaActual;
     private CalidadSeguimientoAccion seguimientoAccionActual;
     private CalidadAccionImplementar accionImplementarActual;
     private Subprocesos suprocesoActual;
 
+    private AccionCorrectiva accionCorrectivaActual;
+    private List<AccionCorrectiva> accionCorrectivaList;
+    private List<AccionCorrectiva> listaAccionCorrectivaActual;
+
+    private CalidadSeguimientoCorrectiva calidadSeguimientoCorrectivaActual;
+
     private List<Subprocesos> listaSuprocesoActual;
 
     private List<CalidadPlanAccion> listaPlanAccionActual;
     private List<CalidadCausa> listaCausaActual;
     private List<CalidadSeguimientoAccion> listaSeguimientoAccionActual;
+    private List<CalidadSeguimientoCorrectiva> listaSeguimientoSinCerrarCor;
+    private List<CalidadSeguimientoCorrectiva> listaSeguimientoSinCerrarCorActual;
+
     private List<CalidadAccionImplementar> listaAccionImplementarActual;
     private List<CalidadSeguimientoAccion> listaSeguimientoSinCerrar;
 
@@ -91,6 +109,62 @@ public class CalidadPlanAccionController implements Serializable {
     private List<AuAspectoEvaluar> listaAspectoEvaluarTotal;
 
     public CalidadPlanAccionController() {
+    }
+
+    public CalidadSeguimientoCorrectiva getCalidadSeguimientoCorrectivaActual() {
+        return calidadSeguimientoCorrectivaActual;
+    }
+
+    public void setCalidadSeguimientoCorrectivaActual(CalidadSeguimientoCorrectiva calidadSeguimientoCorrectivaActual) {
+        this.calidadSeguimientoCorrectivaActual = calidadSeguimientoCorrectivaActual;
+    }
+
+    public CalidadSeguimientoCorrectivaFacade getCalidadSeguimientoCorrectivaFacade() {
+        return calidadSeguimientoCorrectivaFacade;
+    }
+
+    public void setCalidadSeguimientoCorrectivaFacade(CalidadSeguimientoCorrectivaFacade calidadSeguimientoCorrectivaFacade) {
+        this.calidadSeguimientoCorrectivaFacade = calidadSeguimientoCorrectivaFacade;
+    }
+
+    public List<AccionCorrectiva> getListaAccionCorrectivaActual() {
+        return listaAccionCorrectivaActual;
+    }
+
+    public void setListaAccionCorrectivaActual(List<AccionCorrectiva> listaAccionCorrectivaActual) {
+        this.listaAccionCorrectivaActual = listaAccionCorrectivaActual;
+    }
+
+    public List<AccionCorrectiva> getAccionCorrectivaList() {
+        return accionCorrectivaList;
+    }
+
+    public void setAccionCorrectivaList(List<AccionCorrectiva> accionCorrectivaList) {
+        this.accionCorrectivaList = accionCorrectivaList;
+    }
+
+    public EmailSessionBean getEmailBean() {
+        return emailBean;
+    }
+
+    public void setEmailBean(EmailSessionBean emailBean) {
+        this.emailBean = emailBean;
+    }
+
+    public AccionCorrectiva getAccionCorrectivaActual() {
+        return accionCorrectivaActual;
+    }
+
+    public void setAccionCorrectivaActual(AccionCorrectiva accionCorrectivaActual) {
+        this.accionCorrectivaActual = accionCorrectivaActual;
+    }
+
+    public AccionCorrectivaFacade getAccionCorrectivaActualFacade() {
+        return accionCorrectivaActualFacade;
+    }
+
+    public void setAccionCorrectivaActualFacade(AccionCorrectivaFacade accionCorrectivaActualFacade) {
+        this.accionCorrectivaActualFacade = accionCorrectivaActualFacade;
     }
 
     public CalidadPlanAccionFacade getPlanAccionFacade() {
@@ -185,6 +259,10 @@ public class CalidadPlanAccionController implements Serializable {
         this.listaSeguimientoAccionActual = listaSeguimientoAccionActual;
     }
 
+
+
+
+
     public List<CalidadAccionImplementar> getListaAccionImplementarActual() {
         return listaAccionImplementarActual;
     }
@@ -195,6 +273,22 @@ public class CalidadPlanAccionController implements Serializable {
 
     public void setListaAccionImplementarActual(List<CalidadAccionImplementar> listaAccionImplementarActual) {
         this.listaAccionImplementarActual = listaAccionImplementarActual;
+    }
+
+    public List<CalidadSeguimientoCorrectiva> getListaSeguimientoSinCerrarCor() {
+        return listaSeguimientoSinCerrarCor = getCalidadSeguimientoCorrectivaFacade().consultaSeguimientoSinCerrar();
+    }
+
+    public void setListaSeguimientoSinCerrarCor(List<CalidadSeguimientoCorrectiva> listaSeguimientoSinCerrarCor) {
+        this.listaSeguimientoSinCerrarCor = listaSeguimientoSinCerrarCor;
+    }
+    
+        public List<CalidadSeguimientoCorrectiva> getListaSeguimientoSinCerrarCorActual() {
+        return listaSeguimientoSinCerrarCorActual = getCalidadSeguimientoCorrectivaFacade().consultaSeguimiento(accionCorrectivaActual) ;
+    }
+
+    public void setListaSeguimientoSinCerrarCorActual(List<CalidadSeguimientoCorrectiva> listaSeguimientoSinCerrarCorActual) {
+        this.listaSeguimientoSinCerrarCorActual = listaSeguimientoSinCerrarCorActual;
     }
 
     public List<CalidadSeguimientoAccion> getListaSeguimientoSinCerrar() {
@@ -317,13 +411,21 @@ public class CalidadPlanAccionController implements Serializable {
         this.usuarioActual = usuarioActual;
     }
 
+    public String prepareListaSeguimientos() {
+        calidadSeguimientoCorrectivaActual = new CalidadSeguimientoCorrectiva();
+
+        return "prueba";
+    }
+
     public String prepareView() {
+        listaAccionCorrectivaActual = planAccionActual.getAccionCorrectivaList();
         listaCausaActual = planAccionActual.getCalidadCausaList();
         listaAccionImplementarActual = planAccionActual.getCalidadAccionImplementarList();
         return "/usuario/modCalidad/accionMejora/verAccion";
     }
 
     public String prepareViewAdmin() {
+        listaAccionCorrectivaActual = planAccionActual.getAccionCorrectivaList();
         listaCausaActual = planAccionActual.getCalidadCausaList();
         listaAccionImplementarActual = planAccionActual.getCalidadAccionImplementarList();
         return "/administrador/modCalidad/accionMejora/verAccion";
@@ -333,6 +435,8 @@ public class CalidadPlanAccionController implements Serializable {
         causaActual = new CalidadCausa();
         accionImplementarActual = new CalidadAccionImplementar();
         planAccionActual = new CalidadPlanAccion();
+        accionCorrectivaActual = new AccionCorrectiva();
+        listaAccionCorrectivaActual = new ArrayList<>();
         listaAccionImplementarActual = new ArrayList<>();
         listaCausaActual = new ArrayList<>();
 
@@ -352,6 +456,7 @@ public class CalidadPlanAccionController implements Serializable {
         planAccionActual = new CalidadPlanAccion();
         listaAccionImplementarActual = new ArrayList<>();
         listaCausaActual = new ArrayList<>();
+        accionCorrectivaActual = new AccionCorrectiva();
 
         if (aspectoEvaluarActual != null) {
             planAccionActual.setIdSubproceso(aspectoEvaluarActual.getIdAuProcesoEvaluado().getIdSubproceso());
@@ -366,6 +471,8 @@ public class CalidadPlanAccionController implements Serializable {
     public String prepareEdit() {
         causaActual = new CalidadCausa();
         accionImplementarActual = new CalidadAccionImplementar();
+        calidadSeguimientoCorrectivaActual = new CalidadSeguimientoCorrectiva();
+        listaAccionCorrectivaActual = planAccionActual.getAccionCorrectivaList();
         listaCausaActual = planAccionActual.getCalidadCausaList();
         listaAccionImplementarActual = planAccionActual.getCalidadAccionImplementarList();
         return "/administrador/modCalidad/accionMejora/editarAccion";
@@ -374,8 +481,10 @@ public class CalidadPlanAccionController implements Serializable {
     public String prepareAdminEdit() {
         causaActual = new CalidadCausa();
         suprocesoActual = new Subprocesos();
-
         accionImplementarActual = new CalidadAccionImplementar();
+        calidadSeguimientoCorrectivaActual = new CalidadSeguimientoCorrectiva();
+        accionCorrectivaActual = new AccionCorrectiva();
+        listaAccionCorrectivaActual = planAccionActual.getAccionCorrectivaList();
         listaCausaActual = planAccionActual.getCalidadCausaList();
         listaAccionImplementarActual = planAccionActual.getCalidadAccionImplementarList();
         return "/administrador/modCalidad/accionMejora/adminAccion";
@@ -395,6 +504,7 @@ public class CalidadPlanAccionController implements Serializable {
 
     public String add() {
         try {
+
             if (listaCausaActual.isEmpty()) {
                 addErrorMessage("Plan de acción no creado", "No contiene causas");
                 return null;
@@ -402,16 +512,22 @@ public class CalidadPlanAccionController implements Serializable {
             if (listaAccionImplementarActual.isEmpty()) {
                 addErrorMessage("Plan de acción no creado", "No contiene acciones a implementar");
                 return null;
+            }
+            if (listaAccionCorrectivaActual.isEmpty()) {
+                addErrorMessage("Plan accion no creado", "No cntiene acciones correctivas");
+                return null;
+
             } else {
                 planAccionActual.setResponsable(usuarioActual);
                 planAccionActual.setEstadoPlan("abierto");
                 planAccionActual.setFechaAnalisis(new Date());
                 planAccionActual.setCalidadCausaList(listaCausaActual);
                 planAccionActual.setCalidadAccionImplementarList(listaAccionImplementarActual);
+                planAccionActual.setAccionCorrectivaList(listaAccionCorrectivaActual);
                 getPlanAccionFacade().create(planAccionActual);
                 addSuccessMessage("Plan de acción creado", "El plan de acción fue creado con consecutivo No. " + planAccionActual.getIdPlanAccion());
-                //sendMailRegistroTec();
-                //sendMailRegistroUser();
+                sendMailRegistroTec();
+                sendMailRegistroUser();
                 return "/usuario/modCalidad/accionMejora/listaAccion";
             }
         } catch (Exception e) {
@@ -475,6 +591,8 @@ public class CalidadPlanAccionController implements Serializable {
             } else {
                 planAccionActual.setCalidadCausaList(listaCausaActual);
                 planAccionActual.setCalidadAccionImplementarList(listaAccionImplementarActual);
+                planAccionActual.setAccionCorrectivaList(listaAccionCorrectivaActual);
+
                 getPlanAccionFacade().edit(planAccionActual);
                 addSuccessMessage("Plan de acción editado", "El plan de acción de mejora fue editado con numero No. " + planAccionActual.getIdPlanAccion());
                 return "/administrador/modCalidad/accionMejora/listaAccion";
@@ -500,16 +618,62 @@ public class CalidadPlanAccionController implements Serializable {
         seguimientoAccionActual = new CalidadSeguimientoAccion();
     }
 
+    public void prepareSeguimientoAcCo() {
+        calidadSeguimientoCorrectivaActual = new CalidadSeguimientoCorrectiva();
+    }
+
     public void listSeguimiento() {
         listaSeguimientoAccionActual = new ArrayList<>();
+    }
+
+    public void listSeguimientoAc() {
+        listaSeguimientoSinCerrarCorActual = new ArrayList<>();
     }
 
     public String prepareListaSeguimientoSinCerrar() {
         return "listaSeguimientos";
     }
 
+    public String prepareListaSeguimientoSinCerrarCo() {
+        return "listaSeguimientosCorrectiva";
+    }
+
     public String prepareListaAccionesImplemetar() {
         return "listaAccionesImplementar";
+    }
+
+    public void addAccionCorrectiva() {
+        try {
+            getAccionCorrectivaActualFacade().create(accionCorrectivaActual);
+            listaAccionCorrectivaActual.add(accionCorrectivaActual);
+            accionCorrectivaActual = new AccionCorrectiva();
+
+            addSuccessMessage("Causa creada", "La causa fue creada");
+        } catch (Exception e) {
+            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
+        }
+    }
+
+    public void addAccionCorrectivaList(CalidadPlanAccion calidadPlanAccionActual) {
+        try {
+            getAccionCorrectivaActualFacade().edit(accionCorrectivaActual);
+            listaAccionCorrectivaActual.add(accionCorrectivaActual);
+            accionCorrectivaActual = new AccionCorrectiva();
+
+            addSuccessMessage("Causa creada", "La causa fue creada");
+        } catch (Exception e) {
+            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
+        }
+    }
+
+    public void updateAccionCorrectiva() {
+        try {
+            getAccionCorrectivaActualFacade().edit(accionCorrectivaActual);
+            accionCorrectivaActual = new AccionCorrectiva();
+            addSuccessMessage("la accion fue editada", "");
+        } catch (Exception e) {
+            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
+        }
     }
 
     public void addSeguimiento() {
@@ -523,10 +687,31 @@ public class CalidadPlanAccionController implements Serializable {
         }
     }
 
+    public void addSeguimientoCorre() {
+        try {
+            getCalidadSeguimientoCorrectivaActual().setIdaccionCorrectiva(accionCorrectivaActual);
+            getCalidadSeguimientoCorrectivaFacade().create(calidadSeguimientoCorrectivaActual);
+            calidadSeguimientoCorrectivaActual = new CalidadSeguimientoCorrectiva();
+            addSuccessMessage("Seguimiento creado", "El seguimiento fue creado");
+        } catch (Exception e) {
+            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
+        }
+    }
+
     public void updateSeguimiento() {
         try {
             getSeguimientoAccionActualFacade().edit(seguimientoAccionActual);
             seguimientoAccionActual = new CalidadSeguimientoAccion();
+            addSuccessMessage("Seguimiento editado", "El seguimiento fue editado");
+        } catch (Exception e) {
+            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
+        }
+    }
+    
+        public void updateSeguimientoCorr() {
+        try {
+            getCalidadSeguimientoCorrectivaFacade().edit(calidadSeguimientoCorrectivaActual);
+            calidadSeguimientoCorrectivaActual = new CalidadSeguimientoCorrectiva();
             addSuccessMessage("Seguimiento editado", "El seguimiento fue editado");
         } catch (Exception e) {
             addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
@@ -561,10 +746,27 @@ public class CalidadPlanAccionController implements Serializable {
             addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
         }
     }
-
+    public void deleteAccionCorretiva() {
+        try {
+            listaAccionCorrectivaActual.remove(accionCorrectivaActual);
+            addSuccessMessage("Acción eliminada", "La acción fue eliminada");
+        } catch (Exception e) {
+            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
+        }
+    }
+    
     public void deleteSeguimiento() {
         try {
             listaSeguimientoAccionActual.remove(seguimientoAccionActual);
+            addSuccessMessage("Seguimiento eliminado", "El seguimiento fue eliminado");
+        } catch (Exception e) {
+            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
+        }
+    }
+
+    public void deleteSeguimientoCorrectivo() {
+        try {
+            listaSeguimientoSinCerrarCorActual.remove(calidadSeguimientoCorrectivaActual);
             addSuccessMessage("Seguimiento eliminado", "El seguimiento fue eliminado");
         } catch (Exception e) {
             addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
@@ -589,7 +791,7 @@ public class CalidadPlanAccionController implements Serializable {
         mensaje.append("\nRESPONSABLE: ");
         mensaje.append(planAccionActual.getResponsable().toString().toUpperCase());
         mensaje.append("\nSUBPROCESO: ");
-//        mensaje.append(planAccionActual.getIdSubproceso().getNombreSubproceso().toUpperCase());
+        mensaje.append(planAccionActual.getIdSubproceso().getNombreSubproceso().toUpperCase());
         mensaje.append("\nNOMBRE DEL PLAN DE ACCIÓN: ");
         mensaje.append(planAccionActual.getTituloPlan().toUpperCase());
         mensaje.append("\nFECHA DEL ANALISIS: ");
@@ -599,7 +801,7 @@ public class CalidadPlanAccionController implements Serializable {
         mensaje.append("\nTIPO DE ACCIÓN : ");
         mensaje.append(planAccionActual.getTipoPlan().toUpperCase());
         mensaje.append("\n\nTodos los Derechos Reservados www.cfiprovidencia.com © 2017.");
-        sendMail("luis.cabal@cfiprovidencia.com " + " " + " claudia.canar@cfiprovidencia.com " + " " + " nathalia.yusti@cfiprovidencia.com " + " " + "vivian.calero@cfiprovidencia.com", subject, mensaje.toString());
+        sendMail("juan.cordoba@cfiprovidencia.com " + " " + " claudia.canar@cfiprovidencia.com " + " " + " nathalia.yusti@cfiprovidencia.com " + " " + "vivian.calero@cfiprovidencia.com", subject, mensaje.toString());
     }
 
     private void sendMailRegistroUser() {
@@ -610,7 +812,7 @@ public class CalidadPlanAccionController implements Serializable {
         mensaje.append("\nRESPONSABLE: ");
         mensaje.append(planAccionActual.getResponsable().toString().toUpperCase());
         mensaje.append("\nSUBPROCESO: ");
-//        mensaje.append(planAccionActual.getIdSubproceso().getNombreSubproceso().toUpperCase());
+        mensaje.append(planAccionActual.getIdSubproceso().getNombreSubproceso().toUpperCase());
         mensaje.append("\nNOMBRE DEL PLAN DE ACCIÓN: ");
         mensaje.append(planAccionActual.getTituloPlan().toUpperCase());
         mensaje.append("\nFECHA DEL ANALISIS: ");

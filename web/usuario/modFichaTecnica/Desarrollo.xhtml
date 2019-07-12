@@ -77,7 +77,7 @@
                 margin-top: -4px;
             }
             .contenedor3{
-                margin-top: 10px;
+                margin-top: 40px;
                 border: 3px solid #828282;
             }
             .contenedor4{
@@ -186,7 +186,7 @@
                 right: 11%
             }
             .contenedor-imgCa{
-                margin: 5px;
+                margin: 25px;
                 width: 200px;
                 height: 100px;
                 display: inline-block;
@@ -226,7 +226,7 @@
         </style>
 
     </head>
-    <body>
+    <body >
         <div class="body-contenedor">
             <div class="head">
                 <h3 class="titulo1">#{ftFichaTecnica.fichaTecnicaActual.descripcionCorta}</h3>
@@ -242,7 +242,10 @@
                     ESPECIFICACIONES
                 </div>
                 <div class="cuerpoContenedor1">
-                    <p class="parrafo-contenedor" style="margin-bottom: 0em;">
+                    <p class="parrafo-contenedor">
+
+
+
 
                         <ui:fragment  >
                             <div style="    border-bottom-style: groove;">
@@ -272,10 +275,12 @@
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)  }">
+
+
+                        <ui:fragment rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)|| (ftFichaTecnica.conjunto)  }">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Pretina: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.pretina}" rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)  }"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.pretina}" rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean) || (ftFichaTecnica.conjunto) }"/>
                             </div>
                         </ui:fragment>
 
@@ -294,26 +299,26 @@
                         </ui:fragment>
 
 
-                        <ui:fragment  rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)  }">
+                        <ui:fragment  rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)|| (ftFichaTecnica.conjunto)  }">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Figurado: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.figurado}"  rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)  }"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.figurado}"  rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)|| (ftFichaTecnica.conjunto)  }"/>
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)  }" >
+                        <ui:fragment rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean) || (ftFichaTecnica.conjunto) }" >
                             <div style="border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Pasadores </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.pasadores}" rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)  }"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.pasadores}" rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean) || (ftFichaTecnica.conjunto) }"/>
                             </div>
                         </ui:fragment>
 
 
 
-                        <ui:fragment rendered="#{ ftFichaTecnica.camibuso || (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal) }"  >
+                        <ui:fragment rendered="#{ ftFichaTecnica.camibuso ||  (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal) || (ftFichaTecnica.camiseta)}"  >
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Genero: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.genero}"  rendered="#{ ftFichaTecnica.camibuso || (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal) }"  />
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.genero}"  rendered="#{ ftFichaTecnica.camibuso || (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal) || (ftFichaTecnica.camiseta) }"  />
                             </div>
                         </ui:fragment>
 
@@ -324,31 +329,38 @@
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.camibuso}"  >
+                        <ui:fragment rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.camiseta)}"  >
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Union de los Hombros: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.unionHombros}"  rendered="#{ftFichaTecnica.camibuso}"  />
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.unionHombros}"  rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.camiseta)}"  />
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.camibuso}"  >
+                        <ui:fragment rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.camiseta)}"  >
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Union de las Mangas: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.unionMangas}"  rendered="#{ ftFichaTecnica.camibuso}"  />
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.unionMangas}"  rendered="#{ ftFichaTecnica.camibuso || (ftFichaTecnica.camiseta)}"  />
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper) ||(ftFichaTecnica.camibuso) || (ftFichaTecnica.batola) || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper) || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol) || (ftFichaTecnica.camibuso) }">
+                        <ui:fragment rendered="#{ftFichaTecnica.chaqueta}"  >
+                            <div style="    border-bottom-style: groove;">
+                                <h:outputLabel class="labelInfo" >Forro: </h:outputLabel><br></br>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.forro}"  rendered="#{ ftFichaTecnica.chaqueta}"  />
+                            </div>
+                        </ui:fragment>
+
+                        <ui:fragment rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper) ||(ftFichaTecnica.camibuso) || (ftFichaTecnica.batola) || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper) || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol) || (ftFichaTecnica.camibuso)|| (ftFichaTecnica.camiseta) }">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Cuellos: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.cuello}" rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper) ||(ftFichaTecnica.camibuso) || (ftFichaTecnica.batola) || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper) || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol) || (ftFichaTecnica.camibuso) }"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.cuello}" rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper) ||(ftFichaTecnica.camibuso) || (ftFichaTecnica.batola) || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper) || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol) || (ftFichaTecnica.camibuso)|| (ftFichaTecnica.camiseta) }"/>
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.batola)}">
+                        <ui:fragment rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.batola) || (ftFichaTecnica.camiseta)}">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Puños: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.puños}" rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.batola)}"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.puños}" rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.batola) || (ftFichaTecnica.camiseta)}"/>
                             </div>
                         </ui:fragment>
 
@@ -373,10 +385,10 @@
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol)|| (ftFichaTecnica.camisaOper) || (ftFichaTecnica.camisa)|| (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)}" >
+                        <ui:fragment rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol)|| (ftFichaTecnica.camisaOper)|| (ftFichaTecnica.camisa) || (ftFichaTecnica.overol) || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)}" >
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Ajuste del Frente: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.ajusteFrente}" rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol)|| (ftFichaTecnica.camisaOper) || (ftFichaTecnica.camisa)|| (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)}" />
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.ajusteFrente}" rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol)|| (ftFichaTecnica.camisaOper) || (ftFichaTecnica.camisa) || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)}" />
                             </div>
                         </ui:fragment>
 
@@ -395,11 +407,24 @@
                             </div>
                         </ui:fragment>
 
+                        <ui:fragment rendered="#{ ftFichaTecnica.delantal}">
+                            <div style="    border-bottom-style: groove;">
+                                <h:outputLabel class="labelInfo" >Escote: </h:outputLabel><br></br>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.escote}" rendered="#{ftFichaTecnica.delantal}"/>
+                            </div>
+                        </ui:fragment>
+                        <ui:fragment rendered="#{ftFichaTecnica.delantal}">
+                            <div style="    border-bottom-style: groove;">
+                                <h:outputLabel class="labelInfo" >Terminado: </h:outputLabel><br></br>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.terminado}" rendered="#{ftFichaTecnica.delantal}"/>
+                            </div>
+                        </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.camibuso) || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper)|| (ftFichaTecnica.chaleco ) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol) || (ftFichaTecnica.delantal) || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)}">
+
+                        <ui:fragment rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.camibuso) || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper)|| (ftFichaTecnica.chaleco ) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol) || (ftFichaTecnica.delantal) || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper) || (ftFichaTecnica.camiseta)}">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Bolsillos: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.bolsillos}" rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.camibuso) || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper)|| (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol) || (ftFichaTecnica.delantal) || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)}"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.bolsillos}" rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.camibuso) || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper)|| (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol) || (ftFichaTecnica.delantal) || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper) || (ftFichaTecnica.camiseta)}"/>
                             </div>
                         </ui:fragment>
 
@@ -410,10 +435,10 @@
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.overol || (ftFichaTecnica.camibuso) || (ftFichaTecnica.overol)}">
+                        <ui:fragment rendered="#{ftFichaTecnica.overol || (ftFichaTecnica.camibuso) || (ftFichaTecnica.overol)|| (ftFichaTecnica.camiseta)}">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Mangas: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.mangas}" rendered="#{ftFichaTecnica.overol || (ftFichaTecnica.camibuso) || (ftFichaTecnica.overol)}"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.mangas}" rendered="#{ftFichaTecnica.overol || (ftFichaTecnica.camibuso) || (ftFichaTecnica.overol) || (ftFichaTecnica.camiseta)}"/>
                             </div>
                         </ui:fragment>
 
@@ -446,24 +471,24 @@
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment  rendered="#{ftFichaTecnica.overol || (ftFichaTecnica.pantalonAdmin) || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)}">
+                        <ui:fragment  rendered="#{ftFichaTecnica.overol || (ftFichaTecnica.pantalonAdmin) || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)|| (ftFichaTecnica.conjunto)}">
                             <div style="    border-bottom-style: groove;">
-                                <h:outputLabel class="labelInfo" >Tiros Laterales: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.tirosLaterales}"  rendered="#{ftFichaTecnica.overol || (ftFichaTecnica.pantalonAdmin) || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)}"/>
+                                <h:outputLabel class="labelInfo" >Tiros:  </h:outputLabel><br></br>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.tirosLaterales}"  rendered="#{ftFichaTecnica.overol || (ftFichaTecnica.pantalonAdmin) || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)|| (ftFichaTecnica.conjunto)}"/>
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)}">
+                        <ui:fragment rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)|| (ftFichaTecnica.conjunto)}">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Costados: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.costados}" rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)}"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.costados}" rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)|| (ftFichaTecnica.conjunto)}"/>
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean) || (ftFichaTecnica.overol)  }">
+                        <ui:fragment rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean) || (ftFichaTecnica.overol) || (ftFichaTecnica.conjunto) }">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Entrepierna: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.entrepierna}" rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean) || (ftFichaTecnica.overol)  }"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.entrepierna}" rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean) || (ftFichaTecnica.overol) || (ftFichaTecnica.conjunto) }"/>
                             </div>
                         </ui:fragment>
 
@@ -482,10 +507,10 @@
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)   }">
+                        <ui:fragment rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)  }">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Marquilla: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.marquilla}" rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)   }"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.marquilla}" rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.slackOper) || (ftFichaTecnica.slackAdmin) || (ftFichaTecnica.jean)  }"/>
                             </div>
                         </ui:fragment>
 
@@ -499,24 +524,24 @@
 
 
 
-                        <ui:fragment  rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.delantal)}">
+                        <ui:fragment  rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.delantal) || (ftFichaTecnica.camisaOper)}">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Aberturas: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.aberturas}"  rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.delantal)}"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.aberturas}"  rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.delantal) || (ftFichaTecnica.camisaOper)}"/>
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment  rendered="#{ftFichaTecnica.batola }">
+                        <ui:fragment  rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.delantal) }">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Tiras: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.tiras}"  rendered="#{ftFichaTecnica.batola}"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.tiras}"  rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.delantal)}"/>
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper) || (ftFichaTecnica.camibuso)  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol)}">
+                        <ui:fragment rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper) || (ftFichaTecnica.camibuso)  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol) || (ftFichaTecnica.camiseta)}">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Espalda: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.espalda}" rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper) || (ftFichaTecnica.camibuso)  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol)}"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.espalda}" rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper) || (ftFichaTecnica.camibuso)  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol)|| (ftFichaTecnica.camiseta)}"/>
                             </div>
                         </ui:fragment>
 
@@ -528,7 +553,7 @@
                         </ui:fragment>
 
 
-                        <ui:fragment rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper) || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper) || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)}">
+                        <ui:fragment rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper) || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)}">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Mangas: </h:outputLabel><br></br>
                                 <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.mangas}" rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper) || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)}"/>
@@ -550,16 +575,16 @@
                         </ui:fragment>
 
 
-                        <ui:fragment rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper)}">
+                        <ui:fragment rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper)|| (ftFichaTecnica.camiseta)}">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Costados: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.costados}"  rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper)}"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.costados}"  rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper)|| (ftFichaTecnica.camiseta)}"/>
                             </div>
                         </ui:fragment>
-                        <ui:fragment  rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)}">
+                        <ui:fragment  rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)|| (ftFichaTecnica.camiseta)}">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Aberturas: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.aberturas}"  rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)}"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.aberturas}"  rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)|| (ftFichaTecnica.camiseta)}"/>
                             </div>
                         </ui:fragment>
 
@@ -591,10 +616,10 @@
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.delantal}">
+                        <ui:fragment rendered="#{ftFichaTecnica.chaqueta || (ftFichaTecnica.delantal|| ftFichaTecnica.chaleco)}">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Dobladillo: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.dobladillo}" rendered="#{ftFichaTecnica.delantal}"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.dobladillo}" rendered="#{ftFichaTecnica.chaqueta || (ftFichaTecnica.delantal|| ftFichaTecnica.chaleco)}"/>
                             </div>
                         </ui:fragment>
                         <ui:fragment rendered="#{ftFichaTecnica.blusaAdmin || (ftFichaTecnica.blusaOper)}">
@@ -618,17 +643,17 @@
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.camibuso)  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) || (ftFichaTecnica.chaqueta) }">
+                        <ui:fragment rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.camibuso)  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) || (ftFichaTecnica.camiseta)}">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Dobladillo: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.dobladillo}" rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.camibuso)  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) }"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.dobladillo}" rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.camibuso)  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper)|| (ftFichaTecnica.camiseta) }"/>
                             </div>
                         </ui:fragment>
 
                         <ui:fragment rendered="#{ftFichaTecnica.batola  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) ||(ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.delantal)}">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Reflectivo: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.reflectivo}" rendered="#{ftFichaTecnica.batola  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) ||(ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) }"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.reflectivo}" rendered="#{ftFichaTecnica.batola  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) ||(ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.delantal)}"/>
                             </div>
                         </ui:fragment>
 
@@ -642,26 +667,26 @@
                         <ui:fragment rendered="#{ftFichaTecnica.batola  ||(ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta)   || (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal) || (ftFichaTecnica.delantal)}">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >adicionales: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.adicionales}" rendered="#{ftFichaTecnica.batola  ||(ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal) || (ftFichaTecnica.delantal)}"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.adicionales}" rendered="#{ftFichaTecnica.batola  ||(ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta)  || (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal) || (ftFichaTecnica.delantal)}"/>
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.batola  || (ftFichaTecnica.camibuso)  || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta)}">
+                        <ui:fragment rendered="#{ftFichaTecnica.batola  || (ftFichaTecnica.camibuso)  || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta)|| (ftFichaTecnica.delantal)|| (ftFichaTecnica.camiseta)}">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Marquilla </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.marquilla}" rendered="#{ftFichaTecnica.batola  || (ftFichaTecnica.camibuso)  || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta)}"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.marquilla}" rendered="#{ftFichaTecnica.batola  || (ftFichaTecnica.camibuso)  || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta)|| (ftFichaTecnica.delantal)|| (ftFichaTecnica.camiseta)}"/>
                             </div>
                         </ui:fragment>
-                        <ui:fragment rendered="#{ftFichaTecnica.camibuso}">
+                        <ui:fragment rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.camiseta)}">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Reflectivo: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.reflectivo}" rendered="#{ftFichaTecnica.camibuso }"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.reflectivo}" rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.camiseta) }"/>
                             </div>
                         </ui:fragment>
-                        <ui:fragment rendered="#{ftFichaTecnica.camibuso  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper)}">
+                        <ui:fragment rendered="#{ftFichaTecnica.camibuso  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) || (ftFichaTecnica.camiseta)}">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >adicionales: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.adicionales}" rendered="#{ftFichaTecnica.camibuso  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper)}"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.adicionales}" rendered="#{ftFichaTecnica.camibuso  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) || (ftFichaTecnica.camiseta)}"/>
                             </div>
                         </ui:fragment>
                         <ui:fragment rendered="#{ftFichaTecnica.overol}">
@@ -698,50 +723,50 @@
                                 <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.estampado}"  />
                             </div>
                         </ui:fragment>
-                        <ui:fragment rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper)  || (ftFichaTecnica.jean)   }"    >
+                        <ui:fragment rendered="#{ftFichaTecnica.pantalonAdmin ||  (ftFichaTecnica.pantalonOper)  || (ftFichaTecnica.jean)  || (ftFichaTecnica.chaqueta)     }"    >
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Ojal: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.ojal}" rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper)  || (ftFichaTecnica.jean)    }"    />
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.ojal}" rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonOper)  || (ftFichaTecnica.jean) || (ftFichaTecnica.chaqueta)    }"    />
                             </div>
                         </ui:fragment>
-                        <ui:fragment rendered="#{ftFichaTecnica.jean || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) }" >
+                        <ui:fragment rendered="#{ftFichaTecnica.jean || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.overol)}"    >
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Presillas: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.presillas}" rendered="#{ftFichaTecnica.jean  || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper)}"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.presillas }" rendered="#{ftFichaTecnica.jean || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper) || (ftFichaTecnica.overol)}"    />
                             </div>
                         </ui:fragment>
-                        <ui:fragment rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper)  || (ftFichaTecnica.jean) || (ftFichaTecnica.chaqueta)    }"    >
+                        <ui:fragment rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper)  || (ftFichaTecnica.jean) || (ftFichaTecnica.chaqueta)}"    >
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Puntadas: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.puntadas}" rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper)  || (ftFichaTecnica.jean)  || (ftFichaTecnica.chaqueta)  }"    />
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.puntadas}" rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper)  || (ftFichaTecnica.jean)   || (ftFichaTecnica.chaqueta)    }"    />
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper)  || (ftFichaTecnica.jean)  || (ftFichaTecnica.blusaOper) || (ftFichaTecnica.overol) || (ftFichaTecnica.chaqueta)  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper)   }"    >
+                        <ui:fragment rendered="#{ftFichaTecnica.jean ||  (ftFichaTecnica.blusaOper) || (ftFichaTecnica.overol) || (ftFichaTecnica.chaqueta)  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper)   }"    >
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Prelavado: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.prelavado}" rendered="#{ftFichaTecnica.pantalonAdmin || (ftFichaTecnica.pantalonAdmin ) || (ftFichaTecnica.pantalonOper)  || (ftFichaTecnica.jean) || (ftFichaTecnica.blusaOper) || (ftFichaTecnica.overol) || (ftFichaTecnica.chaqueta)  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper)  }"    />
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.prelavado}" rendered="#{ftFichaTecnica.jean ||(ftFichaTecnica.blusaOper) || (ftFichaTecnica.overol) || (ftFichaTecnica.chaqueta)  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper)  }"    />
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper) ||(ftFichaTecnica.camibuso )  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) ||(ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta)|| (ftFichaTecnica.overol)}">
+                        <ui:fragment rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper) ||(ftFichaTecnica.camibuso )  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) ||(ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta)|| (ftFichaTecnica.overol)|| (ftFichaTecnica.delantal)}">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Ojal: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.ojal}" rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper) ||(ftFichaTecnica.camibuso )  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) ||(ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol)}"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.ojal}" rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper) ||(ftFichaTecnica.camibuso )  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) ||(ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol)|| (ftFichaTecnica.delantal)}"/>
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.batola ||(ftFichaTecnica.camibuso )  ||(ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol) || (ftFichaTecnica.delantal)|| (ftFichaTecnica.overol)}" >
+                        <ui:fragment rendered="#{ftFichaTecnica.batola ||(ftFichaTecnica.camibuso )  ||(ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol) || (ftFichaTecnica.delantal) || (ftFichaTecnica.overol)}" >
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Boton: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.boton}" rendered="#{ftFichaTecnica.batola ||(ftFichaTecnica.camibuso )  || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol) || (ftFichaTecnica.delantal)|| (ftFichaTecnica.overol)}"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.boton}" rendered="#{ftFichaTecnica.batola ||(ftFichaTecnica.camibuso )  || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol) || (ftFichaTecnica.delantal) || (ftFichaTecnica.overol)}"/>
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper) ||(ftFichaTecnica.camibuso )  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) ||(ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal)|| (ftFichaTecnica.overol) }" >
+                        <ui:fragment rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper) ||(ftFichaTecnica.camibuso ) || (ftFichaTecnica.camiseta) || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) ||(ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal)}" >
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Presillas: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.presillas}" rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper) ||(ftFichaTecnica.camibuso )  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) ||(ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal) || (ftFichaTecnica.overol)}"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.presillas}" rendered="#{ftFichaTecnica.batola || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)|| (ftFichaTecnica.camiseta) ||(ftFichaTecnica.camibuso )  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) ||(ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal)}"/>
                             </div>
                         </ui:fragment>
                         <ui:fragment rendered="#{ftFichaTecnica.blusaAdmin || (ftFichaTecnica.blusaOper)   }">
@@ -751,10 +776,10 @@
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.batola ||(ftFichaTecnica.camibuso )  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) ||(ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol) || (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal) }">
+                        <ui:fragment rendered="#{ftFichaTecnica.batola ||(ftFichaTecnica.camibuso )|| (ftFichaTecnica.camiseta)  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) ||(ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol) || (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal) }">
                             <div style="    border-bottom-style: groove;">
                                 <h:outputLabel class="labelInfo" >Puntadas: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.puntadas}" rendered="#{ftFichaTecnica.batola ||(ftFichaTecnica.camibuso )  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) ||(ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol) || (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal)}"/>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.puntadas}" rendered="#{ftFichaTecnica.batola ||(ftFichaTecnica.camibuso )|| (ftFichaTecnica.camiseta)  || (ftFichaTecnica.camisa) || (ftFichaTecnica.camisaOper) ||(ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.overol) || (ftFichaTecnica.cofia) || (ftFichaTecnica.tapaboca) || (ftFichaTecnica.delantal)}"/>
                             </div>
                         </ui:fragment>
 
@@ -777,10 +802,19 @@
 
                         <ui:fragment  >
                             <div style="    border-bottom-style: groove;">
-                                <h:outputLabel class="labelInfo" >Puntos criticos: </h:outputLabel>
+                                <h:outputLabel class="labelInfo" >Puntos criticos: </h:outputLabel><br></br>
                                 <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.descripcionLarga}"     />
                             </div>
                         </ui:fragment>
+
+                        <ui:fragment  >
+                            <div style="    border-bottom-style: groove;">
+                                <h:outputLabel class="labelInfo" >Descripcion cliente: </h:outputLabel><br></br>
+                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.descripcionCliente}"     />
+                            </div>
+                        </ui:fragment>
+
+
 
 
                     </p>
@@ -788,15 +822,15 @@
             </div>
 
         </div>
-        <div class="contenedor1 contenedor2">
-            <div  style=" margin-top: 18em; margin-bottom: 7%;" >
-                <div class="contenedor1 contenedor4 " style="position: relative;top: -26em;left: 1%" >
+        <div class="contenedor1 contenedor2" style="position: relative;    margin-top: 3em;">
+            <div  style=" margin-top: 38em; margin-bottom: -45%;" >
+                <div class="contenedor1 contenedor4 " style="position: relative;top: -45em;left: 1%" >
                     <div class="tituloContenedor1">
                         CRITERIOS DE ACEPTACIÓN O RECHAZO
                     </div>
                     <div class="cuerpoContenedor3">
                         <p class="parrafo-contenedor">
-                            SE DEFINE COMO CRITERIOS DE TOLERANCIA, PARA LOS CONTORNOS TOTALES Y LARGOS +/-2 CM.
+                            SE DEFINE COMO CRITERIOS DE TOLERANCIA, PARA LOS CONTORNOS TOTALES Y LARGOS +/-1 CM.
                         </p>
                         <p class="parrafo-contenedor">
                             SE DEFINE COMO CRITERIOS DE TOLERANCIA, PARA LOS TIROS +/- 1CM.
@@ -804,11 +838,12 @@
                     </div> 
 
                 </div>
-                <div class="cuerpoContenedor3 contenedor5">
-                    <img width="100%" style ="position: relative;top: -219px" left="100%" src="#{request.contextPath}/resources/file/logos.png"/>
-                </div> 
 
-                <div class="contenedor1" style="position: relative; top: -14em;width: 100%" >
+                <div class="contenedor-imgCa">
+                    <img class="imagenesBot" width="200" height="100" style ="position: relative;top: -503px;left: 11%;"   src="file:#{ftFichaTecnica.fichaTecnicaActual.fotoLavado}"/>
+                </div>
+
+                <div class="contenedor1" style="position: relative; top: -44em;width: 100%" >
                     <div class="cuerpoContenedor1">
                         <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.medidas}" escape="false"  />
                     </div> 
@@ -821,7 +856,7 @@
                     </div> 
                 </div>
 
-                <div class="footer-contenedor1" style="position: relative;top:35px">
+                <div class="footer-contenedor1" style="position: relative;top:-440px">
                     <div class="footer-parrafo1">
                         <img width="100%" class="footer-img1" src="#{request.contextPath}/resources/file/logoblanco.png">
 
@@ -848,32 +883,33 @@
 
 
 
-        <div class="body-contenedor2" style="position: relative;">
-            <div class="contenedor3" style="margin-top: 20px">
+        <div class="body-contenedor2" style="position: relative;     margin-top: 3em;">
+            <div class="contenedor3" >
                 <div class="tituloContenedor1" >
                     GRÁFICA DE LA PRENDA
                 </div>
                 <div class="cuerpoContenedorImg">
                     <div class="contenedor-img">
-                        <img class="imagenesTop" width="200" height="200" style="vertical-align: top;" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgFrontal}"/>
+                        <img class="imagenesTop" width="200" height="250" style="vertical-align: top;" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgFrontal}"/>
                     </div>
                     <div class="contenedor-img">
-                        <img class="imagenesTop" width="200" height="200" style="vertical-align: top;" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgPosterior}"/>
+                        <img class="imagenesTop" width="200" height="250" style="vertical-align: top;" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgPosterior}"/>
                     </div>
                 </div>
-                <div class="cuerpoContenedorImg">
+                <div class="cuerpoContenedorImg" >
                     <div class="contenedor-imgCa">
-                        <img class="imagenesBot" width="150" height="150" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica1}"/>
+                        <img class="imagenesBot" width="100" height="150" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica1}"/>
                     </div>
                     <div class="contenedor-imgCa">
-                        <img class="imagenesBot" width="150" height="150" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica2}"/>
+                        <img class="imagenesBot" width="100" height="150" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica2}"/>
                     </div>
                     <div class="contenedor-imgCa">
-                        <img class="imagenesBot" width="150" height="150" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica3}"/>
+                        <img class="imagenesBot" width="100" height="150" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica3}"/>
                     </div>
                     <div class="contenedor-imgCa">
-                        <img class="imagenesBot" width="150" height="150" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica4}"/>
+                        <img class="imagenesBot" width="100" height="150" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica4}"/>
                     </div>
+
                 </div>
             </div>
             <div class="cuerpo-elaborado">
@@ -918,7 +954,7 @@
                 </div>
             </div>
         </div>
-        <div class="footer-contenedor" style="position: relative; top: -35px">
+        <div class="footer-contenedor" style="position: relative; top: -205px">
             <div class="footer-parrafo1">
                 <img width="100%" class="footer-img1" src="#{request.contextPath}/resources/file/logoblanco.png">
 

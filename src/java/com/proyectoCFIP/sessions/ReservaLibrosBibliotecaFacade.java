@@ -5,6 +5,8 @@
  */
 package com.proyectoCFIP.sessions;
 
+import com.proyectoCFIP.entities.CronogramaMantenimientos;
+import com.proyectoCFIP.entities.EstadoCronograma;
 import com.proyectoCFIP.entities.ReservaLibrosBiblioteca;
 import com.proyectoCFIP.entities.TipoEstudiante;
 import com.proyectoCFIP.entities.Usuario;
@@ -61,6 +63,11 @@ public class ReservaLibrosBibliotecaFacade extends AbstractFacade<ReservaLibrosB
         Query query = em.createNamedQuery("ReservaLibrosBiblioteca.totalPrestamoPorPers");
         query.setParameter("idUsuarioPrestamo", IdUsuarioPrestamo);
         return query.getResultList();
+    }
+    
+            public List<ReservaLibrosBiblioteca> consultaCronogramaReserva(){
+        Query q= getEntityManager().createNamedQuery("ReservaLibrosBiblioteca.findByEstadoReserva");
+        return q.getResultList();
     }
 
 //    public List<ReservaLibrosBiblioteca> consultaCronogramaBibliotecario() {

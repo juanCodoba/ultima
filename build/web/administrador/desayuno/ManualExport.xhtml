@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+        <link href="https://fonts.googleapis.com/css?family=Asap:700" rel="stylesheet"/>
+        <style>
+            @import url('https://fonts.googleapis.com/css?family=Asap:700');
+        </style>
+        <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+        <style>
+            th{
+                border-bottom: 1px solid black;
+            }
+            .tamanoDes{
+                width: 330px !important;
+            }
+            .direccion{
+                margin-left: 5px;
+            }
+            .direccion2{
+                float:right !important;
+            }
+            body{
+                font-family: 'Asap', sans-serif;
+                font-size: 1em;
+                margin: 0px !important;
+            }
+            .head{
+                margin: 0px !important;
+                border: -10px !important;
+                width: 697px;
+                background: black;
+                vertical-align: top;
+            }
+            .head2{
+                margin: 0px !important;
+                border: -10px !important;
+                width: 800px;
+                height: 70px;
+                background: black;
+            }
+            .titulo{
+                padding: 10px; 
+            } 
+            .titulo1{
+                margin-bottom: 1px;
+                margin-left: 10px;
+                color: #0cf554; 
+            }     
+            .titulo2{
+                margin: 0px;
+                margin: 0px 10px;
+                color: #d7d7d7;
+            }
+            .titulo3{
+                margin-top: 10px;
+                margin: 0px 10px;
+                color: black;
+                text-align: center;
+            }
+            .contenedor1{
+                margin-top: 10px;
+                border: 3px solid #828282;
+                text-align: left;
+            }
+            .contenedor2{
+                margin-top: 10px;
+            }
+            .contenedor3{
+                margin-top: 10px;
+                border: 3px solid #828282;
+            }
+            .contenedor4{
+                margin-top: 10px;
+                width: 350px; 
+                display: inline-block;
+                vertical-align: top;
+            }
+            .contenedor5{
+                margin-top: 5px;
+            }
+            .tituloContenedor1{
+                margin: 0px;
+                background-color: #828282;
+                color: white;
+                font-weight: bold;
+                padding: 5px;
+            }
+            .cuerpoContenedor1{
+                color: black;
+            }
+            label{
+                font-weight: bold;
+            }
+            .parrafo-contenedor{
+                font-size: .7em;
+                margin-left: 5px;
+                margin-top: 5px;
+            }
+            .parrafo-contenedorElaborado{
+                font-size: .8em;
+                margin-top: 8px;
+            }
+            .parrafo-contenedorAprobado{
+                font-size: .8em;
+                margin-top: 8px;
+                color: white;
+            }
+            .cuerpoContenedor3{
+                width: 330px;
+                display: inline-block;
+            }
+            .footer-contenedor{
+                background: black;
+                margin-bottom: 0px;
+            }
+            .footer-parrafo1{
+                display: inline-block;
+                width: 200px
+            }
+            .footer-img1{
+                margin: 10px;
+            }
+            .footer-parrafo2{
+                vertical-align: top;
+                color: white;
+                margin-left: 20px;
+                margin-top: 20px;
+                font-size: .7em;
+                display: inline-block;
+                width: 300px
+            }
+            .footer-parrafo3{
+                text-align: center;
+                vertical-align: top;
+                color: white;
+                margin-left: 20px;
+                margin-top: 30px;
+                font-size: .7em;
+                color: white;
+                border-left: 2px solid white;
+                display: inline-block;
+                width: 100px
+            }
+            .body-contenedor{
+                min-height: 920px;
+            }
+            .body-contenedor2{
+                height: 910px; 
+            }
+            .cuerpoContenedorImg{
+                border-top: 3px solid #828282;
+                text-align: center;
+            }
+            .contenedor-img{
+                margin-top: 5px;
+                margin-bottom: 20px;
+                display: inline-block;
+            }
+            .contenedor-imgCa{
+                margin: 5px;
+                width: 200px;
+                height: 100px;
+                display: inline-block;
+            }
+            .imagenesTop{
+
+            }
+
+            .tituloContenedorElaborado{
+                text-align: center;
+                margin: 0px;
+                background-color: #828282;
+                color: white;
+                font-weight: bold;
+                padding: 5px;
+            }
+            .contenedorElaborado{
+                display: inline-block;
+                border: 3px solid #828282;
+                text-align: center;
+                width: 223px;
+                height: 80px;
+            }
+            .cuerpo-elaborado{
+                margin-top: 10px;
+            }
+
+            .parrafo-elaborado{
+                font-size: .8em;
+                margin-left: 5px;
+                margin-top: 5px;
+                font-weight: bold; 
+            }
+            .label-info{
+                font-size: 1.2em;
+            }
+        </style>
+
+    </h:head>
+    <h:body>
+        <div class="body-contenedor">
+            <div class="tituloContenedor1 tituloContenedor2">
+                <h3 style="text-align: center" >CODIGO DE FORMATO: FD-FR-01</h3>
+            </div> 
+
+            <div class="titulo3">
+                <h2>Detalles basicos del envio </h2>
+            </div>
+            <div class="contenedor1 contenedor2">
+                <div class="tituloContenedor1">
+                    ESPECIFICACIONES DEL ENVIO
+                </div>
+                <div class="col-md-12 cuerpoContenedor1">
+                    <p class="parrafo-contenedor">
+                        <div class="col-md-6" style="position: relative; display: inline-block;left: 2%">
+                            <label class="label-info">Cajas a enviar: </label>
+                            <h:outputText value="#{facturadoController.facturadoActual.NCajas}"/>
+                        </div>
+
+                        <div class="col-md-6" style="position: relative; display: inline-block; left: 51%">
+                            <label class="label-info">Tipo de Carga: </label>
+                            <h:outputText value="#{facturadoController.facturadoActual.idTipoCarga.descripcion.toUpperCase()}"/>
+                        </div>
+                        <p:separator />
+
+                        <div class="col-md-6" style="position: relative; display: inline-block; left: 2%">
+                            <label class="label-info">Direccion de entrega: </label>
+                            <h:outputText value="#{facturadoController.facturadoActual.direccionEntrega}"/>
+                        </div>
+                        <div class="col-md-6" style="position: relative; display: inline-block; left:28%">
+
+                            <label class="label-info">Número de OP: </label>
+                            <h:outputText value="#{facturadoController.facturadoActual.op}"/>
+                        </div>
+                        <p:separator />
+
+                        <div class="col-md-6" style="position: relative; display: inline-block; left: 2%">
+
+                            <label class="label-info" >Estado de la PV: </label>
+                            <h:outputText value="#{facturadoController.facturadoActual.idEstadoFactura.descripcion.toUpperCase()}"/>
+                        </div>
+                        <div class="col-md-6" style="position: relative; display: inline-block; left:42%">
+
+                            <label class="label-info">Número de Factura:  </label>
+                            <h:outputText value="#{facturadoController.facturadoActual.numFactura}"/>
+                        </div>
+                        <p:separator />
+
+                        <p:separator />
+                    </p>
+
+
+                </div> 
+
+            </div>
+
+            <div class="contenedor1 contenedor3" >
+                <div class="tituloContenedor1 tituloContenedor3">
+                    Historial de la PV
+                </div>
+                <div class="col-md-12">
+                    <p:outputPanel id="documentosTablePanel245" >
+                        <h:panelGroup>
+                            <p:dataTable value="#{facturadoAuController.listreq}" style="position: relative;" var="item4">
+                                <p:column width="20"  style="border-bottom-style: groove;border-left-style: groove ;border-right-style: groove ;border-top-style: groove ; font-family: sans-serif;font-style: oblique;" >
+                                    <f:facet name="header" >Num° Cajas</f:facet>
+                                    <h:outputText style="font-weight: bold; font-size: 10px;" value="#{item4.NCajasOld}"/>
+                                </p:column>
+                                <p:column  width="50" style="border-bottom-style: groove;border-left-style: groove ;border-right-style: groove ;border-top-style: groove ; font-family: sans-serif;font-style: oblique;" >
+                                    <f:facet name="header">Direccion de Entrega</f:facet>
+                                    <h:outputText style="font-weight: bold; font-size: 10px;" value="#{item4.direccionEntregaOld}"/>
+                                </p:column>
+                                <p:column  width="20" style="border-bottom-style: groove;border-left-style: groove ;border-right-style: groove ;border-top-style: groove ; font-family: sans-serif;font-style: oblique;" >
+                                    <f:facet name="header">Número de Factura</f:facet>
+                                    <h:outputText style="font-weight: bold; font-size: 10px;" value="#{item4.numFacturaOld}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGroup>
+                    </p:outputPanel>
+                </div>
+
+            </div>
+
+        </div>
+    </h:body>
+</html>
