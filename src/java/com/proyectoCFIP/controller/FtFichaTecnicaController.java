@@ -671,8 +671,27 @@ public class FtFichaTecnicaController implements Serializable {
         }
     }
 
+    public String updateListados() {
+        try {
+            fichaTecnicaActual.setFechaModificacion(new Date());
+            fichaTecnicaActual.setElaborado(usuarioActual);
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ficha técnica actualizada", "La ficha técnica con codigo de item " + fichaTecnicaActual.getIdItem() + " fue actualizada con exito");
+            RequestContext.getCurrentInstance().showMessageInDialog(message);
+            getFichaTecnicaFacade().edit(fichaTecnicaActual);
+            if (fichaTecnicaActual.getEstado().equals("PRIMERA VALIDACION")) {
+                sendMailRegistroPrimeraValidacion();
+            }
+            recargarLista();
+            return "lista?faces-redirect=true";
+        } catch (Exception e) {
+            addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
+            return "lista?faces-redirect=true";
+        }
+    }
+
     public String update() {
         try {
+            fichaTecnicaActual.setVersionFoto(fichaTecnicaActual.getVersionFoto() + 1);
             fichaTecnicaActual.setFechaModificacion(new Date());
             fichaTecnicaActual.setElaborado(usuarioActual);
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ficha técnica actualizada", "La ficha técnica con codigo de item " + fichaTecnicaActual.getIdItem() + " fue actualizada con exito");
@@ -799,7 +818,7 @@ public class FtFichaTecnicaController implements Serializable {
         mensaje.append("\nOBSERVACIONES: ");
         mensaje.append(observaciones);
         mensaje.append("\n\nTodos los Derechos Reservados www.cfiprovidencia.com © 2017.");
-        sendMail("luis.cabal@cfiprovidencia.com " + " " + " yamileth.collazos@cfiprovidencia.com " + "juan.cordoba@cfiprovidencia.com " + fichaTecnicaActual.getElaborado().getCorreoUsuario(), subject, mensaje.toString());
+        sendMail("leonardo.buitrago@cfiprovidencia.com " + " " + " " + "juan.cordoba@cfiprovidencia.com " + fichaTecnicaActual.getElaborado().getCorreoUsuario(), subject, mensaje.toString());
     }
 
     private void sendMailRegistroSegundaValidacion() {
@@ -827,7 +846,7 @@ public class FtFichaTecnicaController implements Serializable {
         mensaje.append("\nOBSERVACIONES: ");
         mensaje.append(observaciones);
         mensaje.append("\n\nTodos los Derechos Reservados www.cfiprovidencia.com © 2017.");
-        sendMail("luis.cabal@cfiprovidencia.com " + " " + " luz.mejia@cfiprovidencia.com " + " camilo.buitrago@cfiprovidencia.com", subject, mensaje.toString());
+        sendMail(" " + " " + " luz.mejia@cfiprovidencia.com " + " leonardo.buitrago@cfiprovidencia.com", subject, mensaje.toString());
     }
 
     private void sendMailRegistroTerminado() {
@@ -855,7 +874,7 @@ public class FtFichaTecnicaController implements Serializable {
         mensaje.append("\nOBSERVACIONES: ");
         mensaje.append(observaciones);
         mensaje.append("\n\nTodos los Derechos Reservados www.cfiprovidencia.com © 2017.");
-        sendMail("luis.cabal@cfiprovidencia.com " + " camilo.buitrago@cfiprovidencia.com " + " yamileth.collazos@cfiprovidencia.com " + fichaTecnicaActual.getElaborado().getCorreoUsuario(), subject, mensaje.toString());
+        sendMail(" " + " leonardo.buitrago@cfiprovidencia.com " + " yamileth.collazos@cfiprovidencia.com " + fichaTecnicaActual.getElaborado().getCorreoUsuario(), subject, mensaje.toString());
     }
 
     private void sendMailRegistroModificacion() {
@@ -883,7 +902,7 @@ public class FtFichaTecnicaController implements Serializable {
         mensaje.append("\nOBSERVACIONES: ");
         mensaje.append(observaciones);
         mensaje.append("\n\nTodos los Derechos Reservados www.cfiprovidencia.com © 2017.");
-        sendMail("luis.cabal@cfiprovidencia.com " + " " + " yamileth.collazos@cfiprovidencia.com " + " " + fichaTecnicaActual.getElaborado().getCorreoUsuario() + " " + usuarioActual.getCorreoUsuario(), subject, mensaje.toString());
+        sendMail(" " + " " + " leonardo.collazos@cfiprovidencia.com " + " " + fichaTecnicaActual.getElaborado().getCorreoUsuario() + " " + usuarioActual.getCorreoUsuario(), subject, mensaje.toString());
     }
 
     private void addErrorMessage(String title, String msg) {
@@ -1092,7 +1111,7 @@ public class FtFichaTecnicaController implements Serializable {
             RequestContext.getCurrentInstance().showMessageInDialog(message);
         } else {
             //String newFileName = "//172.16.0.241/Volume_1/02FICHASTECNICAS/" + fichaTecnicaActual.getIdFtCliente().getNombre().toUpperCase() + "/" + fichaTecnicaActual.getIdItem() + "-logo.pdf";
-            String newFileName = "/root/alojamientoFichasImg/02FICHASTECNICAS/" + fichaTecnicaActual.getIdFtCliente().getNombre().toUpperCase() + "/" + fichaTecnicaActual.getIdItem() + "-logo.jpg";
+            String newFileName = "/root/alojamientoFichasImg/02FICHASTECNICAS/" + fichaTecnicaActual.getIdFtCliente().getNombre().toUpperCase() + "/" + fichaTecnicaActual.getIdItem() + "-logo.pdf";
 
             fichaTecnicaActual.setRutaFichaLogo(newFileName);
             FileImageOutputStream imageOutput;
@@ -1524,6 +1543,10 @@ public class FtFichaTecnicaController implements Serializable {
     public String prepareCreateModificaciones() {
         modificacionesActual = new FtModificaciones();
         return "modificacion/crear?faces-redirect=true";
+    }
+
+    public String prepareEditFotosLista() {
+        return "modificacion/editar?faces-redirect=true";
     }
 
     public String prepareViewModificaciones() {

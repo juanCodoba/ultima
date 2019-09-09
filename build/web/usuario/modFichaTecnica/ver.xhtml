@@ -89,7 +89,7 @@
                     <p:graphicImage  value="#{ftFichaTecnica.imgC4}" width="100%" />
                 </p:overlayPanel>
                 <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-12">
                         <div class="head">
                             <h2 class="titulo1">#{ftFichaTecnica.fichaTecnicaActual.descripcionCorta}</h2>
                             <h3 class="titulo2">COD. ITEM: #{ftFichaTecnica.fichaTecnicaActual.idItem}</h3>       
@@ -193,13 +193,6 @@
                                         <div style="    border-bottom-style: groove;">
                                             <h:outputLabel class="labelInfo" >Union de los Hombros: </h:outputLabel><br></br>
                                             <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.unionHombros}"  rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.camiseta)}"  />
-                                        </div>
-                                    </ui:fragment>
-
-                                    <ui:fragment rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.camiseta)}"  >
-                                        <div style="    border-bottom-style: groove;">
-                                            <h:outputLabel class="labelInfo" >Union de las Mangas: </h:outputLabel><br></br>
-                                            <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.unionMangas}"  rendered="#{ ftFichaTecnica.camibuso || (ftFichaTecnica.camiseta)}"  />
                                         </div>
                                     </ui:fragment>
 
@@ -572,8 +565,11 @@
 
                                     <ui:fragment   >
                                         <div style="    border-bottom-style: groove;">
-                                            <h:outputLabel class="labelInfo" >Logo </h:outputLabel><br></br>
+                                            <h:outputLabel class="labelInfo" >Bordado </h:outputLabel><br></br>
                                             <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.descripcionLogo}"  />
+                                        </div>
+                                        <div class="danger">
+                                            <p><strong>Nota!</strong> (La información de estampado y bordado, debe ser validada con la planilla de producción, ya que se pueden presentar pequeñas modificaciones eventuales.</p>
                                         </div>
                                     </ui:fragment>
 
@@ -686,75 +682,121 @@
                                     </span>
                                 </div> 
                             </div>
-                            <div class="contenedor1 contenedor2">
+                            <div class="contenedor1 contenedor2" style="    height: 211px !important;">
                                 <div class="tituloContenedor1">
                                     CRITERIOS DE ACEPTACIÓN O RECHAZO
                                 </div>
                                 <div class="cuerpoContenedor4">
-                                    <p class="parrafo-contenedor">
+                                    <p class="parrafo-contenedor" style="color: black !important">
                                         SE DEFINE COMO CRITERIOS DE TOLERANCIA, PARA LOS CONTORNOS TOTALES Y LARGOS +/-1 CM.
                                     </p>
-                                    <p class="parrafo-contenedor">
+                                    <p class="parrafo-contenedor" style="color: black !important">
                                         SE DEFINE COMO CRITERIOS DE TOLERANCIA, PARA LOS TIROS +/- 1CM.
                                     </p>
                                 </div> 
-                                <div class="form-group col-md-3">
-                                    <div class="img-bordered"  style="text-align: center !important;">
-                                        <p:graphicImage style="cursor:pointer" cache="false" class="img-responsive" id="fto" value="#{ftFichaTecnica.fotLava}">
-                                        </p:graphicImage>
-                                    </div>
-                                </div>  
+
+                            </div>
+                            <div class="form-group col-md-3">
+                                <div class="img-bordered"  style="text-align: center !important;">
+                                    <p:graphicImage style="cursor:pointer" cache="false" class="img-responsive"  value="#{ftFichaTecnica.fotLava}">
+                                    </p:graphicImage>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                    <style>
+                        /* styles unrelated to zoom */
+                        * { border:0; margin:0; padding:0; }
+
+                        /* these styles are for the demo, but are not required for the plugin */
+                        .zoom {
+                            display:inline-block;
+                            position: relative;
+                        }
+
+                        /* magnifying glass icon */
+                        .zoom:after {
+                            content:'';
+                            display:block; 
+                            width:133px; 
+                            height:133px; 
+                            position:absolute; 
+                            top:0;
+                            right:0;
+                            background:url(icon.png);
+                        }
+
+                        .zoom img {
+                            display: block;
+                        }
+
+                        .zoom img::selection { background-color: transparent; }
+
+                        #ex2 img:hover { cursor: url(grab.cur), default; }
+                        #ex2 img:active { cursor: url(grabbed.cur), default; }
+                    </style>
+                    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+                    <script src='../../../resources/zoom-master/jquery.zoom.js'></script>
+                    <script>
+                        $(document).ready(function () {
+                            $('#ex1').zoom();
+                            $('#ex2').zoom();
+                            $('#ex3').zoom();
+                            $('#c2').zoom();
+                            $('#c3').zoom();
+                            $('#c4').zoom();
+
+                        });
+                    </script>
+                    <div class="col-md-12 ">
+                        <div class="col-md-6">
+                            <h:outputLabel value="Frontal:"  style="font-weight: bold; font-size: 1.2em; margin-top: 1em;display: block !important "/>
+                            <div class="img-bordered zoom" id="ex1"  style="text-align: center !important; width:530px !important; height:563px !important">
+                                <p:graphicImage  style="cursor:pointer" cache="false" class="img-responsive" id="f" value="#{ftFichaTecnica.imgF}">
+                                </p:graphicImage>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h:outputLabel value="Posterior:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em;display: block !important"/>
+                            <div class="img-bordered zoom" id="ex2" style="text-align: center !important; width:530px !important; height:563px !important">
+                                <p:graphicImage  style="cursor:pointer" cache="false" class="img-responsive" id="p" value="#{ftFichaTecnica.imgP}">
+                                </p:graphicImage>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 ">
+                    <div class="col-md-12">
                         <div class="col-md-6">
-                            <h:outputLabel value="Frontal:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em"/>
-                            <div class="img-bordered"  style="text-align: center !important;">
-                                <p:graphicImage style="cursor:pointer" cache="false" class="img-responsive" id="f" value="#{ftFichaTecnica.imgF}">
+                            <h:outputLabel value="Caracteristica 1:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em;display: block !important"/>
+                            <div class="img-bordered zoom" id="ex3"  style="text-align: center !important;width:440px !important; height:361px !important">
+                                <p:graphicImage   style="cursor:pointer;width:440px !important; height:361px !important" cache="false" class="img-responsive" id="c1" value="#{ftFichaTecnica.imgC1}">
                                 </p:graphicImage>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <h:outputLabel value="Posterior:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em"/>
-                            <div class="img-bordered" style="text-align: center !important;">
-                                <p:graphicImage style="cursor:pointer" cache="false" class="img-responsive" id="p" value="#{ftFichaTecnica.imgP}">
+                            <h:outputLabel value="Caracteristica 2:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em;display: block !important"/>
+                            <div class="img-bordered zoom"  id="ex4" style="text-align: center !important; width:440px !important; height:361px !important">
+                                <p:graphicImage style="cursor:pointer;width:440px !important; height:361px !important" cache="false" class="img-responsive" id="c2" value="#{ftFichaTecnica.imgC2}">
                                 </p:graphicImage>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="col-md-3">
-                            <h:outputLabel value="Caracteristica 1:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em"/>
-                            <div class="img-bordered"  style="text-align: center !important;">
-                                <p:graphicImage style="cursor:pointer" cache="false" class="img-responsive" id="c1" value="#{ftFichaTecnica.imgC1}">
+                        <div class="col-md-6">
+                            <h:outputLabel value="Caracteristica 3:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em;display: block !important"/>
+                            <div class="img-bordered zoom" id="ex5" style="text-align: center !important;width:440px !important; height:361px !important">
+                                <p:graphicImage   style="cursor:pointer;width:440px !important; height:361px !important" cache="false" class="img-responsive" id="c3" value="#{ftFichaTecnica.imgC3}">
                                 </p:graphicImage>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <h:outputLabel value="Caracteristica 2:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em"/>
-                            <div class="img-bordered"  style="text-align: center !important;">
-                                <p:graphicImage style="cursor:pointer" cache="false" class="img-responsive" id="c2" value="#{ftFichaTecnica.imgC2}">
-                                </p:graphicImage>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <h:outputLabel value="Caracteristica 3:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em"/>
-                            <div class="img-bordered"  style="text-align: center !important;">
-                                <p:graphicImage style="cursor:pointer" cache="false" class="img-responsive" id="c3" value="#{ftFichaTecnica.imgC3}">
-                                </p:graphicImage>
-                            </div>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <h:outputLabel value="Caracteristica 4:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em"/>
-                            <div class="img-bordered" style="text-align: center !important;">
-                                <p:graphicImage style="cursor:pointer" cache="false" class="img-responsive" id="c4" value="#{ftFichaTecnica.imgC4}">
+                        <div class="col-md-6">
+                            <h:outputLabel value="Caracteristica 4:" style="font-weight: bold; font-size: 1.2em; margin-top: 1em;display: block !important"/>
+                            <div class="img-bordered zoom" id="ex6" style="text-align: center !important; width:440px !important; height:361px !important">
+                                <p:graphicImage style="cursor:pointer;width:440px !important; height:361px !important" cache="false" class="img-responsive" id="c4" value="#{ftFichaTecnica.imgC4}">
                                 </p:graphicImage>
                             </div>
                         </div>
 
+
                     </div>
-                    <div class="col-md-6" style="margin-top: 1em">
+                    <div class="col-md-12" style="margin-top: 1em">
                         <div class="row form-group" style="text-align: center">
                             <div class="cuerpo-elaborado">
                                 <div class="contenedorElaborado form-group">
@@ -802,7 +844,8 @@
                             <div class="col-sm-4 form-group">
                                 <p:commandButton id="boton-print" style="width: 100%;height: 40px" value="Descargar" icon="fa fa-file-photo-o"
                                                  action="#{ftFichaTecnica.createFichaPDFCliente}"
-                                                 onclick="target = '_blank';PF('descarga').hide();"
+                                                 onclick="target = '_blank';
+                                                         PF('descarga').hide();"
                                                  ajax="false" rendered="#{loginController.fichaTecnicaPRINT}">
                                 </p:commandButton>
                             </div>

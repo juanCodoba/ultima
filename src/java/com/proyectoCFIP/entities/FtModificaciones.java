@@ -54,17 +54,12 @@ public class FtModificaciones implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id_modificaciones")
     private Integer idModificaciones;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "pqs")
     private String pqs;
     @Basic(optional = false)
-    @NotNull
-    @Lob
     @Size(min = 1, max = 2147483647)
     @Column(name = "descripcion")
     private String descripcion;

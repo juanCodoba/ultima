@@ -529,6 +529,7 @@ public class ReservaLibrosController implements Serializable {
 //                RequestContext.getCurrentInstance().showMessageInDialog(message);
 //                return "/usuario/modBiblioteca/ListarLibro/lista";
 //            } 
+
             reservaLibActual.setIdBibliotecario(usuarioActual);
             reservaLibActual.setActivo(Boolean.TRUE);
             reservaLibActual.setAhora(new java.util.Date());

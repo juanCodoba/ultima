@@ -91,27 +91,15 @@
                                         </h:outputText>
                                     </p:column>
                                 </p:dataTable>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- FINAL REPORTE DE REMISIONES -->
-                    <!-- INICIO REPORTE DE REMISIONES -->
-                    <div class="col-xs-6">
-                        <div class=" panel panel-primary" >
-                            <div class="panel-heading" >
-                                <h4 class="letra-panelDescriEdu">remisiones dia  al dia   <h:outputText value="#{facturasSiesaController.fecha4}">
-                                        <f:convertDateTime pattern="MMMM dd, yyyy" />
+                                <p:dataTable var="OpaloItems" value="#{facturasSiesaController.listaT350ReporteDiaAnteriorTotalRemi}" widgetVar="carsTable"
+                                             emptyMessage="sin remisiones el dia anterior"
 
-                                    </h:outputText></h4>
-                            </div>
-                            <div class="panel-body" style="width: 100%">
-                                <p:dataTable var="OpaloItems" value="#{facturasSiesaController.listaT350ReporteDiaActualRemi}" widgetVar="carsTable"
-                                             emptyMessage="sin remisiones al dia "
                                              >
-                                    <p:column sortBy="#{OpaloItems.cliente}" headerText="Unidad de Negocio">
-                                        <h:outputText value="#{OpaloItems.cliente}" />
+                                    <p:column >
+                                        <h:outputText value="TOTAL "  >
+                                        </h:outputText>
                                     </p:column>
-                                    <p:column sortBy="#{OpaloItems.total}" headerText="Total" style="    text-align: right;" >
+                                    <p:column   style="    text-align: right;" >
                                         <h:outputText value="#{OpaloItems.total}" style="text-align:right">
                                             <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
                                         </h:outputText>
@@ -121,6 +109,73 @@
                         </div>
                     </div>
                     <!-- FINAL REPORTE DE REMISIONES -->
+                    <!-- INICIO REPORTE DE REMISIONES -->
+                    <div class="col-xs-6">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading" >
+                                <h4 class="letra-panelDescriEdu">remisiones al dia   <h:outputText value="#{facturasSiesaController.fecha4}">
+                                        <f:convertDateTime pattern="MMMM dd, yyyy" />
+
+                                    </h:outputText></h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <p:dataTable var="OpaloItems" value="#{facturasSiesaController.listaT350ReporteDiaActualRemi}" widgetVar="carsTable"
+                                             emptyMessage="sin remisiones al dia "
+                                             >
+                                    <p:column  headerText="Unidad de Negocio">
+                                        <h:outputText value="#{OpaloItems.cliente}" />
+                                    </p:column>
+                                    <p:column sortBy="#{OpaloItems.total}" headerText="Total" style="    text-align: right;" >
+                                        <h:outputText value="#{OpaloItems.total}" style="text-align:right">
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:dataTable var="OpaloItems" value="#{facturasSiesaController.listaT350ReporteDiaActualTotalRemi}" widgetVar="carsTable"
+                                             emptyMessage="sin remisiones el dia anterior"
+
+                                             >
+                                    <p:column >
+                                        <h:outputText value="TOTAL "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column   style="    text-align: right;" >
+                                        <h:outputText value="#{OpaloItems.total}" style="text-align:right">
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FINAL REPORTE DE REMISIONES -->
+                    
+                    <div class="col-xs-6">
+                        <div class=" panel panel-primary" >
+                            <div class="panel-heading" >
+                                <h4 class="letra-panelDescriEdu">remisiones al dia   <h:outputText value="#{facturasSiesaController.fecha4}">
+                                        <f:convertDateTime pattern="MMMM dd, yyyy" />
+
+                                    </h:outputText></h4>
+                            </div>
+                            <div class="panel-body" style="width: 100%">
+                                <p:dataTable var="OpaloItems" value="#{facturasSiesaController.listaT350ReporteAcumuladoMesTotalRemi}" widgetVar="carsTable"
+                                             emptyMessage="sin remisiones el dia anterior"
+
+                                             >
+                                    <p:column >
+                                        <h:outputText value="TOTAL "  >
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column   style="    text-align: right;" >
+                                        <h:outputText value="#{OpaloItems.total}" style="text-align:right">
+                                            <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="col-xs-12">
                         <div class=" panel panel-primary" >
@@ -154,6 +209,10 @@
                                     <p:column filterBy="#{OpaloItems.cliente}"  filterMatchMode="contains">
                                         <f:facet  name="header">Cliente</f:facet>
                                         <h:outputText value="#{OpaloItems.cliente}" />
+                                    </p:column>
+                                    <p:column filterBy="#{OpaloItems.cCosto}"  filterMatchMode="contains">
+                                        <f:facet  name="header">Centro de Costo</f:facet>
+                                        <h:outputText value="#{OpaloItems.cCosto}" />
                                     </p:column>
                                     <p:column filterBy="#{OpaloItems.fecha}"  filterMatchMode="contains">
                                         <f:facet  name="header">Fecha de Entrega</f:facet>

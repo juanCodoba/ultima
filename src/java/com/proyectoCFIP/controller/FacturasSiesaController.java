@@ -95,6 +95,8 @@ public class FacturasSiesaController implements Serializable {
     public List<FacturasSiesaController> listaT350ReporteAnteriorExt;
     public List<FacturasSiesaController> listaT350ReporteAnteriorExtClientes;
     public List<FacturasSiesaController> listaT350ReporteAnteriorExtClientesTotal;
+    public List<FacturasSiesaController> listaTranscursoExte;
+    public List<FacturasSiesaController> listaTranscursoExteGrafica;
 
     //Diario Lista Confecciones 
     public List<FacturasSiesaController> listaT350ReporteDiarioConfecciones;
@@ -120,6 +122,8 @@ public class FacturasSiesaController implements Serializable {
     public List<FacturasSiesaController> listaT350ReporteAnteriorFTDH;
     public List<FacturasSiesaController> listaT350ReporteAnteriorFTDHClientes;
     public List<FacturasSiesaController> listaT350ReporteAnteriorFTDHClientesTotal;
+    public List<FacturasSiesaController> listaTranscursoFTDH;
+    public List<FacturasSiesaController> listaTranscursoFTDHGrafica;
 
     //Diario talleres industriales lista
     public List<FacturasSiesaController> listaT350ReporteAnteriorTallerIndustrialClientes;
@@ -129,9 +133,12 @@ public class FacturasSiesaController implements Serializable {
     public List<FacturasSiesaController> listaT350ReporteDiaActual;
     public List<FacturasSiesaController> listaT350ReporteDiaActualGrafica;
 
-    //Dia anterior remisiones
+    //Lista de remisiones
     public List<FacturasSiesaController> listaT350ReporteDiaAnteriorRemi;
     public List<FacturasSiesaController> listaT350ReporteDiaActualRemi;
+    public List<FacturasSiesaController> listaT350ReporteDiaAnteriorTotalRemi;
+    public List<FacturasSiesaController> listaT350ReporteDiaActualTotalRemi;
+    public List<FacturasSiesaController> listaT350ReporteAcumuladoMesTotalRemi;
 
     //Pendientes
     public List<FacturasSiesaController> listaPendientes;
@@ -144,10 +151,11 @@ public class FacturasSiesaController implements Serializable {
     private Date fecha4 = new java.util.Date();
     private Date fecha5;
 
-    public Integer totalExtencion = 86400000;
-    public Integer totalFTDH = 136989022;
-    public Integer totalBigBag = 83158498;
-    public Integer totalConfecciones = 1900000000;
+    //presupuestos mensuales /actualizables segun
+    public Integer totalExtencion = 97200000;
+    public Integer totalFTDH = 149520949;
+    public Integer totalBigBag = 108751461;
+    public Integer totalConfecciones = 1537191011;
 
     private Integer f350Rowid;
 
@@ -168,7 +176,10 @@ public class FacturasSiesaController implements Serializable {
 
     private String meses;
 
+    private String cCosto;
+
     private String notas;
+
     private BigDecimal total;
     private String Bodega;
 
@@ -254,6 +265,48 @@ public class FacturasSiesaController implements Serializable {
 
     }
 
+    public List<FacturasSiesaController> getListaT350ReporteAcumuladoMesTotalRemi() {
+        return listaT350ReporteAcumuladoMesTotalRemi;
+    }
+
+    public void setListaT350ReporteAcumuladoMesTotalRemi(List<FacturasSiesaController> listaT350ReporteAcumuladoMesTotalRemi) {
+        this.listaT350ReporteAcumuladoMesTotalRemi = listaT350ReporteAcumuladoMesTotalRemi;
+    }
+    
+    
+
+    public List<FacturasSiesaController> getListaTranscursoFTDH() {
+        return listaTranscursoFTDH;
+    }
+
+    public void setListaTranscursoFTDH(List<FacturasSiesaController> listaTranscursoFTDH) {
+        this.listaTranscursoFTDH = listaTranscursoFTDH;
+    }
+
+    public List<FacturasSiesaController> getListaTranscursoFTDHGrafica() {
+        return listaTranscursoFTDHGrafica;
+    }
+
+    public void setListaTranscursoFTDHGrafica(List<FacturasSiesaController> listaTranscursoFTDHGrafica) {
+        this.listaTranscursoFTDHGrafica = listaTranscursoFTDHGrafica;
+    }
+
+    public List<FacturasSiesaController> getListaT350ReporteDiaAnteriorTotalRemi() {
+        return listaT350ReporteDiaAnteriorTotalRemi;
+    }
+
+    public void setListaT350ReporteDiaAnteriorTotalRemi(List<FacturasSiesaController> listaT350ReporteDiaAnteriorTotalRemi) {
+        this.listaT350ReporteDiaAnteriorTotalRemi = listaT350ReporteDiaAnteriorTotalRemi;
+    }
+
+    public List<FacturasSiesaController> getListaT350ReporteDiaActualTotalRemi() {
+        return listaT350ReporteDiaActualTotalRemi;
+    }
+
+    public void setListaT350ReporteDiaActualTotalRemi(List<FacturasSiesaController> listaT350ReporteDiaActualTotalRemi) {
+        this.listaT350ReporteDiaActualTotalRemi = listaT350ReporteDiaActualTotalRemi;
+    }
+
     public BigDecimal getValorVisConfecciones() {
         return ValorVisConfecciones;
     }
@@ -284,6 +337,14 @@ public class FacturasSiesaController implements Serializable {
 
     public void setValorReConfecciones(BigDecimal ValorReConfecciones) {
         this.ValorReConfecciones = ValorReConfecciones;
+    }
+
+    public String getcCosto() {
+        return cCosto;
+    }
+
+    public void setcCosto(String cCosto) {
+        this.cCosto = cCosto;
     }
 
     public Integer getId() {
@@ -1223,6 +1284,23 @@ public class FacturasSiesaController implements Serializable {
 
     }
 
+    public List<FacturasSiesaController> getListaTranscursoExte() {
+        return listaTranscursoExte;
+    }
+
+    public void setListaTranscursoExte(List<FacturasSiesaController> listaTranscursoExte) {
+        this.listaTranscursoExte = listaTranscursoExte;
+    }
+
+    public List<FacturasSiesaController> getListaTranscursoExteGrafica() {
+        return listaTranscursoExteGrafica;
+    }
+
+    public void setListaTranscursoExteGrafica(List<FacturasSiesaController> listaTranscursoExteGrafica) {
+        this.listaTranscursoExteGrafica = listaTranscursoExteGrafica;
+    }
+//sin funcion alguna 
+
     public String prepareList() throws SQLException {
         recargarDatos(getFecha1(), getFecha2());
         recargarDatosGrafica(getFecha1(), getFecha2());
@@ -1231,6 +1309,10 @@ public class FacturasSiesaController implements Serializable {
         recargarDatosClientConfe();
         recargarDatosClientBiBag();
         recargarDatosClientExt();
+        recargarTranscursoMensualConfecci();
+        recargarTranscursoMensualBigBag();
+        recargarTranscursoMensualExtensionAc();
+        recargarTranscursoMensualFTDH();
         listarGlobal();
         recargarDatosClientConfeTotal();
         recargarDatosClientTalleresIndustrialesTotal();
@@ -1238,18 +1320,22 @@ public class FacturasSiesaController implements Serializable {
         recargarDatosClientFTDH();
         recargarDatosDiaAnteriorFTDH();
         recargarDatosDiaAnteriorExt();
-        recargarTranscursoMensualConfecci();
         return "Facturado";
     }
 
+//metodo publico para recarga de datos por consulta SQL pendientes por facturar a la fecha , mas remisiones 
     public String prepareListPendiente() throws SQLException, IOException {
         recargarDatosPendientes();
         recargarDatosPendientesTotal();
         recargarDatosRemicionDiaActual();
         recargarDatosRemicionDia();
+        recargarDatosRemicionTotalDia();
+        recargarDatosRemicionTotalDiaActual();
+        recargarDatosRemicionAcumulado();
 
         return "pendienteFacturar";
     }
+//metodo publico para recarga de datos por consulta SQL dia anterior 
 
     public String prepareDiario() throws SQLException, IOException {
 
@@ -1266,7 +1352,10 @@ public class FacturasSiesaController implements Serializable {
         recargarDatosFTDH();
         redondedoConfecciones();
         novedades();
-        listarModal();
+        recargarTranscursoMensualConfecci();
+        recargarTranscursoMensualBigBag();
+        recargarTranscursoMensualExtensionAc();
+        recargarTranscursoMensualFTDH();
         recargarDatosDiaAnualFTDH();
         recargarDatosDiaAnualExt();
         recargarDatosDiaAnteriorExt();
@@ -1276,13 +1365,15 @@ public class FacturasSiesaController implements Serializable {
         recargarDatosMenUni();
         recargarDatosMenUniTo();
         recargarDatosRemicionDia();
-        recargarTranscursoMensualConfecci();
-        recargarTranscursoMensualBigBag();
-
+        recargarDatosRemicionTotalDia();
+        recargarDatosRemicionTotalDiaActual();
+        listarModal();
+        recargarDatosRemicionAcumulado();
         return "/usuario/desayuno/reporte_diario";
 
     }
 
+//metodo publico para recarga de datos por consulta SQL dia actual
     public String prepareDiaActual() throws SQLException, IOException {
 
         recargarDatosDiario();
@@ -1298,7 +1389,10 @@ public class FacturasSiesaController implements Serializable {
         recargarDatosFTDH();
         novedades();
         redondedoConfecciones();
-        listarModal();
+        recargarTranscursoMensualConfecci();
+        recargarTranscursoMensualBigBag();
+        recargarTranscursoMensualExtensionAc();
+        recargarTranscursoMensualFTDH();
         recargarDatosDiaAnualFTDH();
         recargarDatosDiaAnualExt();
         recargarDatosDiaAnteriorExt();
@@ -1308,13 +1402,15 @@ public class FacturasSiesaController implements Serializable {
         recargarDatosMenUni();
         recargarDatosMenUniTo();
         recargarDatosRemicionDia();
-        recargarTranscursoMensualConfecci();
-        recargarTranscursoMensualBigBag();
-
+        recargarDatosRemicionTotalDia();
+        recargarDatosRemicionTotalDiaActual();
+        listarModal();
+        recargarDatosRemicionAcumulado();
         return "/usuario/desayuno/reporteDiaActual";
 
     }
 
+//novdades base de datos local.
     public List<FacturasSiesaController> novedades() throws SQLException {
         try {
 
@@ -1322,6 +1418,7 @@ public class FacturasSiesaController implements Serializable {
 
             ResultSet rs;
             String user = "root";
+            //String password = "1234";
             String password = "cfiprovidencia1";
             String con = "jdbc:mysql://localhost:3306/proyectocfip?user=" + user + "&password=" + password;
             Connection conn = DriverManager.getConnection(con);
@@ -1348,12 +1445,14 @@ public class FacturasSiesaController implements Serializable {
         return novedadFacturacionList;
     }
 
+//redondeo base de datos local.
     public List<FacturasSiesaController> redondedoConfecciones() throws SQLException {
         try {
             Statement stmt = null;
             ResultSet rs;
             String user = "root";
             String password = "cfiprovidencia1";
+            //String password = "1234";
             String con = "jdbc:mysql://localhost:3306/proyectocfip?user=" + user + "&password=" + password;
             Connection conn = DriverManager.getConnection(con);
             //Integer id = idProceso.getIdProceso();
@@ -1379,8 +1478,8 @@ public class FacturasSiesaController implements Serializable {
         return novedadFacturacionRedondeoList;
 
     }
-///Datos pagina reporte mensual lista 1
 
+//Datos pagina reporte mensual lista 1
     public void recargarDatos(Date fecha1, Date fecha2) throws SQLException {
         try {
             String con = "jdbc:sqlserver://169.55.122.37:20446;databaseName=UnoEE_CFIProvi_Real;User=cfiprovidencia;Password=Cfiprovidencia$12$%";
@@ -1547,20 +1646,22 @@ public class FacturasSiesaController implements Serializable {
             Statement stmt = null;
             ResultSet rs;
             PreparedStatement st = conn.prepareStatement("SELECT \n"
-                    + "f430_consec_docto,f430_num_docto_referencia,\n"
-                    + "f201_descripcion_sucursal,\n"
-                    + "f431_fecha_entrega,\n"
-                    + "SUM(f431_vlr_bruto) as total,\n"
-                    + "DATEDIFF(DAY , getdate(),f431_fecha_entrega) as atrazo\n"
-                    + "FROM dbo.t431_cm_pv_movto  \n"
-                    + "inner join dbo.t430_cm_pv_docto on dbo.t431_cm_pv_movto.f431_rowid_pv_docto = dbo.t430_cm_pv_docto.f430_rowid\n"
-                    + "inner join dbo.t201_mm_clientes on dbo.t430_cm_pv_docto.f430_rowid_tercero_fact = dbo.t201_mm_clientes.f201_rowid_tercero\n"
-                    + "where\n"
-                    + "f430_ind_estado = 2 and f431_ind_estado != 4 and\n"
-                    + "dbo.t431_cm_pv_movto.f431_fecha_entrega BETWEEN  DATEADD(yy,DATEDIFF(yy,0,GETDATE()),0) and DATEADD(dd,DATEDIFF(dd,0,GETDATE()),0)\n"
-                    + "GROUP BY \n"
-                    + "f430_consec_docto,f430_num_docto_referencia,\n"
-                    + "f201_descripcion_sucursal,f431_fecha_entrega order by f431_fecha_entrega ASC;");
+                    + "                                    f430_consec_docto,f430_num_docto_referencia,\n"
+                    + "                                     f201_descripcion_sucursal,\n"
+                    + "                                        f431_fecha_entrega,\n"
+                    + "                                     f284_descripcion,\n"
+                    + "                                      SUM(f431_vlr_bruto) as total,\n"
+                    + "                                      DATEDIFF(DAY , getdate(),f431_fecha_entrega) as atrazo\n"
+                    + "                                        FROM dbo.t431_cm_pv_movto\n"
+                    + "                                        inner join dbo.t430_cm_pv_docto on dbo.t431_cm_pv_movto.f431_rowid_pv_docto = dbo.t430_cm_pv_docto.f430_rowid\n"
+                    + "                                       inner join dbo.t284_co_ccosto on dbo.t431_cm_pv_movto.f431_rowid_ccosto_movto = dbo.t284_co_ccosto.f284_rowid\n"
+                    + "                                       inner join dbo.t201_mm_clientes on dbo.t430_cm_pv_docto.f430_rowid_tercero_fact = dbo.t201_mm_clientes.f201_rowid_tercero\n"
+                    + "                                       where\n"
+                    + "                                       f430_ind_estado = 2  and\n"
+                    + "                                      dbo.t431_cm_pv_movto.f431_fecha_entrega BETWEEN  DATEADD(yy,DATEDIFF(yy,0,GETDATE()),0) and DATEADD(dd,DATEDIFF(dd,0,GETDATE()),0)\n"
+                    + "                                       GROUP BY \n"
+                    + "                                      f430_consec_docto,f430_num_docto_referencia,f284_descripcion,\n"
+                    + "                                     f201_descripcion_sucursal,f431_fecha_entrega order by f431_fecha_entrega ASC;");
 
             listaPendientes = new ArrayList<>();
             rs = st.executeQuery();
@@ -1570,6 +1671,7 @@ public class FacturasSiesaController implements Serializable {
                 itemF350coDoctoContable30.setF350OrdenCompra(rs.getString("f430_num_docto_referencia"));
                 itemF350coDoctoContable30.setCliente(rs.getString("f201_descripcion_sucursal"));
                 itemF350coDoctoContable30.setFecha(rs.getDate("f431_fecha_entrega"));
+                itemF350coDoctoContable30.setcCosto(rs.getString("f284_descripcion"));
                 itemF350coDoctoContable30.setAtrazo(rs.getInt("atrazo"));
                 itemF350coDoctoContable30.setTotal(rs.getBigDecimal("total"));
                 listaPendientes.add(itemF350coDoctoContable30);
@@ -1596,7 +1698,7 @@ public class FacturasSiesaController implements Serializable {
                     + "inner join dbo.t430_cm_pv_docto on dbo.t431_cm_pv_movto.f431_rowid_pv_docto = dbo.t430_cm_pv_docto.f430_rowid\n"
                     + "inner join dbo.t201_mm_clientes on dbo.t430_cm_pv_docto.f430_rowid_tercero_fact = dbo.t201_mm_clientes.f201_rowid_tercero\n"
                     + "where\n"
-                    + "f430_ind_estado = 2 and  f431_ind_estado != 4 and\n"
+                    + "f430_ind_estado = 2  and\n"
                     + "dbo.t431_cm_pv_movto.f431_fecha_entrega BETWEEN  DATEADD(yy,DATEDIFF(yy,0,GETDATE()),0) and DATEADD(dd,DATEDIFF(dd,0,GETDATE()),0)\n"
                     + ";");
 
@@ -1963,8 +2065,7 @@ public class FacturasSiesaController implements Serializable {
 
         Connection conn = DriverManager.getConnection(con);
         Statement stmt = null;
-        String sql = "SELECT\n"
-                + "SUM(f470_vlr_bruto) AS total,\n"
+        String sql = "SELECT SUM(CASE dbo.t461_cm_docto_factura_venta.f461_id_moneda_docto WHEN 'US' THEN f470_vlr_bruto else 0 end )*3194 + SUM(f470_vlr_bruto) AS total,\n"
                 + "f284_descripcion\n"
                 + "FROM dbo.t350_co_docto_contable \n"
                 + "inner join dbo.t461_cm_docto_factura_venta on dbo.t350_co_docto_contable.f350_rowid = dbo.t461_cm_docto_factura_venta.f461_rowid_docto\n"
@@ -2009,7 +2110,7 @@ public class FacturasSiesaController implements Serializable {
         Connection conn = DriverManager.getConnection(con);
         Statement stmt = null;
         String sql = "SELECT\n"
-                + "  SUM(f470_vlr_bruto)  / 22833061320 *100 as total    \n"
+                + "  SUM(f470_vlr_bruto) / 22833061320 *100 as total    \n"
                 + "\n"
                 + "FROM dbo.t350_co_docto_contable \n"
                 + "inner join dbo.t461_cm_docto_factura_venta on dbo.t350_co_docto_contable.f350_rowid = dbo.t461_cm_docto_factura_venta.f461_rowid_docto\n"
@@ -2087,7 +2188,7 @@ public class FacturasSiesaController implements Serializable {
             Connection conn = DriverManager.getConnection(con);
             Statement stmt = null;
             ResultSet rs;
-            PreparedStatement st = conn.prepareStatement("SELECT SUM(f470_vlr_bruto) AS total "
+            PreparedStatement st = conn.prepareStatement("SELECT SUM(CASE dbo.t461_cm_docto_factura_venta.f461_id_moneda_docto WHEN 'US' THEN f470_vlr_bruto else 0 end )*3194 + SUM(f470_vlr_bruto) AS total "
                     + "FROM dbo.t350_co_docto_contable inner join dbo.t461_cm_docto_factura_venta on dbo.t350_co_docto_contable.f350_rowid = dbo.t461_cm_docto_factura_venta.f461_rowid_docto"
                     + " inner join dbo.t470_cm_movto_invent on  dbo.t461_cm_docto_factura_venta.f461_rowid_docto = dbo.t470_cm_movto_invent.f470_rowid_docto_fact"
                     + " inner join dbo.t284_co_ccosto on dbo.t470_cm_movto_invent.f470_rowid_ccosto_movto = dbo.t284_co_ccosto.f284_rowid "
@@ -2338,7 +2439,7 @@ public class FacturasSiesaController implements Serializable {
             Connection conn = DriverManager.getConnection(con);
             Statement stmt = null;
             ResultSet rs;
-            PreparedStatement st = conn.prepareStatement("SELECT          SUM(f470_vlr_bruto)  as total\n"
+            PreparedStatement st = conn.prepareStatement("SELECT SUM(f470_vlr_bruto) + SUM(CASE dbo.t461_cm_docto_factura_venta.f461_id_moneda_docto WHEN 'US' THEN f470_vlr_bruto else 0 end )*3194  as total\n"
                     + "                FROM dbo.t350_co_docto_contable \n"
                     + "                inner join dbo.t461_cm_docto_factura_venta on dbo.t350_co_docto_contable.f350_rowid = dbo.t461_cm_docto_factura_venta.f461_rowid_docto\n"
                     + "                inner join dbo.t470_cm_movto_invent on  dbo.t461_cm_docto_factura_venta.f461_rowid_docto = dbo.t470_cm_movto_invent.f470_rowid_docto_fact\n"
@@ -2462,15 +2563,16 @@ public class FacturasSiesaController implements Serializable {
             Connection conn = DriverManager.getConnection(con);
             Statement stmt = null;
             ResultSet rs;
-            PreparedStatement st = conn.prepareStatement("SELECT          SUM(f470_vlr_bruto)  as total\n"
-                    + "                FROM dbo.t350_co_docto_contable \n"
-                    + "                inner join dbo.t461_cm_docto_factura_venta on dbo.t350_co_docto_contable.f350_rowid = dbo.t461_cm_docto_factura_venta.f461_rowid_docto\n"
-                    + "                inner join dbo.t470_cm_movto_invent on  dbo.t461_cm_docto_factura_venta.f461_rowid_docto = dbo.t470_cm_movto_invent.f470_rowid_docto_fact\n"
-                    + "                inner join dbo.t284_co_ccosto on dbo.t470_cm_movto_invent.f470_rowid_ccosto_movto = dbo.t284_co_ccosto.f284_rowid\n"
-                    + "                inner join dbo.t281_co_unidades_negocio on dbo.t284_co_ccosto.f284_id_un = dbo.t281_co_unidades_negocio.f281_id\n"
-                    + "                inner join dbo.t200_mm_terceros on dbo.t350_co_docto_contable.f350_rowid_tercero = dbo.t200_mm_terceros.f200_rowid\n"
-                    + "                where dbo.t350_co_docto_contable.f350_id_tipo_docto = 'FV '  and f284_descripcion = 'CURSOS DE EXTENSION ACADEMICA'  and\n"
-                    + "                 dbo.t350_co_docto_contable.f350_fecha BETWEEN DATEADD(d,-2,GETDATE()) AND DATEADD(d,-1,GETDATE())\n"
+            PreparedStatement st = conn.prepareStatement("SELECT\n"
+                    + "SUM(f470_vlr_bruto) + SUM(CASE dbo.t461_cm_docto_factura_venta.f461_id_moneda_docto WHEN 'US' THEN f470_vlr_bruto else 0 end )*3194  as total,f284_descripcion\n"
+                    + "FROM dbo.t350_co_docto_contable \n"
+                    + "inner join dbo.t461_cm_docto_factura_venta on dbo.t350_co_docto_contable.f350_rowid = dbo.t461_cm_docto_factura_venta.f461_rowid_docto\n"
+                    + "inner join dbo.t470_cm_movto_invent on  dbo.t461_cm_docto_factura_venta.f461_rowid_docto = dbo.t470_cm_movto_invent.f470_rowid_docto_fact\n"
+                    + "inner join dbo.t284_co_ccosto on dbo.t470_cm_movto_invent.f470_rowid_ccosto_movto = dbo.t284_co_ccosto.f284_rowid\n"
+                    + "where dbo.t350_co_docto_contable.f350_id_tipo_docto = 'FV '  AND f284_descripcion LIKE 'CURSOS DE EXTENSION ACADEMICA%' \n"
+                    + "and \n"
+                    + " dbo.t350_co_docto_contable.f350_fecha BETWEEN DATEADD(d,-2,GETDATE()) AND DATEADD(d,-1,GETDATE())\n"
+                    + "GROUP by f284_descripcion\n"
                     + "                ;");
 
             listaT350ReporteAnteriorExt = new ArrayList<>();
@@ -2491,7 +2593,7 @@ public class FacturasSiesaController implements Serializable {
         String con = "jdbc:sqlserver://169.55.122.37:20446;databaseName=UnoEE_CFIProvi_Real;User=cfiprovidencia;Password=Cfiprovidencia$12$%";
         Connection conn = DriverManager.getConnection(con);
         Statement stmt = null;
-        String sql = "SELECT          SUM(f470_vlr_bruto)  as total,f281_descripcion\n"
+        String sql = "SELECT SUM(f470_vlr_bruto) + SUM(CASE dbo.t461_cm_docto_factura_venta.f461_id_moneda_docto WHEN 'US' THEN f470_vlr_bruto else 0 end )*3194  as total,f281_descripcion\n"
                 + "                FROM dbo.t350_co_docto_contable \n"
                 + "                inner join dbo.t461_cm_docto_factura_venta on dbo.t350_co_docto_contable.f350_rowid = dbo.t461_cm_docto_factura_venta.f461_rowid_docto\n"
                 + "                inner join dbo.t470_cm_movto_invent on  dbo.t461_cm_docto_factura_venta.f461_rowid_docto = dbo.t470_cm_movto_invent.f470_rowid_docto_fact\n"
@@ -2579,6 +2681,107 @@ public class FacturasSiesaController implements Serializable {
                 itemF350coDoctoContable27.setCliente(rs.getString("f200_razon_social"));
                 itemF350coDoctoContable27.setTotal(rs.getBigDecimal("total"));
                 listaT350ReporteDiaAnteriorRemi.add(itemF350coDoctoContable27);
+
+            }
+        } catch (Exception e) {
+            System.out.println("error" + e);
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+
+        return listaT350ReporteDiaAnteriorRemi;
+    }
+    ///datos remisiones por terceros unidad de negocio 27
+    public List<FacturasSiesaController> recargarDatosRemicionAcumulado() throws SQLException, IOException {
+        String con = "jdbc:sqlserver://169.55.122.37:20446;databaseName=UnoEE_CFIProvi_Real;User=cfiprovidencia;Password=Cfiprovidencia$12$%";
+        Connection conn = DriverManager.getConnection(con);
+        Statement stmt = null;
+        String sql = "SELECT          SUM(f470_vlr_bruto)  as total\n" +
+"                                FROM dbo.t470_cm_movto_invent\n" +
+"                                inner join dbo.t350_co_docto_contable on  dbo.t470_cm_movto_invent.f470_rowid_docto = dbo.t350_co_docto_contable.f350_rowid \n" +
+"                                inner join dbo.t200_mm_terceros on dbo.t350_co_docto_contable.f350_rowid_tercero = dbo.t200_mm_terceros.f200_rowid\n" +
+"                                where dbo.t470_cm_movto_invent.f470_ind_estado_cm = 3  and f470_id_motivo = 01 and f200_razon_social != 'CENTRO DE FORMACION INTEGRAL PROVIDENCIA' and  \n" +
+"                              dbo.t350_co_docto_contable.f350_fecha BETWEEN DATEADD(mm,DATEDIFF(mm,0,GETDATE()),0) and DATEADD(ms,-3,DATEADD(mm,0,DATEADD(mm,DATEDIFF(mm,0,GETDATE())+1,0)));";
+        listaT350ReporteAcumuladoMesTotalRemi = new ArrayList<>();
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                FacturasSiesaController itemF350coDoctoContable27 = new FacturasSiesaController();
+                itemF350coDoctoContable27.setTotal(rs.getBigDecimal("total"));
+                listaT350ReporteAcumuladoMesTotalRemi.add(itemF350coDoctoContable27);
+
+            }
+        } catch (Exception e) {
+            System.out.println("error" + e);
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+
+        return listaT350ReporteAcumuladoMesTotalRemi;
+    }
+    
+    
+
+///datos remisiones por terceros unidad de negocio 35
+    public List<FacturasSiesaController> recargarDatosRemicionTotalDia() throws SQLException, IOException {
+        String con = "jdbc:sqlserver://169.55.122.37:20446;databaseName=UnoEE_CFIProvi_Real;User=cfiprovidencia;Password=Cfiprovidencia$12$%";
+        Connection conn = DriverManager.getConnection(con);
+        Statement stmt = null;
+        String sql = "SELECT          SUM(f470_vlr_bruto)  as total,f470_ind_estado_cm\n"
+                + "                              FROM dbo.t470_cm_movto_invent\n"
+                + "                              inner join dbo.t350_co_docto_contable on  dbo.t470_cm_movto_invent.f470_rowid_docto = dbo.t350_co_docto_contable.f350_rowid \n"
+                + "                               inner join dbo.t200_mm_terceros on dbo.t350_co_docto_contable.f350_rowid_tercero = dbo.t200_mm_terceros.f200_rowid\n"
+                + "                                where dbo.t470_cm_movto_invent.f470_ind_estado_cm = 3 AND f470_rowid_bodega = 3 and f470_id_motivo = 01 and f200_razon_social != 'CENTRO DE FORMACION INTEGRAL PROVIDENCIA' and  \n"
+                + "                              dbo.t350_co_docto_contable.f350_fecha BETWEEN DATEADD(d,-2,GETDATE()) AND DATEADD(d,-1,GETDATE()) \n"
+                + "                               group by f470_ind_estado_cm;";
+        listaT350ReporteDiaAnteriorTotalRemi = new ArrayList<>();
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                FacturasSiesaController itemF350coDoctoContable35 = new FacturasSiesaController();
+                itemF350coDoctoContable35.setCliente(rs.getString("f470_ind_estado_cm"));
+                itemF350coDoctoContable35.setTotal(rs.getBigDecimal("total"));
+                listaT350ReporteDiaAnteriorTotalRemi.add(itemF350coDoctoContable35);
+
+            }
+        } catch (Exception e) {
+            System.out.println("error" + e);
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+
+        return listaT350ReporteDiaAnteriorTotalRemi;
+    }
+
+///datos remisiones por terceros unidad de negocio 36
+    public List<FacturasSiesaController> recargarDatosRemicionTotalDiaActual() throws SQLException, IOException {
+        String con = "jdbc:sqlserver://169.55.122.37:20446;databaseName=UnoEE_CFIProvi_Real;User=cfiprovidencia;Password=Cfiprovidencia$12$%";
+        Connection conn = DriverManager.getConnection(con);
+        Statement stmt = null;
+        String sql = "SELECT        SUM(f470_vlr_bruto)  as total,f470_ind_estado_cm\n"
+                + "                               FROM dbo.t470_cm_movto_invent\n"
+                + "                               inner join dbo.t350_co_docto_contable on  dbo.t470_cm_movto_invent.f470_rowid_docto = dbo.t350_co_docto_contable.f350_rowid \n"
+                + "                               inner join dbo.t200_mm_terceros on dbo.t350_co_docto_contable.f350_rowid_tercero = dbo.t200_mm_terceros.f200_rowid\n"
+                + "                                where dbo.t470_cm_movto_invent.f470_ind_estado_cm = 3 AND f470_rowid_bodega = 3 and f470_id_motivo = 01 and f200_razon_social != 'CENTRO DE FORMACION INTEGRAL PROVIDENCIA' and  \n"
+                + "                             dbo.t350_co_docto_contable.f350_fecha BETWEEN DATEADD(dd,DATEDIFF(dd,0,GETDATE()),0) and DATEADD(ms,-3,DATEADD(dd,DATEDIFF(dd,0,GETDATE()),1))\n"
+                + "                               group by f470_ind_estado_cm;";
+        listaT350ReporteDiaActualTotalRemi = new ArrayList<>();
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                FacturasSiesaController itemF350coDoctoContable36 = new FacturasSiesaController();
+                itemF350coDoctoContable36.setCliente(rs.getString("f470_ind_estado_cm"));
+                itemF350coDoctoContable36.setTotal(rs.getBigDecimal("total"));
+                listaT350ReporteDiaActualTotalRemi.add(itemF350coDoctoContable36);
 
             }
         } catch (Exception e) {
@@ -2699,7 +2902,75 @@ public class FacturasSiesaController implements Serializable {
             System.out.println("error" + e);
         }
     }
-    //////////////////////////fin /////////////////////////////////////
+
+    public void recargarTranscursoMensualExtensionAc() throws SQLException {
+        try {
+            String con = "jdbc:sqlserver://169.55.122.37:20446;databaseName=UnoEE_CFIProvi_Real;User=cfiprovidencia;Password=Cfiprovidencia$12$%";
+            Connection conn = DriverManager.getConnection(con);
+            Statement stmt = null;
+            ResultSet rs;
+            PreparedStatement st = conn.prepareStatement("SELECT  DATEPART(month, f350_fecha) as mes,\n"
+                    + "                    SUM(f470_vlr_bruto) as total,f284_descripcion\n"
+                    + "                    FROM dbo.t350_co_docto_contable \n"
+                    + "                    inner join dbo.t461_cm_docto_factura_venta on dbo.t350_co_docto_contable.f350_rowid = dbo.t461_cm_docto_factura_venta.f461_rowid_docto\n"
+                    + "                    inner join dbo.t470_cm_movto_invent on  dbo.t461_cm_docto_factura_venta.f461_rowid_docto = dbo.t470_cm_movto_invent.f470_rowid_docto_fact\n"
+                    + "                    inner join dbo.t284_co_ccosto on dbo.t470_cm_movto_invent.f470_rowid_ccosto_movto = dbo.t284_co_ccosto.f284_rowid\n"
+                    + "                    inner join dbo.t281_co_unidades_negocio on dbo.t284_co_ccosto.f284_id_un = dbo.t281_co_unidades_negocio.f281_id\n"
+                    + "                    inner join dbo.t200_mm_terceros on dbo.t350_co_docto_contable.f350_rowid_tercero = dbo.t200_mm_terceros.f200_rowid\n"
+                    + "                    where dbo.t350_co_docto_contable.f350_id_tipo_docto = 'FV '  and f284_descripcion = 'CURSOS DE EXTENSION ACADEMICA'\n"
+                    + "                    and dbo.t350_co_docto_contable.f350_fecha BETWEEN DATEADD(yy,DATEDIFF(yy,0,GETDATE()),0) and DATEADD(ms,-3,DATEADD(yy,0,DATEADD(yy,DATEDIFF(yy,0,GETDATE())+1,0)))\n"
+                    + "                    GROUP by DATEPART(month, f350_fecha),  f284_descripcion");
+
+            listaTranscursoExte = new ArrayList<>();
+            rs = st.executeQuery();
+
+            while (rs.next()) {
+                FacturasSiesaController itemF350coDoctoContable36 = new FacturasSiesaController();
+                itemF350coDoctoContable36.setMeses(rs.getString("mes"));
+                itemF350coDoctoContable36.setTotal(rs.getBigDecimal("total"));
+                itemF350coDoctoContable36.setDescrip(rs.getString("f284_descripcion"));
+
+                listaTranscursoExte.add(itemF350coDoctoContable36);
+
+            }
+        } catch (Exception e) {
+            System.out.println("error" + e);
+        }
+    }
+
+    public void recargarTranscursoMensualFTDH() throws SQLException {
+        try {
+            String con = "jdbc:sqlserver://169.55.122.37:20446;databaseName=UnoEE_CFIProvi_Real;User=cfiprovidencia;Password=Cfiprovidencia$12$%";
+            Connection conn = DriverManager.getConnection(con);
+            Statement stmt = null;
+            ResultSet rs;
+            PreparedStatement st = conn.prepareStatement("SELECT  DATEPART(month, f350_fecha) as mes,\n"
+                    + "                    SUM(f470_vlr_bruto) as total\n"
+                    + "                    FROM dbo.t350_co_docto_contable \n"
+                    + "                    inner join dbo.t461_cm_docto_factura_venta on dbo.t350_co_docto_contable.f350_rowid = dbo.t461_cm_docto_factura_venta.f461_rowid_docto\n"
+                    + "                    inner join dbo.t470_cm_movto_invent on  dbo.t461_cm_docto_factura_venta.f461_rowid_docto = dbo.t470_cm_movto_invent.f470_rowid_docto_fact\n"
+                    + "                    inner join dbo.t284_co_ccosto on dbo.t470_cm_movto_invent.f470_rowid_ccosto_movto = dbo.t284_co_ccosto.f284_rowid\n"
+                    + "                    inner join dbo.t281_co_unidades_negocio on dbo.t284_co_ccosto.f284_id_un = dbo.t281_co_unidades_negocio.f281_id\n"
+                    + "                    inner join dbo.t200_mm_terceros on dbo.t350_co_docto_contable.f350_rowid_tercero = dbo.t200_mm_terceros.f200_rowid\n"
+                    + "                    where dbo.t350_co_docto_contable.f350_id_tipo_docto = 'FV '  and f284_descripcion LIKE 'EDUCACIÓN PARA EL TRA%'\n"
+                    + "                    and dbo.t350_co_docto_contable.f350_fecha BETWEEN DATEADD(yy,DATEDIFF(yy,0,GETDATE()),0) and DATEADD(ms,-3,DATEADD(yy,0,DATEADD(yy,DATEDIFF(yy,0,GETDATE())+1,0)))\n"
+                    + "                    GROUP by DATEPART(month, f350_fecha)");
+
+            listaTranscursoFTDH = new ArrayList<>();
+            rs = st.executeQuery();
+
+            while (rs.next()) {
+                FacturasSiesaController itemF350coDoctoContable37 = new FacturasSiesaController();
+                itemF350coDoctoContable37.setMeses(rs.getString("mes"));
+                itemF350coDoctoContable37.setTotal(rs.getBigDecimal("total"));
+                listaTranscursoFTDH.add(itemF350coDoctoContable37);
+
+            }
+        } catch (Exception e) {
+            System.out.println("error" + e);
+        }
+    }
+//////////////////////////fin /////////////////////////////////////
 
     public void reload() throws IOException {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
@@ -2734,6 +3005,25 @@ public class FacturasSiesaController implements Serializable {
     private MeterGaugeChartModel meterGaugeModel1;
     private LineChartModel lineModel2;
     private LineChartModel lineModelBigBag;
+    private LineChartModel lineModelExt;
+
+    private LineChartModel lineModelFTDH;
+
+    public LineChartModel getLineModelExt() {
+        return lineModelExt;
+    }
+
+    public LineChartModel getLineModelFTDH() {
+        return lineModelFTDH;
+    }
+
+    public void setLineModelFTDH(LineChartModel lineModelFTDH) {
+        this.lineModelFTDH = lineModelFTDH;
+    }
+
+    public void setLineModelExt(LineChartModel lineModelExt) {
+        this.lineModelExt = lineModelExt;
+    }
 
     public LineChartModel getLineModelBigBag() {
         return lineModelBigBag;
@@ -2929,6 +3219,11 @@ public class FacturasSiesaController implements Serializable {
             listaTranscursoBigBagGrafica = listaTranscursoBigbag;
             ModelBigBag();
 
+            listaTranscursoExteGrafica = listaTranscursoExte;
+            ModelExt();
+
+            listaTranscursoFTDHGrafica = listaTranscursoFTDH;
+            ModelFTDH();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -3089,14 +3384,14 @@ public class FacturasSiesaController implements Serializable {
 
     private LineChartModel initCategoryModel() {
         lineModel2 = new LineChartModel();
+        LineChartSeries Facturado = new LineChartSeries();
+        Facturado.setLabel("FACTURADO");
 
         for (FacturasSiesaController factor : listaTranscursoConfeccionesGrafica) {
-            LineChartSeries Facturado = new LineChartSeries();
-            Facturado.setLabel("FACTURADO");
             Facturado.set(factor.getMeses(), factor.getTotal());
             Facturado.setXaxis(AxisType.X);
-            lineModel2.addSeries(Facturado);
         }
+        lineModel2.addSeries(Facturado);
 
         LineChartSeries Presupuesto = new LineChartSeries();
         Presupuesto.setLabel("PRESUPUESTADO");
@@ -3107,8 +3402,8 @@ public class FacturasSiesaController implements Serializable {
         Presupuesto.set("MAYO", 1600000000);
         Presupuesto.set("JUNIO", 1650518621);
         Presupuesto.set("JULIO", 1900000000);
-//            Presupuesto.set("AGOSTO", 1764869949);
-//            Presupuesto.set("SEPTIEMBRE", 1537191011);
+        Presupuesto.set("AGOSTO", 1764869949);
+            Presupuesto.set("SEPTIEMBRE", 1537191011);
 //            Presupuesto.set("OCTUBRE", 1609890990);
 //            Presupuesto.set("NOVIEMBRE", 1758610071);
 //            Presupuesto.set("DICIEMBRE", 1700593588);
@@ -3143,17 +3438,18 @@ public class FacturasSiesaController implements Serializable {
 
     }
 
-    // recorrido mensual confecciones
+    // recorrido mensual BigBag
     private LineChartModel recorridoMensualBigBag() {
         lineModelBigBag = new LineChartModel();
+        LineChartSeries Facturado = new LineChartSeries();
+        Facturado.setLabel("FACTURADO MENSUAL ");
 
         for (FacturasSiesaController factor : listaTranscursoBigBagGrafica) {
-            LineChartSeries Facturado = new LineChartSeries();
-            Facturado.setLabel("FACTURADO");
             Facturado.set(factor.getMeses(), factor.getTotal());
             Facturado.setXaxis(AxisType.X);
-            lineModelBigBag.addSeries(Facturado);
+
         }
+        lineModelBigBag.addSeries(Facturado);
 
         LineChartSeries Presupuesto = new LineChartSeries();
         Presupuesto.setLabel("PRESUPUESTADO");
@@ -3164,8 +3460,8 @@ public class FacturasSiesaController implements Serializable {
         Presupuesto.set("MAYO", 83018409);
         Presupuesto.set("JUNIO", 78465042);
         Presupuesto.set("JULIO", 83158498);
-//            Presupuesto.set("AGOSTO", 118150701);
-//            Presupuesto.set("SEPTIEMBRE", 108751461);
+        Presupuesto.set("AGOSTO", 118150701);
+            Presupuesto.set("SEPTIEMBRE", 108751461);
 //            Presupuesto.set("OCTUBRE", 83558314);
 //            Presupuesto.set("NOVIEMBRE", 88230787);
 //            Presupuesto.set("DICIEMBRE", 92697683);
@@ -3197,6 +3493,120 @@ public class FacturasSiesaController implements Serializable {
         X2Axis.setMin(0);
         X2Axis.setMax(12);
         lineModelBigBag.getAxes().put(AxisType.Y, yAxis);
+
+    }
+
+    // recorrido mensual ExtAca
+    private LineChartModel recorridoMensualExtAcad() {
+        lineModelExt = new LineChartModel();
+        LineChartSeries Facturado = new LineChartSeries();
+        Facturado.setLabel("FACTURADO MENSUAL ");
+        for (FacturasSiesaController factor : listaTranscursoExteGrafica) {
+            Facturado.set(factor.getMeses(), factor.getTotal());
+            Facturado.setXaxis(AxisType.X);
+
+        }
+        lineModelExt.addSeries(Facturado);
+
+        LineChartSeries Presupuesto = new LineChartSeries();
+        Presupuesto.setLabel("PRESUPUESTADO");
+        Presupuesto.set("ENERO", 21600000);
+        Presupuesto.set("FEBRERO", 21600000);
+        Presupuesto.set("MARZO", 32400000);
+        Presupuesto.set("ABRIL", 43200000);
+        Presupuesto.set("MAYO", 54000000);
+        Presupuesto.set("JUNIO", 75600000);
+        Presupuesto.set("JULIO", 86400000);
+        Presupuesto.set("AGOSTO", 97200000);
+            Presupuesto.set("SEPTIEMBRE", 97200000);
+//            Presupuesto.set("OCTUBRE", 97200000);
+//            Presupuesto.set("NOVIEMBRE", 97200000);
+//            Presupuesto.set("DICIEMBRE", 27000000);
+        Presupuesto.setXaxis(AxisType.X2);
+        lineModelExt.addSeries(Presupuesto);
+        return lineModelExt;
+
+    }
+
+    private void ModelExt() {
+        lineModelExt = recorridoMensualExtAcad();
+        lineModelExt.setAnimate(true);
+        lineModelExt.getAxes().put(AxisType.X, new CategoryAxis(""));
+        lineModelExt.getAxes().put(AxisType.X2, new CategoryAxis(""));
+        lineModelExt.setLegendPosition("se");
+        lineModelExt.setZoom(true);
+
+        Axis yAxis = lineModelExt.getAxis(AxisType.Y);
+        yAxis.setTickFormat("% 'd");
+        yAxis.setMin(0);
+
+        Axis XAxis = lineModelExt.getAxis(AxisType.X);
+        XAxis.setTickFormat("% 'd");
+        XAxis.setMin(0);
+        XAxis.setMax(12);
+
+        Axis X2Axis = lineModelExt.getAxis(AxisType.X2);
+        X2Axis.setTickFormat("% 'd");
+        X2Axis.setMin(0);
+        X2Axis.setMax(12);
+        lineModelExt.getAxes().put(AxisType.Y, yAxis);
+
+    }
+
+    // recorrido mensual ExtAca
+    private LineChartModel recorridoMensualFTDH() {
+        lineModelFTDH = new LineChartModel();
+        LineChartSeries Facturado = new LineChartSeries();
+        Facturado.setLabel("FACTURADO MENSUAL ");
+        for (FacturasSiesaController factor : listaTranscursoFTDHGrafica) {
+            Facturado.set(factor.getMeses(), factor.getTotal());
+            Facturado.setXaxis(AxisType.X);
+
+        }
+        lineModelFTDH.addSeries(Facturado);
+
+        LineChartSeries Presupuesto = new LineChartSeries();
+        Presupuesto.setLabel("PRESUPUESTADO");
+        Presupuesto.set("ENERO", 115785253);
+        Presupuesto.set("FEBRERO", 68287179);
+        Presupuesto.set("MARZO", 89490949);
+        Presupuesto.set("ABRIL", 149520949);
+        Presupuesto.set("MAYO", 89490949);
+        Presupuesto.set("JUNIO", 89490949);
+        Presupuesto.set("JULIO", 136989022);
+        Presupuesto.set("AGOSTO", 89490949);
+            Presupuesto.set("SEPTIEMBRE", 149520949);
+//            Presupuesto.set("OCTUBRE", 89490949);
+//            Presupuesto.set("NOVIEMBRE", 89490949);
+//            Presupuesto.set("DICIEMBRE", 89490949);
+        Presupuesto.setXaxis(AxisType.X2);
+        lineModelFTDH.addSeries(Presupuesto);
+        return lineModelFTDH;
+
+    }
+
+    private void ModelFTDH() {
+        lineModelFTDH = recorridoMensualFTDH();
+        lineModelFTDH.setAnimate(true);
+        lineModelFTDH.getAxes().put(AxisType.X, new CategoryAxis(""));
+        lineModelFTDH.getAxes().put(AxisType.X2, new CategoryAxis(""));
+        lineModelFTDH.setLegendPosition("se");
+        lineModelFTDH.setZoom(true);
+
+        Axis yAxis = lineModelFTDH.getAxis(AxisType.Y);
+        yAxis.setTickFormat("% 'd");
+        yAxis.setMin(0);
+
+        Axis XAxis = lineModelFTDH.getAxis(AxisType.X);
+        XAxis.setTickFormat("% 'd");
+        XAxis.setMin(0);
+        XAxis.setMax(12);
+
+        Axis X2Axis = lineModelFTDH.getAxis(AxisType.X2);
+        X2Axis.setTickFormat("% 'd");
+        X2Axis.setMin(0);
+        X2Axis.setMax(12);
+        lineModelFTDH.getAxes().put(AxisType.Y, yAxis);
 
     }
 }

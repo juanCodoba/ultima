@@ -21,6 +21,7 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.FacesException;
@@ -165,6 +166,9 @@ public class NovedadCotroller implements Serializable {
         listaNovedad = null;
     }
 
+        public Date getFechaActual() {
+        return new Date();
+    }
     public Novedad getNovedad(java.lang.Integer id) {
         return getNovedadFacade().find(id);
     }
@@ -208,6 +212,7 @@ public class NovedadCotroller implements Serializable {
 
     public String add() {
         try {
+            NovedadActual.setFechaActual(getFechaActual());
             NovedadActual.setIdUsuarioCreacion(usuarioActual);
             NovedadActual.setEstado("ABIERTO");
             addSuccessMessage("Plan de acción creado", "El plan de acción fue creado con consecutivo No. ");
@@ -254,6 +259,7 @@ public class NovedadCotroller implements Serializable {
 
     public String editar() {
         try {
+            NovedadActual.setFechaActual(getFechaActual());
             NovedadActual.setIdUsuarioCreacion(usuarioActual);
             getNovedadFacade().edit(NovedadActual);
             addSuccessMessage("Novedad", "La Novedad con el codigo " + NovedadActual.getIdNovedad() + " fue editada");
@@ -359,11 +365,11 @@ public class NovedadCotroller implements Serializable {
         mensaje.append("\n OP: ");
         mensaje.append(NovedadActual.getOp());
         mensaje.append("\n\nTodos los Derechos Reservados www.cfiprovidencia.com © 2017.");
-        sendMail(" juan.varela@cfiprovidencia.com  " + " nathalia.yusti@cfiprovidencia.com "  + " " + " yamileth.collazos@cfiprovidencia.com " + " " + " mayra.munoz@cfiprovidencia.com " + " "  + NovedadActual.getIdUsuarioReporta().getCorreoUsuario() , subject, mensaje.toString());
+        sendMail(" juan.varela@cfiprovidencia.com  " + " nathalia.yusti@cfiprovidencia.com " + " " + " camilo.buitrago@cfiprovidencia.com " + "claudia.canar@cfiprovidencia.com " + " juan.cordoba@cfiprovidencia.com " + " " + NovedadActual.getIdUsuarioReporta().getCorreoUsuario(), subject, mensaje.toString());
     }
 
-        private void sendMailAdminNov() {
-        String subject = "NOVEDAD ACTUALIZADA CON EL CONSECUTIVO No." + NovedadActual.getItem() ;
+    private void sendMailAdminNov() {
+        String subject = "NOVEDAD ACTUALIZADA CON EL CONSECUTIVO No." + NovedadActual.getItem();
         StringBuilder mensaje = new StringBuilder();
         mensaje.append("PARA MAS INFO. INGRESA A SAINT AL MODULO DE NOVEDADES");
         mensaje.append("DESCRIPCION DE LA NOVEDAD  ");
@@ -375,8 +381,29 @@ public class NovedadCotroller implements Serializable {
         mensaje.append("\n OP: ");
         mensaje.append(NovedadActual.getOp());
         mensaje.append("\n\nTodos los Derechos Reservados www.cfiprovidencia.com © 2017.");
-        sendMail(" juan.varela@cfiprovidencia.com  " + " nathalia.yusti@cfiprovidencia.com " + " yamileth.collazos@cfiprovidencia.com " + " " + " mayra.munoz@cfiprovidencia.com " + " "  + NovedadActual.getIdUsuarioReporta().getCorreoUsuario() , subject, mensaje.toString());
+        sendMail(" juan.varela@cfiprovidencia.com  " + " nathalia.yusti@cfiprovidencia.com " + " camilo.buitrago@cfiprovidencia.com " + "claudia.canar@cfiprovidencia.com " + " juan.cordoba@cfiprovidencia.com " + " " + NovedadActual.getIdUsuarioReporta().getCorreoUsuario(), subject, mensaje.toString());
     }
+
+    public void intit() {
+        sendMailNovAtrazada();
+    }
+
+    private void sendMailNovAtrazada() {
+        String subject = "NOVEDAD SIN MOVIMIENTO O ATRAZADA CON EL CONSECUTIVO No." + NovedadActual.getItem();
+        StringBuilder mensaje = new StringBuilder();
+        mensaje.append("PARA MAS INFO. INGRESA A SAINT AL MODULO DE NOVEDADES");
+        mensaje.append("DESCRIPCION DE LA NOVEDAD  ");
+        mensaje.append(NovedadActual.getDescripcionNovedad());
+        mensaje.append("\nRESPONSABLE: ");
+        mensaje.append(NovedadActual.getIdUsuarioReporta().toString().toUpperCase());
+        mensaje.append("\n CLIENTE: ");
+        mensaje.append(NovedadActual.getIdFtCliente().getNombre().toUpperCase());
+        mensaje.append("\n OP: ");
+        mensaje.append(NovedadActual.getOp());
+        mensaje.append("\n\nTodos los Derechos Reservados www.cfiprovidencia.com © 2017.");
+        sendMail(" juan.varela@cfiprovidencia.com  " + " nathalia.yusti@cfiprovidencia.com " + " camilo.buitrago@cfiprovidencia.com " + "claudia.canar@cfiprovidencia.com " + " juan.cordoba@cfiprovidencia.com " + " " + NovedadActual.getIdUsuarioReporta().getCorreoUsuario(), subject, mensaje.toString());
+    }
+
     public void cargarImgF(FileUploadEvent event) throws IOException {
         UploadedFile file = event.getFile();
         byte[] data = IOUtils.toByteArray(file.getInputstream());

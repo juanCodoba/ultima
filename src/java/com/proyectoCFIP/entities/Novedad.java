@@ -190,7 +190,7 @@ public class Novedad implements Serializable {
 
     @Override
     public String toString() {
-        return "com.proyectoCFIP.entities.Novedad[ idNovedad=" + idNovedad + " ]";
+        return "NOV - " + idNovedad;
     }
 
 }

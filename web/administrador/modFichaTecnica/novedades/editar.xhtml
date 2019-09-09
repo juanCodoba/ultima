@@ -13,7 +13,7 @@
                     <h:panelGroup >
                         <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
                         <!-- Optionally, you can add icons to the links -->
-                        <li class="active">
+                        <li >
                             <h:commandLink action="#{ftFichaTecnica.prepareListPrincipal}">
                                 <i class="fa fa-dashboard"></i> 
                                 <span>Principal</span>
@@ -152,7 +152,7 @@
                         <div class="col-md-6 form-group">
                             <h:commandButton class="btn btn-primary btn-block"
                                              value="Editar"
-                                             action="#{NovedadCotroller.add()}">
+                                             action="#{NovedadCotroller.editar()}">
                                 <f:ajax execute="@this cliente auditado item item1 descripcionLogo1" render="formulario-crearFicha"/>
                             </h:commandButton>
 
@@ -205,7 +205,7 @@
                                 </div>
                             </div>
                             <h:panelGroup id="itemsGroup">
-                                <p:dataTable  id="tablaFuncion" emptyMessage="No se encontraron registros" value="#{NovedadCotroller.listaActividadNovedadActual}" var="item2">
+                                <p:dataTable  id="tablaFuncion" emptyMessage="No se encontraron registros" value="#{ActividadNovedadCotroller.listaPorTipoDeUsuario2}" var="item2">
                                     <p:column headerText="Actividad" >
                                         <h:outputText value="#{item2.descripcion}" style="font-weight: bold"/>
                                     </p:column>

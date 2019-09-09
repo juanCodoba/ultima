@@ -13,7 +13,7 @@
                     <h:panelGroup >
                         <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
                         <!-- Optionally, you can add icons to the links -->
-                        <li class="active">
+                        <li>
                             <h:commandLink action="#{ftFichaTecnica.prepareListPrincipal}">
                                 <i class="fa fa-dashboard"></i> 
                                 <span>Principal</span>
@@ -211,7 +211,7 @@
                                         </h:outputText>
                                     </p:column>
                                     <p:column width="100">
-                                        <h:commandButton class="btn-primary" rendered="#{loginController.fichaTecnicaDESA}" value="act" id="actualizar" style="margin-left: 2px; margin-right: 2px" >
+                                        <h:commandButton class="btn-primary" rendered="#{loginController.jefe || (loginController.adminCalidad) ||(loginController.adminCalidoso) || (loginController.userDisn)}" value="act" id="actualizar" style="margin-left: 2px; margin-right: 2px" >
                                             <f:setPropertyActionListener value="#{item2}" target="#{ActividadNovedadCotroller.actividadNovedadActual}"/>
                                             <p:ajax listener="#{ActividadNovedadCotroller.prepareAspecto()}" update="formCreateVehiculo" oncomplete="PF('dlg2').show();" />
                                         </h:commandButton>
@@ -225,7 +225,7 @@
                     </div>
                 </div>
             </h:form>
-            <p:dialog header="Lista de aspectos a evaluar" widgetVar="dlg2" minHeight="40" modal="true" width="50%">
+             <p:dialog header="Editar Actividades" widgetVar="dlg2" minHeight="40" modal="true" width="50%">
                 <h:form id="formCreateVehiculo">
                     <h:panelGroup id="agregarFuncion">
                         <div class="container-fluid">
@@ -234,18 +234,7 @@
                                 <h:outputLabel value=" #{ActividadNovedadCotroller.actividadNovedadActual.idNovedad}"/>
                             </div>
                             <div class="form-group">
-                                <h:outputLabel value="Requisito de norma (Opcional):"  />
-                                <p:inputText placeholder="Requisito" 
-                                             class="form-control" 
-                                             id="requisito" 
-                                             value="#{ActividadNovedadCotroller.actividadNovedadActual.descripcion}" 
-                                             requiredMessage="Por favor ingresar lo solicitado">
-                                    <f:ajax execute="@this" render="requisitoMessage"/>
-                                </p:inputText>
-                                <p:message id="requisitoMessage" for="requisito" styleClass="error"/>
-                            </div>
-                            <div class="form-group">
-                                <h:outputLabel value="Origen de la acción de mejora:"  />
+                                <h:outputLabel value="Estado de la Actividad:"  />
                                 <p:selectOneMenu id="advanced" style="width: 100%"
                                                  value="#{ActividadNovedadCotroller.actividadNovedadActual.estadoNoConformeDiseño}"
                                                  filter="true" filterMatchMode="contains">
@@ -256,6 +245,39 @@
                                     <f:selectItem itemLabel="NO EFICAZ" itemValue="NO EFICAZ" rendered="#{loginController.adminCalidad || loginController.adminCalidoso}" />
 
                                 </p:selectOneMenu>
+                            </div>
+                            <div class="form-group" jsf:rendered="#{loginController.jefe}">
+                                <h:outputLabel value="Comentario"  rendered="#{loginController.jefe}" />
+                                <p:inputText placeholder="Requisito" rendered="#{loginController.jefe}"
+                                             class="form-control" 
+                                             id="requisito2" 
+                                             value="#{ActividadNovedadCotroller.actividadNovedadActual.comentarioIngProduct}" 
+                                             >
+                                    <f:ajax execute="@this" render="requisito2Message"/>
+                                </p:inputText>
+                                <p:message id="requisito2Message" for="requisito2" styleClass="error"/>
+                            </div>
+                            <div class="form-group" jsf:rendered ="#{loginController.fichaTecnica}">
+                                <h:outputLabel value="Comentario" rendered ="#{loginController.fichaTecnica}" />
+                                <p:inputText placeholder="Requisito" rendered ="#{loginController.fichaTecnica}" 
+                                             class="form-control" 
+                                             id="requisito" 
+                                             value="#{ActividadNovedadCotroller.actividadNovedadActual.comentarioCalidadProduc}" 
+                                             requiredMessage="Por favor ingresar lo solicitado">
+                                    <f:ajax execute="@this" render="requisitoMessage"/>
+                                </p:inputText>
+                                <p:message id="requisitoMessage" for="requisito" styleClass="error"/>
+                            </div>
+                            <div class="form-group" jsf:rendered="#{loginController.adminCalidad || loginController.adminCalidoso}">
+                                <h:outputLabel value="Comentario" rendered="#{loginController.adminCalidad || loginController.adminCalidoso}"  />
+                                <p:inputText placeholder="Requisito"  rendered="#{loginController.adminCalidad || (loginController.adminCalidoso)}"
+                                             class="form-control" 
+                                             id="requisito3" 
+                                             value="#{ActividadNovedadCotroller.actividadNovedadActual.comentarioCalidad}" 
+                                             requiredMessage="Por favor ingresar lo solicitado">
+                                    <f:ajax execute="@this" render="requisito3Message"/>
+                                </p:inputText>
+                                <p:message id="requisito3Message" for="requisito3" styleClass="error"/>
                             </div>
                         </div>
 

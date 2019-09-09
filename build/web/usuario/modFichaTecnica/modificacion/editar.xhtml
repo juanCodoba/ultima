@@ -1,0 +1,301 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup >
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li class="active">
+                            <h:commandLink action="#{ftFichaTecnica.prepareListPrincipal}">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftFichaTecnica.prepareCreate}">
+                                <i class="fa fa-file"></i>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{ftFichaTecnica.usuarioActual}"/>
+                                <span>Crear ficha técnica</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{ftFichaTecnica.prepareListDesarrollo}">
+                                <i class="fa fa-camera-retro"></i> 
+                                <span>Fichas en desarrollo</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{ftFichaTecnica.prepareListPrimeraValidacion}">
+                                <i class="fa fa-check"></i> 
+                                <span>Primera Validación</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaSCAM}" action="#{ftFichaTecnica.prepareListSolicitudesModificacionTodas}">
+                                <i class="fa fa-cogs"></i> 
+                                <span>Lista de solicitudes</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.fichaTecnicaDESA}" action="#{ftClienteController.prepareList}">
+                                <i class="fa fa-user"></i>
+                                <span>Clientes</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.adminCalidad || loginController.adminCalidoso|| loginController.userDisn }" action="#{NovedadCotroller.prepareListNovedad()}">
+                                <i class="fa fa-user"></i>
+                                <span>Novedades</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink rendered="#{loginController.adminCalidad || loginController.adminCalidoso|| loginController.userDisn }" action="#{ActividadNovedadCotroller.prepareCreate()}">
+                                <i class="fa fa-user"></i>
+                                <span>Actividades</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Editar ficha técnica con el item <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.idItem}"></h:outputText></ui:define>        
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="5000"/>
+            <h:form id="formulario-crearFicha">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6 form-group ch-zoom-seeker " >
+                                <h:outputLabel value="Cargar imagen frontal:"/>
+                                <p:fileUpload cancelLabel="Cancelar" 
+                                              uploadLabel="Cargar imagen"
+                                              auto="true"
+                                              label="Examinar"
+                                              mode="advanced" 
+                                              allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
+                                              sizeLimit="800000"
+                                              fileUploadListener="#{ftFichaTecnica.cargarImgF}" id="imagenF"
+                                              process="@this"
+                                              update="f"
+                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 800KB"
+                                              converterMessage="proceso terminado"
+                                              invalidFileMessage="Solo se aceptan imagenes jpg" />
+                                <p:message id="imagenMessage" for="imagenF"/>
+                            </div>
+                            <div class="col-md-6" style="text-align: center">
+                                <p:panel>
+                                    <p:graphicImage  id="f" cache="false" style="height: 80px" value="#{ftFichaTecnica.imgF}">
+                                    </p:graphicImage>
+                                    <p:commandButton class="btn btn-danger"
+                                                     icon="fa fa-close"
+                                                     ajax="false"
+                                                     action="#{ftFichaTecnica.borrarImgF}"
+                                                     update="f"
+                                                     process="@this"
+                                                     style="position: absolute; top: 0; right: 1em; padding: 0"/>
+                                </p:panel>
+                            </div> 
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 form-group ch-zoom-seeker ch-hide">
+                                <h:outputLabel value="Cargar imagen posterior:"/>
+                                <p:fileUpload cancelLabel="Cancelar" 
+                                              uploadLabel="Cargar imagen"
+                                              label="Examinar"
+                                              auto="true"
+                                              mode="advanced" 
+                                              allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
+                                              sizeLimit="800000"
+                                              update="p"
+                                              fileUploadListener="#{ftFichaTecnica.cargarImgP}" id="imagenP"
+                                              process="@this"
+                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 800KB"
+                                              converterMessage="proceso terminado"
+                                              invalidFileMessage="Solo se aceptan imagenes jpg"/>
+                                <p:message id="imagenFMessage" for="imagenP"/>
+                            </div>
+                            <div class="col-md-6" style="text-align: center">
+                                <p:panel>
+                                    <p:graphicImage  id="p" cache="false" style="height: 80px" value="#{ftFichaTecnica.imgP}">
+                                    </p:graphicImage>
+                                    <p:commandButton class="btn btn-danger"
+                                                     icon="fa fa-close"
+                                                     ajax="false"
+                                                     action="#{ftFichaTecnica.borrarImgP}"
+                                                     update="p"
+                                                     process="@this"
+                                                     style="position: absolute; top: 0; right: 1em; padding: 0"/>
+                                </p:panel>
+                            </div> 
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6 form-group ch-zoom-seeker ch-hide">
+                                <h:outputLabel value="Cargar imagen caracteristica 1:"/>
+                                <p:fileUpload cancelLabel="Cancelar" 
+                                              uploadLabel="Cargar imagen"
+                                              label="Examinar"
+                                              auto="true"
+                                              mode="advanced" 
+                                              allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
+                                              sizeLimit="800000"
+                                              update="c1"
+                                              fileUploadListener="#{ftFichaTecnica.cargarImgC1}" id="imagenC1"
+                                              process="@this"
+                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 800KB"
+                                              converterMessage="proceso terminado"
+                                              invalidFileMessage="Solo se aceptan imagenes jpg"/>
+                                <p:message id="imagenPMessage" for="imagenC1"/>
+                            </div>
+                            <div class="col-md-6" style="text-align: center">
+                                <p:panel>
+                                    <p:graphicImage  id="c1" cache="false" style="height: 80px" value="#{ftFichaTecnica.imgC1}">
+                                    </p:graphicImage>
+                                    <p:commandButton class="btn btn-danger"
+                                                     icon="fa fa-close"
+                                                     ajax="false"
+                                                     action="#{ftFichaTecnica.borrarImgC1}"
+                                                     update="c1"
+                                                     process="@this"
+                                                     style="position: absolute; top: 0; right: 1em; padding: 0"/>
+                                </p:panel>
+                            </div> 
+                        </div>
+
+
+
+
+                        <div class="row">
+                            <div class="col-md-6 form-group ch-zoom-seeker ch-hide">
+                                <h:outputLabel value="Cargar imagen caracteristica 2:"/>
+                                <p:fileUpload cancelLabel="Cancelar" 
+                                              uploadLabel="Cargar imagen"
+                                              label="Examinar"
+                                              mode="advanced" 
+                                              auto="true"
+                                              allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
+                                              sizeLimit="800000"
+                                              update="c2"
+                                              fileUploadListener="#{ftFichaTecnica.cargarImgC2}" id="imagenC2"
+                                              process="@this"
+                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 800KB"
+                                              converterMessage="proceso terminado"
+                                              invalidFileMessage="Solo se aceptan imagenes jpg" />
+                                <p:message id="imagenC1Message" for="imagenC2"/>
+                            </div>
+                            <div class="col-md-6" style="text-align: center">
+                                <p:panel>
+                                    <p:graphicImage  id="c2" cache="false" style="height: 80px" value="#{ftFichaTecnica.imgC2}">
+                                    </p:graphicImage>
+                                    <p:commandButton class="btn btn-danger"
+                                                     icon="fa fa-close"
+                                                     ajax="false"
+                                                     action="#{ftFichaTecnica.borrarImgC2}"
+                                                     update="c2"
+                                                     process="@this"
+                                                     style="position: absolute; top: 0; right: 1em; padding: 0"/>
+                                </p:panel>
+                            </div> 
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-md-6 form-group ch-zoom-seeker ch-hide">
+                                <h:outputLabel value="Cargar imagen caracteristica 3:"/>
+                                <p:fileUpload cancelLabel="Cancelar" 
+                                              uploadLabel="Cargar imagen"
+                                              label="Examinar"
+                                              auto="true"
+                                              mode="advanced" 
+                                              allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
+                                              sizeLimit="800000"
+                                              update="c3"
+                                              fileUploadListener="#{ftFichaTecnica.cargarImgC3}" id="imagenC3"
+                                              process="@this"
+                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 800KB"
+                                              converterMessage="proceso terminado"
+                                              invalidFileMessage="Solo se aceptan imagenes jpg" />
+                                <p:message id="imagenC2Message" for="imagenC3"/>
+                            </div>
+                            <div class="col-md-6" style="text-align: center">
+                                <p:panel>
+                                    <p:graphicImage  id="c3" cache="false" style="height: 80px" value="#{ftFichaTecnica.imgC3}">
+                                    </p:graphicImage>
+                                    <p:commandButton class="btn btn-danger"
+                                                     icon="fa fa-close"
+                                                     ajax="false"
+                                                     action="#{ftFichaTecnica.borrarImgC3}"
+                                                     update="c3"
+                                                     process="@this"
+                                                     style="position: absolute; top: 0; right: 1em; padding: 0"/>
+                                </p:panel>
+                            </div> 
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 form-group ch-zoom-seeker ch-hide">
+                                <h:outputLabel value="Cargar imagen forma de lavado:"/>
+                                <p:fileUpload cancelLabel="Cancelar" 
+                                              uploadLabel="Cargar imagen"
+                                              label="Examinar"
+                                              auto="true"
+                                              mode="advanced" 
+                                              allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
+                                              sizeLimit="800000"
+                                              update="fla"
+                                              fileUploadListener="#{ftFichaTecnica.cargarFotoLav}" id="fotoLav"
+                                              process="@this"
+                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 800KB"
+                                              converterMessage="proceso terminado"
+                                              invalidFileMessage="Solo se aceptan imagenes jpg" />
+                            </div>
+                            <div class="col-md-6" style="text-align: center">
+                                <p:panel>
+                                    <p:graphicImage  id="fla" cache="false" style="height: 80px" value="#{ftFichaTecnica.fotLava}">
+                                    </p:graphicImage>
+                                    <p:commandButton class="btn btn-danger"
+                                                     icon="fa fa-close"
+                                                     ajax="false"
+                                                     action="#{ftFichaTecnica.borrarFotLava()}"
+                                                     update="fla"
+                                                     process="@this"
+                                                     style="position: absolute; top: 0; right: 1em; padding: 0"/>
+                                </p:panel>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <p:commandButton class="btn btn-primary btn-block"
+                                         ajax="false"
+                                         value="Editar"
+                                         action="#{ftFichaTecnica.update}"
+                                         onclick="onSubmitButton();"/>
+                    </div>
+                    <div class="col-sm-6 form-group">    
+                        <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="/usuario/modFichaTecnica/lista"/>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

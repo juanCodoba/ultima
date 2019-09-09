@@ -151,6 +151,7 @@
             <role-name>FTSCAM</role-name>
             <role-name>FTVALI1</role-name>
             <role-name>FTVALI2</role-name>
+            <role-name>JEFE</role-name>
         </auth-constraint>
     </security-constraint>
     <security-constraint>

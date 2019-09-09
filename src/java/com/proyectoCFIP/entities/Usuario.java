@@ -53,6 +53,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByIdCargoEs", query = "SELECT u FROM Usuario u WHERE   u.estadoUsuario = 1 and u.idCargo.idCargo = 53"),
     @NamedQuery(name = "Usuario.findByIdCargoAutoma", query = "SELECT u FROM Usuario u WHERE   u.estadoUsuario = 1 and u.idCargo.idCargo = 54"),
     @NamedQuery(name = "Usuario.findByIdCargoDocentes", query = "SELECT u FROM Usuario u WHERE   u.estadoUsuario = 1 and u.idCargo.idCargo = 12"),
+    @NamedQuery(name = "Usuario.findByIdCargoComerciales", query = "SELECT u FROM Usuario u WHERE   u.estadoUsuario = 1 and u.idCargo.idCargo = 21"),
     @NamedQuery(name = "Usuario.findByEstadoUsuario", query = "SELECT u FROM Usuario u WHERE   u.estadoUsuario = 1"),
     @NamedQuery(name = "Usuario.findByEstadoUsuarioAuditor", query = "SELECT u FROM Usuario u WHERE u.auditorInterno = 1 "),
 
@@ -112,6 +113,11 @@ public class Usuario implements Serializable {
     private List<Novedad> novedadList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuarioReporta")
     private List<Novedad> novedadList2;
+
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "idUsuarioVendedor")
+    private List<Planilla> PlanillaUsVList;
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "idUsuarioAsig")
+    private List<OpPlanilla> opPlanillaUsAsiList;
 
     @Basic(optional = false)
     @NotNull
@@ -609,6 +615,7 @@ public class Usuario implements Serializable {
     public void setReporteUsarioList(List<ReporteBiblioteca> reporteUsarioList) {
         this.reporteUsarioList = reporteUsarioList;
     }
+
     @XmlTransient
     public List<Novedad> getNovedadList() {
         return novedadList;
@@ -617,6 +624,7 @@ public class Usuario implements Serializable {
     public void setNovedadList(List<Novedad> novedadList) {
         this.novedadList = novedadList;
     }
+
     @XmlTransient
     public List<Novedad> getNovedadList2() {
         return novedadList2;
@@ -625,7 +633,23 @@ public class Usuario implements Serializable {
     public void setNovedadList2(List<Novedad> novedadList2) {
         this.novedadList2 = novedadList2;
     }
+
+    public List<Planilla> getPlanillaUsVList() {
+        return PlanillaUsVList;
+    }
+
+    public void setPlanillaUsVList(List<Planilla> PlanillaUsVList) {
+        this.PlanillaUsVList = PlanillaUsVList;
+    }
+
+    public List<OpPlanilla> getPlanillaUsAsiList() {
+        return opPlanillaUsAsiList;
+    }
+
+    public void setPlanillaUsAsiList(List<OpPlanilla> opPlanillaUsAsiList) {
+        this.opPlanillaUsAsiList = opPlanillaUsAsiList;
+    }
+    
     
 
-    
 }

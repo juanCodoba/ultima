@@ -307,29 +307,31 @@
                 </div>
                 <div class="cuerpoContenedorImg">
                     <div class="contenedor-imgCa">
-                        <img class="imagenesBot" width="150" height="100" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica1}"/>
+                        <img class="imagenesBot" width="200" height="250" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica1}"/>
                     </div>
                     <div class="contenedor-imgCa">
-                        <img class="imagenesBot" width="150" height="100" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica2}"/>
+                        <img class="imagenesBot" width="200" height="250" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica2}"/>
                     </div>
                     <div class="contenedor-imgCa">
-                        <img class="imagenesBot" width="150" height="100" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica3}"/>
+                        <img class="imagenesBot" width="200" height="250" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica3}"/>
                     </div>
                     <div class="contenedor-imgCa">
-                        <img class="imagenesBot" width="150" height="100" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica4}"/>
+                        <img class="imagenesBot" width="200" height="250" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica4}"/>
                     </div>
 
                 </div>
             </div>
+
             <div class="cuerpo-elaborado">
                 <div class="contenedorElaborado">
                     <div class="tituloContenedorElaborado">
-                        APROBADO POR DISEÑADORA
+                        REVISADO POR DISEÑADORA
                     </div>
                     <div class="cuerpoContenedor3">
                         <p class="parrafo-contenedorElaborado">
                             <h:outputLabel style="color: white"/>
                             <br></br>
+                            <h:outputText value="MAYRA ALEJANDRA MUÑOZ JARAMILLO"></h:outputText>
                             <br></br>
                             <h:outputLabel style="color: white"/>
                         </p>
@@ -337,12 +339,13 @@
                 </div>
                 <div class="contenedorElaborado">
                     <div class="tituloContenedorElaborado">
-                        APROBADO POR EL COMERCIAL
+                        REVISADO POR AUX. DISEÑO
                     </div>
                     <div class="cuerpoContenedor3">
                         <p class="parrafo-contenedorElaborado">
                             <h:outputLabel  style="color: white"/>
                             <br></br>
+                            <h:outputText value="CARMEN JULIA YAIMA OCAMPO"></h:outputText>
                             <br></br>
                             <h:outputLabel style="color: white" />
                         </p>
@@ -350,12 +353,13 @@
                 </div>
                 <div class="contenedorElaborado">
                     <div class="tituloContenedorElaborado">
-                        APROBADO POR EL CLIENTE 
+                        REVISADO POR AUX. FICHAS TECNICAS 
                     </div>
                     <div class="cuerpoContenedor3">
                         <p class="parrafo-contenedorElaborado">
                             <h:outputLabel style="color: white" />
                             <br></br>
+                            <h:outputText value="DIDIER YUSEF HUERTAS PEDORZA"></h:outputText>
                             <br></br>
                             <h:outputLabel style="color: white" />
                         </p>
@@ -363,8 +367,9 @@
                 </div>
             </div>
         </div>
+
         <div class="footer-contenedor" style="    position: relative;
-    top: -145px;">
+             top: -158px;">
             <div class="footer-parrafo1">
                 <img width="100%" class="footer-img1" src="#{request.contextPath}/resources/file/logoblanco.png">
 
@@ -384,6 +389,14 @@
                     <f:convertDateTime pattern="MMMM dd, YYYY HH:mm:ss"/>
                 </h:outputText>  
             </div>
+        </div>
+        <div class="titulo3">
+            <h2>TABLA DE MEDIDAS</h2>
+        </div>
+        <div class="contenedor1" >
+            <div class="cuerpoContenedor1">
+                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.medidas}" escape="false"  />
+            </div> 
         </div>
     </body>
 </html>

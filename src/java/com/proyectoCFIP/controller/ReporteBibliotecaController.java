@@ -110,7 +110,7 @@ public class ReporteBibliotecaController implements Serializable {
     }
 
     public String prepareListEstadoTicket() {
-        return "/administrador/modBiblioteca/reportar/listarReportes";
+        return "/administrador/modBiblioteca/reportar/listaReportes";
     }
 
     public void recargarLista() {
@@ -135,7 +135,7 @@ public class ReporteBibliotecaController implements Serializable {
             getReporteBibliotecaFacade().create(reporteBibliotecaActual);
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Su reporte ha sido registrado", "El reporte con numero de ticket " + reporteBibliotecaActual.getIdReporte() + "fue reaizado correctamente");
             recargarLista();
-            return "/administrador/modBiblioteca/reportar/listarReportes";
+            return "/administrador/modBiblioteca/reportar/listaReportes";
         } catch (Exception e) {
             addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
             return null;

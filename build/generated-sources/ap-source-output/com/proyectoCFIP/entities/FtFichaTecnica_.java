@@ -11,7 +11,7 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-07-09T06:58:12")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-08-30T07:28:10")
 @StaticMetamodel(FtFichaTecnica.class)
 public class FtFichaTecnica_ { 
 
@@ -82,6 +82,7 @@ public class FtFichaTecnica_ {
     public static volatile SingularAttribute<FtFichaTecnica, String> cotilla;
     public static volatile SingularAttribute<FtFichaTecnica, String> ajusteFrente;
     public static volatile SingularAttribute<FtFichaTecnica, String> pinzas;
+    public static volatile SingularAttribute<FtFichaTecnica, Integer> versionFoto;
     public static volatile SingularAttribute<FtFichaTecnica, String> unionHombros;
     public static volatile SingularAttribute<FtFichaTecnica, String> ojal;
     public static volatile SingularAttribute<FtFichaTecnica, Usuario> validacion;

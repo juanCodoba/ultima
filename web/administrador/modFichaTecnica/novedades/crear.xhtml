@@ -14,7 +14,7 @@
                     <h:panelGroup >
                         <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
                         <!-- Optionally, you can add icons to the links -->
-                        <li class="active">
+                        <li >
                             <h:commandLink action="#{ftFichaTecnica.prepareListPrincipal}">
                                 <i class="fa fa-dashboard"></i> 
                                 <span>Principal</span>
@@ -143,40 +143,7 @@
                                   type="text" style="height: 50px">
                         </textarea>
                     </div>
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-8 form-group">
-                                <h:outputLabel value="Cargar una foto de evidencia"/>
-                                <p:fileUpload cancelLabel="Cancelar" 
-                                              uploadLabel="Cargar imagen"
-                                              label="Examinar"
-                                              auto="true"
-                                              mode="advanced" 
-                                              allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
-                                              sizeLimit="500000"
-                                              update="p"
-                                              fileUploadListener="#{NovedadCotroller.cargarImgF}" id="imagenP"
-                                              process="@this"
-                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 500KB"
-                                              converterMessage="proceso terminado"
-                                              invalidFileMessage="Solo se aceptan imagenes jpg"/>
-                                <p:message id="imagenFMessage" for="imagenP"/>
-                            </div>
-                            <div class="col-md-4" style="text-align: center">
-                                <p:panel>
-                                    <p:graphicImage  id="p" cache="false" style="height: 80px" value="#{NovedadCotroller.imgF}">
-                                    </p:graphicImage>
-                                    <p:commandButton class="btn btn-danger"
-                                                     icon="fa fa-close"
-                                                     ajax="false"
-                                                     action="#{NovedadCotroller.borrarImgF}"
-                                                     update="p"
-                                                     process="@this"
-                                                     style="position: absolute; top: 0; right: 1em; padding: 0"/>
-                                </p:panel>
-                            </div> 
-                        </div>
-                    </div>
+                    
 
 
                     <div style="position: absolute; bottom: 3em  ">

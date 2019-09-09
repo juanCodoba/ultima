@@ -130,7 +130,7 @@
                                         botones1
                                         costadosCam prelavado2
                                         UnionHombros CierrePan Cotilla Tiros adicionales4
-                                        UnionMng MangasCami BotonesBlus CerradoCostadosBlus cortesBlus DobladilloBlus marquillas4 forro
+                                        MangasCami BotonesBlus CerradoCostadosBlus cortesBlus DobladilloBlus marquillas4 forro
 
                                         "/>
                                 <f:selectItems value="#{ftCategoriaController.listaCategoria}" var="categoria" itemValue="#{categoria}"/> 
@@ -365,20 +365,7 @@
                                     <p:message id="UnionHombrosMessage" for="descripcionCorta" styleClass="error"/>
                                 </div>  
                             </p:outputPanel>
-                            <p:outputPanel id="UnionMng">
-                                <div class="form-group">
-                                    <h:outputLabel value="Union De Los Mangas:" rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.camiseta)      }"   />
-                                    <input placeholder="Union De Los Mangas " 
-                                           class="form-control"
-                                           requiredMessage="Ingrese la descripción de la union de las mangas  "
-                                           jsf:id="unionMng"
-                                           value="#{ftFichaTecnica.fichaTecnicaActual.unionMangas }" 
-                                           rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.camiseta)   }"     
-                                           type="text" >
-                                    </input>
-                                    <p:message id="UnionMngMessage" for="descripcionCorta" styleClass="error"/>
-                                </div>  
-                            </p:outputPanel>
+
                             <p:outputPanel id="forro">
                                 <div class="form-group">
                                     <h:outputLabel value="Forro: " rendered="#{ftFichaTecnica.chaqueta}"   />
@@ -794,13 +781,13 @@
 
                             <p:outputPanel id="mangaBat">
                                 <div class="form-group">
-                                    <h:outputLabel value="Mangas:" rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper ) || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)}"   />
+                                    <h:outputLabel value="Mangas:" rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper )  || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)}"   />
                                     <input placeholder="Mangas:" 
                                            class="form-control"
                                            requiredMessage="Ingrese la descripción del las mangas "
                                            jsf:id="Mangasbat"
                                            value="#{ftFichaTecnica.fichaTecnicaActual.mangas  }" 
-                                           rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper ) || (ftFichaTecnica.chaleco) || (ftFichaTecnica.chaqueta) || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)}"         
+                                           rendered="#{ftFichaTecnica.camisa || (ftFichaTecnica.camisaOper ) || (ftFichaTecnica.blusaAdmin) || (ftFichaTecnica.blusaOper)}"         
                                            type="text" >
                                     </input>
                                     <p:message id="mangasBatMessage" for="descripcionCorta" styleClass="error"/>
@@ -874,13 +861,13 @@
 
                             <p:outputPanel id="dobladillosChaq">
                                 <div class="form-group">
-                                    <h:outputLabel value="Dobladillo:" rendered="#{ftFichaTecnica.chaqueta  || (ftFichaTecnica.delantal || ftFichaTecnica.chaleco)}"  />
+                                    <h:outputLabel value="Dobladillo:" rendered="#{ftFichaTecnica.chaqueta  || (ftFichaTecnica.delantal) || (ftFichaTecnica.chaleco)}"  />
                                     <input placeholder="Dobladillo " 
                                            class="form-control"
                                            requiredMessage="Ingrese la descripción del dobladillo "
                                            jsf:id="dobladillochaq"
                                            value="#{ftFichaTecnica.fichaTecnicaActual.dobladillo   }" 
-                                           rendered="#{ftFichaTecnica.chaqueta || (ftFichaTecnica.delantal) }"
+                                           rendered="#{ftFichaTecnica.chaqueta || (ftFichaTecnica.delantal) || (ftFichaTecnica.chaleco) }"
                                            type="text" >
                                     </input>
                                     <p:message id="dobladilloChaqMessage" for="descripcionCorta" styleClass="error"/>
@@ -1202,14 +1189,17 @@
                             </p:outputPanel>
 
                             <div class="form-group">
-                                <h:outputLabel value="Descripción logo:"  />
-                                <textarea placeholder="descripcion logo" 
+                                <h:outputLabel value="Descripción Bordado"  />
+                                <textarea placeholder="descripcion bordado" 
                                           class="form-control"
                                           jsf:id="descripcionLogo1"
                                           jsf:value="#{ftFichaTecnica.fichaTecnicaActual.descripcionLogo}" 
                                           type="text" style="height: 50px">
                                 </textarea>
                                 <p:message id="descripcionLogo1Message" for="descripcionLogo1" styleClass="error"/>
+                                <div class="danger">
+                                    <p><strong>Nota!</strong> (La información de estampado y bordado, debe ser validada con la planilla de producción, ya que se pueden presentar pequeñas modificaciones eventuales.</p>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <h:outputLabel value="Cargar ficha bordado:"/>
@@ -1219,7 +1209,7 @@
                                               label="Examinar"
                                               mode="advanced" 
                                               allowTypes="/(\.|\/)(pdf)$/" 
-                                              sizeLimit="500000"
+                                              sizeLimit="800000"
                                               fileUploadListener="#{ftFichaTecnica.cargarFichaLogo}" id="fichaB"
                                               process="@this"
                                               converterMessage="proceso terminado"
@@ -1389,7 +1379,7 @@
 
                     <div class="col-md-6">
                         <div class="row">
-                            <div class="col-md-8 form-group">
+                            <div class="col-md-8 form-group ch-zoom-seeker " >
                                 <h:outputLabel value="Cargar imagen frontal:"/>
                                 <p:fileUpload cancelLabel="Cancelar" 
                                               uploadLabel="Cargar imagen"
@@ -1397,11 +1387,11 @@
                                               label="Examinar"
                                               mode="advanced" 
                                               allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
-                                              sizeLimit="500000"
+                                              sizeLimit="800000"
                                               fileUploadListener="#{ftFichaTecnica.cargarImgF}" id="imagenF"
                                               process="@this"
                                               update="f"
-                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 500KB"
+                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 800KB"
                                               converterMessage="proceso terminado"
                                               invalidFileMessage="Solo se aceptan imagenes jpg" />
                                 <p:message id="imagenMessage" for="imagenF"/>
@@ -1422,7 +1412,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-8 form-group">
+                            <div class="col-md-8 form-group ch-zoom-seeker ch-hide">
                                 <h:outputLabel value="Cargar imagen posterior:"/>
                                 <p:fileUpload cancelLabel="Cancelar" 
                                               uploadLabel="Cargar imagen"
@@ -1430,11 +1420,11 @@
                                               auto="true"
                                               mode="advanced" 
                                               allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
-                                              sizeLimit="500000"
+                                              sizeLimit="800000"
                                               update="p"
                                               fileUploadListener="#{ftFichaTecnica.cargarImgP}" id="imagenP"
                                               process="@this"
-                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 500KB"
+                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 800KB"
                                               converterMessage="proceso terminado"
                                               invalidFileMessage="Solo se aceptan imagenes jpg"/>
                                 <p:message id="imagenFMessage" for="imagenP"/>
@@ -1456,7 +1446,7 @@
 
 
                         <div class="row">
-                            <div class="col-md-8 form-group">
+                            <div class="col-md-8 form-group ch-zoom-seeker ch-hide">
                                 <h:outputLabel value="Cargar imagen caracteristica 1:"/>
                                 <p:fileUpload cancelLabel="Cancelar" 
                                               uploadLabel="Cargar imagen"
@@ -1464,11 +1454,11 @@
                                               auto="true"
                                               mode="advanced" 
                                               allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
-                                              sizeLimit="500000"
+                                              sizeLimit="800000"
                                               update="c1"
                                               fileUploadListener="#{ftFichaTecnica.cargarImgC1}" id="imagenC1"
                                               process="@this"
-                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 500KB"
+                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 800KB"
                                               converterMessage="proceso terminado"
                                               invalidFileMessage="Solo se aceptan imagenes jpg"/>
                                 <p:message id="imagenPMessage" for="imagenC1"/>
@@ -1492,7 +1482,7 @@
 
 
                         <div class="row">
-                            <div class="col-md-8 form-group">
+                            <div class="col-md-8 form-group ch-zoom-seeker ch-hide">
                                 <h:outputLabel value="Cargar imagen caracteristica 2:"/>
                                 <p:fileUpload cancelLabel="Cancelar" 
                                               uploadLabel="Cargar imagen"
@@ -1500,11 +1490,11 @@
                                               mode="advanced" 
                                               auto="true"
                                               allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
-                                              sizeLimit="500000"
+                                              sizeLimit="800000"
                                               update="c2"
                                               fileUploadListener="#{ftFichaTecnica.cargarImgC2}" id="imagenC2"
                                               process="@this"
-                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 500KB"
+                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 800KB"
                                               converterMessage="proceso terminado"
                                               invalidFileMessage="Solo se aceptan imagenes jpg" />
                                 <p:message id="imagenC1Message" for="imagenC2"/>
@@ -1527,7 +1517,7 @@
 
 
                         <div class="row">
-                            <div class="col-md-8 form-group">
+                            <div class="col-md-8 form-group ch-zoom-seeker ch-hide">
                                 <h:outputLabel value="Cargar imagen caracteristica 3:"/>
                                 <p:fileUpload cancelLabel="Cancelar" 
                                               uploadLabel="Cargar imagen"
@@ -1535,11 +1525,11 @@
                                               auto="true"
                                               mode="advanced" 
                                               allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
-                                              sizeLimit="500000"
+                                              sizeLimit="800000"
                                               update="c3"
                                               fileUploadListener="#{ftFichaTecnica.cargarImgC3}" id="imagenC3"
                                               process="@this"
-                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 500KB"
+                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 800KB"
                                               converterMessage="proceso terminado"
                                               invalidFileMessage="Solo se aceptan imagenes jpg" />
                                 <p:message id="imagenC2Message" for="imagenC3"/>
@@ -1560,7 +1550,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-8 form-group">
+                            <div class="col-md-8 form-group ch-zoom-seeker ch-hide">
                                 <h:outputLabel value="Cargar imagen forma de lavado:"/>
                                 <p:fileUpload cancelLabel="Cancelar" 
                                               uploadLabel="Cargar imagen"
@@ -1568,11 +1558,11 @@
                                               auto="true"
                                               mode="advanced" 
                                               allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
-                                              sizeLimit="500000"
+                                              sizeLimit="800000"
                                               update="fla"
                                               fileUploadListener="#{ftFichaTecnica.cargarFotoLav}" id="fotoLav"
                                               process="@this"
-                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 500KB"
+                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 800KB"
                                               converterMessage="proceso terminado"
                                               invalidFileMessage="Solo se aceptan imagenes jpg" />
                             </div>
@@ -1651,7 +1641,7 @@
                         <p:commandButton class="btn btn-primary btn-block"
                                          ajax="false"
                                          value="Editar"
-                                         action="#{ftFichaTecnica.update}"
+                                         action="#{ftFichaTecnica.updateListados}"
                                          onclick="onSubmitButton();"/>
                     </div>
                     <div class="col-sm-6 form-group">    

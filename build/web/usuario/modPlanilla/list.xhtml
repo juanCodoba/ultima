@@ -1,0 +1,243 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminCalidad || loginController.adminCalidoso ||loginController.admin || loginController.jefe}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+
+                        <!-- Optionally, you can add icons to the links -->
+
+                        <li style="margin-top: 20px" class="active">
+                            <h:commandLink action="/usuario/modPestel/list">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+
+
+                        <li jsf:rendered="#{loginController.adminCalidad || loginController.adminCalidoso ||loginController.admin || loginController.jefe}">
+                            <h:commandLink   action="#{planillaController.prepareCreate()}">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{planillaController.usuarioActual}"/>
+                                <span>Ingresar datos</span>
+                            </h:commandLink> 
+                        </li>
+
+                        <li jsf:rendered="#{loginController.adminCalidad || loginController.adminCalidoso ||loginController.admin || loginController.jefe}">
+                            <h:commandLink   action="#{planillaController.prepareCreateUrlPlanilla()}">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                <span>Ingresar datos en masa</span>
+                            </h:commandLink> 
+                        </li>
+
+                        <li jsf:rendered="#{loginController.adminCalidad || loginController.adminCalidoso ||loginController.admin }">
+                            <h:commandLink action="#{planillaController.prepareCreatePrueba()}">
+                                <i class="fa fa-book"></i> 
+                                <span>Datos Prueba</span>
+                            </h:commandLink>
+                        </li>
+
+                        <li jsf:rendered="#{loginController.adminCalidad || loginController.adminCalidoso ||loginController.admin || loginController.jefe}" >
+                            <h:commandLink   action="#{factorController.prepareAspectoGlobal()}" actionListener="#{factorController.listarGlobal()}" >
+                                <i class="fa fa-file" aria-hidden="true"></i>
+                                <span>Matriz Global</span>
+                            </h:commandLink> 
+                        </li>
+
+
+                        <li>
+                            <h:commandLink action="/usuario/modulos">
+                                <i class="fa fa-th"></i>
+                                <span>Modulos del sistema</span>
+                            </h:commandLink>
+                        </li>
+
+
+
+                    </h:panelGroup>
+
+                </ul>
+            </h:form>
+        </ui:define>
+
+        <ui:define name="title">Listado de cargos</ui:define>   
+        <ui:define name="button">
+            <h:form id="documentosFormBotones">
+                <div class="container-fluid col-sm-4 form-group">
+                    <h:button class="btn btn-warning btn-block" style="background: darkorange; color: white" value="Pagina principal" outcome="/User/calidad/paginaPrincipalCalidad"/>
+                </div>
+                <div class="container-fluid col-sm-4 form-group">
+                    <h:commandButton class="btn btn-primary btn-block" value="Crear cargo" action="#{cargosController.prepareCreate}" />
+                </div>
+            </h:form>
+        </ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="5000"/>
+            <h:form id="documentosFormList">
+                <p:outputPanel id="documentosTablePanel">
+                    <p:dataTable value="#{planillaController.listOpPlanilla}" var="cargo"
+                                 rows="50" id="documentosTable"  widgetVar="formatosTable"
+                                 paginator="true" stickyHeader="true" scrollable="true" filteredValue="#{formatosController.filtros}"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="20,50,100"
+                                 rendered="#{loginController.adminCalidad || loginController.adminCalidoso || loginController.auditor || loginController.admin}">
+                        <f:facet name="header">
+                            <p:commandButton icon="fa fa-edit"
+                                             id="Importar"
+                                             update=":formCreateVehiculo:itemsGroup" 
+                                             process="@this" 
+                                             oncomplete="PF('dlg5').show();">
+                            </p:commandButton>
+                            <p:tooltip for="Importar" value="Importa tu archivo xls"/>
+                            <h:commandLink id="exportExcel">
+                                <p:graphicImage library="images" name="/icons/logoExcel.png" width="30"/>
+                                <p:dataExporter type="xls" postProcessor="#{exportarTable.postProcessXLS}"
+                                                target="documentosTables" fileName="inventario" />
+                            </h:commandLink>
+                            <p:tooltip id="descripcion-botonExcel" for="exportExcel" value="Exportar en excel" trackMouse="true" />
+                            <h4 class="colorLetra" style="font-weight: bold; display: inline-block !important;" >
+                                Total registros: #{fn:length(planillaController.listOpPlanilla)}
+                            </h4>
+                        </f:facet>
+                        <p:column filterBy="#{cargo.opPlanilla}" filterMatchMode="contains" width="100" >
+                            <f:facet name="header">OP</f:facet>
+                            <h:outputText style="font-weight: bold" value="#{cargo.opPlanilla}"/>
+                        </p:column>
+                        <p:column filterBy="#{cargo.idFtCliente.nombre.toUpperCase()}" filterMatchMode="contains" width="100" >
+                            <f:facet name="header">Cliente</f:facet>
+                            <h:outputText style="font-weight: bold" value="PV-#{cargo.idFtCliente.nombre.toUpperCase()}"/>
+                        </p:column>
+                        <p:column width="100" >
+                            <p:dataList styleClass="dataList" value="#{cargo.planillaList}" var="planilla" emptyMessage="No tiene auditores asignados">
+                                <h:outputText value="#{planilla.toString()}"/>
+                            </p:dataList>
+                        </p:column>
+                        <p:column width="150">
+
+                            <p:commandButton ajax="false" id="boton-impr"  icon="ui-icon-pencil" action="#{planillaController.prepareEdit()}" >                           
+                                <f:setPropertyActionListener value="#{cargo}" target="#{planillaController.opPlanillaActual}"/>
+                                <f:setPropertyActionListener value="#{cargo}" target="#{planillaEditController.opPlanillaActual}"/>
+
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-impr" for="boton-impr" value="Editar formato" trackMouse="true"/>
+
+                            <p:commandButton icon="fa fa-edit"
+                                             id="auEditar"
+                                             update=":editar:itemsGroupDos" 
+                                             process="@this" 
+                                             oncomplete="PF('dlg3').show();">
+                                <f:attribute name="cargo" value="#{cargo}" />
+                                <f:setPropertyActionListener value="#{cargo}" target="#{planillaController.opPlanillaActual}"/>
+                            </p:commandButton>
+                            <p:tooltip for="auEditar" value="Editar"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+            </h:form>
+
+
+            <p:dialog header="Editar la PV" widgetVar="dlg3" minHeight="40" modal="true" width="70%" resizable="false" positionType="absolute">
+                <h:form id="editar">
+                    <div class="col-md-12 form-group">
+                        <div class="form-group">
+                            Los componentes de la pv N°<h:outputLabel value=" #{planillaController.planillaActual.pvPlanilla} "/>
+                            son los siguientes:
+                        </div>
+                        <h:panelGroup id="itemsGroupDos">
+                            <div class="col-md-12 form-group">
+                                <h:outputLabel value="OP "  />
+                                <p:inputText   placeholder="1411"
+                                               class="form-control"
+                                               id="descripcion34"
+                                               value="#{planillaController.opPlanillaActual.opPlanilla }" 
+                                               type="text"
+                                               style="resize: none"
+                                               requiredMessage="Por favor ingrese la descripcion">
+                                </p:inputText>
+                                <p:message id="descripcion34Message" for="descripcion34" styleClass="error"/>
+
+                            </div>
+                            <h:commandButton class="btn btn-danger btn-block form-group" value="Indicador PDF" actionListener="#{planillaController.printPO}"/>
+
+                        </h:panelGroup>
+
+
+                    </div>
+
+                </h:form>
+            </p:dialog>
+
+            <p:dialog header="Exporta en masa " widgetVar="dlg5" minHeight="40" modal="true" width="70%">
+                <h:form id="formCreateVehiculo">
+                    <div class="col-md-12 form-group">
+                        <div class="form-group">
+                            <span>Exporta tu archivo excel aqui</span>
+                        </div>
+                        <p:scrollPanel mode = "native" style = "max-height: 700px">
+                            <h:panelGroup id="itemsGroup">
+                                <div class="col-md-12 form-group">
+                                    <div class="form-group">
+                                        <h:outputLabel value="Cargar ficha bordado:"/>
+                                        <p:fileUpload cancelLabel="Cancelar" 
+                                                      uploadLabel="Cargar imagen"
+                                                      auto="true"
+                                                      label="Examinar"
+                                                      mode="advanced" 
+                                                      allowTypes="/(\.|\/)(xlsx)$/" 
+                                                      sizeLimit="800000"
+                                                      fileUploadListener="#{planillaController.cargarFichaProduccion}" id="fichaB"
+                                                      process="@this"
+                                                      converterMessage="proceso terminado"
+                                                      />
+                                        <p:message id="fichaBMessage" for="fichaB"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h:commandButton styleClass="boton-prime" 
+                                                         action="#{planillaController.addArchivo()}" 
+
+                                                         value="Editar">
+                                            <f:ajax execute="@this fichaB"
+                                                    render=":formCreateVehiculo:itemsGroup"
+                                                    />
+                                        </h:commandButton>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <h:commandButton styleClass="boton-prime" 
+                                                         action="#{planillaController.leerArchivo()}" 
+                                                         value="Editar">
+                                            <p:ajax oncomplete="PF('dlg5').hide();"/>
+                                            <f:ajax execute="@this "
+                                                    />
+                                        </h:commandButton>
+                                    </div>
+
+                                </div>
+                            </h:panelGroup>
+                        </p:scrollPanel>
+
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <p:commandButton styleClass="btn btn-danger btn-block" 
+                                         value="Cerrar" 
+                                         oncomplete="PF('dlg2').hide();"
+                                         process="@this"/>
+                    </div>
+                </h:form>
+            </p:dialog>
+        </ui:define>
+    </ui:composition>
+</html>

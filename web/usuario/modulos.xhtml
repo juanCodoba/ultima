@@ -161,6 +161,19 @@
                             <div class="item-overlay top"></div>
                         </div>
                     </div>
+
+                    <div class="col-md-4 col-lg-3" >
+                        <div class="itemZoom img-bordered" jsf:rendered="#{loginController.noCambiarContra ||loginController.userDesp || loginController.jefe ||loginController.admin || loginController.adminCalidad||loginController.adminCalidoso }">
+                            <h:commandLink action="#{loginController.preparePaginaPlanilla()}">                                 
+                                <img class="img-responsive" src="#{request.contextPath}/resources/images/modulos/planilla.png"/>
+                            </h:commandLink>              
+                            <div class="item-overlay top"></div>
+                        </div>
+                    </div>
+
+
+
+
                     <div class="col-md-4 col-lg-3" jsf:rendered="#{loginController.cambiarContra}">
                         <div class="itemZoom img-bordered">
                             <h:commandLink action="#{loginController.prepareEditContra}">

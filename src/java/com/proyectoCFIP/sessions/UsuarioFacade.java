@@ -110,6 +110,12 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         Query q = getEntityManager().createNamedQuery("Usuario.findByTecnicos");
         return q.getResultList();
     }
+        public List<Usuario> consultaUsuarioComerciales() {
+        Query q = getEntityManager().createNamedQuery("Usuario.findByIdCargoComerciales");
+        return q.getResultList();
+    }
+    
+    
 
     public List<Usuario> consultaUsuarioDocumento(Documentos documento) {
         Query q = getEntityManager().createNamedQuery("Usuario.findByDocumento");

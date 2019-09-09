@@ -119,7 +119,7 @@ public class NovedadFacturacionCotroller implements Serializable {
 
     public String editar() {
         try {
-            NovedadFacturacionActual.setRealConfecciones(NovedadFacturacionActual.getTotalConfecciones().subtract(NovedadFacturacionActual.getFcrmNrniff()).subtract(NovedadFacturacionActual.getFcrmRniff()));
+            NovedadFacturacionActual.setRealConfecciones(NovedadFacturacionActual.getTotalConfecciones().add(NovedadFacturacionActual.getFcrmNrniff()).subtract(NovedadFacturacionActual.getFcrmRniff()));
             getNovedadFacturacionFacade().edit(NovedadFacturacionActual);
             addSuccessMessage("NovedadFacturacion", "La NovedadFacturacion con el codigo " + NovedadFacturacionActual.getIdNovedadFacturacion() + " fue creada editada");
             recargarLista();

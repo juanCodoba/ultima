@@ -326,12 +326,6 @@
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.camiseta)}"  >
-                            <div style="    border-bottom-style: groove;">
-                                <h:outputLabel class="labelInfo" >Union de las Mangas: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.unionMangas}"  rendered="#{ ftFichaTecnica.camibuso || (ftFichaTecnica.camiseta)}"  />
-                            </div>
-                        </ui:fragment>
 
                         <ui:fragment rendered="#{ftFichaTecnica.chaqueta}"  >
                             <div style="    border-bottom-style: groove;">
@@ -702,8 +696,11 @@
 
                         <ui:fragment   >
                             <div style="    border-bottom-style: groove;">
-                                <h:outputLabel class="labelInfo" >Logo </h:outputLabel><br></br>
+                                <h:outputLabel class="labelInfo" >Bordado </h:outputLabel><br></br>
                                 <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.descripcionLogo}"  />
+                            </div>
+                            <div class="danger">
+                                <p><strong>Nota!</strong> (La información de estampado y bordado, debe ser validada con la planilla de producción, ya que se pueden presentar pequeñas modificaciones eventuales.</p>
                             </div>
                         </ui:fragment>
 

@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminCalidoso}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+
+                        <!-- Optionally, you can add icons to the links -->
+
+                        <li style="margin-top: 20px" class="active">
+                            <h:commandLink action="/administrador/modPestel/list">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+
+
+                        <li jsf:rendered="#{loginController.adminCalidad || loginController.adminCalidoso ||loginController.admin || loginController.jefe}">
+                            <h:commandLink   action="#{factorController.prepareCreate()}">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                <span>Genera tu matriz</span>
+                            </h:commandLink> 
+                        </li>
+
+                        <li jsf:rendered="#{loginController.adminCalidad || loginController.adminCalidoso ||loginController.admin || loginController.jefe}" >
+                            <h:commandLink   action="#{factorController.prepareAspectoGlobal()}" actionListener="#{factorController.listarGlobal()}" >
+                                <i class="fa fa-file" aria-hidden="true"></i>
+                                <span>Matriz Global</span>
+                            </h:commandLink> 
+                        </li>
+
+
+                        <li>
+                            <h:commandLink action="/usuario/modulos">
+                                <i class="fa fa-th"></i>
+                                <span>Modulos del sistema</span>
+                            </h:commandLink>
+                        </li>
+
+
+
+                    </h:panelGroup>
+
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Crear cargo</ui:define>        
+        <ui:define name="body">
+            <h:form id="formulario-crearRequisito">
+                <p:growl id="growl" showDetail="true" life="2000"/>
+                <h:outputText class="help-block" value="Ingresa los datos de la planilla:"/>
+                <div class="row">
+
+                    <div class="col-md-12" >
+                        <div class="col-md-12 form-group">
+                            <h:outputLabel value="OP "  />
+                            <p:inputText   placeholder="OP-1411"
+                                           class="form-control"
+                                           id="descripcion"
+                                           disabled="true"
+                                           value="#{planillaController.opPlanillaActual.opPlanilla}" 
+                                           type="text"
+                                           style="resize: none"
+                                           requiredMessage="Por favor ingrese la descripcion">
+                            </p:inputText>
+                            <p:message id="descripcionMessage" for="descripcion" styleClass="error"/>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <h:outputLabel value="Cliente:" />
+                            <p:selectOneMenu style="width: 100%"
+                                             id="cliente"
+                                             required="true"
+                                             disabled="true"
+                                             requiredMessage="Ingrese el nombre del cliente"
+                                             value="#{planillaController.opPlanillaActual.idFtCliente}"
+                                             filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="Seleccionar uno.." />
+                                <f:selectItems value="#{ftClienteController.listaCliente}" var="cliente" itemValue="#{cliente}"/> 
+                                <f:ajax execute="@this" render="clienteMessage"/>
+                            </p:selectOneMenu>
+                            <p:message id="clienteMessage" for="cliente" styleClass="error"/>
+                        </div>
+                    </div>
+                </div>
+                <div style="position: absolute; bottom: 4em  ">
+                    <div class="container row">
+                        <div class="col-sm-5 form-group">
+                            <p:commandButton class="btn btn-primary btn-block"
+                                             value="Guardar"
+                                             ajax="false"
+                                             icon="fa fa-save"
+                                             process="@this formulario-crearRequisito"
+                                             action="#{planillaController.update()}"
+                                             onclick="onSubmitButton();">
+                                <f:ajax execute="@this" render="descripcion cliente"/>
+                            </p:commandButton>
+                        </div>
+                        <div class="col-sm-5 form-group">    
+                            <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="/usuario/modPlanilla/list"/>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+
+            <h:form id="correctivas" style="margin-bottom: 5em">
+                <div class="panel panel-primary form-group"  style="border-radius: 0">
+                    <div class="panel-heading"  style="border-radius: 0"><h4 class="letra-panelDescriEdu">Itinerario de la OP</h4></div>
+                    <div class="panel-body">
+                        <h:panelGroup id="itemsGroup">
+                            <p:dataTable sortBy="#{item2.cantidad}" id="tablaFuncion" emptyMessage="No se encontraron registros" value="#{planillaEditController.planillaListaPorOp}" var="item2"> 
+                                <p:column headerText="PV" width="70" >
+                                    <h:outputText value="#{item2.pvPlanilla}" style="font-weight: bold"/>
+                                </p:column>
+                                <p:column headerText="Item" width="70" >
+                                    <h:outputText value="#{item2.idItemPlanilla}" style="font-weight: bold"/>
+                                </p:column>
+                                <p:column headerText="Descripción" width="600"  >
+                                    <h:outputText value="#{item2.descripcionPlanilla}" style="font-weight: bold"/>
+                                </p:column>
+                                <p:column headerText="Talla" width="50" >
+                                    <h:outputText value="#{item2.talla}" style="font-weight: bold"/>
+                                </p:column>
+                                <p:column headerText="Cantidad" width="100"  >
+                                    <h:outputText value="#{item2.cantidad}" style="font-weight: bold"/>
+                                </p:column>
+                                <p:column headerText="Corte" width="100"  >
+                                    <h:outputText value="#{item2.corte}" style="font-weight: bold"/>
+                                </p:column>
+                                <p:column headerText="Estamapado" width="100"  >
+                                    <h:outputText value="#{item2.estampado}" style="font-weight: bold"/>
+                                </p:column>
+                                <p:column headerText="Bordado" width="100"  >
+                                    <h:outputText value="#{item2.bordado}" style="font-weight: bold"/>
+                                </p:column>
+                                <p:column headerText="Confección" width="100"  >
+                                    <h:outputText value="#{item2.confeccion}" style="font-weight: bold"/>
+                                </p:column>
+                                <p:column headerText="Fecha" width="150" >
+                                    <h:outputText value="#{item2.fecha}" style="font-weight: bold">
+                                        <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Estado" width="120" >
+                                    <h:outputText value="#{item2.idEstadoConsecPlanilla.toString()}" style="font-weight: bold"/>
+                                </p:column>
+                                <p:column headerText="Cliente" >
+                                    <h:outputText value="#{item2.cliente}" style="font-weight: bold"/>
+                                </p:column>
+                                <p:column headerText="Modulo" >
+                                    <h:outputText value="#{item2.moduloProd}" style="font-weight: bold"/>
+                                </p:column>
+                                <p:column headerText="Unid. Pendientes" width="60" >
+                                    <h:outputText value="#{item2.undPendientes}" style="font-weight: bold"/>
+                                </p:column>
+                                <p:column  headerText="Valor Subtotal" width="160" >
+                                    <h:outputText value="#{item2.valorSubtotal}" style="font-weight: bold">
+                                        <f:convertNumber type="currency" currencySymbol="$" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column width="100">
+                                    <p:commandButton icon="fa fa-search"
+                                                     id="ver23"
+                                                     process="@this" 
+                                                     update=":formCreateVehiculo:itemsGroup" 
+                                                     oncomplete="PF('dlg2').show();">
+                                        <f:attribute name="item" value="#{item2}" />
+                                        <f:setPropertyActionListener value="#{item2}" target="#{planillaController.planillaActual}"/>
+                                    </p:commandButton>
+                                    <p:tooltip for="ver23" value="Editar"/>
+                                    <p:commandButton icon="fa fa-edit"
+                                                     id="auEditar"
+                                                     update=":editar:itemsGroupDos" 
+                                                     process="@this" 
+                                                     oncomplete="PF('dlg3').show();">
+                                        <f:attribute name="item2" value="#{item2}" />
+                                        <f:setPropertyActionListener value="#{item2}" target="#{planillaController.planillaActual}"/>
+                                    </p:commandButton>
+                                    <p:tooltip for="auEditar" value="Editar"/>
+                                </p:column>
+
+                            </p:dataTable>
+
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </h:form>
+            <p:dialog header="Ver mas sobre la PV" widgetVar="dlg2" minHeight="40" modal="true" width="70%">
+                <h:form id="formCreateVehiculo">
+                    <div class="col-md-12 form-group">
+                        <div class="form-group">
+                            Los componentes de la pv N°<h:outputLabel value=" #{planillaController.planillaActual.pvPlanilla} "/>
+                            son los siguientes:
+                        </div>
+                        <p:scrollPanel mode = "native" style = "max-height: 700px">
+                            <h:panelGroup id="itemsGroup">
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <h:outputLabel value="PV "  />
+                                        <p:inputText   placeholder="1411"
+                                                       class="form-control"
+                                                       id="pv"
+                                                       value="#{planillaController.planillaActual.pvPlanilla}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la descripcion">
+                                        </p:inputText>
+                                        <p:message id="pvMessage" for="pv" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <h:outputLabel value="N° ITEM "  />
+                                        <p:inputText   placeholder="0000"
+                                                       class="form-control"
+                                                       id="item"
+                                                       value="#{planillaController.planillaActual.idItemPlanilla}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la descripcion">
+                                        </p:inputText>
+                                        <p:message id="itemMessage" for="item" styleClass="error"/>
+                                    </div>
+
+                                    <div class="col-md-12 form-group">
+                                        <div class="col-md-6 form-group" >
+                                            <h:outputLabel value="Fecha: "  />
+                                            <p:calendar id="fechaIAuditoria" locale="es"
+                                                        value="#{planillaController.planillaActual.fecha}"
+                                                        pattern="MMMM dd, yyyy"/>
+                                            <p:message id="fechaIAuditoriaMessage" for="fechaIAuditoria" styleClass="error"/>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <h:outputLabel value="Fecha Entrega Cliente: "  />
+                                            <p:calendar id="fechaCliente" locale="es"
+                                                        value="#{planillaController.planillaActual.fechaEntrCliente}"
+                                                        pattern="MMMM dd, yyyy"/>
+                                            <p:message id="fechaClienteMessage" for="fechaIAuditoria" styleClass="error"/>
+                                        </div>
+                                        <div class="col-md-6 form-group" >
+                                            <h:outputLabel value="Fecha Proucción: "  />
+                                            <p:calendar id="fechaProduccion" locale="es"
+                                                        value="#{planillaController.planillaActual.fechaConfeccion}"
+                                                        pattern="MMMM dd, yyyy"/>
+                                            <p:message id="fechaProduccionMessage" for="fechaIAuditoria" styleClass="error"/>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <h:outputLabel value="Fecha Corte: "  />
+                                            <p:calendar id="fechaCorte" locale="es"
+                                                        value="#{planillaController.planillaActual.fechaCorte}"
+                                                        pattern="MMMM dd, yyyy"/>
+                                            <p:message id="fechaCorteMessage" for="fechaCorte" styleClass="error"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 form-group">
+                                        <h:outputLabel value="Comercial:"  />
+                                        <p:selectOneMenu  style="width: 100% !important"
+                                                          id="idUsuario" 
+                                                          value="#{planillaController.planillaActual.idUsuarioVendedor}"
+                                                          converter="usuarioConverter">
+                                            <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                            <f:selectItems value="#{usuarioController.listUsuarioComer}" 
+                                                           var="usuario"
+                                                           itemValue="#{Usuario}"/>  
+                                            <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+
+                                            <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+                                        </p:selectOneMenu>
+                                        <p:message id="idUsuarioMessage" for="idUsuario" styleClass="error"/>
+                                    </div>
+
+                                    <div class="col-md-2 form-group">
+                                        <h:outputLabel value="Talla:"  />
+                                        <p:inputText   placeholder="x..."
+                                                       class="form-control"
+                                                       id="talla"
+                                                       value="#{planillaController.planillaActual.talla}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la talla">
+                                        </p:inputText>
+                                        <p:message id="tallaMessage" for="talla" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <h:outputLabel value="Cantidad:"  />
+                                        <p:inputText   placeholder="x1..."
+                                                       class="form-control"
+                                                       id="cant"
+                                                       value="#{planillaController.planillaActual.cantidad}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la talla">
+                                        </p:inputText>
+                                        <p:message id="cantMessage" for="cant" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <h:outputLabel value="OC:"  />
+                                        <p:inputText   placeholder="x1..."
+                                                       class="form-control"
+                                                       id="oc"
+                                                       value="#{planillaController.planillaActual.oc}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la talla">
+                                        </p:inputText>
+                                        <p:message id="ocMessage" for="oc" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <h:outputLabel value="Modulo:"  />
+                                        <p:inputText   placeholder="vio..."
+                                                       class="form-control"
+                                                       id="modulo"
+                                                       value="#{planillaController.planillaActual.moduloProd}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la talla">
+                                        </p:inputText>
+                                        <p:message id="moduloMessage" for="modulo" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <h:outputLabel value="Valor subtotal: "  />
+                                        <p:inputText   placeholder="vio..."
+                                                       class="form-control"
+                                                       id="subtotal"
+                                                       value="#{planillaController.planillaActual.valorSubtotal}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la talla">
+                                        </p:inputText>
+                                        <p:message id="subtotalMessage" for="modulo" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <h:outputLabel value="Descripción: "  />
+                                        <p:inputTextarea placeholder="descripcion..." 
+                                                         class="form-control" 
+                                                         id="descripcionPlanilla" 
+                                                         value="#{planillaController.planillaActual.descripcionPlanilla}" 
+                                                         required="true"
+                                                         requiredMessage="Por favor ingrece la descripcion ">
+                                            <f:ajax execute="@this" render="descripcionPlanillaMessage"/>
+                                        </p:inputTextarea>
+                                        <p:message id="descripcionPlanillaMessage" for="descripcionPlanilla" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <h:outputLabel value="Logo: "  />
+                                        <p:inputTextarea placeholder="logo..." 
+                                                         class="form-control" 
+                                                         id="logoPlanilla" 
+                                                         value="#{planillaController.planillaActual.logo}" 
+                                                         required="true"
+                                                         requiredMessage="Por favor ingrece la descripcion del logo ">
+                                            <f:ajax execute="@this" render="logoPlanillaMessage"/>
+                                        </p:inputTextarea>
+                                        <p:message id="logoPlanillaMessage" for="logoPlanilla" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <h:outputLabel value="Observaciones:"  />
+                                        <p:inputTextarea placeholder="Observaciones..." 
+                                                         class="form-control" 
+                                                         id="observacionesPlanilla" 
+                                                         value="#{planillaController.planillaActual.logo}" 
+                                                         required="true"
+                                                         requiredMessage="Por favor ingrece las observaciones ">
+                                            <f:ajax execute="@this" render="observacionesPlanillaMessage"/>
+                                        </p:inputTextarea>
+                                        <p:message id="observacionesPlanillaMessage" for="observacionesPlanilla" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <h:outputLabel value="Corte: "  />
+                                        <p:inputText   placeholder="vio..."
+                                                       class="form-control"
+                                                       id="corte"
+                                                       value="#{planillaController.planillaActual.corte}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la talla">
+                                        </p:inputText>
+                                        <p:message id="corteMessage" for="corte" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <h:outputLabel value="Estampado: "  />
+                                        <p:inputText   placeholder="vio..."
+                                                       class="form-control"
+                                                       id="estampado"
+                                                       value="#{planillaController.planillaActual.estampado}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la talla">
+                                        </p:inputText>
+                                        <p:message id="estampadoMessage" for="estampado" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <h:outputLabel value="Bordado: "  />
+                                        <p:inputText   placeholder="vio..."
+                                                       class="form-control"
+                                                       id="bordado"
+                                                       value="#{planillaController.planillaActual.bordado}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la talla">
+                                        </p:inputText>
+                                        <p:message id="bordadoMessage" for="bordado" styleClass="error"/>
+                                    </div>
+
+                                    <div class="col-md-3 form-group">
+                                        <h:outputLabel value="Confección: "  />
+                                        <p:inputText   placeholder="vio..."
+                                                       class="form-control"
+                                                       id="confeccion"
+                                                       value="#{planillaController.planillaActual.confeccion}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la talla">
+                                        </p:inputText>
+                                        <p:message id="confeccionMessage" for="confeccion" styleClass="error"/>
+                                    </div>
+
+                                </div>
+                            </h:panelGroup>
+                        </p:scrollPanel>
+
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <p:commandButton styleClass="btn btn-danger btn-block" 
+                                         value="Cerrar" 
+                                         oncomplete="PF('dlg2').hide();"
+                                         process="@this"/>
+                    </div>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog header="Editar la PV" widgetVar="dlg3" minHeight="40" modal="true" width="70%" resizable="false" positionType="absolute">
+                <h:form id="editar">
+                    <div class="col-md-12 form-group">
+                        <div class="form-group">
+                            Los componentes de la pv N°<h:outputLabel value=" #{planillaController.planillaActual.pvPlanilla} "/>
+                            son los siguientes:
+                        </div>
+                        <p:scrollPanel mode = "native" style = "max-height: 700px">
+                            <h:panelGroup id="itemsGroupDos">
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <h:outputLabel value="PV "  />
+                                        <p:inputText   placeholder="1411"
+                                                       class="form-control"
+                                                       id="pv"
+                                                       value="#{planillaController.planillaActual.pvPlanilla}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la descripcion">
+                                        </p:inputText>
+                                        <p:message id="pvMessage" for="pv" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <h:outputLabel value="N° ITEM "  />
+                                        <p:inputText   placeholder="0000"
+                                                       class="form-control"
+                                                       id="item"
+                                                       value="#{planillaController.planillaActual.idItemPlanilla}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la descripcion">
+                                        </p:inputText>
+                                        <p:message id="itemMessage" for="item" styleClass="error"/>
+                                    </div>
+
+                                    <div class="col-md-12 form-group">
+                                        <div class="col-md-6 form-group" >
+                                            <h:outputLabel value="Fecha: "  />
+                                            <p:calendar id="fechaIAuditoria" locale="es"
+                                                        value="#{planillaController.planillaActual.fecha}"
+                                                        pattern="MMMM dd, yyyy"/>
+                                            <p:message id="fechaIAuditoriaMessage" for="fechaIAuditoria" styleClass="error"/>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <h:outputLabel value="Fecha Entrega Cliente: "  />
+                                            <p:calendar id="fechaCliente" locale="es"
+                                                        value="#{planillaController.planillaActual.fechaEntrCliente}"
+                                                        pattern="MMMM dd, yyyy"/>
+                                            <p:message id="fechaClienteMessage" for="fechaIAuditoria" styleClass="error"/>
+                                        </div>
+                                        <div class="col-md-6 form-group" >
+                                            <h:outputLabel value="Fecha Proucción: "  />
+                                            <p:calendar id="fechaProduccion" locale="es"
+                                                        value="#{planillaController.planillaActual.fechaConfeccion}"
+                                                        pattern="MMMM dd, yyyy"/>
+                                            <p:message id="fechaProduccionMessage" for="fechaIAuditoria" styleClass="error"/>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <h:outputLabel value="Fecha Corte: "  />
+                                            <p:calendar id="fechaCorte" locale="es"
+                                                        value="#{planillaController.planillaActual.fechaCorte}"
+                                                        pattern="MMMM dd, yyyy"/>
+                                            <p:message id="fechaCorteMessage" for="fechaCorte" styleClass="error"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 form-group">
+                                        <h:outputLabel value="Comercial:"  />
+                                        <p:selectOneMenu  style="width: 100% !important"
+                                                          id="idUsuario" 
+                                                          value="#{planillaController.planillaActual.idUsuarioVendedor}"
+                                                          converter="usuarioConverter">
+                                            <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                            <f:selectItems value="#{usuarioController.listUsuarioComer}" 
+                                                           var="usuario"
+                                                           itemValue="#{Usuario}"/>  
+                                            <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+
+                                            <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+                                        </p:selectOneMenu>
+                                        <p:message id="idUsuarioMessage" for="idUsuario" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <h:outputLabel value="Talla:"  />
+                                        <p:inputText   placeholder="x..."
+                                                       class="form-control"
+                                                       id="talla"
+                                                       value="#{planillaController.planillaActual.talla}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la talla">
+                                        </p:inputText>
+                                        <p:message id="tallaMessage" for="talla" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <h:outputLabel value="Cantidad:"  />
+                                        <p:inputText   placeholder="x1..."
+                                                       class="form-control"
+                                                       id="cant"
+                                                       value="#{planillaController.planillaActual.cantidad}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la talla">
+                                        </p:inputText>
+                                        <p:message id="cantMessage" for="cant" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <h:outputLabel value="OC:"  />
+                                        <p:inputText   placeholder="x1..."
+                                                       class="form-control"
+                                                       id="oc"
+                                                       value="#{planillaController.planillaActual.oc}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la talla">
+                                        </p:inputText>
+                                        <p:message id="ocMessage" for="oc" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <h:outputLabel value="Modulo:"  />
+                                        <p:inputText   placeholder="vio..."
+                                                       class="form-control"
+                                                       id="modulo"
+                                                       value="#{planillaController.planillaActual.moduloProd}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la talla">
+                                        </p:inputText>
+                                        <p:message id="moduloMessage" for="modulo" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <h:outputLabel value="Valor subtotal: "  />
+                                        <p:inputText   placeholder="vio..."
+                                                       class="form-control"
+                                                       id="subtotal"
+                                                       value="#{planillaController.planillaActual.valorSubtotal}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la talla">
+                                        </p:inputText>
+                                        <p:message id="subtotalMessage" for="modulo" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <h:outputLabel value="Descripción: "  />
+                                        <p:inputTextarea placeholder="descripcion..." 
+                                                         class="form-control" 
+                                                         id="descripcionPlanilla" 
+                                                         value="#{planillaController.planillaActual.descripcionPlanilla}" 
+                                                         required="true"
+                                                         requiredMessage="Por favor ingrece la descripcion ">
+                                            <f:ajax execute="@this" render="descripcionPlanillaMessage"/>
+                                        </p:inputTextarea>
+                                        <p:message id="descripcionPlanillaMessage" for="descripcionPlanilla" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <h:outputLabel value="Logo: "  />
+                                        <p:inputTextarea placeholder="logo..." 
+                                                         class="form-control" 
+                                                         id="logoPlanilla" 
+                                                         value="#{planillaController.planillaActual.logo}" 
+                                                         required="true"
+                                                         requiredMessage="Por favor ingrece la descripcion del logo ">
+                                            <f:ajax execute="@this" render="logoPlanillaMessage"/>
+                                        </p:inputTextarea>
+                                        <p:message id="logoPlanillaMessage" for="logoPlanilla" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <h:outputLabel value="Observaciones:"  />
+                                        <p:inputTextarea placeholder="Observaciones..." 
+                                                         class="form-control" 
+                                                         id="observacionesPlanilla" 
+                                                         value="#{planillaController.planillaActual.logo}" 
+                                                         required="true"
+                                                         requiredMessage="Por favor ingrece las observaciones ">
+                                            <f:ajax execute="@this" render="observacionesPlanillaMessage"/>
+                                        </p:inputTextarea>
+                                        <p:message id="observacionesPlanillaMessage" for="observacionesPlanilla" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <h:outputLabel value="Corte: "  />
+                                        <p:inputText   placeholder="vio..."
+                                                       class="form-control"
+                                                       id="corte"
+                                                       value="#{planillaController.planillaActual.corte}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la talla">
+                                        </p:inputText>
+                                        <p:message id="corteMessage" for="corte" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <h:outputLabel value="Estampado: "  />
+                                        <p:inputText   placeholder="vio..."
+                                                       class="form-control"
+                                                       id="estampado"
+                                                       value="#{planillaController.planillaActual.estampado}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la talla">
+                                        </p:inputText>
+                                        <p:message id="estampadoMessage" for="estampado" styleClass="error"/>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <h:outputLabel value="Bordado: "  />
+                                        <p:inputText   placeholder="vio..."
+                                                       class="form-control"
+                                                       id="bordado"
+                                                       value="#{planillaController.planillaActual.bordado}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la talla">
+                                        </p:inputText>
+                                        <p:message id="bordadoMessage" for="bordado" styleClass="error"/>
+                                    </div>
+
+                                    <div class="col-md-3 form-group">
+                                        <h:outputLabel value="Confección: "  />
+                                        <p:inputText   placeholder="vio..."
+                                                       class="form-control"
+                                                       id="confeccion"
+                                                       value="#{planillaController.planillaActual.confeccion}" 
+                                                       type="text"
+                                                       style="resize: none"
+                                                       requiredMessage="Por favor ingrese la talla">
+                                        </p:inputText>
+                                        <p:message id="confeccionMessage" for="confeccion" styleClass="error"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 form-group">
+                                    <div class="col-md-6">
+                                        <h:commandButton styleClass="boton-prime" 
+                                                         action="#{planillaController.addPvsCompeltEdit()}" 
+
+                                                         value="Editar">
+                                            <p:ajax oncomplete="PF('dlg3').hide();"/>
+                                            <f:ajax execute="@this descripcion pv item fechaIAuditoria fechaCliente fechaProduccion fechaCorte idUsuario descripcionPlanilla
+                                                    talla cant oc modulo logoPlanilla observacionesPlanilla corte estampado bordado confeccion pendientes idEstdoPla subtotal"
+                                                    render=":correctivas:itemsGroup"
+                                                    />
+                                        </h:commandButton>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <p:commandButton styleClass="btn btn-danger btn-block" 
+                                                         value="Cerrar" 
+                                                         oncomplete="PF('dlg3').hide();"
+                                                         process="@this"/>
+                                    </div>
+
+                                </div>
+                            </h:panelGroup>
+
+                        </p:scrollPanel>
+
+                    </div>
+
+                </h:form>
+            </p:dialog>
+
+
+
+
+
+
+
+
+        </ui:define>
+    </ui:composition>
+</html>

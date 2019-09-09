@@ -8,6 +8,7 @@ package com.proyectoCFIP.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -46,6 +47,9 @@ public class FtCliente implements Serializable {
     private String nombre;
     @OneToMany(mappedBy = "idFtCliente")
     private List<FtFichaTecnica> ftFichaTecnicaList;
+
+    @OneToMany( mappedBy = "idFtCliente")
+    private List<OpPlanilla> opPlanillaList;
 
     @OneToMany(mappedBy = "idFtCliente")
     private List<Facturado> facturadoList;
@@ -122,6 +126,7 @@ public class FtCliente implements Serializable {
     public void setFacturadoList(List<Facturado> facturadoList) {
         this.facturadoList = facturadoList;
     }
+
     @XmlTransient
     public List<Novedad> getNovedadList() {
         return novedadList;
@@ -129,6 +134,14 @@ public class FtCliente implements Serializable {
 
     public void setNovedadList(List<Novedad> novedadList) {
         this.novedadList = novedadList;
+    }
+
+    public List<OpPlanilla> getPlanillaList() {
+        return opPlanillaList;
+    }
+
+    public void setPlanillaList(List<OpPlanilla> opPlanillaList) {
+        this.opPlanillaList = opPlanillaList;
     }
 
     

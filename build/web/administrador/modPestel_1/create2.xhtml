@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Crear cargo</ui:define>        
+        <ui:define name="body">
+            <h:form id="formulario-crearRequisito">
+                <p:growl id="msgs2" />
+                <h:outputText class="help-block" value="Ingresa los datos del cargo:"/>
+                <div class="panel panel-primary">
+                    <div class="panel-heading" style="border-radius: 0"><h4 class="letra-panelDescriEdu">Creación de planilla  </h4></div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <h:panelGroup id="agregar-requisito">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <div class="col-md-6 form-group">
+                                                <h:outputLabel value="OP "  />
+                                                <p:inputText   placeholder="OP-1411"
+                                                               class="form-control"
+                                                               id="descripcion"
+                                                               value="#{planillaController.planillaActual.opPlanilla}" 
+                                                               type="text"
+                                                               style="resize: none"
+                                                               requiredMessage="Por favor ingrese la descripcion">
+                                                </p:inputText>
+                                                <p:message id="descripcionMessage" for="descripcion" styleClass="error"/>
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <h:outputLabel value="PV "  />
+                                                <p:inputText   placeholder="PV-1411"
+                                                               class="form-control"
+                                                               id="pv"
+                                                               value="#{planillaController.planillaActual.pvPlanilla}" 
+                                                               type="text"
+                                                               style="resize: none"
+                                                               requiredMessage="Por favor ingrese la descripcion">
+                                                </p:inputText>
+                                                <p:message id="pvMessage" for="pv" styleClass="error"/>
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <h:outputLabel value="N° ITEM "  />
+                                                <p:inputText   placeholder="0000"
+                                                               class="form-control"
+                                                               id="pv"
+                                                               value="#{planillaController.planillaActual.idItemPlanilla}" 
+                                                               type="text"
+                                                               style="resize: none"
+                                                               requiredMessage="Por favor ingrese la descripcion">
+                                                </p:inputText>
+                                                <p:message id="pvMessage" for="pv" styleClass="error"/>
+                                            </div>
+
+                                            <div class="col-md-12 form-group">
+                                                <h:outputLabel value="FECHA"  style="display: block; position: relative; left: 13px;"/>
+                                                <div class="col-md-2 form-group" style="    position: relative;   left: 20%;">
+                                                    <h:outputLabel value="Fecha Inicio:"  />
+                                                    <p:calendar id="fechaIAuditoria" locale="es"
+                                                                value="#{planillaController.planillaActual.fecha}"
+                                                                pattern="MMMM dd, yyyy"/>
+                                                    <p:message id="fechaIAuditoriaMessage" for="fechaIAuditoria" styleClass="error"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 form-group">
+                                                <h:outputLabel value="CLIENTES" />
+                                                <div class="form-group">  
+                                                    <p:selectOneMenu  style="width: 100% !important"
+                                                                      id="idCliente" 
+                                                                      value="#{planillaController.planillaActual.idFtCliente}"
+                                                                      >
+                                                        <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                                        <f:selectItems value="#{ftClienteController.listaCliente}" 
+                                                                       var="cliente"
+                                                                       itemValue="#{Cliente}"/>  
+                                                        <f:ajax execute="@this" render="divPanel"/>
+                                                    </p:selectOneMenu>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12 form-group">
+                                                <h:outputLabel value="COMERCIAL"  />
+                                                <p:selectOneMenu  style="width: 100% !important"
+                                                                  id="idUsuario" 
+                                                                  value="#{planillaController.planillaActual.idUsuarioVendedor}"
+                                                                  converter="usuarioConverter">
+                                                    <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                                    <f:selectItems value="#{usuarioController.listaUsuariosRol}" 
+                                                                   var="usuario"
+                                                                   itemValue="#{Usuario}"/>  
+                                                    <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+
+                                                    <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+                                                </p:selectOneMenu>
+                                                <p:message id="idUsuarioMessage" for="idUsuario" styleClass="error"/>
+                                            </div>
+                                            <div class="col-md-12 form-group">
+                                                <h:outputLabel value="DESCRIPCION"  />
+                                                <p:inputTextarea placeholder="descripcion..." 
+                                                                 class="form-control" 
+                                                                 id="descripcionPlanilla" 
+                                                                 value="#{planillaController.planillaActual.descripcionPlanilla}" 
+                                                                 required="true"
+                                                                 requiredMessage="Por favor ingrece la descripcion ">
+                                                    <f:ajax execute="@this" render="descripcionPlanillaMessage"/>
+                                                </p:inputTextarea>
+                                                <p:message id="descripcionPlanillaMessage" for="descripcionPlanilla" styleClass="error"/>
+                                            </div>
+
+
+
+                                        </div>
+                                        <div class="col-md-6 form-group" style="position: relative;left: 25%">
+                                            <div class="form-group">
+                                                <h:commandButton class="btn btn-primary btn-block" style="margin-top:20px; height: 3em"
+                                                                 action="#{planillaController.add()}"
+                                                                 value="Agregar Factores" 
+                                                                 >
+                                                    <f:ajax execute="@this idProceso situacion idOportunidad idRiesgo idImportancia descripcion out2 fortalezas
+                                                            debilidades oportunidades amenazas" 
+                                                            render="agregar-requisito"/>
+
+
+                                                </h:commandButton>
+                                            </div>
+
+                                        </div>
+                                    </div>  
+                                </div>
+
+
+                            </h:panelGroup>
+
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="row"> 
+                    <div class="container-fluid col-sm-6 form-group">
+                        <h:commandButton type="buttom" class="btn btn-primary btn-block" 
+                                         value="Guardar" 
+                                         action="#{factorController.prepareEdit()}" actionListener="#{factorController.listardos()}" > 
+                        </h:commandButton>
+                    </div>
+                    <div class="container-fluid col-sm-6 form-group">
+                        <h:button class="btn btn-orange btn-block" 
+                                  value="Cancelar" 
+                                  outcome="list"> 
+                        </h:button>
+                    </div>
+                </div>
+
+            </h:form>
+            <p:dialog header="Crear Una nueva situación" widgetVar="dlg5" showHeader="false" modal="true" width="50%" height="600px">
+                <h:form id="formCreateVehiculo1">
+                    <h:panelGroup id="agregarFuncion">
+                        <div class="container-fluid">
+                            <div class="form-group" style="margin-top: 2em">
+                                Ingresa los aspectos a evaluar de
+                                <h:outputLabel value=" #{itemComponenteController.itemComponenteActual.nombre}"/>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <h:outputLabel value="Categoria:"  />
+                                <p:selectOneMenu  style="width: 100% !important"
+                                                  id="idCategoria" 
+                                                  value="#{itemSituacionController.itemSituacionActual.idCategoria}"
+                                                  converter="categoriaConverter">
+                                    <f:selectItem itemDisabled="true" itemLabel="--Seleccionar--"/>
+                                    <f:selectItems value="#{categoriaController.listaCategoria}" 
+                                                   var="categoria"
+                                                   itemValue="#{Categoria}"/>  
+                                    <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+
+                                    <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+                                </p:selectOneMenu>
+                                <p:message id="idCategoriaMessage" for="idCategoria" styleClass="error"/>
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel value="Descripcion"  />
+                                <p:inputText placeholder="Requisito" 
+                                             class="form-control" 
+                                             id="requisito" 
+                                             value="#{itemSituacionController.itemSituacionActual.descripcion}" 
+                                             requiredMessage="Por favor ingresar lo solicitado">
+                                    <f:ajax execute="@this" render="requisitoMessage"/>
+                                </p:inputText>
+                                <p:message id="requisitoMessage" for="requisito" styleClass="error"/>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="col-md-6 form-group">
+                            <p:commandButton styleClass="boton-prime" 
+                                             icon="fa fa-save"
+                                             action="#{itemSituacionController.addItemSituacion()}" 
+                                             value="Agregar"
+                                             >
+                                <p:ajax oncomplete="PF('dlg5').hide();"/>
+                                <f:ajax execute="@this" render="agregar-requisito divPanel"/>
+
+                            </p:commandButton> 
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <p:commandButton styleClass="btn btn-danger btn-block" 
+                                             value="Cerrar" 
+                                             oncomplete="PF('dlg5').hide();"
+                                             process="@this"/>
+                        </div>
+
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>
+
+        </ui:define>
+    </ui:composition>
+</html>
+

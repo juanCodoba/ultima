@@ -95,10 +95,11 @@ public class LoginController implements Serializable {
     public Usuario getUserLogueado() {
         return getUsuarioFacade().findByCorreoElectronico(getLogueado());
     }
+
     public boolean isUserDisn() {
         return getRequest().isUserInRole("DISN");
     }
-    
+
     public boolean isUserDesp() {
         return getRequest().isUserInRole("DESP");
     }
@@ -307,6 +308,13 @@ public class LoginController implements Serializable {
 //        RequestContext.getCurrentInstance().showMessageInDialog(message);
 //        return null;
         return "desayuno/paginaPrincipal";
+    }
+
+    public String preparePaginaPlanilla() {
+//        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se puede ingresar a este modulo", "Este modulo se encuentra desactivado por el momento");
+//        RequestContext.getCurrentInstance().showMessageInDialog(message);
+//        return null;
+        return "modPlanilla/list";
     }
 
     public String preparePaginaMasHerramientas() {

@@ -10,6 +10,14 @@
             </bookmark>
         </file>
         <file>
+            <url>web/usuario/modFichaTecnica/fileCliente.xhtml</url>
+            <bookmark id="1">
+                <name/>
+                <line>249</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
             <url>web/administrador/modSoporteIT/inventarioTecnologico/crearEquipo.xhtml</url>
             <bookmark id="3">
                 <name/>
@@ -21,34 +29,19 @@
             <url>src/java/com/proyectoCFIP/controller/FtFichaTecnicaController.java</url>
             <bookmark id="4">
                 <name/>
-                <line>1161</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/usuario/modFichaTecnica/fileCliente.xhtml</url>
-            <bookmark id="1">
-                <name/>
-                <line>249</line>
+                <line>1180</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/controller/CalidadPlanAccionController.java</file>
             <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/controller/FacturasSiesaController.java</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modFichaTecnica/novedades/lista.xhtml</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modFichaTecnica/novedades/administrar.xhtml</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/usuario/desayuno/list.xhtml</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/entities/Facturado.java</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/usuario/desayuno/pendienteFacturar.xhtml</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/usuario/desayuno/lista.xhtml</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/controller/NovedadCotroller.java</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modFichaTecnica/novedades/crear.xhtml</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modFichaTecnica/actiNovedades/crear.xhtml</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/controller/ActividadNovedadCotroller.java</file>
-            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/desayuno/create.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/administrador/modPlanilla/create2.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/usuario/modFichaTecnica/Desarrollo.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/web/usuario/modulos.xhtml</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/controller/PlanillaController.java</file>
+            <file>file:/E:/Users/Luis%20Carlos%20Cabal/Desktop/ft/proyect%20fichas/fichasTecnicas/src/java/com/proyectoCFIP/entities/Planilla.java</file>
         </group>
     </open-files>
 </project-private>

@@ -187,6 +187,10 @@ public class UsuarioController implements Serializable {
     public List<Usuario> getListaUsuarioRol12() {
         return getUsuarioFacade().consultaUsuariorRoles();
     }
+    
+        public List<Usuario> getListUsuarioComer() {
+        return getUsuarioFacade().consultaUsuarioComerciales();
+    }
 
     public List<Usuario> getListaUsuariosRol() {
         return listaUsuarios = getUsuarioFacade().consultaUsuarioRol(new Roles("CALIDAD", "Usuario calidad"));

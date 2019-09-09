@@ -14,7 +14,7 @@
                     <h:panelGroup >
                         <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
                         <!-- Optionally, you can add icons to the links -->
-                        <li class="active">
+                        <li >
                             <h:commandLink action="#{ftFichaTecnica.prepareListPrincipal}">
                                 <i class="fa fa-dashboard"></i> 
                                 <span>Principal</span>
@@ -143,6 +143,10 @@
                             <f:facet name="header">Versión</f:facet>
                             <h:outputText value="#{item.version.toString()}"/>
                         </p:column>
+                        <p:column filterBy="#{item.versionFoto.toString()}" width="50" filterMatchMode="contains">
+                            <f:facet name="header">Versión Fotos</f:facet>
+                            <h:outputText value="#{item.versionFoto.toString()}"/>
+                        </p:column>
                         <p:column width="130">
                             <p:commandButton id="descargar" icon="ui-icon-document" 
                                              rendered="#{loginController.fichaTecnicaPRINT}" action="#{ftFichaTecnica.createFichaPDFAdmin}"
@@ -189,6 +193,19 @@
                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{ftFichaTecnica.usuarioActual}"/>
                             </p:commandButton>
                             <p:tooltip id="descripcion-botonSolicitud" for="solicitud" value="Solicitar modificación" trackMouse="true" />
+
+                            <p:commandButton onclick="target = '_blank';"
+                                             ajax="false" 
+                                             process="@this" 
+                                             icon="ui-icon-copy"
+                                             id="fotos" 
+                                             action="#{ftFichaTecnica.prepareEditFotosLista}" 
+                                             rendered="#{loginController.fichaTecnica || (loginController.fichaTecnicaDESA)}">
+                                <f:setPropertyActionListener value="#{item}" target="#{ftFichaTecnica.fichaTecnicaActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{ftFichaTecnica.usuarioActual}"/>
+                            </p:commandButton>
+                            <p:tooltip id="descripcion-fotos" for="fotos" value="Editar Fotos" trackMouse="true" />
+
                             <p:commandButton onclick="target = '_blank';PF('descargar').hide();"
                                              ajax="false" 
                                              rendered="#{loginController.fichaTecnicaDESA}"

@@ -137,6 +137,7 @@ and open the template in the editor.
                                     <h:outputLabel value="Item:" rendered="#{ftFichaTecnica.fichaO}" />
                                     <p:inputText  class="form-control"
                                                   id="item"
+                                                  disabled="true"
                                                   rendered="#{ftFichaTecnica.fichaO}"
                                                   requiredMessage="Ingrese el codigo del Item"
                                                   value="#{ftFichaTecnica.fichaTecnicaActual.idItem}">
@@ -175,14 +176,17 @@ and open the template in the editor.
                             <p:message id="descripcionLargaMessage" for="descripcionLarga" styleClass="error"/>
                         </div>
                         <div class="form-group">
-                            <h:outputLabel value="Descripción logo:"  />
-                            <textarea placeholder="descripcion logo" 
+                            <h:outputLabel value="Descripción Brodado:"  />
+                            <textarea placeholder="descripcion bordado" 
                                       class="form-control"
                                       jsf:id="descripcionLogo"
                                       jsf:value="#{ftFichaTecnica.fichaTecnicaActual.descripcionLogo}" 
                                       type="text" style="height: 50px">
                             </textarea>
                             <p:message id="descripcionLogoMessage" for="descripcionLogo" styleClass="error"/>
+                            <div class="danger">
+                                <p><strong>Nota!</strong> (La información de estampado y bordado, debe ser validada con la planilla de producción, ya que se pueden presentar pequeñas modificaciones eventuales.</p>
+                            </div>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Cargar ficha bordado:"/>
@@ -192,10 +196,10 @@ and open the template in the editor.
                                           label="Examinar"
                                           mode="advanced" 
                                           allowTypes="/(\.|\/)(pdf)$/" 
-                                          sizeLimit="500000"
+                                          sizeLimit="800000"
                                           fileUploadListener="#{ftFichaTecnica.cargarFichaLogo}" id="fichaB"
                                           process="@this"
-                                          invalidSizeMessage="La imagen que deseas cargar sobrepasa los 500KB"
+                                          invalidSizeMessage="La imagen que deseas cargar sobrepasa los 800KB"
                                           converterMessage="proceso terminado"
                                           invalidFileMessage="Solo se aceptan imagenes jpg" />
                             <p:message id="fichaBMessage" for="fichaB"/>
@@ -203,7 +207,7 @@ and open the template in the editor.
                     </div>
                     <div class="col-md-6">
                         <div class="row">
-                            <div class="col-md-8 form-group">
+                            <div class="col-md-8 form-group ch-zoom-seeker ch-hide">
                                 <h:outputLabel value="Cargar imagen frontal:"/>
                                 <p:fileUpload cancelLabel="Cancelar" 
                                               uploadLabel="Cargar imagen"
@@ -211,11 +215,11 @@ and open the template in the editor.
                                               label="Examinar"
                                               mode="advanced" 
                                               allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
-                                              sizeLimit="500000"
+                                              sizeLimit="800000"
                                               fileUploadListener="#{ftFichaTecnica.imgF}" id="imagenF"
                                               process="@this"
                                               update="f"
-                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 500KB"
+                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 800KB"
                                               converterMessage="proceso terminado"
                                               invalidFileMessage="Solo se aceptan imagenes jpg" />
                                 <p:message id="imagenMessage" for="imagenF"/>
@@ -235,7 +239,7 @@ and open the template in the editor.
                             </div> 
                         </div>
                         <div class="row">
-                            <div class="col-md-8 form-group">
+                            <div class="col-md-8 form-group ch-zoom-seeker ch-hide">
                                 <h:outputLabel value="Cargar imagen posterior:"/>
                                 <p:fileUpload cancelLabel="Cancelar" 
                                               uploadLabel="Cargar imagen"
@@ -243,11 +247,11 @@ and open the template in the editor.
                                               auto="true"
                                               mode="advanced" 
                                               allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
-                                              sizeLimit="500000"
+                                              sizeLimit="800000"
                                               update="p"
                                               fileUploadListener="#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica1}" id="imagenP"
                                               process="@this"
-                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 500KB"
+                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 800KB"
                                               converterMessage="proceso terminado"
                                               invalidFileMessage="Solo se aceptan imagenes jpg"/>
                                 <p:message id="imagenFMessage" for="imagenP"/>
@@ -267,7 +271,7 @@ and open the template in the editor.
                             </div> 
                         </div>
                         <div class="row">
-                            <div class="col-md-8 form-group">
+                            <div class="col-md-8 form-group ch-zoom-seeker ch-hide">
                                 <h:outputLabel value="Cargar imagen caracteristica 1:"/>
                                 <p:fileUpload cancelLabel="Cancelar" 
                                               uploadLabel="Cargar imagen"
@@ -275,11 +279,11 @@ and open the template in the editor.
                                               auto="true"
                                               mode="advanced" 
                                               allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
-                                              sizeLimit="500000"
+                                              sizeLimit="800000"
                                               update="c1"
                                               fileUploadListener="#{ftFichaTecnica.cargarImgC1}" id="imagenC1"
                                               process="@this"
-                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 500KB"
+                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 800KB"
                                               converterMessage="proceso terminado"
                                               invalidFileMessage="Solo se aceptan imagenes jpg"/>
                                 <p:message id="imagenPMessage" for="imagenC1"/>
@@ -299,7 +303,7 @@ and open the template in the editor.
                             </div> 
                         </div>
                         <div class="row">
-                            <div class="col-md-8 form-group">
+                            <div class="col-md-8 form-group ch-zoom-seeker ch-hide">
                                 <h:outputLabel value="Cargar imagen caracteristica 2:"/>
                                 <p:fileUpload cancelLabel="Cancelar" 
                                               uploadLabel="Cargar imagen"
@@ -307,11 +311,11 @@ and open the template in the editor.
                                               mode="advanced" 
                                               auto="true"
                                               allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
-                                              sizeLimit="500000"
+                                              sizeLimit="800000"
                                               update="c2"
                                               fileUploadListener="#{ftFichaTecnica.cargarImgC2}" id="imagenC2"
                                               process="@this"
-                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 500KB"
+                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 800KB"
                                               converterMessage="proceso terminado"
                                               invalidFileMessage="Solo se aceptan imagenes jpg" />
                                 <p:message id="imagenC1Message" for="imagenC2"/>
@@ -331,7 +335,7 @@ and open the template in the editor.
                             </div> 
                         </div>
                         <div class="row">
-                            <div class="col-md-8 form-group">
+                            <div class="col-md-8 form-group ch-zoom-seeker ch-hide">
                                 <h:outputLabel value="Cargar imagen caracteristica 3:"/>
                                 <p:fileUpload cancelLabel="Cancelar" 
                                               uploadLabel="Cargar imagen"
@@ -339,11 +343,11 @@ and open the template in the editor.
                                               auto="true"
                                               mode="advanced" 
                                               allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
-                                              sizeLimit="500000"
+                                              sizeLimit="800000"
                                               update="c3"
                                               fileUploadListener="#{ftFichaTecnica.cargarImgC3}" id="imagenC3"
                                               process="@this"
-                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 500KB"
+                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 800KB"
                                               converterMessage="proceso terminado"
                                               invalidFileMessage="Solo se aceptan imagenes jpg" />
                                 <p:message id="imagenC2Message" for="imagenC3"/>
@@ -363,7 +367,7 @@ and open the template in the editor.
                             </div> 
                         </div>
                         <div class="row">
-                            <div class="col-md-8 form-group">
+                            <div class="col-md-8 form-group ch-zoom-seeker ch-hide">
                                 <h:outputLabel value="Cargar imagen caracteristica 4:"/>
                                 <p:fileUpload cancelLabel="Cancelar" 
                                               uploadLabel="Cargar imagen"
@@ -371,11 +375,11 @@ and open the template in the editor.
                                               mode="advanced" 
                                               auto="true"
                                               allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
-                                              sizeLimit="500000"
+                                              sizeLimit="800000"
                                               update="c4"
                                               fileUploadListener="#{ftFichaTecnica.cargarImgC4}" id="imagenC4"
                                               process="@this"
-                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 500KB"
+                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 800KB"
                                               converterMessage="proceso terminado"
                                               invalidFileMessage="Solo se aceptan imagenes jpg"/>
                                 <p:message id="imagenC3Message" for="imagenC4"/>
@@ -395,7 +399,7 @@ and open the template in the editor.
                             </div> 
                         </div>
                         <div class="row">
-                            <div class="col-md-8 form-group">
+                            <div class="col-md-8 form-group ch-zoom-seeker ch-hide">
                                 <h:outputLabel value="Cargar imagen forma de lavado:"/>
                                 <p:fileUpload cancelLabel="Cancelar" 
                                               uploadLabel="Cargar imagen"
@@ -403,11 +407,11 @@ and open the template in the editor.
                                               auto="true"
                                               mode="advanced" 
                                               allowTypes="/(\.|\/)(jpg|JPG|JPEG|jpeg|jpe)$/" 
-                                              sizeLimit="500000"
+                                              sizeLimit="800000"
                                               update="c3"
                                               fileUploadListener="#{ftFichaTecnica.cargarFotoLav}" id="fotoLav"
                                               process="@this"
-                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 500KB"
+                                              invalidSizeMessage="La imagen que deseas cargar sobrepasa los 800KB"
                                               converterMessage="proceso terminado"
                                               invalidFileMessage="Solo se aceptan imagenes jpg" />
                             </div>

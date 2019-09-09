@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.adminCalidoso}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="#{formatosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-excel-o"></i> 
+                                <span>Administrar Registros</span>
+                            </h:commandLink>  
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span>Administrar Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{documentosController.prepareListPermiso}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-user"></i>
+                                <span>Permisos Documentos</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{calidadPlanAccionController.listAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-spinner" aria-hidden="true"></i>
+                                <span>Administrar Acciones</span>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{calidadPlanAccionController.usuarioActual}"/>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{calidadGestionConocimientoController.prepareListAdmin}"
+                                           rendered="#{loginController.adminCalidoso}">
+                                <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                                <span>Administrar Conocimiento</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>
+                    <p:separator rendered="#{loginController.adminCalidoso}"/>
+                    <li style="margin-top: 20px">
+                        <h:commandLink action="/usuario/modCalidad/paginaPrincipal">
+                            <i class="fa fa-dashboard"></i> 
+                            <span>Principal</span>
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{formatosController.prepareListUser}">
+                            <i class="fa fa-file"></i>
+                            <span>Lista de registros</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{documentosController.prepareListUser}" rendered="#{loginController.userCaliadad}">
+                            <i class="fa fa-book"></i>
+                            <span>Lista de documentos</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadGestionConocimientoController.prepareList}">
+                            <i class="fa fa-lightbulb-o"></i>
+                            <span>Gestión del conocimiento</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="compromisosComite">
+                            <i class="fa fa-users"></i>
+                            <span>Compromisos del comité</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="#{calidadPlanAccionController.list}">
+                            <i class="fa fa-cogs"></i>
+                            <span>Acciones de mejora</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="informacionCalidad">
+                            <i class="fa fa-question"></i>
+                            <span>¿Que es calidad?</span> 
+                        </h:commandLink>
+                    </li>
+                    <li class="active">
+                        <h:commandLink action="horizonteInstitucional">
+                            <i class="fa fa-building-o"></i>
+                            <span>Horizonte institucional</span> 
+                        </h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="title">Imagen Corporativa</ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <h:form>
+                <div class="row container-cuerpo">
+                    <div class="col-md-12">
+                        <div class="panel panel-primary " >
+                            <div class="panel-heading">
+                                 <h2 style="position: relative; text-align: center;color: #ffffff">Manuales o Guias</h2>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <iframe src="https://drive.google.com/file/d/1FkEBImF1tjrKogIsN-pJHXkoi76ZkOU0/preview" width="450px" height="300px"></iframe>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="https://drive.google.com/file/d/1FkEBImF1tjrKogIsN-pJHXkoi76ZkOU0/preview"><h2 >CFIP-Guia Uso Logo Principal 2019:</h2></a>
+                                        <span style="font-size: 23px; justify-content: space-between" >Contiene las instrucciones detalladas del uso del logo CFIP solamente (para la línea del colegio, documentación, administrativa, etc) </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <iframe src="https://drive.google.com/file/d/1nZ9v-50oo4xK9XOj690RhFsoPHWnlcTG/preview" width="450px" height="300px"></iframe>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="https://drive.google.com/file/d/1nZ9v-50oo4xK9XOj690RhFsoPHWnlcTG/preview"><h2 >CFIP-Guia Uso Logo Protejer-CFIP 2019</h2></a> 
+                                        <span style="font-size: 23px; justify-content: space-between" >Contiene las instrucciones detalladas del uso conjunto del logo Proteger más CFIP solamente (para la línea de Confecciones y relacionados)</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <iframe src="https://drive.google.com/file/d/1L6YZGpeQpsC2zfVtoJDs-fqI3h2Z--_5/preview" width="450px" height="300px"></iframe>    
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="https://drive.google.com/file/d/1L6YZGpeQpsC2zfVtoJDs-fqI3h2Z--_5/preview"><h2 >CFIP-Guia Uso Logo EA-CFIP 2019</h2></a>
+                                        <span style="font-size: 23px; justify-content: space-between" >Contiene las instrucciones detalladas del uso conjunto del logo de Extensión Académica más CFIP solamente (para la unidad de EA y relacionados)</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <iframe src="https://drive.google.com/file/d/1satD1MPYIrvqXYz_hbQZdXarfhP_gL_c/preview" width="450px" height="300px">
+
+                                        </iframe>                             
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="https://drive.google.com/file/d/1satD1MPYIrvqXYz_hbQZdXarfhP_gL_c/preview"> <h2 >CFIP-Guia Uso Logo FTDH-CFIP 2019</h2></a>
+                                        <span style="font-size: 23px; justify-content: space-between" >	Contiene las instrucciones detalladas del uso conjunto del logo de FTDH más CFIP solamente (para la unidad de Formación para el Trabajo y relacionados)</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="panel panel-primary " >
+                            <div class="panel-heading" style="text-align: center">
+                                <h2 style="position: relative; text-align: center;color: #ffffff;display: inline-block;">Imágenes Vectoriales para Publicistas y Diseñadores;  ver más-----></h2>
+                                <a href="https://drive.google.com/open?id=1lBsfVkWHncmiM1kWgaqxceiopgAgPBLT"><i class="fa fa-inbox" aria-hidden="true" style="    font-size: 47px; color: #ffffff; display: inline-block;left: 1em;position: relative"></i></a>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-6">
+                                    <iframe src="https://drive.google.com/file/d/1gnO6AM_js-mqgWqYCYJzd9F-HwEz4b66/preview" width="450px" height="300px"></iframe>                                </div>
+                                <div class="col-md-6">
+                                    <a href="https://drive.google.com/file/d/1gnO6AM_js-mqgWqYCYJzd9F-HwEz4b66/preview"><h2 >CFIP-Logo Principal 2019 CMYK</h2></a> 
+                                    <span style="font-size: 23px; justify-content: space-between" >Esta membrete nos muestra el nuevo diseño que entrega el proceso de tecnologia 
+                                        aprobado por el ingenio providencia con los colores, tipo de letra y tamaño correspondientes, para efectuar su descarga dar clic en el encabezado Contiene la imagen vectorial sólo del logo CFIP en formato Adobe Ilustrator</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="panel panel-primary " >
+                            <div class="panel-heading" style="text-align: center">
+                                <h2 style="position: relative; text-align: center;color: #ffffff;display: inline-block;">Papelería Oficial</h2>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-6">
+                                    <h2 >EN PROCESO</h2>   
+                                </div>
+                                <div class="col-md-6">
+                                    <h2 >EN PROCESO</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="panel panel-primary " >
+                            <div class="panel-heading" style="text-align: center">
+                                <h2 style="position: relative; text-align: center;color: #ffffff;display: inline-block;">Imágenes Simples</h2>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <iframe src="https://drive.google.com/file/d/1lFE_j-gTuITR5HXF7Ss805GAf9b6NhmK/preview" width="450px" height="300px"></iframe>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="https://drive.google.com/file/d/1lFE_j-gTuITR5HXF7Ss805GAf9b6NhmK/preview"><h2 >CFIP-Logo Ppal 2019</h2></a> 
+                                        <span style="font-size: 23px; justify-content: space-between" >Color con Fondo Blanco, resolución Media para multipropósito en documentos que no sean los de papelería oficial</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <iframe src="https://drive.google.com/file/d/1mQ8rkhWc7D-84HmEWji3itdPPaKDrLRN/preview" width="450px" height="300px"></iframe>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="https://drive.google.com/file/d/1mQ8rkhWc7D-84HmEWji3itdPPaKDrLRN/preview" ><h2 >CFIP-Logo Ppal Trans</h2></a> 
+                                        <span style="font-size: 23px; justify-content: space-between" >	
+                                            Color con Transparencia, resolución Media para multipropósito en documentos que no sean los de papelería oficia</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> 
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

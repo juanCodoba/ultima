@@ -123,6 +123,9 @@ public class FtFichaTecnica implements Serializable {
     private Date fechaModificacion;
     @Column(name = "version")
     private Integer version;
+
+    @Column(name = "version_fot")
+    private Integer versionFoto;
     @Size(max = 45)
     @Column(name = "estado")
     private String estado;
@@ -919,8 +922,6 @@ public class FtFichaTecnica implements Serializable {
         this.forro = forro;
     }
 
-
-
     public String getFotoLavado() {
         return fotoLavado;
     }
@@ -928,8 +929,15 @@ public class FtFichaTecnica implements Serializable {
     public void setFotoLavado(String fotoLavado) {
         this.fotoLavado = fotoLavado;
     }
+
+    public Integer getVersionFoto() {
+        return versionFoto;
+    }
+
+    public void setVersionFoto(Integer versionFoto) {
+        this.versionFoto = versionFoto;
+    }
     
-
-
+    
 
 }

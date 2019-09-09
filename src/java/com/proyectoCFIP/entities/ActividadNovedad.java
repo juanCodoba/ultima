@@ -42,37 +42,47 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ActividadNovedad implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_actividad_novedad")
     private Integer idActividadNovedad;
-    
+
     @Column(name = "fecha_actual")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaActual;
-    
+
     @Column(name = "fecha_correcion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCorrecion;
-    
+
     @Size(max = 2147483647)
     @NotNull
     @Column(name = "descripcion")
     private String descripcion;
-    
+
+    @Size(max = 2147483647)
+    @Column(name = "comentario_ing_produc")
+    private String comentarioIngProduct;
+    @Size(max = 2147483647)
+    @Column(name = "comentario_calid_produc")
+    private String comentarioCalidadProduc;
+    @Size(max = 2147483647)
+    @Column(name = "comentario_calidad")
+    private String comentarioCalidad;
+
     @Size(max = 2147483647)
     @Column(name = "responsable")
     private String responsable;
-    
+
     @Size(max = 2147483647)
     @Column(name = "estado_no_conforme_diseno")
     private String estadoNoConformeDiseño;
-    
+
     @Size(max = 2147483647)
     @Column(name = "validacion_ingenieria")
     private String validacionIngenieria;
-    
+
     @Size(max = 2147483647)
     @Column(name = "verificacion_calidad")
     private String verificacionCalidad;
@@ -99,8 +109,6 @@ public class ActividadNovedad implements Serializable {
         this.verificacionCalidad = verificacionCalidad;
         this.idNovedad = idNovedad;
     }
-
-
 
     public Integer getIdActividadNovedad() {
         return idActividadNovedad;
@@ -198,7 +206,30 @@ public class ActividadNovedad implements Serializable {
     public void setResponsable(String responsable) {
         this.responsable = responsable;
     }
-    
+
+    public String getComentarioIngProduct() {
+        return comentarioIngProduct;
+    }
+
+    public void setComentarioIngProduct(String comentarioIngProduct) {
+        this.comentarioIngProduct = comentarioIngProduct;
+    }
+
+    public String getComentarioCalidadProduc() {
+        return comentarioCalidadProduc;
+    }
+
+    public void setComentarioCalidadProduc(String comentarioCalidadProduc) {
+        this.comentarioCalidadProduc = comentarioCalidadProduc;
+    }
+
+    public String getComentarioCalidad() {
+        return comentarioCalidad;
+    }
+
+    public void setComentarioCalidad(String comentarioCalidad) {
+        this.comentarioCalidad = comentarioCalidad;
+    }
     
 
 }

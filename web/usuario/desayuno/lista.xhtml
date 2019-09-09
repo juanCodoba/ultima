@@ -98,14 +98,14 @@
                         </p:column>
 
                         <p:column filterBy="#{item.fcrmRniff}"  filterMatchMode="contains">
-                            <f:facet name="header">fcrmRniff</f:facet>
+                            <f:facet name="header">Remiciones mes anterior</f:facet>
                             <h:outputText style="font-weight: bold; font-size: 1.2em; color:red" value="#{item.fcrmRniff}">
                                 <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
 
                             </h:outputText>
                         </p:column>
                         <p:column  filterBy="#{item.fcrmNrniff}"  filterMatchMode="contains">
-                            <f:facet name="header">fcrmNrniff</f:facet>
+                            <f:facet name="header">Remiciones mes actual</f:facet>
                             <h:outputText style="font-weight: bold; font-size: 1em;" value="#{item.fcrmNrniff}">
                                 <f:convertNumber currencySymbol="$" type="currency"  maxFractionDigits="0" />
 

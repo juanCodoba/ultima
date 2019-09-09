@@ -156,10 +156,12 @@ public class ActividadNovedadCotroller implements Serializable {
             ActividadNovedadActual.setEstadoNoConformeDiseño("DESARROLLO");
             addSuccessMessage("ActividadNovedad", "La ActividadNovedad con el codigo " + ActividadNovedadActual.getIdActividadNovedad() + " fue creada exitosamente");
             getActividadNovedadFacade().create(ActividadNovedadActual);
-            sendMailRegistroTec();
+            
             listaActividadNovedadActual.add(ActividadNovedadActual);
             ActividadNovedadActual = new ActividadNovedad();
-
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro creado", "El Registro fue creado correctamente");
+            RequestContext.getCurrentInstance().showMessageInDialog(message);
+            sendMailRegistroTec();
         } catch (Exception e) {
             addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
 
@@ -186,7 +188,10 @@ public class ActividadNovedadCotroller implements Serializable {
         try {
 //            ActividadNovedadActual.setIdUsuarioCreacion(usuarioActual);
 //            ActividadNovedadActual.setEstado(Boolean.TRUE);
-            addSuccessMessage("Plan de acción creado", "El plan de acción fue creado con consecutivo No. ");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro creado", "El Registro fue Creado correctamente");
+            RequestContext.getCurrentInstance().showMessageInDialog(message);
+            
+            
             return "/administrador/modFichaTecnica/novedades/lista?faces-redirect=true";
         } catch (Exception e) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Registro no Eliminado", "El Registro no fue eliminado correctamente!!");
@@ -242,7 +247,7 @@ public class ActividadNovedadCotroller implements Serializable {
     }
 
     private void sendMailRegistroTec() {
-        String subject = "ACTIVIDAD GENERADA CON EL CONSECUTIVO No." + ActividadNovedadActual.getIdNovedad() + "E ITEM No." + ActividadNovedadActual.getIdNovedad().getItem();
+        String subject = "ACTIVIDAD ACTUALIZADA CON EL CONSECUTIVO No." + ActividadNovedadActual.getIdNovedad() + "E ITEM No." + ActividadNovedadActual.getIdNovedad().getItem();
         StringBuilder mensaje = new StringBuilder();
         mensaje.append("\nDESCRIPCION DE LA NOVEDAD  ");
         mensaje.append(ActividadNovedadActual.getIdNovedad().getDescripcionNovedad());
@@ -257,7 +262,7 @@ public class ActividadNovedadCotroller implements Serializable {
         mensaje.append("\n ESTADO: ");
         mensaje.append(ActividadNovedadActual.getEstadoNoConformeDiseño());
         mensaje.append("\n\nTodos los Derechos Reservados www.cfiprovidencia.com © 2017.");
-        sendMail(" yamileth.collazos@cfiprovidencia.com " + " nathalia.yusti@cfiprovidencia.com " + " mayra.munoz@cfiprovidencia.com " + " " + ActividadNovedadActual.getIdNovedad().getIdUsuarioCreacion().getCorreoUsuario(), subject, mensaje.toString());
+        sendMail("camilo.buitrago@cfiprovidencia.com " + "nathalia.yusti@cfiprovidencia.com " + "mayra.munoz@cfiprovidencia.com " + "claudia.canar@cfiprovidencia.com " + "juan.cordoba@cfiprovidencia.com " + ActividadNovedadActual.getIdNovedad().getIdUsuarioCreacion().getCorreoUsuario(), subject, mensaje.toString());
     }
 
     private void sendMailAdminNov() {
@@ -276,7 +281,7 @@ public class ActividadNovedadCotroller implements Serializable {
         mensaje.append("\n ESTADO: ");
         mensaje.append(ActividadNovedadActual.getEstadoNoConformeDiseño());
         mensaje.append("\n\nTodos los Derechos Reservados www.cfiprovidencia.com © 2017.");
-        sendMail(" yamileth.collazos@cfiprovidencia.com " + " nathalia.yusti@cfiprovidencia.com " + " mayra.munoz@cfiprovidencia.com " + " " + ActividadNovedadActual.getIdNovedad().getIdUsuarioCreacion().getCorreoUsuario(), subject, mensaje.toString());
+        sendMail("camilo.buitrago@cfiprovidencia.com " + "nathalia.yusti@cfiprovidencia.com " + "mayra.munoz@cfiprovidencia.com " + "claudia.canar@cfiprovidencia.com " + "juan.cordoba@cfiprovidencia.com" + ActividadNovedadActual.getIdNovedad().getIdUsuarioCreacion().getCorreoUsuario(), subject, mensaje.toString());
     }
 
     public String updateMantenimiento() {

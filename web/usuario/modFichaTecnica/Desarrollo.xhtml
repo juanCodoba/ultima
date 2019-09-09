@@ -336,12 +336,7 @@
                             </div>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{ftFichaTecnica.camibuso || (ftFichaTecnica.camiseta)}"  >
-                            <div style="    border-bottom-style: groove;">
-                                <h:outputLabel class="labelInfo" >Union de las Mangas: </h:outputLabel><br></br>
-                                <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.unionMangas}"  rendered="#{ ftFichaTecnica.camibuso || (ftFichaTecnica.camiseta)}"  />
-                            </div>
-                        </ui:fragment>
+
 
                         <ui:fragment rendered="#{ftFichaTecnica.chaqueta}"  >
                             <div style="    border-bottom-style: groove;">
@@ -712,9 +707,13 @@
 
                         <ui:fragment   >
                             <div style="    border-bottom-style: groove;">
-                                <h:outputLabel class="labelInfo" >Logo </h:outputLabel><br></br>
+                                <h:outputLabel class="labelInfo" >Bordado </h:outputLabel><br></br>
                                 <h:outputText value="#{ftFichaTecnica.fichaTecnicaActual.descripcionLogo}"  />
+                                <div class="danger">
+                                    <p><strong>Nota!</strong> (La información de estampado y bordado, debe ser validada con la planilla de producción, ya que se pueden presentar pequeñas modificaciones eventuales.</p>
+                                </div>
                             </div>
+
                         </ui:fragment>
 
                         <ui:fragment  >
@@ -890,24 +889,24 @@
                 </div>
                 <div class="cuerpoContenedorImg">
                     <div class="contenedor-img">
-                        <img class="imagenesTop" width="200" height="250" style="vertical-align: top;" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgFrontal}"/>
+                        <img class="imagenesTop" width="250" height="250" style="vertical-align: top;" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgFrontal}"/>
                     </div>
                     <div class="contenedor-img">
-                        <img class="imagenesTop" width="200" height="250" style="vertical-align: top;" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgPosterior}"/>
+                        <img class="imagenesTop" width="250" height="250" style="vertical-align: top;" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgPosterior}"/>
                     </div>
                 </div>
                 <div class="cuerpoContenedorImg" >
                     <div class="contenedor-imgCa">
-                        <img class="imagenesBot" width="100" height="150" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica1}"/>
+                        <img class="imagenesBot" width="150" height="150" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica1}"/>
                     </div>
                     <div class="contenedor-imgCa">
-                        <img class="imagenesBot" width="100" height="150" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica2}"/>
+                        <img class="imagenesBot" width="150" height="150" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica2}"/>
                     </div>
                     <div class="contenedor-imgCa">
-                        <img class="imagenesBot" width="100" height="150" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica3}"/>
+                        <img class="imagenesBot" width="150" height="150" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica3}"/>
                     </div>
                     <div class="contenedor-imgCa">
-                        <img class="imagenesBot" width="100" height="150" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica4}"/>
+                        <img class="imagenesBot" width="150" height="150" src="file:#{ftFichaTecnica.fichaTecnicaActual.rutaImgCaracteristica4}"/>
                     </div>
 
                 </div>

@@ -259,10 +259,6 @@ public class CalidadPlanAccionController implements Serializable {
         this.listaSeguimientoAccionActual = listaSeguimientoAccionActual;
     }
 
-
-
-
-
     public List<CalidadAccionImplementar> getListaAccionImplementarActual() {
         return listaAccionImplementarActual;
     }
@@ -282,9 +278,9 @@ public class CalidadPlanAccionController implements Serializable {
     public void setListaSeguimientoSinCerrarCor(List<CalidadSeguimientoCorrectiva> listaSeguimientoSinCerrarCor) {
         this.listaSeguimientoSinCerrarCor = listaSeguimientoSinCerrarCor;
     }
-    
-        public List<CalidadSeguimientoCorrectiva> getListaSeguimientoSinCerrarCorActual() {
-        return listaSeguimientoSinCerrarCorActual = getCalidadSeguimientoCorrectivaFacade().consultaSeguimiento(accionCorrectivaActual) ;
+
+    public List<CalidadSeguimientoCorrectiva> getListaSeguimientoSinCerrarCorActual() {
+        return listaSeguimientoSinCerrarCorActual = getCalidadSeguimientoCorrectivaFacade().consultaSeguimiento(accionCorrectivaActual);
     }
 
     public void setListaSeguimientoSinCerrarCorActual(List<CalidadSeguimientoCorrectiva> listaSeguimientoSinCerrarCorActual) {
@@ -512,11 +508,14 @@ public class CalidadPlanAccionController implements Serializable {
             if (listaAccionImplementarActual.isEmpty()) {
                 addErrorMessage("Plan de acción no creado", "No contiene acciones a implementar");
                 return null;
-            }
-            if (listaAccionCorrectivaActual.isEmpty()) {
-                addErrorMessage("Plan accion no creado", "No cntiene acciones correctivas");
-                return null;
+//            }
+//            if (listaAccionCorrectivaActual.isEmpty()) {
+//                addErrorMessage("Plan accion no creado", "No contiene acciones correctivas");
+//                return null;
 
+//            } else if (planAccionActual.getOrigenAccion().matches("Auditoria")) {
+//                addErrorMessage("Plan accion no creado", "Obligatorio para correcciones de auditoria");
+//                return null;
             } else {
                 planAccionActual.setResponsable(usuarioActual);
                 planAccionActual.setEstadoPlan("abierto");
@@ -707,8 +706,8 @@ public class CalidadPlanAccionController implements Serializable {
             addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
         }
     }
-    
-        public void updateSeguimientoCorr() {
+
+    public void updateSeguimientoCorr() {
         try {
             getCalidadSeguimientoCorrectivaFacade().edit(calidadSeguimientoCorrectivaActual);
             calidadSeguimientoCorrectivaActual = new CalidadSeguimientoCorrectiva();
@@ -746,6 +745,7 @@ public class CalidadPlanAccionController implements Serializable {
             addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
         }
     }
+
     public void deleteAccionCorretiva() {
         try {
             listaAccionCorrectivaActual.remove(accionCorrectivaActual);
@@ -754,7 +754,7 @@ public class CalidadPlanAccionController implements Serializable {
             addErrorMessage("Error closing resource " + e.getClass().getName(), "Message: " + e.getMessage());
         }
     }
-    
+
     public void deleteSeguimiento() {
         try {
             listaSeguimientoAccionActual.remove(seguimientoAccionActual);

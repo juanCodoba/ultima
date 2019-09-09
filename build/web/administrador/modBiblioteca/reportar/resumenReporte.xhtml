@@ -1,0 +1,465 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="/template/plantilla.xhtml">
+        <ui:define name="title">Hoja de vida del equipo tecnológico</ui:define>
+        <ui:define name="title2">Información del equipo</ui:define>
+        <ui:define name="menu">
+            <h:form id="menu-principal">
+                <ul class="sidebar-menu">
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <li class="header letra-menu"><h4>MENU DE ADMINISTRACIÓN</h4></li>
+                        <!-- Optionally, you can add icons to the links -->
+                        <li>
+                            <h:commandLink action="/usuario/modSoporteIT/paginaPrincipal">
+                                <i class="fa fa-dashboard"></i> 
+                                <span>Principal</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{usuarioController.prepareList}">
+                                <i class="fa fa-users"></i> 
+                                <span>Usuarios del sistema</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="active">
+                            <h:commandLink action="#{computadorController.prepareList}">
+                                <i class="fa fa-desktop"></i>
+                                <span>Inventario tecnológico</span> 
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{cronogramaController.prepareViewCalendario}">
+                                 <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{cronogramaController.usuarioActual}"/>
+                                <f:setPropertyActionListener value="#{loginController.userLogueado}" target="#{reporteSiesaController.usuarioActual}"/>
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario mantenimientos</span>
+                            </h:commandLink>
+                        </li>
+                        <li class="treeview">
+                          <a href="#"><i class="fa fa-wrench"></i> <span>Mantenimientos</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientos}">
+                                     <span>Preventivos</span>
+                                </h:commandLink>
+                            </li>
+                            <li>
+                                <h:commandLink action="#{cronogramaController.prepareViewMantenimientosCorrectivosAnual}">
+                                     <span>Correctivos</span>
+                                </h:commandLink>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{reporteSiesaController.prepareListReportes}">
+                                <i class="fa fa-bug "></i>
+                                <span>Fallos del ERP</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/indicadoresGestion/crearIndicadorGestion">
+                                <i class="fa fa-bar-chart"></i>
+                                <span>Indicadores de gestión</span>
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="/administrador/modSoporteIT/configuracionMaestros/verConfiguraciones">
+                                <i class="fa fa-file"></i>
+                                <span>Configuración de maestros</span>
+                            </h:commandLink>
+                        </li>
+                    </h:panelGroup>   
+                    <li>
+                        <h:commandLink action="/usuario/modulos">
+                            <i class="fa fa-th"></i>
+                            <span>Modulos del sistema</span>
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
+        </ui:define>
+        <ui:define name="body">
+            <p:growl id="growl" showDetail="true" life="2000"/>
+            <div class="container-fluid">
+                <h:panelGroup id="crear-group" class="thumbnail">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                               <h:outputLabel class="letra-form" value="Service Tag ó (S/N):"/>
+                               <h:outputLabel style="font-weight: bold; color: green; font-size: 1.2em; margin-left: 0.3em" value="#{computadorController.computadorActual.codigoComputador.toUpperCase()}"/>
+                           </div>
+                            <div class="col-md-3">
+                               <h:outputLabel class="letra-form" value="Tipo de equipo:"/>
+                               <h:outputLabel style="font-weight: bold; color: green; font-size: 1.2em; margin-left: 0.3em" value="#{computadorController.computadorActual.idTipo.nombreTipo.toUpperCase()}"/>
+                           </div>
+                            <div class="col-md-3">
+                                <h:form>
+                                    <p:commandButton icon="fa fa-arrow-left"
+                                                value="Volver al inventario"
+                                                style="font-size: 1em !important;padding: 3px;"
+                                                action="#{computadorController.prepareList}"
+                                                rendered="#{loginController.admin}"
+                                                ajax="false"/>
+                                </h:form>
+                           </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9" style="margin-top: 1em">
+                            <div class="form-group col-md-6">
+                                <h:outputLabel class="letra-form" value="Responsable:"/>
+                                <h:outputLabel  value="#{computadorController.computadorActual.idUsuario.toString().toUpperCase()}"
+                                                class="form-control">
+                                </h:outputLabel>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <h:outputLabel class="letra-form" value="Sección:"/>
+                                <h:outputLabel value="#{computadorController.computadorActual.idSeccion.toString()}"
+                                               class="form-control">
+                                </h:outputLabel>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <h:outputLabel class="letra-form" value="Numero de activo:"/>
+                                <h:outputLabel value="#{computadorController.computadorActual.activoFijo}"
+                                               class="form-control">
+                                </h:outputLabel>
+                            </div>
+                              <div class="form-group col-md-4">
+                                <h:outputLabel class="letra-form" value="Modelo:"/>
+                                <h:outputLabel value="#{computadorController.computadorActual.idModelo.nombreModelo}"
+                                               class="form-control">
+                                </h:outputLabel>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <h:outputLabel class="letra-form" value="Marca:"/>
+                                <h:outputLabel value="#{computadorController.computadorActual.idModelo.idMarca.nombreMarca.toUpperCase()}"
+                                               class="form-control">
+                                </h:outputLabel>
+                            </div>
+                            <div class="form-group col-md-9">
+                                <h:outputLabel class="letra-form" value="Procesador:"/>
+                                <h:outputLabel value="#{computadorController.computadorActual.procesador.toUpperCase()}"
+                                               class="form-control">
+                                </h:outputLabel>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <h:outputLabel class="letra-form" value="Disco duro (GB):"/>
+                                <h:outputLabel value="#{computadorController.computadorActual.discoDuro}"
+                                               class="form-control">
+                                </h:outputLabel>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <h:outputLabel class="letra-form" value="Memoria Ram (GB):"/>
+                                <h:outputLabel value="#{computadorController.computadorActual.memoriaRam}"
+                                               class="form-control">
+                                </h:outputLabel>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <h:outputLabel class="letra-form" value="Monitor del equipo:"/>
+                                <h:outputLabel value="#{computadorController.computadorActual.idMonitor.toString()}"
+                                               class="form-control">
+                                </h:outputLabel>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <h:outputLabel class="letra-form" value="Costo (Pesos):"/>
+                                <h:outputLabel value="#{computadorController.computadorActual.costo}"
+                                               class="form-control">
+                                </h:outputLabel>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <h:outputLabel class="letra-form" value="Nombre del equipo:"/>
+                                <h:outputLabel value="#{computadorController.computadorActual.idLam.toUpperCase()}"
+                                               class="form-control">
+                                </h:outputLabel>
+                            </div>
+                           
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="item img-bordered">
+                                    <p:graphicImage styleClass="img-responsive" style="height: 100%; width: 100%" id="photo" value="#{computadorController.image}"> 
+                                        <f:param name="id_modelo" value="#{computadorController.computadorActual.idComputador}"/>    
+                                    </p:graphicImage>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </h:panelGroup>
+                <div>
+                    <h3>Historial de cambios</h3>
+                    <h:form id="historialFormList">
+                        <p:outputPanel id="historialTablePanel">
+                            <p:dataTable value="#{computadorController.listaHistorialComputador}" var="computador" id="computadorTable" 
+                                         paginator="false" emptyMessage="No se encontraron registros"
+                                         tableStyleClass="table table-striped">
+                                <p:column>
+                                    <f:facet name="header">Sección</f:facet>
+                                    <h:outputText value="#{computador.seccion}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">Responsable</f:facet>
+                                    <h:outputText value="#{computador.responsable}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">ID LAN</f:facet>
+                                    <h:outputText value="#{computador.idLam}"/>
+                                </p:column>
+                                <p:column width="100">
+                                    <f:facet name="header">Disco duro (GB)</f:facet>
+                                    <h:outputText value="#{computador.discoDuro}"/>
+                                </p:column>
+                                <p:column width="70">
+                                    <f:facet name="header">Memoria Ram (GB)</f:facet>
+                                    <h:outputText value="#{computador.memoriaRam}"/>
+                                </p:column>
+                                <p:column width="120">
+                                    <f:facet name="header">Monitor</f:facet>
+                                    <h:outputText value="#{computador.monitor}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">SO</f:facet>
+                                    <h:outputText value="#{computador.sistemaOperativo}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">Fecha de realización del cambio</f:facet>
+                                    <h:outputText value="#{computador.fechaHistorial}">
+                                        <f:convertDateTime pattern="MMMM dd, yyyy HH:mm a"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">Descripción del cambio:</f:facet>
+                                    <h:outputText value="#{computador.descripcion}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">tipo Actualización:</f:facet>
+                                    <h:outputText value="#{computador.idTipoActualizacion.nombreTipoActualizacion.toUpperCase()}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:outputPanel>
+                    </h:form>
+                </div>
+                <div>
+                    <h3>Historial de mantenimientos</h3>
+                    <h:form id="solucionFormList">
+                      <p:outputPanel id="solucionTablePanel">
+                          <p:dataTable value="#{cronogramaController.listaDiagnosticoCompu}"
+                                       paginator="false"
+                                       tableStyleClass="table table-striped"
+                                       var="diagnosticos" emptyMessage="No se encontraron registros">
+                              <p:column width="80" >
+                                  <f:facet name="header">Codigo del diagnostico:</f:facet>
+                                  <h:outputText value="#{diagnosticos.idMantenimiento}CFIP-C"/>
+                              </p:column>
+                              <p:column>
+                                  <f:facet name="header">Service tag o (S/N) del equipo</f:facet>
+                                  <h:outputText value="#{diagnosticos.idCronogramaMantenimientos.idComputador.codigoComputador.toUpperCase()}"/>
+                              </p:column>
+                              <p:column>
+                                  <f:facet name="header">Tipo Mantenimiento</f:facet>
+                                  <h:outputText value="#{diagnosticos.idCronogramaMantenimientos.idTipoMantenimiento.nombreTipoMantenimiento.toUpperCase()}"/>
+                              </p:column>
+                              <p:column>
+                                  <f:facet name="header">Descripción mantenimiento</f:facet>
+                                  <h:outputText value="#{diagnosticos.idCronogramaMantenimientos.descripcionProblema.toUpperCase()}"/>
+                              </p:column>
+                              <p:column>
+                                  <f:facet name="header">Revisión</f:facet>
+                                  <h:outputText value="#{diagnosticos.revision.toUpperCase()}"/>
+                              </p:column>
+                              <p:column>
+                                  <f:facet name="header">Fecha Revisión</f:facet>
+                                  <h:outputText value="#{diagnosticos.fechaRevision}">
+                                      <f:convertDateTime pattern="MMMM dd, YYYY"/>
+                                  </h:outputText>
+                              </p:column> 
+                              <p:column>
+                                  <f:facet name="header">Diagnostico</f:facet>
+                                  <h:outputText value="#{diagnosticos.diagnostico.toUpperCase()}"/>
+                              </p:column>
+                              <p:column>
+                                  <f:facet name="header">Fecha Entrega del equipo</f:facet>
+                                  <h:outputText value="#{diagnosticos.fechaEntrega}">
+                                      <f:convertDateTime pattern="MMMM dd, YYYY"/>
+                                  </h:outputText>
+                              </p:column> 
+                              <p:column width="100">
+                                  <f:facet name="header">Valoración</f:facet>
+                                  <p:rating value="#{diagnosticos.idCronogramaMantenimientos.valoracion}"  stars="5" cancel="false" readonly="true" />
+                              </p:column>
+                          </p:dataTable>
+                      </p:outputPanel>
+                  </h:form>
+                </div>               
+                <div>
+                    <h3>Componentes adicionales</h3>
+                    <h:form id="programacionFormList">
+                       <p:commandButton type="button" value="Agregar" icon="fa fa-calendar">
+                                 <p:ajax listener="#{computadorController.prepareCreateCronogramaComponente}" update=":formCreate" oncomplete="PF('dlg1').show();" />
+                       </p:commandButton>
+                      <p:outputPanel id="programacionTablePanel">
+                          <p:dataTable value="#{computadorController.listaCronogramaComponente}"
+                                       paginator="false"
+                                       tableStyleClass="table table-striped"
+                                       var="item" emptyMessage="No se encontraron registros">
+                              <p:column>
+                                  <f:facet name="header">Item</f:facet>
+                                  <h:outputText value="#{item.idItemComponente}"/>
+                              </p:column>
+                              <p:column>
+                                  <f:facet name="header">Service tag o (S/N) del equipo</f:facet>
+                                  <h:outputText value="#{item.idComputador.codigoComputador.toUpperCase()}"/>
+                              </p:column>
+                              <p:column>
+                                  <f:facet name="header">Descripción</f:facet>
+                                  <h:outputText value="#{item.descripcion}"/>
+                              </p:column>
+                              <p:column style="text-align: right">
+                                    <f:facet name="header">Costo</f:facet>
+                                    $<h:outputText style="padding: 0;"
+                                                  value="#{item.costo}">
+                                        <f:convertNumber pattern="###,###" currencySymbol="$" />
+                                    </h:outputText> 
+                              </p:column>
+                              <p:column>
+                                  <f:facet name="header">Fecha de ultima compra</f:facet>
+                                  <h:outputText value="#{item.fechaCompra}">
+                                      <f:convertDateTime pattern="MMMM dd, YYYY"/>
+                                  </h:outputText>
+                              </p:column> 
+                              <p:column>
+                                  <f:facet name="header">Fecha que se debe cambiar</f:facet>
+                                  <h:outputText value="#{item.fechaCambio}">
+                                      <f:convertDateTime pattern="MMMM dd, YYYY"/>
+                                  </h:outputText>
+                              </p:column>
+                          </p:dataTable>
+                      </p:outputPanel>
+                  </h:form>
+                </div>
+                <h3>Licencias</h3>
+                <h:panelGroup id="licencias" class="thumbnail">
+                    <div class="row">
+                        <div class="col-md-12" style="margin-top: 1em">
+                            <div class="form-group col-md-3">
+                                <h:outputLabel class="letra-form" value="Sistema operativo:"/>
+                                <h:outputLabel value="#{computadorController.computadorActual.idSistemaOperativo.toString()}"
+                                               class="form-control">
+                                </h:outputLabel>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <h:outputLabel class="letra-form" value="Nombre de licencia:"/>
+                                  <h:outputLabel value="#{computadorController.computadorActual.idLicencia.nombreLicencia}"
+                                               class="form-control">
+                                </h:outputLabel>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <h:outputLabel class="letra-form" value="Tipó de activación:" />
+                                <h:outputLabel  value="#{computadorController.computadorActual.idLicencia.tipoActivacion}"
+                                                class="form-control">
+                                </h:outputLabel>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <h:outputLabel class="letra-form" value="Clave de activación:" />
+                                <h:outputLabel  value="#{computadorController.computadorActual.idLicencia.claveActivacion}"
+                                                class="form-control">
+                                </h:outputLabel>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <h:outputLabel class="letra-form" value="Paquete Office:" />
+                                <h:outputLabel value="#{computadorController.computadorActual.idPaqueteOffice.nombrePaquete}"
+                                               class="form-control">
+                                </h:outputLabel>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <h:outputLabel class="letra-form" value="Codigo de lincencia:"/>
+                                <h:outputLabel value="#{computadorController.computadorActual.idLicenciaPaqueteOffice.codigoLic}"
+                                               class="form-control">
+                                </h:outputLabel>
+                            </div>
+                             <div class="form-group col-md-4">
+                                <h:outputLabel class="letra-form" value="Clave de activación:"/>
+                                <h:outputLabel value="#{computadorController.computadorActual.idLicenciaPaqueteOffice.claveActivacion}"
+                                               class="form-control">
+                                </h:outputLabel>
+                            </div>
+                        </div>
+                    </div>
+                </h:panelGroup>
+            </div>
+            <p:dialog header="Programar componente" widgetVar="dlg1" modal="true" height="80%" width="30%">
+                <h:form id="formCreate">
+                    <div class="form-group">  
+                        <h:outputLabel value="Item componente:" class="label-form"  />
+                        <p:selectOneMenu class="form-group col-md-12" id="idItemComponente" filterMatchMode="contains"
+                                         style="width: 100%; border: none; " filter="true" value="#{computadorController.cronogramaComponenteActual.idItemComponente}" converter="itemComponenteConverter">
+                                <f:selectItem itemLabel="Seleccionar uno.." />
+                                <f:selectItems  value="#{itemComponenteController.listaItemComponente}" var="item" itemValue="#{item}"/>  
+                        </p:selectOneMenu>
+                    </div>   
+                    <div class="form-group">   
+                        <h:outputLabel value="Descripción:"  />
+                        <textarea class="form-control" jsf:id="descriInputText" jsf:value="#{computadorController.cronogramaComponenteActual.descripcion}" 
+                                  type="text" required="true" style="resize: none"
+                                     jsf:requiredMessage="Por favor ingrese la razón por la cual se cromprara el componente"> 
+                                     <f:ajax execute="@this" render="descriMessage"/>
+                        </textarea>
+                        <h:message id="descriMessage" for="descriInputText" styleClass="error"/>
+                    </div>
+                    <div class="form-group">  
+                        <h:outputLabel value="Fecha ultima compra:"  />
+                        <p:calendar id="fechaCompra" 
+                                    requiredMessage="Ingresa fecha" 
+                                    value="#{computadorController.cronogramaComponenteActual.fechaCompra}"
+                                    pattern="MM/dd/yyyy">
+                            <f:ajax execute="fechaCompra" render="msgFechaCompra"/>
+                        </p:calendar>
+                        <h:message id="msgFechaCompra" for="fechaCompra"  styleClass="error"/>
+                    </div> 
+                    <div class="form-group">  
+                        <h:outputLabel value="Fecha que se debe cambiar:"  />
+                        <p:calendar id="fechaCambio" 
+                                    requiredMessage="Ingresa fecha" 
+                                    value="#{computadorController.cronogramaComponenteActual.fechaCambio}"
+                                    pattern="MM/dd/yyyy">
+                            <f:ajax execute="fechaCambio" render="msgFechaCambio"/>
+                        </p:calendar>
+                        <h:message id="msgFechaCambio" for="fechaCambio"  styleClass="error"/>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Costo:"  />
+                        <p:inputNumber id="costo" 
+                                    requiredMessage="Ingresar el costo del componente"
+                                    value="#{computadorController.cronogramaComponenteActual.costo}"
+                                    style="width: 100%" 
+                                    decimalPlaces="0"
+                                    symbol="$"
+                                    minValue="0"/>  
+                        <p:message id="costoMessage" styleClass="error" for="costo"/>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <p:commandButton class="btn btn-primary btn-block"
+                                         update=":programacionFormList"
+                                         value="Guardar"
+                                         action="#{computadorController.addCronogramaComponente}"
+                                         onclick="onSubmitButton();">
+                        <f:ajax onevent="dlg1.hide()" execute="@this" render=":programacionFormList"/>
+                        </p:commandButton>
+                    </div>
+                    <div class="col-sm-6 form-group">    
+                        <h:button class="btn btn-cancelar btn-block" value="Cancelar" outcome="listaInventario"/>
+                    </div>
+                </h:form>
+            </p:dialog>
+        </ui:define>
+    </ui:composition>
+</html>
